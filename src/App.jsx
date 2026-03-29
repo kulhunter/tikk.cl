@@ -206,3 +206,10 @@ function DetailView({ milestone, onBack, onEdit, onDelete }) {
     </motion.div>
   );
 }
+// ... (manten todo el código que ya tienes arriba)
+
+// PEGA ESTO AL FINAL DE TU ARCHIVO App.jsx
+import { createRoot } from 'react-dom/client';
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);
