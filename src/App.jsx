@@ -6,9 +6,6 @@ import {
 } from 'lucide-react';
 import './index.css';
 
-// ==========================================
-// 1. UTILIDADES Y LÓGICA DE TIEMPO
-// ==========================================
 const calculateTimeDiff = (targetDateStr) => {
   const now = new Date();
   const target = new Date(targetDateStr);
@@ -42,7 +39,6 @@ const calculateTimeDiff = (targetDateStr) => {
 };
 
 const pad = (num) => num.toString().padStart(2, '0');
-
 const getContrastColor = (hex) => {
   if (!hex) return '#FFFFFF';
   const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
@@ -51,44 +47,6 @@ const getContrastColor = (hex) => {
 
 const getStatusColor = (isPast, textColor) => textColor === '#000000' ? (isPast ? '#000000' : '#00A040') : (isPast ? '#FFFFFF' : '#00FF00');
 
-const RELATIONSHIPS = [
-  { id: 'partner', label: 'Mi Pareja' }, { id: 'child', label: 'Mi Hijo/a' },
-  { id: 'family', label: 'Familia' }, { id: 'self', label: 'Meta Personal' }, { id: 'other', label: 'General' }
-];
-
-const NOTIFICATIONS = [
-  { id: 'none', label: 'Sin notificación' }, { id: '1d', label: '1 día' },
-  { id: '1w', label: '1 semana' }, { id: '1m', label: '1 mes' }
-];
-
-const BLOG_IDEAS = {
-  partner: [{ title: "10 citas inolvidables", url: "#" }, { title: "Regalos con significado", url: "#" }],
-  child: [{ title: "Lugares mágicos", url: "#" }, { title: "Atesorar fotos", url: "#" }],
-  default: [{ title: "Psicología del recuerdo", url: "#" }]
-};
-
-const generateReaction = (m, t) => {
-  if (!t) return "";
-  const { years, months, days, isPast, daysToNext, nextNumber } = t;
-  if (!isPast) return "La anticipación es parte de la magia.";
-  const timeStr = `${years > 0 ? years + ' años, ' : ''}${months > 0 ? months + ' meses y ' : ''}${days} días`;
-  return `Han pasado ${timeStr} desde este hito. Faltan ${daysToNext} días para el N°${nextNumber}.`;
-};
-
-const generateProposal = (m, t) => {
-  if (!t) return [];
-  const { years, months, daysToNext, nextNumber, isPast } = t;
-  const emoji = m.emoji || '✨';
-  if (!isPast) return [`¡Solo faltan ${daysToNext} días! ${emoji}`];
-  return [
-    `¡Llevamos ${years} años y ${months} meses! Ya faltan solo ${daysToNext} días para el n°${nextNumber} ${emoji}`,
-    `Ya son ${years} años juntos. ¡Prepárate para el n°${nextNumber}! ${emoji}`
-  ];
-};
-
-// ==========================================
-// 2. COMPONENTE PRINCIPAL
-// ==========================================
 export default function App() {
   const [view, setView] = useState('list');
   const [globalBg, setGlobalBg] = useState(() => localStorage.getItem('tikk_globalBg') || '#050505');
@@ -111,13 +69,42 @@ export default function App() {
   return (
     <div className="min-h-screen w-full transition-colors duration-500" style={{ backgroundColor: globalBg, color: globalText }}>
       <AnimatePresence mode="wait">
-        {view === 'list' && <ListView milestones={milestones} globalBg={globalBg} setGlobalBg={setGlobalBg} globalText={globalText} onCreate={() => {setActiveMilestoneId(null); setView('form')}} onSelect={(id) => {setActiveMilestoneId(id); setView('detail')}} onEdit={(id) => {setActiveMilestoneId(id); setView('form')}} onDelete={setItemToDelete} />}
-        {view === 'form' && <FormView milestone={activeM} globalText={globalText} globalBg={globalBg} onCancel={() => setView('list')} onSave={(data) => {
-          if (activeMilestoneId) setMilestones(milestones.map(m => m.id === activeMilestoneId ? {...m, ...data} : m));
-          else setMilestones([...milestones, {...data, id: Date.now().toString()}]);
-          setView('list');
-        }} />}
-        {view === 'detail' && <DetailView milestone={activeM} onBack={() => setView('list')} onEdit={() => setView('form')} onDelete={() => setItemToDelete(activeMilestoneId)} />}
+        {view === 'list' && (
+          <ListView 
+            key="list"
+            milestones={milestones} 
+            globalBg={globalBg} 
+            setGlobalBg={setGlobalBg} 
+            globalText={globalText} 
+            onCreate={() => {setActiveMilestoneId(null); setView('form')}} 
+            onSelect={(id) => {setActiveMilestoneId(id); setView('detail')}} 
+            onEdit={(id) => {setActiveMilestoneId(id); setView('form')}} 
+            onDelete={setItemToDelete} 
+          />
+        )}
+        {view === 'form' && (
+          <FormView 
+            key="form"
+            milestone={activeM} 
+            globalText={globalText} 
+            globalBg={globalBg} 
+            onCancel={() => setView('list')} 
+            onSave={(data) => {
+              if (activeMilestoneId) setMilestones(milestones.map(m => m.id === activeMilestoneId ? {...m, ...data} : m));
+              else setMilestones([...milestones, {...data, id: Date.now().toString()}]);
+              setView('list');
+            }} 
+          />
+        )}
+        {view === 'detail' && (
+          <DetailView 
+            key="detail"
+            milestone={activeM} 
+            onBack={() => setView('list')} 
+            onEdit={() => setView('form')} 
+            onDelete={() => setItemToDelete(activeMilestoneId)} 
+          />
+        )}
       </AnimatePresence>
 
       <AnimatePresence>
@@ -139,12 +126,12 @@ function ListView({ milestones, globalBg, setGlobalBg, globalText, onCreate, onS
   const colorRef = useRef(null);
   const btnStyle = globalText === '#000000' ? 'bg-black/5' : 'bg-white/5';
   return (
-    <div className="p-6 max-w-md mx-auto">
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="p-6 max-w-md mx-auto">
       <header className="flex justify-between items-center py-8">
         <div><h1 className="text-4xl font-black tracking-tighter">TIKK.</h1><p className="text-[9px] font-mono tracking-widest opacity-60">TIMELINE</p></div>
         <div className="flex gap-3">
-          <button onClick={() => colorRef.current.click()} className={`w-12 h-12 rounded-full border ${btnStyle}`}><Palette size={20}/></button>
-          <input type="color" ref={colorRef} className="hidden" onChange={e => setGlobalBg(e.target.value)} />
+          <button onClick={() => colorRef.current.click()} className={`w-12 h-12 rounded-full border flex items-center justify-center ${btnStyle}`}><Palette size={20}/></button>
+          <input type="color" ref={colorRef} className="hidden" value={globalBg} onChange={e => setGlobalBg(e.target.value)} />
           <button onClick={onCreate} className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl" style={{ backgroundColor: globalText, color: globalBg }}><Plus size={28}/></button>
         </div>
       </header>
@@ -161,7 +148,7 @@ function ListView({ milestones, globalBg, setGlobalBg, globalText, onCreate, onS
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -173,9 +160,9 @@ function FormView({ milestone, globalText, globalBg, onCancel, onSave }) {
   const [emoji, setEmoji] = useState(milestone?.emoji || '✨');
 
   return (
-    <div className="p-6 max-w-md mx-auto min-h-screen flex flex-col">
+    <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} exit={{opacity:0, y:20}} className="p-6 max-w-md mx-auto min-h-screen flex flex-col">
       <header className="flex justify-between items-center py-6">
-        <button onClick={onCancel} className="p-2 rounded-full border border-white/10"><ChevronLeft/></button>
+        <button onClick={onCancel} className="p-2 rounded-full border border-white/10 flex items-center justify-center"><ChevronLeft/></button>
         <span className="font-mono text-[10px] tracking-widest uppercase">Ficha</span>
         <div className="w-10"/>
       </header>
@@ -188,8 +175,8 @@ function FormView({ milestone, globalText, globalBg, onCancel, onSave }) {
           <input type="color" value={bg} onChange={e => setBg(e.target.value)} className="w-10 h-10 rounded-full border-none" />
         </div>
       </div>
-      <button onClick={() => onSave({ title, person, date: new Date(date).toISOString(), bg, emoji })} className="w-full py-4 rounded-2xl font-bold mt-8" style={{ backgroundColor: globalText, color: globalBg }}>GUARDAR</button>
-    </div>
+      <button onClick={() => onSave({ title, person, date: new Date(date).toISOString(), bg, emoji })} className="w-full py-4 rounded-2xl font-bold mt-8 shadow-lg" style={{ backgroundColor: globalText, color: globalBg }}>GUARDAR</button>
+    </motion.div>
   );
 }
 
@@ -198,12 +185,12 @@ function DetailView({ milestone, onBack, onEdit, onDelete }) {
   useEffect(() => { const i = setInterval(() => setT(calculateTimeDiff(milestone.date)), 1000); return () => clearInterval(i); }, [milestone]);
   const contrast = getContrastColor(milestone.bg);
   return (
-    <div className="min-h-screen flex flex-col p-6" style={{ backgroundColor: milestone.bg, color: contrast }}>
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="min-h-screen flex flex-col p-6" style={{ backgroundColor: milestone.bg, color: contrast }}>
       <header className="flex justify-between py-6">
-        <button onClick={onBack} className="p-3 rounded-full border border-white/10"><ChevronLeft/></button>
+        <button onClick={onBack} className="p-3 rounded-full border border-white/10 flex items-center justify-center"><ChevronLeft/></button>
         <div className="flex gap-2">
-          <button onClick={onEdit} className="p-3 rounded-full border border-white/10"><Edit2 size={18}/></button>
-          <button onClick={onDelete} className="p-3 rounded-full border border-white/10 text-red-400"><Trash2 size={18}/></button>
+          <button onClick={onEdit} className="p-3 rounded-full border border-white/10 flex items-center justify-center"><Edit2 size={18}/></button>
+          <button onClick={onDelete} className="p-3 rounded-full border border-white/10 text-red-400 flex items-center justify-center"><Trash2 size={18}/></button>
         </div>
       </header>
       <div className="flex-1 flex flex-col items-center justify-center text-center">
@@ -216,6 +203,6 @@ function DetailView({ milestone, onBack, onEdit, onDelete }) {
           <div className="flex flex-col"><span className="text-6xl font-mono">{pad(t.days)}</span><span className="text-[10px] uppercase tracking-widest opacity-60">Días</span></div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
