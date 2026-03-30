@@ -1,13 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>TIKK.</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/App.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tikk - Conecta con los tuyos</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#e11d48">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <style>
+        body { -webkit-tap-highlight-color: transparent; user-select: none; }
+        .pantalla { display: none; }
+        .activa { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans pb-20 antialiased">
+
+    <header class="bg-white px-6 py-4 shadow-sm sticky top-0 z-10 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-rose-600 tracking-tight cursor-pointer" onclick="navegar('dashboard')">Tikk</h1>
+        <div class="text-xs font-semibold bg-rose-100 text-rose-700 px-3 py-1 rounded-full" id="user-location">📍 Ubicando...</div>
+    </header>
+
+    <main class="p-6">
+        <section id="dashboard" class="pantalla activa">
+            <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Tus Fechas Clave</h2>
+            <div id="lista-fechas" class="space-y-4">
+                </div>
+            <button onclick="navegar('agregar')" class="mt-6 w-full bg-slate-100 text-slate-600 font-bold py-4 rounded-xl border-2 border-dashed border-slate-300 hover:bg-slate-200">
+                + Agregar nueva fecha
+            </button>
+        </section>
+
+        <section id="agregar" class="pantalla">
+            <h2 class="text-xl font-bold mb-6">Nueva Fecha Importante</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">¿Qué celebramos?</label>
+                    <input type="text" id="input-titulo" placeholder="Ej: Aniversario con María" class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-rose-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">¿Cuándo fue?</label>
+                    <input type="date" id="input-fecha" class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-rose-500 outline-none">
+                </div>
+                <button onclick="guardarFecha()" class="w-full bg-rose-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-rose-700">
+                    Guardar para no olvidar
+                </button>
+                <button onclick="navegar('dashboard')" class="w-full text-slate-500 font-semibold py-3">Cancelar</button>
+            </div>
+        </section>
+
+        <section id="detalle" class="pantalla">
+            <div id="detalle-contenido">
+                </div>
+            
+            <div class="mt-8 border-t border-slate-200 pt-6">
+                <p class="text-xs text-slate-400 font-bold uppercase mb-3">Recomendaciones para celebrar</p>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4 cursor-pointer">
+                    <div class="w-16 h-16 bg-slate-200 rounded-lg bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=200');"></div>
+                    <div>
+                        <h4 class="font-bold text-sm" id="ad-title">5 lugares increíbles en tu ciudad</h4>
+                        <p class="text-xs text-slate-500">Reserva con descuento hoy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bg-white border-t border-slate-100 fixed bottom-0 w-full px-6 py-3 flex justify-around items-center pb-safe z-50">
+        <button onclick="navegar('dashboard')" class="flex flex-col items-center text-rose-600 focus:text-rose-700">
+            <span class="text-xl mb-1">📅</span>
+            <span class="text-[10px] font-medium">Mis Fechas</span>
+        </button>
+        <button onclick="navegar('agregar')" class="flex flex-col items-center text-slate-400 focus:text-rose-600">
+            <span class="text-xl mb-1">➕</span>
+            <span class="text-[10px] font-medium">Agregar</span>
+        </button>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
 </html>
