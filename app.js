@@ -662,11 +662,11 @@ window.app = {
                 this.els.detailNextBox.classList.add('hidden');
             }
 
-            let anecTxt = item.anecdote ? `\\n\\n${item.anecdote}` : "";
+            let anecTxt = item.anecdote ? `\n\nPensaba en esto: "${item.anecdote}" ❤️ ¡Sorprendente!` : " ¡Sorprendente!";
             
             const preMessage = isFutureOverall 
-                ? `¡Ya no queda nada! Faltan ${total.toLocaleString('es-ES')} ${this.data.detailUnit} para ${item.title} 😱 (Exactamente ${exactStr}).${anecTxt} ${item.emoji}`
-                : `Pensar que ya pasaron ${total.toLocaleString('es-ES')} ${this.data.detailUnit} desde ${item.title}... cómo vuela el tiempo ✨ (Fueron exactamente ${exactStr}).${anecTxt} ${item.emoji}`;
+                ? `Falta la asombrosa cantidad de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} (${exactStr}) para ${item.title}.${anecTxt}`
+                : `Han pasado la asombrosa cantidad de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} (${exactStr}) desde ${item.title}.${anecTxt}`;
             
             if (!this.els.whatsappMessage.dataset.userEdited) {
                 this.els.whatsappMessage.value = preMessage;
