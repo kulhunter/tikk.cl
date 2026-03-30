@@ -1,139 +1,268 @@
-// Base de datos local (LocalStorage)
-let fechas = JSON.parse(localStorage.getItem('tikk_fechas')) || [];
+/**
+ * Tikk - PWA Logic
+ * Arquitectura SPA Vanilla JS usando LocalStorage
+ */
 
-// 1. NAVEGACIÓN SPA (Single Page Application)
-function navegar(pantallaId) {
-    document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
-    document.getElementById(pantallaId).classList.add('activa');
-    if (pantallaId === 'dashboard') renderizarDashboard();
-}
+window.app = {
+    data: {
+        dates: [],
+        currentView: null,
+        selectedDateId: null,
+        intervalId: null
+    },
 
-// 2. GUARDAR FECHA
-function guardarFecha() {
-    const titulo = document.getElementById('input-titulo').value;
-    const fecha = document.getElementById('input-fecha').value;
-    
-    if (!titulo || !fecha) {
-        alert("¡Llena todos los campos!");
-        return;
-    }
+    init() {
+        this.loadData();
+        this.cacheDOM();
+        this.bindEvents();
+        this.renderDashboard();
+        
+        // Handle URL hash routing or just default to dashboard
+        this.navigate('dashboard');
+    },
 
-    const nuevaFecha = {
-        id: Date.now().toString(),
-        titulo: titulo,
-        fechaOriginal: fecha
-    };
-
-    fechas.push(nuevaFecha);
-    localStorage.setItem('tikk_fechas', JSON.stringify(fechas));
-    
-    document.getElementById('input-titulo').value = '';
-    document.getElementById('input-fecha').value = '';
-    navegar('dashboard');
-}
-
-// 3. RENDERIZAR DASHBOARD
-function renderizarDashboard() {
-    const lista = document.getElementById('lista-fechas');
-    lista.innerHTML = '';
-
-    if (fechas.length === 0) {
-        lista.innerHTML = '<p class="text-slate-400 text-center py-8">Aún no tienes fechas importantes guardadas. ¡Agrega una!</p>';
-        return;
-    }
-
-    fechas.forEach(item => {
-        // Usamos Day.js para los cálculos base
-        const fechaPasada = dayjs(item.fechaOriginal);
-        const hoy = dayjs();
-        const anos = hoy.diff(fechaPasada, 'year');
-
-        const card = document.createElement('article');
-        card.className = "bg-white rounded-2xl p-5 shadow-sm border border-slate-100 cursor-pointer active:scale-95 transition-transform";
-        card.onclick = () => verDetalle(item.id);
-        card.innerHTML = `
-            <div class="flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl bg-rose-50 p-2 rounded-full">✨</span>
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800">${item.titulo}</h3>
-                        <p class="text-xs text-slate-500">${dayjs(item.fechaOriginal).format('DD / MM / YYYY')}</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-2xl font-black text-rose-600">${anos}</p>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase">Años</p>
-                </div>
-            </div>
-        `;
-        lista.appendChild(card);
-    });
-}
-
-// 4. VER DETALLE Y GENERAR MENSAJES (LA MAGIA)
-function verDetalle(id) {
-    const item = fechas.find(f => f.id === id);
-    const fechaPasada = dayjs(item.fechaOriginal);
-    const hoy = dayjs();
-    
-    // El cálculo exagerado y de valor (minutos)
-    const minutos = hoy.diff(fechaPasada, 'minute').toLocaleString('es-CL');
-    const anos = hoy.diff(fechaPasada, 'year');
-
-    // Mensaje épico pre-armado
-    const mensajeEmotivo = `Han pasado exactamente ${anos} años (¡que son ${minutos} minutos!) desde nuestro ${item.titulo}, y cada minuto ha valido totalmente la pena. ❤️`;
-    const urlWhatsApp = `https://wa.me/?text=${encodeURIComponent(mensajeEmotivo)}`;
-
-    const contenedor = document.getElementById('detalle-contenido');
-    contenedor.innerHTML = `
-        <button onclick="navegar('dashboard')" class="text-slate-400 mb-4 font-semibold text-sm flex items-center gap-1">← Volver</button>
-        <h2 class="text-2xl font-bold mb-1">${item.titulo}</h2>
-        <p class="text-slate-500 mb-6">Inició el ${fechaPasada.format('DD/MM/YYYY')}</p>
-
-        <div class="bg-rose-50 rounded-2xl p-6 text-center mb-6 shadow-inner border border-rose-100">
-            <p class="text-xs text-rose-500 font-bold tracking-widest mb-2 uppercase">Han pasado exactamente</p>
-            <p class="text-4xl font-black text-rose-600 mb-1">${minutos}</p>
-            <p class="text-sm text-rose-500 font-medium">minutos de historia juntos</p>
-        </div>
-
-        <div class="space-y-3">
-            <p class="text-sm font-semibold text-slate-600">Mensaje sugerido:</p>
-            <div class="bg-slate-100 p-4 rounded-xl text-sm italic text-slate-600">"${mensajeEmotivo}"</div>
+    cacheDOM() {
+        this.views = {
+            dashboard: document.getElementById('view-dashboard'),
+            add: document.getElementById('view-add'),
+            detail: document.getElementById('view-detail'),
+            settings: document.getElementById('view-settings')
+        };
+        this.els = {
+            datesList: document.getElementById('dates-list'),
+            emptyState: document.getElementById('empty-state'),
+            formAdd: document.getElementById('form-add'),
+            inputTitle: document.getElementById('input-title'),
+            inputDate: document.getElementById('input-date'),
+            headerTitle: document.getElementById('header-title'),
+            btnBack: document.getElementById('btn-back'),
+            navBtns: document.querySelectorAll('.nav-btn'),
             
-            <a href="${urlWhatsApp}" target="_blank" rel="noopener noreferrer" class="w-full bg-[#25D366] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-[#20b858] transition-colors shadow-lg shadow-green-200 mt-4 block text-center">
-                Enviar por WhatsApp
-            </a>
-            
-            <button onclick="eliminarFecha('${id}')" class="w-full text-red-400 font-semibold py-3 text-sm mt-2">Eliminar fecha</button>
-        </div>
-    `;
-    navegar('detalle');
-}
+            // Detail elements
+            detailCounter: document.getElementById('detail-counter'),
+            detailTitle: document.getElementById('detail-title'),
+            detailDate: document.getElementById('detail-date'),
+            btnWhatsapp: document.getElementById('btn-whatsapp')
+        };
+    },
 
-// 5. ELIMINAR FECHA
-function eliminarFecha(id) {
-    if(confirm('¿Seguro que quieres olvidar esta fecha?')) {
-        fechas = fechas.filter(f => f.id !== id);
-        localStorage.setItem('tikk_fechas', JSON.stringify(fechas));
-        navegar('dashboard');
-    }
-}
-
-// 6. GEOLOCALIZACIÓN PARA MONETIZACIÓN
-function obtenerUbicacion() {
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            // Aquí en un futuro enviarías las coordenadas a Google Maps API
-            // Por ahora simularemos la ciudad basados en que estamos en Chile
-            document.getElementById('user-location').innerText = "📍 En tu ciudad";
-            document.getElementById('ad-title').innerText = "5 lugares románticos cerca de ti";
-        }, function(error) {
-            console.log("Geolocalización denegada o fallida.");
-            document.getElementById('user-location').innerText = "📍 Global";
+    bindEvents() {
+        this.els.formAdd.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveDate();
         });
-    }
-}
+    },
 
-// INICIAR APP
-renderizarDashboard();
-obtenerUbicacion();
+    loadData() {
+        const stored = localStorage.getItem('tikk_dates_v2');
+        if (stored) {
+            try {
+                this.data.dates = JSON.parse(stored);
+            } catch (e) {
+                this.data.dates = [];
+            }
+        } else {
+            // Try to migrate from v1 if exists
+            const oldStored = localStorage.getItem('tikk_dates');
+            if (oldStored) {
+                try {
+                    this.data.dates = JSON.parse(oldStored);
+                    this.saveToStorage(); // Save as v2
+                } catch (e) {
+                    this.data.dates = [];
+                }
+            }
+        }
+    },
+
+    saveToStorage() {
+        localStorage.setItem('tikk_dates_v2', JSON.stringify(this.data.dates));
+    },
+
+    parseYearsPassed(dateString) {
+        const date = dayjs(dateString);
+        const now = dayjs();
+        return now.diff(date, 'year');
+    },
+
+    saveDate() {
+        const title = this.els.inputTitle.value.trim();
+        const dateStr = this.els.inputDate.value;
+
+        if (!title || !dateStr) {
+            alert("Por favor, ponle un nombre y elige una fecha.");
+            return;
+        }
+
+        const newDate = {
+            id: Date.now().toString(),
+            title,
+            date: dateStr,
+            createdAt: new Date().toISOString()
+        };
+
+        this.data.dates.push(newDate);
+        this.data.dates.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        this.saveToStorage();
+        
+        // Reset form
+        this.els.formAdd.reset();
+        
+        this.renderDashboard();
+        this.navigate('dashboard');
+    },
+
+    deleteCurrentDate() {
+        if (!this.data.selectedDateId) return;
+        
+        if (confirm('¿Estás seguro de eliminar este recuerdo? No hay marcha atrás.')) {
+            this.data.dates = this.data.dates.filter(d => d.id !== this.data.selectedDateId);
+            this.saveToStorage();
+            this.renderDashboard();
+            this.navigate('dashboard');
+        }
+    },
+
+    navigate(viewName) {
+        // Validation
+        if (!this.views[viewName]) return;
+
+        // Clean up intervals
+        if (this.data.intervalId) {
+            clearInterval(this.data.intervalId);
+            this.data.intervalId = null;
+        }
+
+        // Setup Header Title & Back Button
+        if (viewName === 'dashboard' || viewName === 'settings') {
+            this.els.btnBack.classList.add('hidden');
+            this.els.btnBack.classList.remove('flex');
+            this.els.headerTitle.textContent = viewName === 'dashboard' ? 'Tikk' : 'Acerca de Tikk';
+        } else {
+            this.els.btnBack.classList.remove('hidden');
+            this.els.btnBack.classList.add('flex');
+            this.els.headerTitle.textContent = viewName === 'add' ? 'Crear' : 'Detalle';
+        }
+
+        const targetView = this.views[viewName];
+        
+        // Hide all other views
+        Object.values(this.views).forEach(v => {
+            if (v !== targetView && !v.classList.contains('hidden')) {
+                // Animate out
+                v.classList.remove('opacity-100', 'translate-y-0');
+                v.classList.add('opacity-0', 'translate-y-4');
+                // Wait for animation to finish before applying hidden
+                setTimeout(() => {
+                    // Make sure it wasn't re-opened while animating
+                    if (this.data.currentView !== Object.keys(this.views).find(key => this.views[key] === v)) {
+                        v.classList.add('hidden');
+                    }
+                }, 300);
+            }
+        });
+
+        // Show target view with animation
+        if (targetView.classList.contains('hidden')) {
+            targetView.classList.remove('hidden');
+            // Trigger reflow
+            void targetView.offsetWidth;
+            targetView.classList.remove('opacity-0', 'translate-y-4');
+            targetView.classList.add('opacity-100', 'translate-y-0');
+        } else if (targetView.classList.contains('opacity-0')) {
+            // It might not be hidden but animating out, so we reverse it
+            targetView.classList.remove('opacity-0', 'translate-y-4');
+            targetView.classList.add('opacity-100', 'translate-y-0');
+        }
+
+        // Update Nav Bar visual states
+        this.els.navBtns.forEach(btn => {
+            if (btn.dataset.target === viewName) {
+                btn.classList.add('text-rose-500');
+                btn.classList.remove('text-slate-400', 'hover:text-slate-600');
+            } else {
+                btn.classList.remove('text-rose-500');
+                btn.classList.add('text-slate-400', 'hover:text-slate-600');
+            }
+        });
+
+        // Init specific view logic
+        if (viewName === 'detail' && this.data.selectedDateId) {
+            this.startDetailCounter();
+        }
+
+        this.data.currentView = viewName;
+    },
+
+    renderDashboard() {
+        if (this.data.dates.length === 0) {
+            this.els.emptyState.classList.remove('hidden');
+            this.els.datesList.innerHTML = '';
+            return;
+        }
+
+        this.els.emptyState.classList.add('hidden');
+        this.els.datesList.innerHTML = '';
+
+        this.data.dates.forEach(item => {
+            const years = this.parseYearsPassed(item.date);
+            const formattedDate = dayjs(item.date).format('D [de] MMMM, YYYY');
+            
+            const card = document.createElement('div');
+            card.className = "bg-white rounded-[1.25rem] p-5 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] border border-slate-100 flex items-center justify-between cursor-pointer active:scale-[0.98] transition-all duration-300 hover:shadow-md hover:border-slate-200";
+            card.onclick = () => {
+                window.app.data.selectedDateId = item.id;
+                window.app.navigate('detail');
+            };
+            
+            card.innerHTML = `
+                <div class="pr-2">
+                    <h3 class="text-lg font-bold text-slate-800 tracking-tight leading-tight mb-1">${item.title}</h3>
+                    <p class="text-[13px] font-medium text-slate-400">${formattedDate}</p>
+                </div>
+                <div class="text-right flex-shrink-0 bg-slate-50 py-2 px-3 rounded-xl border border-slate-100">
+                    <span class="text-2xl font-black text-rose-500 tracking-tighter block leading-none">${years}</span>
+                    <span class="text-[10px] font-bold text-rose-300 uppercase tracking-widest mt-1 block">Años</span>
+                </div>
+            `;
+            
+            this.els.datesList.appendChild(card);
+        });
+    },
+
+    startDetailCounter() {
+        const dateItem = this.data.dates.find(d => d.id === this.data.selectedDateId);
+        if (!dateItem) {
+            this.navigate('dashboard');
+            return;
+        }
+
+        this.els.headerTitle.textContent = dateItem.title;
+        this.els.detailTitle.textContent = dateItem.title;
+        this.els.detailDate.textContent = dayjs(dateItem.date).format('D [de] MMMM, YYYY');
+
+        const updateCounter = () => {
+            const now = dayjs();
+            const past = dayjs(dateItem.date);
+            const totalMinutes = now.diff(past, 'minute');
+            
+            // Format number with thousands separator
+            this.els.detailCounter.textContent = totalMinutes.toLocaleString('es-ES');
+            
+            // Build WhatsApp message
+            const years = now.diff(past, 'year');
+            const txt = `Han pasado ${years} años y exactamente ${totalMinutes.toLocaleString('es-ES')} minutos desde ${dateItem.title}... ¡Qué locura el tiempo vuela! 🤯❤️`;
+            
+            this.els.btnWhatsapp.onclick = () => {
+                const url = `https://wa.me/?text=${encodeURIComponent(txt)}`;
+                window.open(url, '_blank');
+            };
+        };
+
+        updateCounter();
+        this.data.intervalId = setInterval(updateCounter, 10000);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => window.app.init());
