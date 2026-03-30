@@ -82,6 +82,7 @@
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
+            appearance: none;
             text-indent: 1px;
             text-overflow: '';
         }
@@ -101,25 +102,25 @@
     <main id="app-container" class="max-w-md mx-auto relative px-5 py-6 mb-20 overflow-hidden min-h-[70vh]">
         
         <!-- View: Onboarding -->
-        <section id="view-onboarding" class="w-full absolute top-0 left-0 bg-slate-50 z-50 h-[80vh] flex flex-col justify-center px-6 transition-all duration-500 opacity-0 translate-y-4 hidden">
-            <div class="flex-1 flex flex-col items-center justify-center text-center">
-                <div id="onboarding-icon" class="w-28 h-28 bg-rose-100 text-rose-500 rounded-[2rem] flex items-center justify-center mb-8 rotate-3 shadow-inner transition-all duration-300">
+        <section id="view-onboarding" class="fixed inset-0 bg-slate-50 z-[100] flex flex-col px-6 transition-all duration-500 opacity-0 translate-y-4 hidden overflow-y-auto">
+            <div class="flex-1 flex flex-col items-center justify-center text-center pt-8">
+                <div id="onboarding-icon" class="w-28 h-28 bg-rose-100 text-rose-500 rounded-[2rem] flex items-center justify-center mb-8 rotate-3 shadow-inner transition-all duration-300 mx-auto">
                     <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <h2 id="onboarding-title" class="text-3xl font-extrabold text-slate-800 tracking-tight transition-all duration-300">Bienvenido a Tikk</h2>
-                <p id="onboarding-text" class="text-slate-500 mt-4 text-[15px] font-medium leading-relaxed max-w-[280px] transition-all duration-300">
+                <p id="onboarding-text" class="text-slate-500 mt-4 text-[15px] font-medium leading-relaxed max-w-[280px] mx-auto transition-all duration-300">
                     Tikk es tu contador emocional. Celebra y mide con exactitud el tiempo desde tus momentos más hermosos.
                 </p>
                 
-                <div class="flex gap-2.5 mt-10" id="onboarding-dots">
+                <div class="flex gap-2.5 mt-10 justify-center" id="onboarding-dots">
                     <div class="h-2 w-6 rounded-full bg-rose-500 transition-all duration-300" id="dot-0"></div>
                     <div class="h-2 w-2 rounded-full bg-slate-200 transition-all duration-300" id="dot-1"></div>
                     <div class="h-2 w-2 rounded-full bg-slate-200 transition-all duration-300" id="dot-2"></div>
                 </div>
             </div>
             
-            <div class="pb-10 w-full pt-6">
-                <button onclick="window.app.nextOnboarding()" class="w-full bg-slate-900 text-white font-semibold py-4 rounded-2xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] transition-all duration-300 flex justify-center items-center" id="onboarding-btn">
+            <div class="pb-[max(env(safe-area-inset-bottom),2rem)] w-full pt-6 mt-auto">
+                <button onclick="window.app.nextOnboarding()" class="w-full max-w-md mx-auto bg-slate-900 text-white font-semibold py-4 rounded-2xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] transition-all duration-300 flex justify-center items-center" id="onboarding-btn">
                     Continuar
                 </button>
             </div>
