@@ -15,13 +15,13 @@ window.app = {
 
     onboardingData: [
         {
-            title: "Catálogo de Vida",
-            text: "No es solo un calendario, es el catálogo de todo lo que te hace sentir vivo. Registra fechas, anécdotas y emociones.",
+            title: "Tus Momentos",
+            text: "Un espacio íntimo para las fechas que de verdad te importan. Guarda recuerdos, anécdotas y celébralos.",
             icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>`
         },
         {
-            title: "Plantillas Listas",
-            text: "Crea notificaciones en 2 toques: desde ciclos médicos hasta aniversarios. Pre-cargadas para ahorrarte tiempo.",
+            title: "Ideas y Plantillas",
+            text: "Crea notificaciones en segundos. Desde aniversarios hasta recordatorios médicos, diseñados para ti.",
             icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>`
         }
     ],
@@ -54,6 +54,7 @@ window.app = {
         this.els = {
             mainHeader: document.getElementById('main-header'),
             mainNav: document.getElementById('main-nav'),
+            globalFab: document.getElementById('global-fab'),
             datesList: document.getElementById('dates-list'),
             emptyState: document.getElementById('empty-state'),
             headerTitle: document.getElementById('header-title'),
@@ -207,9 +208,19 @@ window.app = {
         if (viewName === 'onboarding') {
             if(this.els.mainHeader) this.els.mainHeader.style.display = 'none';
             if(this.els.mainNav) this.els.mainNav.style.display = 'none';
+            if(this.els.globalFab) this.els.globalFab.style.display = 'none';
         } else {
             if(this.els.mainHeader) this.els.mainHeader.style.display = 'flex';
             if(this.els.mainNav) this.els.mainNav.style.display = 'block';
+            
+            // Hide FAB in detail and text-heavy views
+            if(this.els.globalFab) {
+                if (['dashboard', 'catalog'].includes(viewName)) {
+                    this.els.globalFab.style.display = 'flex';
+                } else {
+                    this.els.globalFab.style.display = 'none';
+                }
+            }
             
             if (['dashboard', 'catalog', 'inspiration'].includes(viewName)) {
                 if(this.els.btnBack) {
@@ -574,13 +585,13 @@ window.app = {
         const isFutureOverall = info.isFuture; 
         
         if (isFutureOverall) {
-            this.els.detailSubtitle.textContent = item.recurrence !== 'none' ? "Cuenta Regresiva" : "Faltan exactamente";
-            this.els.detailExactPrefix.textContent = "Se acerca! Quedan";
-            this.els.detailExactSuffix.textContent = "para tocar la meta.";
+            this.els.detailSubtitle.textContent = item.recurrence !== 'none' ? "Cuenta regresiva" : "Falta poco";
+            this.els.detailExactPrefix.textContent = "Exactamente:";
+            this.els.detailExactSuffix.textContent = "";
         } else {
-            this.els.detailSubtitle.textContent = "Tiempo en curso";
-            this.els.detailExactPrefix.textContent = "Calculo real: Han pasado";
-            this.els.detailExactSuffix.textContent = "desde que ocurrió.";
+            this.els.detailSubtitle.textContent = "Tiempo compartido";
+            this.els.detailExactPrefix.textContent = "Exactamente:";
+            this.els.detailExactSuffix.textContent = "";
         }
 
         const updateCounter = () => {
@@ -640,16 +651,22 @@ window.app = {
             if (item.recurrence !== 'none') {
                 this.els.detailNextBox.classList.remove('hidden');
                 const missingDays = info.nextDate.diff(now.startOf('day'), 'day');
-                this.els.detailNextDays.textContent = `${missingDays} ${missingDays === 1 ? 'día' : 'días libres'}`;
+                
+                let nextTxt = "";
+                if (missingDays === 0) nextTxt = "¡Es hoy! 🎉";
+                else if (missingDays === 1) nextTxt = "Mañana";
+                else nextTxt = `en ${missingDays} días`;
+                
+                this.els.detailNextDays.textContent = nextTxt;
             } else {
                 this.els.detailNextBox.classList.add('hidden');
             }
 
-            const verbPrefix = isFutureOverall ? "Falta" : "Han pasado";
-            const verbSec = isFutureOverall ? "para" : "desde";
+            let anecTxt = item.anecdote ? `\\n\\n${item.anecdote}` : "";
             
-            let anecTxt = item.anecdote ? `\\n\\nPensaba en esto: "${item.anecdote}"` : "";
-            const preMessage = `${verbPrefix} la asombrosa cantidad de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} (${exactStr}) ${verbSec} ${item.title}.${anecTxt} ${item.emoji} ¡Sorprendente!`;
+            const preMessage = isFutureOverall 
+                ? `¡Ya no queda nada! Faltan ${total.toLocaleString('es-ES')} ${this.data.detailUnit} para ${item.title} 😱 (Exactamente ${exactStr}).${anecTxt} ${item.emoji}`
+                : `Pensar que ya pasaron ${total.toLocaleString('es-ES')} ${this.data.detailUnit} desde ${item.title}... cómo vuela el tiempo ✨ (Fueron exactamente ${exactStr}).${anecTxt} ${item.emoji}`;
             
             if (!this.els.whatsappMessage.dataset.userEdited) {
                 this.els.whatsappMessage.value = preMessage;
