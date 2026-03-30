@@ -50,16 +50,18 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Day.js -->
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/duration.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/isBefore.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/es.js"></script>
     <script>
         dayjs.extend(window.dayjs_plugin_relativeTime);
         dayjs.extend(window.dayjs_plugin_duration);
+        dayjs.extend(window.dayjs_plugin_isBefore);
         dayjs.locale('es');
     </script>
     
@@ -75,13 +77,21 @@
         /* Safe Area INsets */
         .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
         .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+
+        /* Detail select styles */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen pb-safe pt-safe selection:bg-rose-200" id="main-body">
 
     <!-- Header / App Bar -->
-    <header class="sticky top-0 z-40 bg-slate-50/80 backdrop-blur-xl border-b border-slate-200/50 px-6 py-4 flex justify-between items-center transition-all duration-300">
-        <h1 class="text-2xl font-bold text-slate-800 tracking-tight" id="header-title">Tikk</h1>
+    <header id="main-header" class="sticky top-0 z-40 bg-slate-50/80 backdrop-blur-xl border-b border-slate-200/50 px-6 py-4 flex justify-between items-center transition-all duration-300">
+        <h1 class="text-2xl font-black text-slate-800 tracking-tight" id="header-title">Tikk</h1>
         <button id="btn-back" class="hidden text-slate-500 hover:text-slate-800 transition-colors p-2 -mr-2 rounded-full hover:bg-slate-100/50 active:scale-90" onclick="window.app.navigate('dashboard')">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
         </button>
@@ -90,11 +100,36 @@
     <!-- App Container -->
     <main id="app-container" class="max-w-md mx-auto relative px-5 py-6 mb-20 overflow-hidden min-h-[70vh]">
         
+        <!-- View: Onboarding -->
+        <section id="view-onboarding" class="w-full absolute top-0 left-0 bg-slate-50 z-50 h-[80vh] flex flex-col justify-center px-6 transition-all duration-500 opacity-0 translate-y-4 hidden">
+            <div class="flex-1 flex flex-col items-center justify-center text-center">
+                <div id="onboarding-icon" class="w-28 h-28 bg-rose-100 text-rose-500 rounded-[2rem] flex items-center justify-center mb-8 rotate-3 shadow-inner transition-all duration-300">
+                    <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h2 id="onboarding-title" class="text-3xl font-extrabold text-slate-800 tracking-tight transition-all duration-300">Bienvenido a Tikk</h2>
+                <p id="onboarding-text" class="text-slate-500 mt-4 text-[15px] font-medium leading-relaxed max-w-[280px] transition-all duration-300">
+                    Tikk es tu contador emocional. Celebra y mide con exactitud el tiempo desde tus momentos más hermosos.
+                </p>
+                
+                <div class="flex gap-2.5 mt-10" id="onboarding-dots">
+                    <div class="h-2 w-6 rounded-full bg-rose-500 transition-all duration-300" id="dot-0"></div>
+                    <div class="h-2 w-2 rounded-full bg-slate-200 transition-all duration-300" id="dot-1"></div>
+                    <div class="h-2 w-2 rounded-full bg-slate-200 transition-all duration-300" id="dot-2"></div>
+                </div>
+            </div>
+            
+            <div class="pb-10 w-full pt-6">
+                <button onclick="window.app.nextOnboarding()" class="w-full bg-slate-900 text-white font-semibold py-4 rounded-2xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] transition-all duration-300 flex justify-center items-center" id="onboarding-btn">
+                    Continuar
+                </button>
+            </div>
+        </section>
+
         <!-- View: Dashboard -->
         <section id="view-dashboard" class="w-full transition-all duration-300 opacity-0 translate-y-4 hidden">
             <div class="mb-8 flex justify-between items-end">
                 <div>
-                    <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Tus Fechas</h2>
+                    <h2 class="text-3xl font-black text-slate-800 tracking-tight">Tus Fechas</h2>
                     <p class="text-slate-500 mt-1.5 text-sm font-medium">Los momentos que importan.</p>
                 </div>
             </div>
@@ -113,24 +148,31 @@
             </div>
             
             <!-- Floating Action Button -->
-            <button onclick="window.app.navigate('add')" class="fixed bottom-[100px] right-6 w-14 h-14 bg-rose-500 text-white rounded-2xl shadow-lg shadow-rose-500/30 flex items-center justify-center hover:bg-rose-600 hover:scale-[1.05] active:scale-[0.95] transition-all duration-300 z-30">
+            <button onclick="window.app.navigate('add')" class="fixed bottom-[100px] right-6 w-14 h-14 bg-rose-500 text-white rounded-2xl shadow-xl shadow-rose-500/30 flex items-center justify-center hover:bg-rose-600 hover:scale-[1.05] active:scale-[0.95] transition-all duration-300 z-30">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
             </button>
         </section>
 
         <!-- View: Add Date -->
         <section id="view-add" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-300 opacity-0 translate-y-4 hidden z-20">
-            <form id="form-add" class="bg-white rounded-3xl p-7 shadow-sm border border-slate-100/60 transition-all">
+            <form id="form-add" class="bg-white rounded-[2rem] p-7 shadow-sm border border-slate-100/60 transition-all">
                 <h2 class="text-2xl font-bold text-slate-800 mb-6 tracking-tight">Nueva Fecha</h2>
                 
                 <div class="mb-5">
-                    <label class="block text-sm font-semibold text-slate-600 mb-2 ml-1">¿Qué evento es?</label>
-                    <input type="text" id="input-title" placeholder="Ej: Aniversario..." class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-rose-400 focus:ring-4 focus:ring-rose-100/50 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium font-sans">
+                    <label class="block text-sm font-bold text-slate-600 mb-2 ml-1">¿Qué evento es?</label>
+                    <input type="text" id="input-title" placeholder="Ej: Cumpleaños Mau" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-rose-400 focus:ring-4 focus:ring-rose-100/50 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium font-sans">
                 </div>
                 
-                <div class="mb-8">
-                    <label class="block text-sm font-semibold text-slate-600 mb-2 ml-1">¿Cuándo fue?</label>
+                <div class="mb-5">
+                    <label class="block text-sm font-bold text-slate-600 mb-2 ml-1">¿Cuándo fue / será?</label>
                     <input type="date" id="input-date" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-rose-400 focus:ring-4 focus:ring-rose-100/50 outline-none transition-all text-slate-800 font-medium appearance-none">
+                </div>
+                
+                <div class="mb-8 flex items-center gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <input type="checkbox" id="input-annual" class="w-5 h-5 text-rose-500 rounded border-slate-300 focus:ring-rose-400 accent-rose-500 cursor-pointer">
+                    <label for="input-annual" class="text-sm font-medium text-slate-600 cursor-pointer leading-tight">
+                        Este evento se repite todos los años <br><span class="text-[11px] text-slate-400 font-normal">(Ej: Cumpleaños, Aniversario)</span>
+                    </label>
                 </div>
                 
                 <button type="submit" class="w-full bg-slate-900 text-white font-semibold py-4 rounded-2xl shadow-md hover:bg-slate-800 active:scale-[0.98] transition-all duration-300 flex justify-center items-center">
@@ -141,29 +183,68 @@
 
         <!-- View: Detail -->
         <section id="view-detail" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-500 opacity-0 translate-y-4 hidden z-20">
-            <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100/60 text-center relative overflow-hidden transition-all duration-500">
+            <div class="bg-white rounded-[2rem] px-6 py-8 shadow-sm border border-slate-100/60 text-center relative overflow-hidden transition-all duration-500">
                 <!-- Decorative blobs -->
                 <div class="absolute top-0 right-0 w-40 h-40 bg-rose-50 rounded-full blur-3xl -mr-16 -mt-16 opacity-70"></div>
-                <div class="absolute bottom-0 left-0 w-32 h-32 bg-slate-100 rounded-full blur-2xl -ml-16 -mb-16 opacity-70"></div>
+                <div id="detail-card-blob" class="absolute bottom-0 left-0 w-32 h-32 bg-slate-100 rounded-full blur-2xl -ml-16 -mb-16 opacity-70 transition-colors duration-1000"></div>
                 
-                <div class="relative z-10">
+                <div class="relative z-10 w-full flex flex-col items-center">
+                    
                     <p class="text-rose-500 font-bold tracking-widest text-[11px] uppercase" id="detail-subtitle">Ya han pasado</p>
                     
-                    <div class="my-8">
-                        <div id="detail-counter" class="text-6xl font-extrabold text-slate-800 tracking-tighter tabular-nums drop-shadow-sm">0</div>
-                        <span class="block text-xl font-bold text-slate-400 mt-2">minutos</span>
+                    <div class="my-6 w-full flex flex-col items-center justify-center">
+                        <div id="detail-counter" class="text-[3.25rem] leading-none font-black text-slate-800 tracking-tighter tabular-nums drop-shadow-sm truncate w-full">0</div>
+                        
+                        <div class="relative mt-1 inline-block">
+                            <!-- Styled dropdown wrapper -->
+                            <select id="detail-unit-selector" class="appearance-none bg-transparent text-xl font-bold text-slate-400 cursor-pointer outline-none text-center hover:text-slate-600 transition-colors pr-5" onchange="window.app.updateDetailUnit()">
+                                <option value="segundos">segundos</option>
+                                <option value="minutos" selected>minutos</option>
+                                <option value="horas">horas</option>
+                                <option value="días">días</option>
+                                <option value="semanas">semanas</option>
+                                <option value="meses">meses</option>
+                                <option value="años">años</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-slate-400">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exact string breakdown -->
+                    <div id="detail-exact-box" class="bg-rose-50/50 py-3 px-4 rounded-2xl mb-8 w-full text-sm font-medium text-slate-600 leading-relaxed">
+                        <span id="detail-exact-prefix">Ha pasado</span> <strong id="detail-exact-time" class="text-slate-800">...</strong> <span id="detail-exact-suffix">desde esa fecha.</span>
+                    </div>
+
+                    <div id="detail-next-box" class="hidden mb-8 text-sm font-medium text-slate-500">
+                        Faltan <strong id="detail-next-days" class="text-rose-500">...</strong> para el próximo
                     </div>
                     
-                    <p class="text-slate-500 mb-10 text-sm font-medium leading-relaxed" id="detail-date-text">
-                        desde <strong id="detail-title" class="font-bold text-slate-800">...</strong><br>el <span id="detail-date">...</span>
-                    </p>
+                    <!-- Pre-filled editable message -->
+                    <div class="w-full text-left mb-6 border-t border-slate-100 pt-6">
+                        <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1 flex justify-between">
+                            <span>Mensaje para enviar</span>
+                            <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </label>
+                        <textarea id="whatsapp-message" rows="3" class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#25D366] focus:ring-2 focus:ring-[#25D366]/20 outline-none transition-all text-[13px] font-medium text-slate-700 resize-none shadow-inner"></textarea>
+                    </div>
                     
-                    <button id="btn-whatsapp" class="w-full bg-[#25D366] text-white font-semibold py-4 rounded-2xl shadow-lg shadow-[#25D366]/25 hover:bg-[#20bd5a] active:scale-[0.98] transition-all duration-300 flex justify-center items-center gap-2.5">
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        Enviar mensaje épico
-                    </button>
+                    <!-- Buttons -->
+                    <div class="w-full flex flex-col gap-3">
+                        <button onclick="window.app.sendWhatsapp()" class="w-full bg-[#25D366] text-white font-bold py-4 rounded-2xl shadow-lg shadow-[#25D366]/25 hover:bg-[#20bd5a] hover:shadow-[#25D366]/40 active:scale-[0.98] transition-all duration-300 flex justify-center items-center gap-2.5">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            Enviar WhatsApp
+                        </button>
+                        
+                        <!-- Import Calendar -->
+                        <button onclick="window.app.downloadICS()" class="w-full border-2 border-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl hover:bg-slate-50 active:scale-[0.98] transition-all duration-300 flex justify-center items-center gap-2.5">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            Activar notificaciones (Calendario)
+                        </button>
+                    </div>
                     
-                    <button onclick="window.app.deleteCurrentDate()" class="mt-6 text-slate-400 hover:text-red-500 text-sm font-semibold transition-colors px-4 py-2 bg-transparent rounded-lg hover:bg-red-50">
+                    <button onclick="window.app.deleteCurrentDate()" class="mt-2 text-slate-400 hover:text-red-500 text-xs uppercase font-bold tracking-widest transition-colors px-4 py-3 bg-transparent rounded-lg hover:bg-red-50">
                         Eliminar fecha
                     </button>
                 </div>
@@ -187,7 +268,7 @@
     </main>
 
     <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 z-50 transition-all duration-300">
+    <nav id="main-nav" class="fixed bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 z-50 transition-all duration-300">
         <!-- We use padding bottom safe for iphone home indicator -->
         <div class="max-w-md mx-auto flex justify-around px-2 py-3 pb-[max(env(safe-area-inset-bottom),12px)]">
             <button onclick="window.app.navigate('dashboard')" class="nav-btn w-20 py-1 flex flex-col items-center gap-1.5 text-rose-500 hover:scale-105 active:scale-95 transition-all" data-target="dashboard">
