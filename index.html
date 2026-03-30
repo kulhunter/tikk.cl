@@ -160,54 +160,54 @@
                     
                     <button id="btn-whatsapp" class="w-full bg-[#25D366] text-white font-semibold py-4 rounded-2xl shadow-lg shadow-[#25D366]/25 hover:bg-[#20bd5a] active:scale-[0.98] transition-all duration-300 flex justify-center items-center gap-2.5">
                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-178:                         Enviar mensaje épico
-179:                     </button>
-180:                     
-181:                     <button onclick="window.app.deleteCurrentDate()" class="mt-6 text-slate-400 hover:text-red-500 text-sm font-semibold transition-colors px-4 py-2 bg-transparent rounded-lg hover:bg-red-50">
-182:                         Eliminar fecha
-183:                     </button>
-184:                 </div>
-185:             </div>
-186:         </section>
-187:         
-188:         <!-- View: Settings (About) -->
-189:         <section id="view-settings" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-300 opacity-0 translate-y-4 hidden z-20">
-190:             <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100/60 text-center">
-191:                 <div class="w-20 h-20 bg-rose-50 text-rose-500 rounded-3xl flex items-center justify-center mx-auto mb-5 rotate-3 shadow-inner">
-192:                     <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" /></svg>
-193:                 </div>
-194:                 <h2 class="text-2xl font-extrabold text-slate-800 tracking-tight">Tikk</h2>
-195:                 <p class="text-rose-500 font-bold text-sm mt-1 uppercase tracking-widest">v2.0 PWA</p>
-196:                 <p class="text-slate-500 mt-6 text-sm font-medium leading-relaxed">
-197:                     Diseñado con amor y minimalismo.<br>100% libre y funciona sin internet.
-198:                 </p>
-199:             </div>
-200:         </section>
-201: 
-202:     </main>
-203: 
-204:     <!-- Bottom Navigation Bar -->
-205:     <nav class="fixed bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 z-50 transition-all duration-300">
-206:         <!-- We use padding bottom safe for iphone home indicator -->
-207:         <div class="max-w-md mx-auto flex justify-around px-2 py-3 pb-[max(env(safe-area-inset-bottom),12px)]">
-208:             <button onclick="window.app.navigate('dashboard')" class="nav-btn w-20 py-1 flex flex-col items-center gap-1.5 text-rose-500 hover:scale-105 active:scale-95 transition-all" data-target="dashboard">
-209:                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" /><path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" /></svg>
-210:                 <span class="text-[11px] font-bold tracking-wide">Inicio</span>
-211:             </button>
-212:             <button onclick="window.app.navigate('settings')" class="nav-btn w-20 py-1 flex flex-col items-center gap-1.5 text-slate-400 hover:text-slate-600 hover:scale-105 active:scale-95 transition-all" data-target="settings">
-213:                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-214:                 <span class="text-[11px] font-bold tracking-wide">Acerca</span>
-215:             </button>
-216:         </div>
-217:     </nav>
-218:     
-219:     <script src="app.js"></script>
-220:     <script>
-221:         if ('serviceWorker' in navigator) {
-222:             window.addEventListener('load', () => {
-223:                 navigator.serviceWorker.register('sw.js').catch(err => console.log('SW setup failed', err));
-224:             });
-225:         }
-226:     </script>
-227: </body>
-228: </html>
+                        Enviar mensaje épico
+                    </button>
+                    
+                    <button onclick="window.app.deleteCurrentDate()" class="mt-6 text-slate-400 hover:text-red-500 text-sm font-semibold transition-colors px-4 py-2 bg-transparent rounded-lg hover:bg-red-50">
+                        Eliminar fecha
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- View: Settings (About) -->
+        <section id="view-settings" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-300 opacity-0 translate-y-4 hidden z-20">
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100/60 text-center">
+                <div class="w-20 h-20 bg-rose-50 text-rose-500 rounded-3xl flex items-center justify-center mx-auto mb-5 rotate-3 shadow-inner">
+                    <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" /></svg>
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-800 tracking-tight">Tikk</h2>
+                <p class="text-rose-500 font-bold text-sm mt-1 uppercase tracking-widest">v2.0 PWA</p>
+                <p class="text-slate-500 mt-6 text-sm font-medium leading-relaxed">
+                    Diseñado con amor y minimalismo.<br>100% libre y funciona sin internet.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 z-50 transition-all duration-300">
+        <!-- We use padding bottom safe for iphone home indicator -->
+        <div class="max-w-md mx-auto flex justify-around px-2 py-3 pb-[max(env(safe-area-inset-bottom),12px)]">
+            <button onclick="window.app.navigate('dashboard')" class="nav-btn w-20 py-1 flex flex-col items-center gap-1.5 text-rose-500 hover:scale-105 active:scale-95 transition-all" data-target="dashboard">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" /><path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" /></svg>
+                <span class="text-[11px] font-bold tracking-wide">Inicio</span>
+            </button>
+            <button onclick="window.app.navigate('settings')" class="nav-btn w-20 py-1 flex flex-col items-center gap-1.5 text-slate-400 hover:text-slate-600 hover:scale-105 active:scale-95 transition-all" data-target="settings">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span class="text-[11px] font-bold tracking-wide">Acerca</span>
+            </button>
+        </div>
+    </nav>
+    
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW setup failed', err));
+            });
+        }
+    </script>
+</body>
+</html>
