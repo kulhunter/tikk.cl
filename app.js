@@ -1,5 +1,5 @@
 /**
- * Tikk v2.1 PWA
+ * Tikk v3.0 PWA Nivel Apple
  * Arquitectura Reactiva SPA Vanilla JS
  */
 
@@ -10,24 +10,25 @@ window.app = {
         selectedDateId: null,
         intervalId: null,
         onboardingSlide: 0,
-        detailUnit: 'minutos'
+        detailUnit: 'minutos',
+        coords: null
     },
 
     onboardingData: [
         {
             title: "Bienvenido a Tikk",
-            text: "El contador emocional. Celebra y calcula con exactitud cuántos segundos faltan o han pasado desde esa fecha.",
+            text: "El contador emocional. Celebra y calcula con exactitud matemática cuántos segundos faltan o han pasado desde tu evento favorito.",
             icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>`
         },
         {
-            title: "Desliza para limpiar",
-            text: "Diseño sin fricción. Puedes editar o eliminar tus fechas deslizando las tarjetas fácilmente desde la página inicial.",
+            title: "Desliza sin fricción",
+            text: "Interacciones Apple Level. Edita o elimina tus fechas deslizando las tarjetas fácilmente sin menús estorbosos ni complicaciones.",
             icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>`
         },
         {
-            title: "Notificaciones Nativas",
-            text: "Genera alarmas automáticas en tu calendario sin necesidad de servidores extraños. Siempre avisa, aunque no tengas internet.",
-            icon: `<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />`
+            title: "Recomendador e Integración",
+            text: "Descubre lugares perfectos cerca de ti con el módulo Inspiración y exporta alarmas a tu Calendario para no olvidar nada. ¡Empecemos!",
+            icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>`
         }
     ],
 
@@ -38,7 +39,7 @@ window.app = {
         this.initSwipeLogic();
         this.renderDashboard();
         
-        const onboarded = localStorage.getItem('tikk_onboarded_v2.1');
+        const onboarded = localStorage.getItem('tikk_onboarded_v3');
         if (!onboarded) {
             this.navigate('onboarding');
             this.renderOnboarding();
@@ -53,6 +54,7 @@ window.app = {
             dashboard: document.getElementById('view-dashboard'),
             add: document.getElementById('view-add'),
             detail: document.getElementById('view-detail'),
+            inspiration: document.getElementById('view-inspiration'),
             settings: document.getElementById('view-settings')
         };
         this.els = {
@@ -70,7 +72,7 @@ window.app = {
             formTitle: document.getElementById('form-add-title'),
             inputTitle: document.getElementById('input-title'),
             inputDate: document.getElementById('input-date'),
-            inputAnnual: document.getElementById('input-annual'),
+            inputRecurrence: document.getElementById('input-recurrence'),
             
             // Detail
             detailSubtitle: document.getElementById('detail-subtitle'),
@@ -90,7 +92,11 @@ window.app = {
             onboardingTitle: document.getElementById('onboarding-title'),
             onboardingText: document.getElementById('onboarding-text'),
             onboardingIcon: document.getElementById('onboarding-icon'),
-            onboardingBtn: document.getElementById('onboarding-btn')
+            onboardingBtn: document.getElementById('onboarding-btn'),
+
+            // Inspiration
+            geoPromptBox: document.getElementById('geo-prompt-box'),
+            inspirationGrid: document.getElementById('inspiration-grid')
         };
     },
 
@@ -108,6 +114,12 @@ window.app = {
         if (stored) {
             try {
                 this.data.dates = JSON.parse(stored);
+                // Migrate old boolean isAnnual to new recurrence string
+                this.data.dates.forEach(d => {
+                    if (d.recurrence === undefined) {
+                        d.recurrence = d.isAnnual ? 'annual' : 'none';
+                    }
+                });
             } catch (e) {
                 this.data.dates = [];
             }
@@ -123,7 +135,7 @@ window.app = {
             this.data.onboardingSlide++;
             this.renderOnboarding();
         } else {
-            localStorage.setItem('tikk_onboarded_v2.1', 'true');
+            localStorage.setItem('tikk_onboarded_v3', 'true');
             this.navigate('dashboard');
         }
     },
@@ -137,9 +149,9 @@ window.app = {
         
         setTimeout(() => {
             if (this.data.onboardingSlide === 2) {
-                this.els.onboardingIcon.innerHTML = `<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24">${slide.icon}</svg>`;
+                this.els.onboardingIcon.innerHTML = `<svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">${slide.icon}</svg>`;
             } else {
-                this.els.onboardingIcon.innerHTML = `<svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24">${slide.icon}</svg>`;
+                this.els.onboardingIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">${slide.icon}</svg>`;
             }
             this.els.onboardingTitle.textContent = slide.title;
             this.els.onboardingText.textContent = slide.text;
@@ -149,14 +161,14 @@ window.app = {
             this.els.onboardingText.style.opacity = '1';
             
             if (this.data.onboardingSlide === 2) {
-                this.els.onboardingBtn.textContent = 'Empezar ahora';
+                this.els.onboardingBtn.textContent = 'Empezar magia a nivel Apple';
             }
             
             for(let i=0; i<3; i++) {
                 const dot = document.getElementById(`dot-${i}`);
                 if (dot) {
                     if (i === this.data.onboardingSlide) {
-                        dot.className = "h-2 w-6 rounded-full bg-rose-500 transition-all duration-300";
+                        dot.className = "h-2 w-8 rounded-full bg-rose-500 transition-all duration-300";
                     } else {
                         dot.className = "h-2 w-2 rounded-full bg-slate-200 transition-all duration-300";
                     }
@@ -165,7 +177,6 @@ window.app = {
         }, 150);
     },
 
-    // UI Routing
     navigate(viewName) {
         if (!this.views[viewName]) return;
 
@@ -174,7 +185,7 @@ window.app = {
             this.data.intervalId = null;
         }
 
-        // Header / Nav visibility
+        // Header / Nav logic
         if (viewName === 'onboarding') {
             if(this.els.mainHeader) this.els.mainHeader.style.display = 'none';
             if(this.els.mainNav) this.els.mainNav.style.display = 'none';
@@ -182,12 +193,16 @@ window.app = {
             if(this.els.mainHeader) this.els.mainHeader.style.display = 'flex';
             if(this.els.mainNav) this.els.mainNav.style.display = 'block';
             
-            if (viewName === 'dashboard' || viewName === 'settings') {
+            if (['dashboard', 'settings', 'inspiration'].includes(viewName)) {
                 if(this.els.btnBack) {
                     this.els.btnBack.classList.add('hidden');
                     this.els.btnBack.classList.remove('flex');
                 }
-                if(this.els.headerTitle) this.els.headerTitle.textContent = viewName === 'dashboard' ? 'Tikk' : 'Acerca de Tikk';
+                if(this.els.headerTitle) {
+                    if (viewName === 'dashboard') this.els.headerTitle.textContent = 'Tikk';
+                    if (viewName === 'settings') this.els.headerTitle.textContent = 'Acerca';
+                    if (viewName === 'inspiration') this.els.headerTitle.textContent = 'Inspiración';
+                }
             } else {
                 if(this.els.btnBack) {
                     this.els.btnBack.classList.remove('hidden');
@@ -196,7 +211,6 @@ window.app = {
                 const isAdd = viewName === 'add';
                 if(this.els.headerTitle) this.els.headerTitle.textContent = isAdd ? (this.data.selectedDateId ? 'Editar' : 'Crear') : 'Detalle';
                 
-                // If opening Add view, clear selected ID if entering via standard route
                 if (isAdd && !this.data._editingNow) {
                     this.data.selectedDateId = null;
                     this.els.formAdd.reset();
@@ -205,7 +219,6 @@ window.app = {
             }
         }
 
-        // Views transition logic
         const targetView = this.views[viewName];
         
         Object.values(this.views).forEach(v => {
@@ -237,6 +250,14 @@ window.app = {
             } else {
                 btn.classList.remove('text-rose-500');
                 btn.classList.add('text-slate-400');
+                
+                // Specific styling for inspiration icon
+                if (btn.dataset.target === 'inspiration' && viewName !== 'inspiration') {
+                    btn.classList.remove('text-blue-500');
+                } else if (btn.dataset.target === 'inspiration' && viewName === 'inspiration') {
+                    btn.classList.remove('text-rose-500');
+                    btn.classList.add('text-blue-500');
+                }
             }
         });
 
@@ -247,39 +268,47 @@ window.app = {
         this.data.currentView = viewName;
     },
 
-    // Date calculations
-    parseDateInfo(dateStr, isAnnual) {
-        let date = dayjs(dateStr);
+    // Mathematics Core Module
+    parseDateInfo(dateStr, recurrence) {
+        let origDate = dayjs(dateStr);
         let now = dayjs();
 
-        if (isAnnual) {
-            let next = dayjs(dateStr).year(now.year());
-            if (next.isBefore(now, 'day')) {
-                next = next.add(1, 'year');
-            }
-            return {
-                isFuture: next.isAfter(now),
-                years: next.diff(date, 'year'), // User exact age / anniversary years next time it comes
-                nextDate: next,
-                origDate: date
-            };
-        } else {
-            const isFuture = date.isAfter(now);
-            const years = Math.abs(isFuture ? date.diff(now, 'year') : now.diff(date, 'year'));
+        if (recurrence === 'none') {
+            const isFuture = origDate.isAfter(now);
+            const years = Math.abs(isFuture ? origDate.diff(now, 'year') : now.diff(origDate, 'year'));
             return {
                 isFuture,
                 years,
-                nextDate: date,
-                origDate: date
+                nextDate: origDate,
+                origDate
+            };
+        } else {
+            // Find next occurrence in the future
+            let next = dayjs(dateStr);
+            while (next.isBefore(now, 'second')) {
+                switch(recurrence) {
+                    case 'daily': next = next.add(1, 'day'); break;
+                    case 'weekly': next = next.add(1, 'week'); break;
+                    case 'monthly': next = next.add(1, 'month'); break;
+                    case 'semestral': next = next.add(6, 'month'); break;
+                    case 'annual': next = next.add(1, 'year'); break;
+                    default: next = next.add(1, 'year');
+                }
+            }
+            // Calculated years for badges
+            return {
+                isFuture: true, // Recurrent target is always considered a next goal
+                years: recurrence === 'annual' ? next.diff(origDate, 'year') : next.diff(origDate, 'month'), 
+                nextDate: next,
+                origDate
             };
         }
     },
 
-    // Saving and rendering
     saveDate() {
         const title = this.els.inputTitle.value.trim();
         const dateStr = this.els.inputDate.value;
-        const isAnnual = this.els.inputAnnual.checked;
+        const recurrence = this.els.inputRecurrence.value;
 
         if (!title || !dateStr) {
             alert("Por favor, ponle un nombre y elige una fecha.");
@@ -287,22 +316,20 @@ window.app = {
         }
 
         if (this.data.selectedDateId) {
-            // Edit existing
             const item = this.data.dates.find(d => d.id === this.data.selectedDateId);
             if (item) {
                 item.title = title;
                 item.date = dateStr;
-                item.isAnnual = isAnnual;
+                item.recurrence = recurrence;
             }
             this.data._editingNow = false;
             this.data.selectedDateId = null;
         } else {
-            // Add new
             const newDate = {
                 id: Date.now().toString(),
                 title,
                 date: dateStr,
-                isAnnual,
+                recurrence,
                 createdAt: new Date().toISOString()
             };
             this.data.dates.push(newDate);
@@ -325,29 +352,25 @@ window.app = {
         this.els.formTitle.textContent = 'Editar Evento';
         this.els.inputTitle.value = item.title;
         this.els.inputDate.value = item.date;
-        this.els.inputAnnual.checked = item.isAnnual || false;
+        this.els.inputRecurrence.value = item.recurrence || 'none';
         
         this.navigate('add');
     },
 
     deleteDate(id) {
-        if (confirm('¿Estás seguro de eliminar este recuerdo? No hay marcha atrás.')) {
+        if (confirm('¿Estás seguro de eliminar de raíz este recuerdo? No hay recuperación posible.')) {
             this.data.dates = this.data.dates.filter(d => d.id !== id);
             this.saveToStorage();
             if (this.data.selectedDateId === id) this.data.selectedDateId = null;
             if (this.data.currentView === 'detail') this.navigate('dashboard');
             this.renderDashboard();
         } else {
-            // User cancelled delete, reset the card's swipe styling if it exists
+            // Restore visual layout
             const card = document.querySelector(`.swipe-surface[data-id="${id}"]`);
             if (card) {
                 card.style.transform = `translateX(0px)`;
             }
         }
-    },
-
-    deleteCurrentDate() {
-        if (this.data.selectedDateId) this.deleteDate(this.data.selectedDateId);
     },
 
     renderDashboard() {
@@ -364,9 +387,13 @@ window.app = {
         this.els.emptyState.classList.add('hidden');
         this.els.datesList.innerHTML = '';
 
+        const badgeText = { 'daily': 'DÍAS', 'weekly': 'SEMANAS', 'monthly': 'MESES', 'semestral': 'CICLOS', 'annual': 'AÑOS' };
+        const labelText = { 'daily': 'DIARIO', 'weekly': 'SEMANAL', 'monthly': 'MENSUAL', 'semestral': 'SEMESTRAL', 'annual': 'ANUAL' };
+
         this.data.dates.forEach(item => {
-            const timeData = this.parseDateInfo(item.date, item.isAnnual);
-            const formattedDate = dayjs(item.date).format('D [de] MMMM YYYY');
+            const timeData = this.parseDateInfo(item.date, item.recurrence || 'none');
+            const formattedDate = dayjs(item.date).format('D MMM YYYY');
+            const isRecurrent = item.recurrence !== 'none';
             
             const cardOuter = document.createElement('div');
             cardOuter.className = 'swipe-card-wrapper';
@@ -381,22 +408,30 @@ window.app = {
             const cardInner = document.createElement('div');
             cardInner.className = 'swipe-surface p-5 flex items-center justify-between cursor-pointer';
             cardInner.dataset.id = item.id;
+            // Native smooth click handling
+            cardInner.onclick = () => {
+                this.data.selectedDateId = item.id;
+                this.navigate('detail');
+            };
             
-            const bgBadge = (timeData.isFuture && !item.isAnnual) ? 'bg-blue-50 border-blue-100 text-blue-500' : 'bg-rose-50 border-rose-100 text-rose-500';
-            const textBadge = (timeData.isFuture && !item.isAnnual) ? 'text-blue-300' : 'text-rose-300';
+            const bgBadge = (timeData.isFuture && !isRecurrent) ? 'bg-blue-50 border-blue-100 text-blue-500' : 'bg-rose-50 border-rose-100 text-rose-500';
+            const textBadgeColor = (timeData.isFuture && !isRecurrent) ? 'text-blue-300' : 'text-rose-300';
+            
+            let badgeTextRender = isRecurrent ? badgeText[item.recurrence] : 'AÑOS';
+            let labelTag = isRecurrent ? `<span class="px-1.5 py-0.5 rounded-[4px] bg-slate-100 text-slate-500 font-bold text-[9px] uppercase tracking-wider ml-2">${labelText[item.recurrence]}</span>` : '';
 
             cardInner.innerHTML = `
                 <div class="pr-2 pointer-events-none">
-                    <h3 class="text-lg font-bold text-slate-800 tracking-tight leading-tight mb-1">${item.title}</h3>
-                    <p class="text-[13px] font-medium text-slate-400 flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <h3 class="text-[17px] font-bold text-slate-800 tracking-tight leading-tight mb-1.5 line-clamp-2">${item.title}</h3>
+                    <p class="text-[13px] font-medium text-slate-400 flex items-center">
+                        <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         ${formattedDate} 
-                        ${item.isAnnual ? '<span class="px-1.5 py-0.5 rounded-sm bg-slate-100 text-slate-500 font-bold text-[9px] uppercase tracking-wider ml-1">Anual</span>' : ''}
+                        ${labelTag}
                     </p>
                 </div>
-                <div class="text-right flex-shrink-0 border py-2 px-3 rounded-xl pointer-events-none ${bgBadge}">
-                    <span class="text-2xl font-black tracking-tighter block leading-none">${timeData.years}</span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest mt-1 block ${textBadge}">Años</span>
+                <div class="text-right flex-shrink-0 border py-2.5 px-3.5 rounded-[14px] pointer-events-none ${bgBadge}">
+                    <span class="text-[1.7rem] font-black tracking-tighter block leading-none">${timeData.years}</span>
+                    <span class="text-[9px] font-bold uppercase tracking-widest mt-1 block ${textBadgeColor}">${badgeTextRender}</span>
                 </div>
             `;
             
@@ -406,15 +441,8 @@ window.app = {
         });
     },
 
-    // Swipe UI Handlers
     initSwipeLogic() {
-        this.swipeState = {
-            startX: 0,
-            currentX: 0,
-            targetCard: null,
-            threshold: 90
-        };
-
+        this.swipeState = { startX: 0, currentX: 0, targetCard: null, threshold: 90 };
         const list = document.getElementById('dates-list');
         if (!list) return;
 
@@ -428,15 +456,15 @@ window.app = {
 
         list.addEventListener('touchmove', e => {
             if (!this.swipeState.targetCard) return;
-            // Allow some vertical scrolling but capture horizontal
-            this.swipeState.currentX = e.touches[0].clientX - this.swipeState.startX;
+            let currentClientX = e.touches[0].clientX;
+            let diffX = currentClientX - this.swipeState.startX;
             
-            if (Math.abs(this.swipeState.currentX) > 15) {
-                // visually constrain movement
-                let x = this.swipeState.currentX;
+            if (Math.abs(diffX) > 10) {
+                this.swipeState.currentX = diffX;
+                let x = diffX;
+                // Elastic effect
                 if (x > 120) x = 120 + (x - 120) * 0.2; 
                 if (x < -120) x = -120 + (x + 120) * 0.2;
-                
                 this.swipeState.targetCard.style.transform = `translateX(${x}px)`;
             }
         }, {passive: true});
@@ -449,25 +477,23 @@ window.app = {
             const id = surface.dataset.id;
             
             if (x > this.swipeState.threshold) {
-                // Swipe Right -> Edit
+                // Edit (Swiped completely Right to unveil left action)
                 surface.style.transform = `translateX(100%)`;
-                setTimeout(() => this.editDate(id), 200);
+                setTimeout(() => {
+                    surface.style.transform = `translateX(0px)`;
+                    this.editDate(id);
+                }, 200);
             } else if (x < -this.swipeState.threshold) {
-                // Swipe Left -> Delete
+                // Delete
                 surface.style.transform = `translateX(-100%)`;
                 setTimeout(() => this.deleteDate(id), 200);
             } else {
-                // Snap back / Simple Click logic
                 surface.style.transform = `translateX(0px)`;
-                if (Math.abs(x) < 5) {
-                    // Treat as click
-                    window.app.data.selectedDateId = id;
-                    window.app.navigate('detail');
-                }
             }
             
             this.swipeState.targetCard = null;
             this.swipeState.currentX = 0;
+            this.swipeState.startX = 0;
         });
     },
 
@@ -486,39 +512,36 @@ window.app = {
             return;
         }
 
-        // Check DOM integrity to prevent exception
         if (!this.els.detailSubtitle || !this.els.detailCounter) return;
 
         this.els.headerTitle.textContent = item.title;
         this.els.detailHeaderDate.textContent = item.title;
         
-        const info = this.parseDateInfo(item.date, item.isAnnual);
-        const isFutureOverall = info.isFuture;
-
+        const info = this.parseDateInfo(item.date, item.recurrence || 'none');
+        // If it's recurrent, we consider it a FUTURE countdown to the next occurrence. Wait, is it?
+        // Let's track exact mathematical time difference to the NEXT target.
+        const isFutureOverall = info.isFuture; 
+        
+        // Colors & Words
         if (isFutureOverall) {
-            this.els.detailSubtitle.textContent = "Faltan exactamente";
-            this.els.detailCardBlob.classList.remove('bg-slate-100');
-            this.els.detailCardBlob.classList.add('bg-blue-100');
-            this.els.detailSubtitle.classList.remove('text-rose-500');
-            this.els.detailSubtitle.classList.add('text-blue-500');
-            this.els.detailExactPrefix.textContent = "Faltan un asombroso total de";
-            this.els.detailExactSuffix.textContent = "para ese día.";
+            this.els.detailSubtitle.textContent = item.recurrence !== 'none' ? "Próxima ocurrencia en" : "Faltan exactamente";
+            this.els.detailCardBlob.classList.replace('bg-slate-100', 'bg-blue-100');
+            this.els.detailSubtitle.classList.replace('text-rose-500', 'text-blue-500');
+            this.els.detailExactPrefix.textContent = "Magia: Faltan";
+            this.els.detailExactSuffix.textContent = "para esa fecha asombrosa.";
         } else {
-            this.els.detailSubtitle.textContent = "Ya han pasado";
-            this.els.detailCardBlob.classList.remove('bg-blue-100');
-            this.els.detailCardBlob.classList.add('bg-slate-100');
-            this.els.detailSubtitle.classList.remove('text-blue-500');
-            this.els.detailSubtitle.classList.add('text-rose-500');
-            this.els.detailExactPrefix.textContent = "Han pasado un asombroso total de";
-            this.els.detailExactSuffix.textContent = "desde ese día.";
+            this.els.detailSubtitle.textContent = "Ya han volado";
+            this.els.detailCardBlob.classList.replace('bg-blue-100', 'bg-slate-100');
+            this.els.detailSubtitle.classList.replace('text-blue-500', 'text-rose-500');
+            this.els.detailExactPrefix.textContent = "Precisión: Pasaron";
+            this.els.detailExactSuffix.textContent = "desde ese instante inolvidable.";
         }
 
         const updateCounter = () => {
             const now = dayjs();
-            const eventTime = dayjs(info.origDate);
+            const eventTime = isFutureOverall && item.recurrence !== 'none' ? info.nextDate : dayjs(info.origDate);
             const isFut = eventTime.isAfter(now);
             
-            // Total Big Number calculation
             const a = isFut ? eventTime : now;
             const b = isFut ? now : eventTime;
             
@@ -534,7 +557,7 @@ window.app = {
             }
             this.els.detailCounter.textContent = total.toLocaleString('es-ES');
 
-            // Exact String Math Logic accurately calculating down to seconds without errors
+            // Exact Absolute Time Array down to second
             let start = b;
             let end = a;
             
@@ -554,11 +577,12 @@ window.app = {
             if (exactYears > 0) parts.push(`${exactYears} ${exactYears === 1 ? 'año' : 'años'}`);
             if (exactMonths > 0) parts.push(`${exactMonths} ${exactMonths === 1 ? 'mes' : 'meses'}`);
             if (exactDays > 0) parts.push(`${exactDays} ${exactDays === 1 ? 'días' : 'días'}`);
-            if (exactHours > 0) parts.push(`${exactHours} ${exactHours === 1 ? 'hora' : 'horas'}`);
-            if (exactMinutes > 0) parts.push(`${exactMinutes} ${exactMinutes === 1 ? 'minuto' : 'minutos'}`);
-            if (parts.length > 0 || exactSeconds > 0) parts.push(`${exactSeconds} ${exactSeconds === 1 ? 'segundo' : 'segundos'}`);
-            
-            if (parts.length === 0) parts.push("0 segundos");
+            if (exactHours > 0) parts.push(`${exactHours} ${exactHours === 1 ? 'hora' : 'h'}`);
+            if (exactMinutes > 0) parts.push(`${exactMinutes} ${exactMinutes === 1 ? 'min' : 'min'}`);
+            if (parts.length > 0 || exactSeconds >= 0) {
+                // Always push seconds so the UI breathes
+                parts.push(`${exactSeconds} ${exactSeconds === 1 ? 'segundo' : 'segundos'}`);
+            }
 
             let exactStr = "";
             if (parts.length > 1) {
@@ -569,23 +593,18 @@ window.app = {
             }
             this.els.detailExactTime.textContent = exactStr;
 
-            // Handle Annual Next Occurrence Box
-            if (item.isAnnual && !isFutureOverall) {
+            // Handle Recurring Warning Box
+            if (item.recurrence !== 'none') {
                 this.els.detailNextBox.classList.remove('hidden');
-                let nextAn = dayjs(item.date).year(now.year());
-                if (nextAn.isBefore(now, 'day')) {
-                    nextAn = nextAn.add(1, 'year');
-                }
-                const missingDays = nextAn.diff(now.startOf('day'), 'day');
-                this.els.detailNextDays.textContent = `${missingDays} ${missingDays === 1 ? 'día' : 'días'}`;
+                const missingDays = info.nextDate.diff(now.startOf('day'), 'day');
+                this.els.detailNextDays.textContent = `${missingDays} ${missingDays === 1 ? 'día libre' : 'días libres'}`;
             } else {
                 this.els.detailNextBox.classList.add('hidden');
             }
 
-            // Whatsapp Msg Prep
+            // Whatsapp Prep
             const verbPrefix = isFutureOverall ? "Falta" : "Han pasado";
-            const verbSec = isFutureOverall ? "para" : "desde";
-            const preMessage = `${verbPrefix} exactamente la friolera suma de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} (${exactStr}) ${verbSec} ${item.title}... ¡Qué locura cómo pasa el tiempo! 🤯❤️`;
+            const preMessage = `${verbPrefix} exactamente la friolera suma de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} (${exactStr}) para ${item.title}... ¡Qué locura cómo pasa el reloj! 🤯❤️`;
             
             if (!this.els.whatsappMessage.dataset.userEdited) {
                 this.els.whatsappMessage.value = preMessage;
@@ -610,40 +629,23 @@ window.app = {
         const item = this.data.dates.find(d => d.id === this.data.selectedDateId);
         if (!item) return;
 
-        const now = dayjs();
-        let evTime = dayjs(item.date);
-        
-        if (item.isAnnual) {
-            evTime = evTime.year(now.year());
-            if (evTime.isBefore(now, 'day')) {
-                evTime = evTime.add(1, 'year');
-            }
-        }
-
+        const info = this.parseDateInfo(item.date, item.recurrence || 'none');
+        const evTime = info.nextDate; // The real next notification
         const fmt = (d) => d.format('YYYYMMDDTHHmmss');
+        
         const icsData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Tikk PWA//ES
 BEGIN:VEVENT
 UID:${item.id}-${Date.now()}@tikk.cl
-DTSTAMP:${fmt(now)}Z
+DTSTAMP:${fmt(dayjs())}Z
 DTSTART:${fmt(evTime)}Z
 DTEND:${fmt(evTime.add(1,'hour'))}Z
 SUMMARY:${item.title}
-DESCRIPTION:¡Registrado en Tikk PWA!
+DESCRIPTION:¡Notificación inteligente de Tikk PWA!
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:1 Mes para ${item.title}
-TRIGGER:-P4W
-END:VALARM
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:1 Semana para ${item.title}
-TRIGGER:-P1W
-END:VALARM
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:Mañana es ${item.title}
+DESCRIPTION:¡Pronto es ${item.title}!
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
@@ -656,10 +658,10 @@ END:VCALENDAR`;
                 await navigator.share({
                     files: [file],
                     title: `Tikk: ${item.title}`,
-                    text: 'Agrega estas notificaciones inteligentes a tu calendario.'
+                    text: 'Guárdalo en tu calendario seguro.'
                 });
             } else {
-                // Fallback Download for Desktop
+                // Fallback direct
                 const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
@@ -669,8 +671,56 @@ END:VCALENDAR`;
                 document.body.removeChild(link);
             }
         } catch(e) {
-            console.log('User cancelled share or download failed', e);
+            console.log('Cancelled', e);
         }
+    },
+
+    // Inspiracion Geolocation Magic
+    acquireLocation() {
+        if (!navigator.geolocation) {
+            alert('Tu navegador no soporta geolocalización.');
+            return;
+        }
+
+        const btn = document.querySelector('#geo-prompt-box button');
+        const originalText = btn.textContent;
+        btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Buscando satélites...`;
+        
+        navigator.geolocation.getCurrentPosition((pos) => {
+            this.data.coords = {
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude
+            };
+            this.els.geoPromptBox.classList.add('hidden');
+            this.generateInspirationCards();
+        }, (err) => {
+            alert('Necesitamos permiso de ubicación para sugerirte lugares exóticos cerca.');
+            btn.textContent = originalText;
+        });
+    },
+
+    generateInspirationCards() {
+        if (!this.data.coords) return;
+        this.els.inspirationGrid.classList.remove('hidden');
+        this.els.inspirationGrid.innerHTML = '';
+        
+        const terms = [
+            { t: "Restaurantes Románticos", ic: "🍽️", bg: "bg-rose-50" },
+            { t: "Parques y Naturaleza", ic: "🌳", bg: "bg-green-50" },
+            { t: "Tiendas Cerca", ic: "🛍️", bg: "bg-blue-50" },
+            { t: "Cafeterías Locales", ic: "☕", bg: "bg-orange-50" },
+            { t: "Actividades Divertidas", ic: "🎳", bg: "bg-purple-50" },
+            { t: "Cines o Teatros", ic: "🎟️", bg: "bg-red-50" }
+        ];
+
+        terms.forEach(c => {
+            const url = `https://www.google.com/maps/search/${encodeURIComponent(c.t)}/@${this.data.coords.lat},${this.data.coords.lng},14z/data=!3m1!4b1!4m2!2m1!6e5`;
+            const card = `<a href="${url}" target="_blank" class="${c.bg} rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-sm hover:scale-105 active:scale-95 transition-all text-decoration-none">
+                <span class="text-3xl mb-3 drop-shadow-sm">${c.ic}</span>
+                <span class="text-sm font-bold text-slate-700 leading-tight">${c.t}</span>
+            </a>`;
+            this.els.inspirationGrid.innerHTML += card;
+        });
     }
 };
 
