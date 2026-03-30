@@ -1,5 +1,5 @@
 /**
- * Tikk v4.0 PWA (Rappi-Style Memory Catalog)
+ * Tikk v4.5 PWA (Pro Edition - Dark Mode, AI Generators)
  */
 
 window.app = {
@@ -10,7 +10,8 @@ window.app = {
         intervalId: null,
         onboardingSlide: 0,
         detailUnit: 'minutos',
-        coords: null
+        coords: null,
+        msgStyleIndex: 0
     },
 
     onboardingData: [
@@ -27,6 +28,7 @@ window.app = {
     ],
 
     init() {
+        this.initTheme();
         this.loadData();
         this.cacheDOM();
         this.bindEvents();
@@ -39,6 +41,28 @@ window.app = {
             this.renderOnboarding();
         } else {
             this.navigate('dashboard');
+        }
+    },
+
+    initTheme() {
+        const storedTheme = localStorage.getItem('tikk_theme');
+        const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (storedTheme === 'dark' || (!storedTheme && userPrefersDark)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    },
+
+    toggleTheme() {
+        const html = document.documentElement;
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            localStorage.setItem('tikk_theme', 'light');
+        } else {
+            html.classList.add('dark');
+            localStorage.setItem('tikk_theme', 'dark');
         }
     },
 
@@ -61,7 +85,6 @@ window.app = {
             btnBack: document.getElementById('btn-back'),
             navBtns: document.querySelectorAll('.nav-btn'),
 
-            // Form
             formAdd: document.getElementById('form-add'),
             formTitle: document.getElementById('form-add-title'),
             inputTitle: document.getElementById('input-title'),
@@ -71,7 +94,6 @@ window.app = {
             inputEmoji: document.getElementById('input-emoji'),
             inputAnecdote: document.getElementById('input-anecdote'),
             
-            // Detail
             detailSubtitle: document.getElementById('detail-subtitle'),
             detailHeaderDate: document.getElementById('detail-header-date'),
             detailCounter: document.getElementById('detail-counter'),
@@ -83,19 +105,16 @@ window.app = {
             detailNextBox: document.getElementById('detail-next-box'),
             detailNextDays: document.getElementById('detail-next-days'),
             whatsappMessage: document.getElementById('whatsapp-message'),
-            detailCardBlob: document.getElementById('detail-card-blob'),
             detailEmojiBox: document.getElementById('detail-emoji-box'),
             detailEmoji: document.getElementById('detail-emoji'),
             detailAnecdoteBox: document.getElementById('detail-anecdote-box'),
             detailAnecdoteText: document.getElementById('detail-anecdote-text'),
 
-            // Onboarding 
             onboardingTitle: document.getElementById('onboarding-title'),
             onboardingText: document.getElementById('onboarding-text'),
             onboardingIcon: document.getElementById('onboarding-icon'),
             onboardingBtn: document.getElementById('onboarding-btn'),
 
-            // Inspiration
             geoPromptBox: document.getElementById('geo-prompt-box'),
             inspirationGrid: document.getElementById('inspiration-grid')
         };
@@ -111,37 +130,21 @@ window.app = {
         
         if(this.els.inputCategory) {
             this.els.inputCategory.addEventListener('change', () => {
-                const em = { 'amor': '❤️', 'salud': '💊', 'mascota': '🐶', 'trabajo': '💼', 'personal': '✨' };
+                const em = { 'amor': '❤️', 'salud': '💊', 'mascota': '🐶', 'trabajo': '💼', 'personal': '✨', 'custom': '⭐' };
                 if (!this.els.inputEmoji.value || Object.values(em).includes(this.els.inputEmoji.value)) {
-                    this.els.inputEmoji.value = em[this.els.inputCategory.value] || '✨';
+                    this.els.inputEmoji.value = em[this.els.inputCategory.value] || '⭐';
                 }
             });
         }
     },
 
     loadData() {
-        const stored = localStorage.getItem('tikk_dates_v4'); // Complete fresh start avoids legacy collisions
+        const stored = localStorage.getItem('tikk_dates_v4');
         if (stored) {
             try {
                 this.data.dates = JSON.parse(stored);
             } catch (e) {
                 this.data.dates = [];
-            }
-        } else {
-            // Attempt migrate
-            const old = localStorage.getItem('tikk_dates_v2');
-            if(old) {
-                try {
-                    let oldD = JSON.parse(old);
-                    this.data.dates = oldD.map(d => ({
-                        ...d,
-                        recurrence: d.recurrence || (d.isAnnual ? 'annual' : 'none'),
-                        category: 'personal',
-                        emoji: '✨',
-                        anecdote: ''
-                    }));
-                    this.saveToStorage();
-                } catch(e) {}
             }
         }
     },
@@ -190,7 +193,7 @@ window.app = {
                     if (i === this.data.onboardingSlide) {
                         dot.className = "h-2 w-8 rounded-full bg-brand-500 transition-all duration-300";
                     } else {
-                        dot.className = "h-2 w-2 rounded-full bg-brand-100 transition-all duration-300";
+                        dot.className = "h-2 w-2 rounded-full bg-slate-200 dark:bg-slate-700 transition-all duration-300";
                     }
                 }
             }
@@ -208,17 +211,19 @@ window.app = {
         if (viewName === 'onboarding') {
             if(this.els.mainHeader) this.els.mainHeader.style.display = 'none';
             if(this.els.mainNav) this.els.mainNav.style.display = 'none';
-            if(this.els.globalFab) this.els.globalFab.style.display = 'none';
+            if(this.els.globalFab) this.els.globalFab.style.opacity = '0';
+            if(this.els.globalFab) this.els.globalFab.style.pointerEvents = 'none';
         } else {
             if(this.els.mainHeader) this.els.mainHeader.style.display = 'flex';
             if(this.els.mainNav) this.els.mainNav.style.display = 'block';
             
-            // Hide FAB in detail and text-heavy views
             if(this.els.globalFab) {
                 if (['dashboard', 'catalog'].includes(viewName)) {
-                    this.els.globalFab.style.display = 'flex';
+                    this.els.globalFab.style.opacity = '1';
+                    this.els.globalFab.style.pointerEvents = 'auto';
                 } else {
-                    this.els.globalFab.style.display = 'none';
+                    this.els.globalFab.style.opacity = '0';
+                    this.els.globalFab.style.pointerEvents = 'none';
                 }
             }
             
@@ -230,7 +235,7 @@ window.app = {
                 if(this.els.headerTitle) {
                     if (viewName === 'dashboard') this.els.headerTitle.textContent = 'Tikk';
                     if (viewName === 'catalog') this.els.headerTitle.textContent = 'Plantillas';
-                    if (viewName === 'inspiration') this.els.headerTitle.textContent = 'Inspiración';
+                    if (viewName === 'inspiration') this.els.headerTitle.textContent = 'Explorar';
                 }
             } else {
                 if(this.els.btnBack) {
@@ -245,7 +250,7 @@ window.app = {
                     if(!this.data._usingTemplate) {
                         this.els.formAdd.reset();
                         this.els.formTitle.textContent = 'Nueva Ficha';
-                        this.els.inputEmoji.value = '✨';
+                        this.els.inputEmoji.value = '⭐';
                     }
                     this.data._usingTemplate = false;
                 }
@@ -279,10 +284,10 @@ window.app = {
         this.els.navBtns.forEach(btn => {
             if (btn.dataset.target === viewName) {
                 btn.classList.add('text-brand-500');
-                btn.classList.remove('text-slate-400');
+                btn.classList.remove('text-slate-400', 'dark:text-slate-500');
             } else {
                 btn.classList.remove('text-brand-500');
-                btn.classList.add('text-slate-400');
+                btn.classList.add('text-slate-400', 'dark:text-slate-500');
             }
         });
 
@@ -312,12 +317,13 @@ window.app = {
         let origDate = dayjs(dateStr);
         let now = dayjs();
 
+        const isFutureOrig = origDate.isAfter(now);
+        const yearsOrigin = Math.abs(isFutureOrig ? origDate.diff(now, 'year') : now.diff(origDate, 'year'));
+
         if (recurrence === 'none') {
-            const isFuture = origDate.isAfter(now);
-            const years = Math.abs(isFuture ? origDate.diff(now, 'year') : now.diff(origDate, 'year'));
             return {
-                isFuture,
-                years,
+                isFuture: isFutureOrig,
+                years: yearsOrigin,
                 nextDate: origDate,
                 origDate
             };
@@ -334,8 +340,8 @@ window.app = {
                 }
             }
             return {
-                isFuture: true, 
-                years: recurrence === 'annual' ? next.diff(origDate, 'year') : next.diff(origDate, 'month'), 
+                isFuture: isFutureOrig, // Origin is the core identity
+                years: recurrence === 'annual' ? Math.abs(now.diff(origDate, 'year')) : Math.abs(now.diff(origDate, 'month')), 
                 nextDate: next,
                 origDate
             };
@@ -347,7 +353,7 @@ window.app = {
         const dateStr = this.els.inputDate.value;
         const recurrence = this.els.inputRecurrence.value;
         const cat = this.els.inputCategory.value;
-        const emoj = this.els.inputEmoji.value.trim() || '✨';
+        const emoj = this.els.inputEmoji.value.trim() || '⭐';
         const anecdote = this.els.inputAnecdote.value.trim();
 
         if (!title || !dateStr) {
@@ -399,15 +405,15 @@ window.app = {
         this.els.inputTitle.value = item.title;
         this.els.inputDate.value = item.date;
         this.els.inputRecurrence.value = item.recurrence || 'none';
-        this.els.inputCategory.value = item.category || 'personal';
-        this.els.inputEmoji.value = item.emoji || '✨';
+        this.els.inputCategory.value = item.category || 'custom';
+        this.els.inputEmoji.value = item.emoji || '⭐';
         this.els.inputAnecdote.value = item.anecdote || '';
         
         this.navigate('add');
     },
 
     deleteDate(id) {
-        if (confirm('¿Estás seguro de destrozar este recuerdo brillante? No podrás recuperarlo.')) {
+        if (confirm('¿Extirpar por completo este recuerdo de la línea temporal?')) {
             this.data.dates = this.data.dates.filter(d => d.id !== id);
             this.saveToStorage();
             if (this.data.selectedDateId === id) this.data.selectedDateId = null;
@@ -441,7 +447,7 @@ window.app = {
             const timeData = this.parseDateMath(item.date, item.recurrence || 'none');
             const formattedDate = dayjs(item.date).format('D MMM YYYY');
             const isRecurrent = item.recurrence !== 'none';
-            const cat = item.category || 'personal';
+            const cat = item.category || 'custom';
             
             const cardOuter = document.createElement('div');
             cardOuter.className = 'swipe-card-wrapper';
@@ -454,7 +460,7 @@ window.app = {
             `;
             
             const cardInner = document.createElement('div');
-            cardInner.className = `swipe-surface flex items-center p-4 cursor-pointer cat-${cat}`;
+            cardInner.className = `swipe-surface flex items-center justify-between p-4 cursor-pointer cat-${cat}`;
             cardInner.dataset.id = item.id;
             
             cardInner.onclick = (e) => {
@@ -465,21 +471,22 @@ window.app = {
             let badgeWord = isRecurrent ? badgeText[item.recurrence] : 'AÑOS';
 
             cardInner.innerHTML = `
-                <div class="w-14 h-14 flex-shrink-0 bg-white/70 rounded-[1.2rem] flex flex-col items-center justify-center border font-bold text-center pointer-events-none mr-4">
-                    <span class="text-2xl">${item.emoji || '✨'}</span>
+                <div class="flex items-center min-w-0 pr-2 pointer-events-none">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 bg-white/70 dark:bg-black/20 rounded-[1.2rem] flex flex-col items-center justify-center border border-white/40 dark:border-black/10 font-bold text-center mr-4">
+                        <span class="text-2xl">${item.emoji || '⭐'}</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="text-[16px] font-bold tracking-tight leading-tight mb-1 truncate">${item.title}</h3>
+                        <p class="text-[12px] font-semibold opacity-70 flex items-center line-clamp-1">
+                            ${formattedDate} 
+                            ${item.anecdote ? ' • 💭' : ''}
+                        </p>
+                    </div>
                 </div>
                 
-                <div class="flex-1 min-w-0 pointer-events-none">
-                    <h3 class="text-[16px] font-bold tracking-tight leading-tight mb-1 truncate mix-blend-multiply">${item.title}</h3>
-                    <p class="text-[12px] font-semibold opacity-60 flex items-center line-clamp-1">
-                        ${formattedDate} 
-                        ${item.anecdote ? ' • 💭' : ''}
-                    </p>
-                </div>
-                
-                <div class="text-right flex-shrink-0 ml-3 bg-white/50 backdrop-blur-sm py-2 px-3 rounded-[1rem] pointer-events-none min-w-[60px]">
-                    <span class="text-xl font-black tracking-tighter block leading-none mix-blend-multiply">${timeData.years}</span>
-                    <span class="text-[8px] font-black uppercase tracking-widest mt-0.5 block opacity-60">${badgeWord}</span>
+                <div class="text-right flex-shrink-0 ml-3 bg-white/60 dark:bg-black/20 backdrop-blur-sm py-2 px-3 rounded-[1rem] pointer-events-none min-w-[60px] border border-white/20 dark:border-black/10">
+                    <span class="text-xl font-black tracking-tighter block leading-none">${timeData.years}</span>
+                    <span class="text-[8px] font-black uppercase tracking-widest mt-0.5 block opacity-70">${badgeWord}</span>
                 </div>
             `;
             
@@ -548,6 +555,12 @@ window.app = {
         if(this.forceDetailCounterUpdate) this.forceDetailCounterUpdate();
     },
 
+    // Generative AI local replacements
+    regenerateMessage() {
+        this.data.msgStyleIndex++;
+        if(this.forceDetailCounterUpdate) this.forceDetailCounterUpdate(true);
+    },
+
     forceDetailCounterUpdate: null,
 
     startDetailCounter() {
@@ -561,17 +574,27 @@ window.app = {
 
         this.els.headerTitle.textContent = "Detalle";
         this.els.detailHeaderDate.textContent = item.title;
-        this.els.detailEmoji.textContent = item.emoji || '✨';
+        this.els.detailEmoji.textContent = item.emoji || '⭐';
         
-        let c = item.category || 'personal';
-        const colors = {
-            amor: 'text-brand-500 bg-brand-50',
-            salud: 'text-green-500 bg-green-50',
-            trabajo: 'text-blue-500 bg-blue-50',
-            personal: 'text-orange-500 bg-orange-50',
-            mascota: 'text-purple-500 bg-purple-50'
+        let c = item.category || 'custom';
+        const colors_light = {
+            amor: 'text-brand-500 bg-brand-50 border-white',
+            salud: 'text-green-500 bg-green-50 border-white',
+            trabajo: 'text-blue-500 bg-blue-50 border-white',
+            personal: 'text-orange-500 bg-orange-50 border-white',
+            mascota: 'text-purple-500 bg-purple-50 border-white',
+            custom: 'text-slate-600 bg-slate-100 border-white'
         };
-        this.els.detailEmojiBox.className = `w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-sm mb-4 border-4 border-white z-10 ${colors[c] || colors.personal}`;
+        const colors_dark = {
+            amor: 'dark:text-brand-400 dark:bg-red-950/30 dark:border-slate-900',
+            salud: 'dark:text-green-400 dark:bg-green-950/30 dark:border-slate-900',
+            trabajo: 'dark:text-blue-400 dark:bg-blue-950/30 dark:border-slate-900',
+            personal: 'dark:text-orange-400 dark:bg-orange-950/30 dark:border-slate-900',
+            mascota: 'dark:text-purple-400 dark:bg-purple-950/30 dark:border-slate-900',
+            custom: 'dark:text-slate-300 dark:bg-slate-800 dark:border-slate-900'
+        };
+
+        this.els.detailEmojiBox.className = `w-20 h-20 rounded-[2rem] flex items-center justify-center text-4xl shadow-sm mb-4 border-4 z-10 ${colors_light[c] || colors_light.custom} ${colors_dark[c] || colors_dark.custom}`;
 
         if (item.anecdote && item.anecdote.trim() !== '') {
             this.els.detailAnecdoteBox.classList.remove('hidden');
@@ -582,25 +605,26 @@ window.app = {
         }
 
         const info = this.parseDateMath(item.date, item.recurrence || 'none');
-        const isFutureOverall = info.isFuture; 
         
-        if (isFutureOverall) {
-            this.els.detailSubtitle.textContent = item.recurrence !== 'none' ? "Cuenta regresiva" : "Falta poco";
-            this.els.detailExactPrefix.textContent = "Exactamente:";
-            this.els.detailExactSuffix.textContent = "";
+        // BIG COUNTER: ALWAYS the difference to the ORIGIN date.
+        // It's the only way to say "Tengo 25 años de edad" or "Fideo lleva 10 meses con nosotros".
+        const isFutureOrigin = info.isFuture;
+        
+        if (isFutureOrigin) {
+            this.els.detailSubtitle.textContent = "Cuenta regresiva histórica";
+            this.els.detailExactPrefix.textContent = "Faltan:";
+            this.els.detailExactSuffix.textContent = "para el gran día.";
         } else {
-            this.els.detailSubtitle.textContent = "Tiempo compartido";
-            this.els.detailExactPrefix.textContent = "Exactamente:";
+            this.els.detailSubtitle.textContent = item.recurrence !== 'none' ? "Edad / Tiempo transcurrido" : "Tiempo histórico";
+            this.els.detailExactPrefix.textContent = "Resumen de vida:";
             this.els.detailExactSuffix.textContent = "";
         }
 
-        const updateCounter = () => {
+        const updateCounter = (forceRegenMessage = false) => {
             const now = dayjs();
-            const eventTime = isFutureOverall && item.recurrence !== 'none' ? info.nextDate : dayjs(info.origDate);
-            const isFut = eventTime.isAfter(now);
-            
-            const a = isFut ? eventTime : now;
-            const b = isFut ? now : eventTime;
+            const origEvent = dayjs(info.origDate);
+            const a = isFutureOrigin ? origEvent : now;
+            const b = isFutureOrigin ? now : origEvent;
             
             let total = 0;
             switch(this.data.detailUnit) {
@@ -617,23 +641,18 @@ window.app = {
             let start = b;
             let end = a;
             
-            let exactYears = end.diff(start, 'year');
-            start = start.add(exactYears, 'year');
-            let exactMonths = end.diff(start, 'month');
-            start = start.add(exactMonths, 'month');
-            let exactDays = end.diff(start, 'day');
-            start = start.add(exactDays, 'day');
-            let exactHours = end.diff(start, 'hour');
-            start = start.add(exactHours, 'hour');
-            let exactMinutes = end.diff(start, 'minute');
-            start = start.add(exactMinutes, 'minute');
+            let exactYears = end.diff(start, 'year'); start = start.add(exactYears, 'year');
+            let exactMonths = end.diff(start, 'month'); start = start.add(exactMonths, 'month');
+            let exactDays = end.diff(start, 'day'); start = start.add(exactDays, 'day');
+            let exactHours = end.diff(start, 'hour'); start = start.add(exactHours, 'hour');
+            let exactMinutes = end.diff(start, 'minute'); start = start.add(exactMinutes, 'minute');
             let exactSeconds = end.diff(start, 'second');
 
             let parts = [];
             if (exactYears > 0) parts.push(`${exactYears} ${exactYears === 1 ? 'año' : 'años'}`);
-            if (exactMonths > 0) parts.push(`${exactMonths} ${exactMonths === 1 ? 'm' : 'meses'}`);
+            if (exactMonths > 0) parts.push(`${exactMonths} ${exactMonths === 1 ? 'mes' : 'meses'}`);
             if (exactDays > 0) parts.push(`${exactDays} ${exactDays === 1 ? 'día' : 'días'}`);
-            if (exactHours > 0) parts.push(`${exactHours} ${exactHours === 1 ? 'h' : 'hrs'}`);
+            if (exactHours > 0) parts.push(`${exactHours} ${exactHours === 1 ? 'hr' : 'hrs'}`);
             if (exactMinutes > 0) parts.push(`${exactMinutes} ${exactMinutes === 1 ? 'min' : 'mins'}`);
             if (parts.length > 0 || exactSeconds >= 0) {
                 parts.push(`${exactSeconds}s`);
@@ -648,29 +667,49 @@ window.app = {
             }
             this.els.detailExactTime.textContent = exactStr;
 
+            // Recurrent Extra Box (The Countdown)
             if (item.recurrence !== 'none') {
                 this.els.detailNextBox.classList.remove('hidden');
+                
+                // If it's recurrent, info.nextDate has the literal NEXT OCCURRENCE based on now.
                 const missingDays = info.nextDate.diff(now.startOf('day'), 'day');
                 
                 let nextTxt = "";
                 if (missingDays === 0) nextTxt = "¡Es hoy! 🎉";
-                else if (missingDays === 1) nextTxt = "Mañana";
-                else nextTxt = `en ${missingDays} días`;
+                else if (missingDays === 1) nextTxt = "Mañana ⏳";
+                else nextTxt = `en ${missingDays} d`;
                 
                 this.els.detailNextDays.textContent = nextTxt;
             } else {
                 this.els.detailNextBox.classList.add('hidden');
             }
 
-            let anecTxt = item.anecdote ? `\n\nPensaba en esto: "${item.anecdote}" ❤️ ¡Sorprendente!` : " ¡Sorprendente!";
-            
-            const preMessage = isFutureOverall 
-                ? `Falta la asombrosa cantidad de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} (${exactStr}) para ${item.title}.${anecTxt}`
-                : `Han pasado la asombrosa cantidad de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} (${exactStr}) desde ${item.title}.${anecTxt}`;
-            
-            if (!this.els.whatsappMessage.dataset.userEdited) {
-                this.els.whatsappMessage.value = preMessage;
+            // Generative Texts Logic
+            if (!this.els.whatsappMessage.dataset.userEdited || forceRegenMessage) {
+                let anecTxt = item.anecdote ? `\n\n💬 PD: "${item.anecdote}"` : "";
+                
+                const variationsPast = [
+                    `Qué locura. Ya han pasado ${total.toLocaleString('es-ES')} ${this.data.detailUnit} desde ${item.title}... cómo vuela el tiempo ✨ (Fueron exactamente ${exactStr}).${anecTxt} ${item.emoji}`,
+                    `Hoy pensaba en ${item.title}. Han volado ${exactStr} desde entonces. Qué increíble. ${item.emoji}${anecTxt}`,
+                    `Hace la asombrosa cantidad de ${total.toLocaleString('es-ES')} ${this.data.detailUnit} atrás celebramos ${item.title}. ¿Recuerdas? 🥹${anecTxt}`,
+                    `Dato de vida: Han pasado ${exactStr} desde ${item.title}. Se siente como si hubiera sido ayer. ${item.emoji}${anecTxt}`
+                ];
+
+                const variationsFuture = [
+                    `¡Ya no queda nada! Faltan ${total.toLocaleString('es-ES')} ${this.data.detailUnit} para ${item.title} 😱 (Exactamente ${exactStr}).${anecTxt} ${item.emoji}`,
+                    `El tiempo corre. Faltan ${exactStr} reloj para ${item.title}. Prepárate 🚀${anecTxt}`,
+                    `⏳ Cuenta regresiva: Solo nos separan ${total.toLocaleString('es-ES')} ${this.data.detailUnit} de ${item.title}.${anecTxt} ${item.emoji}`
+                ];
+                
+                const arrayToUse = isFutureOrigin ? variationsFuture : variationsPast;
+                const index = this.data.msgStyleIndex % arrayToUse.length;
+                this.els.whatsappMessage.value = arrayToUse[index];
+                
+                if(forceRegenMessage) {
+                    this.els.whatsappMessage.dataset.userEdited = 'false';
+                }
             }
+            
             this.els.whatsappMessage.oninput = () => {
                 this.els.whatsappMessage.dataset.userEdited = 'true';
             };
@@ -678,7 +717,7 @@ window.app = {
 
         this.forceDetailCounterUpdate = updateCounter;
         updateCounter();
-        this.data.intervalId = setInterval(updateCounter, 1000); 
+        this.data.intervalId = setInterval(() => updateCounter(false), 1000); 
     },
 
     sendWhatsapp() {
@@ -770,12 +809,12 @@ END:VCALENDAR`;
         this.els.inspirationGrid.innerHTML = '';
         
         const terms = [
-            { t: "Cenas Románticas", ic: "🍽️", bg: "bg-rose-50 border-rose-100 text-rose-800" },
-            { t: "Aventuras al Aire Libre", ic: "🌳", bg: "bg-green-50 border-green-100 text-green-800" },
-            { t: "Tiendas Secretas", ic: "🛍️", bg: "bg-purple-50 border-purple-100 text-purple-800" },
-            { t: "Cafeterías Únicas", ic: "☕", bg: "bg-orange-50 border-orange-100 text-orange-800" },
-            { t: "Bares y Copas", ic: "", bg: "bg-slate-800 border-slate-700 text-white" },
-            { t: "Arte y Teatros", ic: "🎨", bg: "bg-brand-50 border-brand-100 text-brand-800" }
+            { t: "Cenas Románticas", ic: "🍽️", bg: "bg-rose-50 dark:bg-rose-950/30 border-rose-100 dark:border-rose-900/40 text-rose-800 dark:text-rose-400" },
+            { t: "Aventuras al Aire Libre", ic: "🌳", bg: "bg-green-50 dark:bg-green-950/30 border-green-100 dark:border-green-900/40 text-green-800 dark:text-green-400" },
+            { t: "Tiendas Secretas", ic: "🛍️", bg: "bg-purple-50 dark:bg-purple-950/30 border-purple-100 dark:border-purple-900/40 text-purple-800 dark:text-purple-400" },
+            { t: "Cafeterías Únicas", ic: "☕", bg: "bg-orange-50 dark:bg-orange-950/30 border-orange-100 dark:border-orange-900/40 text-orange-800 dark:text-orange-400" },
+            { t: "Bares y Copas", ic: "🍷", bg: "bg-slate-800 dark:bg-slate-900 border-slate-700 dark:border-slate-800 text-white dark:text-slate-300" },
+            { t: "Arte y Teatros", ic: "🎨", bg: "bg-brand-50 dark:bg-brand-950/30 border-brand-100 dark:border-brand-900/40 text-brand-800 dark:text-brand-400" }
         ];
 
         terms.forEach(c => {

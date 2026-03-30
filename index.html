@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -7,37 +7,27 @@
     <meta name="description" content="Tikk - Tu Catálogo de Recuerdos">
     <meta name="theme-color" content="#f8fafc">
     
-    <!-- Open Graph / Meta tags para compartir (WhatsApp, Instagram, etc) -->
+    <!-- Open Graph -->
     <meta property="og:title" content="Tikk - Tu Catálogo de Recuerdos">
     <meta property="og:description" content="El contador emocional. Registra fechas vitales, anécdotas y obtén insights mágicos para celebrar.">
     <meta property="og:image" content="https://tikk.cl/icon-512.png">
     <meta property="og:url" content="https://tikk.cl/">
     <meta property="og:type" content="website">
     
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tikk - Tu Catálogo de Recuerdos">
-    <meta name="twitter:description" content="Calcula con exactitud matemática cuántos segundos faltan o han pasado desde tu evento favorito.">
-    <meta name="twitter:image" content="https://tikk.cl/icon-512.png">
-    
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icon-192.png">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#fff1f2',
-                            100: '#ffe4e6',
-                            200: '#fecdd3',
-                            300: '#fda4af',
-                            400: '#fb7185',
-                            500: '#f43f5e',
-                            600: '#e11d48',
+                            50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af',
+                            400: '#fb7185', 500: '#f43f5e', 600: '#e11d48',
                         }
                     },
                     fontFamily: {
@@ -48,7 +38,6 @@
         }
     </script>
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Day.js -->
@@ -67,7 +56,6 @@
             font-family: 'Inter', sans-serif; 
             -webkit-tap-highlight-color: transparent; 
             touch-action: pan-y;
-            background-color: #f8fafc;
         }
         ::-webkit-scrollbar { display: none; }
         * { scrollbar-width: none; }
@@ -81,7 +69,6 @@
             -moz-appearance: none;
         }
         
-        /* Swipe utilities */
         .swipe-card-wrapper {
             position: relative;
             overflow: hidden;
@@ -102,55 +89,68 @@
         .swipe-surface {
             position: relative;
             z-index: 10;
-            background: white;
             border-radius: 1.5rem;
             box-shadow: 0 4px 15px -3px rgba(0,0,0,0.03);
-            border: 1px solid rgba(241, 245, 249, 1);
             transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
             will-change: transform;
             touch-action: pan-y;
         }
         .swipe-surface.dragging { transition: none; }
 
-        /* Categorical specific colors */
-        .cat-amor { background: #fff1f2; color: #f43f5e; border-color: #ffe4e6; }
-        .cat-salud { background: #f0fdf4; color: #22c55e; border-color: #dcfce7; }
-        .cat-trabajo { background: #eff6ff; color: #3b82f6; border-color: #dbeafe; }
-        .cat-mascota { background: #fdf4ff; color: #d946ef; border-color: #fae8ff; }
-        .cat-personal { background: #fffbeb; color: #f59e0b; border-color: #fef3c7; }
+        /* Categorical Specific Light Mode */
+        html.light .cat-amor { background: #fff1f2; color: #f43f5e; border: 1px solid #ffe4e6; }
+        html.light .cat-salud { background: #f0fdf4; color: #22c55e; border: 1px solid #dcfce7; }
+        html.light .cat-trabajo { background: #eff6ff; color: #3b82f6; border: 1px solid #dbeafe; }
+        html.light .cat-mascota { background: #fdf4ff; color: #d946ef; border: 1px solid #fae8ff; }
+        html.light .cat-personal { background: #fffbeb; color: #f59e0b; border: 1px solid #fef3c7; }
+        html.light .cat-custom { background: #ffffff; color: #475569; border: 1px solid #f1f5f9; }
+
+        /* Categorical Specific Dark Mode */
+        html.dark .cat-amor { background: #4c1d25; color: #fda4af; border: 1px solid #8e1f32; }
+        html.dark .cat-salud { background: #143621; color: #86efac; border: 1px solid #1f5f38; }
+        html.dark .cat-trabajo { background: #1e3a63; color: #93c5fd; border: 1px solid #2a528c; }
+        html.dark .cat-mascota { background: #4a1d56; color: #f0abfc; border: 1px solid #75298a; }
+        html.dark .cat-personal { background: #4c360a; color: #fcd34d; border: 1px solid #7c570b; }
+        html.dark .cat-custom { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; }
         
         .nav-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
     </style>
 </head>
-<body class="text-slate-800 min-h-screen pb-safe pt-safe selection:bg-brand-200" id="main-body">
+<body class="text-slate-800 dark:text-slate-200 min-h-screen pb-safe pt-safe bg-slate-50 dark:bg-slate-950 transition-colors duration-300" id="main-body">
 
     <!-- Header -->
-    <header id="main-header" class="sticky top-0 z-40 bg-slate-50/90 backdrop-blur-xl border-b border-slate-200/50 px-6 py-4 flex justify-between items-center transition-all duration-300">
-        <h1 class="text-2xl font-black text-slate-900 tracking-tight" id="header-title">Tikk</h1>
-        <button id="btn-back" class="hidden text-slate-500 hover:text-slate-800 transition-colors p-2 -mr-2 rounded-full hover:bg-slate-100/50 active:scale-90" onclick="window.app.navigate('dashboard')">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-        </button>
+    <header id="main-header" class="sticky top-0 z-40 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 px-6 py-4 flex justify-between items-center transition-all duration-300">
+        <h1 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight" id="header-title">Tikk</h1>
+        <div class="flex items-center gap-3">
+            <button id="btn-theme-toggle" class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-90" onclick="window.app.toggleTheme()">
+                <svg id="icon-sun" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <svg id="icon-moon" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            <button id="btn-back" class="hidden text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors p-2 -mr-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-90" onclick="window.app.navigate('dashboard')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+        </div>
     </header>
 
     <!-- Onboarding View -->
-    <section id="view-onboarding" class="fixed inset-0 bg-slate-50 z-[100] flex flex-col px-6 transition-all duration-500 opacity-0 translate-y-4 hidden overflow-y-auto">
+    <section id="view-onboarding" class="fixed inset-0 bg-slate-50 dark:bg-slate-950 z-[100] flex flex-col px-6 transition-all duration-500 opacity-0 translate-y-4 hidden overflow-y-auto">
         <div class="flex-1 flex flex-col items-center justify-center text-center pt-8">
-            <div id="onboarding-icon" class="w-32 h-32 bg-brand-100 text-brand-500 rounded-[2.5rem] flex items-center justify-center mb-8 rotate-[5deg] shadow-inner transition-all duration-300 mx-auto">
+            <div id="onboarding-icon" class="w-32 h-32 bg-brand-100 dark:bg-brand-900/40 text-brand-500 dark:text-brand-400 rounded-[2.5rem] flex items-center justify-center mb-8 rotate-[5deg] shadow-inner transition-all duration-300 mx-auto">
                 <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
-            <h2 id="onboarding-title" class="text-3xl font-extrabold text-slate-800 tracking-tight transition-all duration-300">Bienvenido a Tikk</h2>
-            <p id="onboarding-text" class="text-slate-500 mt-5 text-[15px] font-medium leading-relaxed max-w-[280px] mx-auto transition-all duration-300">
-                Tu catálogo de recuerdos. Registra fechas vitales, anécdotas y obtén insights mágicos para celebrar.
+            <h2 id="onboarding-title" class="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-all duration-300">Tus Momentos</h2>
+            <p id="onboarding-text" class="text-slate-500 dark:text-slate-400 mt-5 text-[15px] font-medium leading-relaxed max-w-[280px] mx-auto transition-all duration-300">
+                Un espacio íntimo para las fechas que de verdad te importan. Guarda recuerdos, anécdotas y celébralos.
             </p>
             
             <div class="flex gap-2.5 mt-12 justify-center" id="onboarding-dots">
                 <div class="h-2 w-6 rounded-full bg-brand-500 transition-all duration-300" id="dot-0"></div>
-                <div class="h-2 w-2 rounded-full bg-slate-200" id="dot-1"></div>
+                <div class="h-2 w-2 rounded-full bg-slate-200 dark:bg-slate-700" id="dot-1"></div>
             </div>
         </div>
         
         <div class="pb-[max(calc(env(safe-area-inset-bottom)+1rem),2rem)] w-full pt-6 mt-auto">
-            <button onclick="window.app.nextOnboarding()" class="w-full max-w-md mx-auto bg-slate-900 text-white font-bold text-lg py-4 rounded-2xl shadow-xl shadow-slate-900/20 active:scale-[0.98] transition-all flex justify-center items-center" id="onboarding-btn">
+            <button onclick="window.app.nextOnboarding()" class="w-full max-w-md mx-auto bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold text-lg py-4 rounded-2xl shadow-xl active:scale-[0.98] transition-all flex justify-center items-center" id="onboarding-btn">
                 Siguiente
             </button>
         </div>
@@ -162,8 +162,8 @@
         <!-- View: Dashboard -->
         <section id="view-dashboard" class="w-full transition-all duration-300 opacity-0 translate-y-4 hidden">
             <div class="mb-6">
-                <h2 class="text-3xl font-black text-slate-800 tracking-tight">Tus Recuerdos</h2>
-                <p class="text-slate-500 mt-1.5 text-sm font-medium">El historial de tu vida en segundos.</p>
+                <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight">Recuerdos</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-1.5 text-sm font-medium">El timeline de tu historia vivida.</p>
             </div>
             
             <div id="dates-list" class="w-full">
@@ -171,143 +171,149 @@
             </div>
             
             <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16 text-center">
-                <div class="w-24 h-24 bg-slate-100 rounded-[2rem] flex items-center justify-center mb-6 shadow-sm border border-slate-200">
-                    <span class="text-4xl">🕰️</span>
+                <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-[2rem] flex items-center justify-center mb-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <span class="text-4xl text-slate-400 dark:text-slate-500">👻</span>
                 </div>
-                <h3 class="text-lg font-bold text-slate-700">Tu catálogo está vacío</h3>
-                <p class="text-slate-500 mt-2 text-[15px] max-w-[240px] font-medium leading-relaxed">Toca en Plantillas abajo para descubrir ideas increíbles o añade uno nuevo.</p>
+                <h3 class="text-lg font-bold text-slate-700 dark:text-slate-300">Aún no hay historias</h3>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 text-[15px] max-w-[240px] font-medium leading-relaxed">Toca en Plantillas para encontrar inspiración o toca el (+) para añadir un hito.</p>
             </div>
         </section>
 
         <!-- View: Templates (Catalog) -->
         <section id="view-catalog" class="w-full relative transition-all duration-300 opacity-0 translate-y-4 hidden pb-10">
             <div class="mb-6">
-                <h2 class="text-3xl font-black text-slate-800 tracking-tight">Plantillas</h2>
-                <p class="text-slate-500 mt-1.5 text-sm font-medium">Automatiza la toma de pastillas, aniversarios, cumpleaños o proyectos.</p>
+                <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight">Plantillas Pro</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-1.5 text-sm font-medium">Automatiza la gestión de tus eventos y obtén cálculos inteligentes.</p>
             </div>
 
             <!-- Horizontal Carousel -->
-            <h3 class="font-bold text-slate-700 mb-3 mt-8">Más Populares</h3>
+            <h3 class="font-bold text-slate-700 dark:text-slate-300 mb-3 mt-8">Las más útiles</h3>
             <div class="flex overflow-x-auto gap-4 pb-4 -mx-5 px-5 snap-x">
-                
-                <div onclick="window.app.loadTemplate('Cumpleaños Especial', 'amor', '🎂', 'annual')" class="snap-start flex-shrink-0 w-40 bg-brand-50 border border-brand-100 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform">
+                <div onclick="window.app.loadTemplate('Cumple de mi Pareja', 'amor', '🎂', 'annual')" class="snap-start flex-shrink-0 w-40 bg-brand-50 dark:bg-red-950/30 border border-brand-100 dark:border-red-900/50 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform">
                     <span class="text-3xl block mb-2">🎂</span>
-                    <h4 class="font-bold text-slate-800 leading-tight">Cumpleaños<br>Especial</h4>
+                    <h4 class="font-bold text-slate-800 dark:text-slate-100 leading-tight">Cumple de<br>mi Pareja</h4>
                     <p class="text-[10px] uppercase font-bold text-brand-500 mt-2 tracking-wider">Avisa 1 día antes</p>
                 </div>
 
-                <div onclick="window.app.loadTemplate('Día de Adopción', 'mascota', '🐶', 'annual')" class="snap-start flex-shrink-0 w-40 bg-fdf4ff border border-fae8ff rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform" style="background: #fdf4ff; border-color: #fae8ff;">
-                    <span class="text-3xl block mb-2">🐶</span>
-                    <h4 class="font-bold text-slate-800 leading-tight">Día de<br>Adopción</h4>
-                    <p class="text-[10px] uppercase font-bold text-purple-400 mt-2 tracking-wider">Aniversario</p>
+                <div onclick="window.app.loadTemplate('Renovación Seguro Auto', 'custom', '🚗', 'annual')" class="snap-start flex-shrink-0 w-40 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform">
+                    <span class="text-3xl block mb-2">🚗</span>
+                    <h4 class="font-bold text-slate-800 dark:text-slate-100 leading-tight">Seguro<br>Vehículo</h4>
+                    <p class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 mt-2 tracking-wider">Trámite Anual</p>
                 </div>
 
-                <div onclick="window.app.loadTemplate('Medicina / Suplemento', 'salud', '💊', 'daily')" class="snap-start flex-shrink-0 w-40 bg-f0fdf4 border border-dcfce7 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform" style="background: #f0fdf4; border-color: #dcfce7;">
-                    <span class="text-3xl block mb-2">💊</span>
-                    <h4 class="font-bold text-slate-800 leading-tight">Medicina<br>Diaria</h4>
-                    <p class="text-[10px] uppercase font-bold text-green-500 mt-2 tracking-wider">Recordatorio Diario</p>
+                <div onclick="window.app.loadTemplate('Día de Adopción', 'mascota', '🐶', 'annual')" class="snap-start flex-shrink-0 w-40 bg-fdf4ff border border-fae8ff dark:bg-purple-950/30 dark:border-purple-900/50 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform">
+                    <span class="text-3xl block mb-2">🐶</span>
+                    <h4 class="font-bold text-slate-800 dark:text-slate-100 leading-tight">Día de<br>Adopción</h4>
+                    <p class="text-[10px] uppercase font-bold text-purple-500 mt-2 tracking-wider">Aniversario</p>
                 </div>
             </div>
 
-            <h3 class="font-bold text-slate-700 mb-3 mt-6">Todas las Categorías</h3>
+            <h3 class="font-bold text-slate-700 dark:text-slate-300 mb-3 mt-6">Por Entornos</h3>
             <div class="grid grid-cols-2 gap-3 pb-8">
-                <button onclick="window.app.loadTemplate('', 'amor', '❤️', 'none')" class="bg-white border text-left border-slate-200 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl">❤️</span><span class="font-bold text-slate-700 text-sm">Amor y Pareja</span>
+                <button onclick="window.app.loadTemplate('', 'amor', '❤️', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
+                    <span class="text-2xl drop-shadow-sm">❤️</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Amor y Pareja</span>
                 </button>
-                <button onclick="window.app.loadTemplate('', 'personal', '🚀', 'none')" class="bg-white border text-left border-slate-200 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl">🚀</span><span class="font-bold text-slate-700 text-sm">Logros</span>
+                <button onclick="window.app.loadTemplate('', 'personal', '🚀', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
+                    <span class="text-2xl drop-shadow-sm">🚀</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Creación/Negocio</span>
                 </button>
-                <button onclick="window.app.loadTemplate('', 'trabajo', '💼', 'none')" class="bg-white border text-left border-slate-200 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl">💼</span><span class="font-bold text-slate-700 text-sm">Vida Laboral</span>
+                <button onclick="window.app.loadTemplate('', 'trabajo', '💼', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
+                    <span class="text-2xl drop-shadow-sm">💼</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Laboral</span>
                 </button>
-                <button onclick="window.app.loadTemplate('', 'salud', '🏃‍♂️', 'none')" class="bg-white border text-left border-slate-200 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl">🏃‍♂️</span><span class="font-bold text-slate-700 text-sm">Salud / Deporte</span>
+                <button onclick="window.app.loadTemplate('', 'salud', '🏃‍♂️', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
+                    <span class="text-2xl drop-shadow-sm">💊</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Salud / Médico</span>
+                </button>
+                <button onclick="window.app.loadTemplate('', 'mascota', '🐈', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
+                    <span class="text-2xl drop-shadow-sm">🐈</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Mascotas</span>
+                </button>
+                <button onclick="window.app.loadTemplate('', 'custom', '⭐', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
+                    <span class="text-2xl drop-shadow-sm">⭐</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Otro Tema...</span>
                 </button>
             </div>
             
-            <button onclick="window.app.navigate('add')" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl flex justify-center items-center gap-2 active:scale-95 shadow-md">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                Crear desde cero (Personalizado)
+            <button onclick="window.app.navigate('add')" class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold py-4 rounded-2xl flex justify-center items-center gap-2 active:scale-95 shadow-md">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                Crear desde cero
             </button>
         </section>
 
-        <!-- View: Add / Edit Date (Expanded Meta) -->
+        <!-- View: Add / Edit -->
         <section id="view-add" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-300 opacity-0 translate-y-4 hidden z-20 pb-20">
-            <form id="form-add" class="bg-white rounded-[2rem] p-6 shadow-xl shadow-slate-200/40 border border-slate-100 transition-all">
-                <h2 id="form-add-title" class="text-2xl font-black text-slate-800 mb-6 tracking-tight">Nueva Ficha</h2>
+            <form id="form-add" class="bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-xl shadow-slate-200/40 dark:shadow-black/40 border border-slate-100 dark:border-slate-800 transition-all">
+                <h2 id="form-add-title" class="text-2xl font-black text-slate-800 dark:text-white mb-6 tracking-tight">Nueva Ficha</h2>
                 
                 <div class="flex gap-4 mb-5">
-                    <div class="w-1/3">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Color</label>
-                        <select id="input-category" class="w-full h-[52px] px-3 rounded-2xl bg-slate-50 border border-slate-200 focus:border-brand-400 outline-none text-sm font-semibold text-slate-700 cursor-pointer">
-                            <option value="amor">Amor</option>
-                            <option value="personal" selected>General</option>
-                            <option value="salud">Salud</option>
-                            <option value="trabajo">Trabajo</option>
-                            <option value="mascota">Mascota</option>
+                    <div class="w-1/2">
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Color de Aura</label>
+                        <select id="input-category" class="w-full h-[52px] px-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-sm font-semibold text-slate-700 dark:text-slate-200 cursor-pointer">
+                            <option value="amor">Amor (Rosa)</option>
+                            <option value="personal">Personal (Amarillo)</option>
+                            <option value="salud">Salud (Verde)</option>
+                            <option value="trabajo">Trabajo (Azul)</option>
+                            <option value="mascota">Mascota (Morado)</option>
+                            <option value="custom" selected>Neutro (Gris)</option>
                         </select>
                     </div>
-                    <div class="w-2/3">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Emoji / Icono</label>
-                        <input type="text" id="input-emoji" placeholder="Ej: 🍕" class="w-full h-[52px] text-xl px-4 rounded-2xl bg-slate-50 border border-slate-200 outline-none focus:border-brand-400 text-center">
+                    <div class="w-1/2">
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Icono / Emoji</label>
+                        <input type="text" id="input-emoji" placeholder="Ej: 🍕" class="w-full h-[52px] text-2xl px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-brand-400 dark:focus:border-brand-500 text-center dark:text-white">
                     </div>
                 </div>
 
                 <div class="mb-5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Título del Evento</label>
-                    <input type="text" id="input-title" placeholder="Ej: Cuando probé Pizza en Roma" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-brand-400 outline-none text-slate-800 font-semibold placeholder:text-slate-400">
+                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Título del Evento</label>
+                    <input type="text" id="input-title" placeholder="Ej: El día de la pizzería" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-slate-800 dark:text-white font-semibold placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
                 
                 <div class="mb-5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Fecha Límite / Origen</label>
-                    <input type="date" id="input-date" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-brand-400 outline-none text-slate-800 font-semibold appearance-none">
+                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Fecha de Origen</label>
+                    <input type="date" id="input-date" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-slate-800 dark:text-white font-semibold appearance-none color-scheme-target">
                 </div>
 
                 <div class="mb-5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Recurrencia (Para Alarmas)</label>
-                    <select id="input-recurrence" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-brand-400 outline-none text-sm font-bold text-slate-700 cursor-pointer">
-                        <option value="none" selected>Evento Íntimo Único</option>
-                        <option value="daily">Diario</option>
+                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">¿Es Cíclico?</label>
+                    <select id="input-recurrence" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-sm font-bold text-slate-700 dark:text-slate-200 cursor-pointer">
+                        <option value="none" selected>No, Evento Único</option>
+                        <option value="daily">Se repite Diario</option>
                         <option value="weekly">Semanal</option>
                         <option value="monthly">Mensual</option>
                         <option value="semestral">Semestral</option>
-                        <option value="annual">Anual / Cumpleaños</option>
+                        <option value="annual">Anual / Cumpleaños / Aniversario</option>
                     </select>
                 </div>
 
                 <div class="mb-8">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1 flex justify-between">
-                        Anécdota / Contexto 
-                        <span class="text-brand-500 normal-case font-medium tracking-normal text-[10px] bg-brand-50 px-2 py-0.5 rounded">Para Autogenerar Msj</span>
+                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1 flex justify-between">
+                        Tu Historia Secreta
+                        <span class="text-brand-500 dark:text-brand-400 normal-case font-medium tracking-normal text-[9px] bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded">Para Auto-Generar RRSS</span>
                     </label>
-                    <textarea id="input-anecdote" rows="3" placeholder="Ej: Llovió ese día, pero nos reímos muchísimo... (Agrega esto para mejorar las propuestas automáticas de WhatsApp)" class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 focus:border-brand-400 outline-none text-[13px] font-medium text-slate-600 resize-none"></textarea>
+                    <textarea id="input-anecdote" rows="3" placeholder="Ej: Llovía, comimos helado, nos reímos muchísimo... (La IA local usará esto para escribir)" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-[13px] font-medium text-slate-600 dark:text-slate-300 resize-none"></textarea>
                 </div>
                 
-                <button type="submit" class="w-full bg-slate-900 text-white font-bold text-[15px] py-4 rounded-2xl shadow-md active:scale-95 transition-all">
-                    Guardar Ficha
+                <button type="submit" class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold text-[15px] py-4 rounded-xl shadow-md active:scale-95 transition-all">
+                    Guardar Vida
                 </button>
             </form>
         </section>
 
         <!-- View: Detail -->
-        <section id="view-detail" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-500 opacity-0 translate-y-4 hidden z-20 pb-32">
-            <div class="bg-white rounded-[2rem] px-5 py-8 text-center relative overflow-hidden transition-all duration-500 shadow-sm ring-1 ring-slate-900/5">
-                <div class="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50 to-white -z-10"></div>
+        <section id="view-detail" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-500 opacity-0 translate-y-4 hidden z-20 pb-36">
+            <div class="bg-white dark:bg-slate-900 rounded-[2rem] px-5 py-8 text-center relative overflow-hidden transition-all duration-500 shadow-sm ring-1 ring-slate-900/5 dark:ring-white/10">
+                <div class="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 -z-10"></div>
                 
                 <div class="relative w-full flex flex-col items-center">
                     
-                    <div id="detail-emoji-box" class="w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-sm mb-4 border-2 border-white z-10 transition-colors">
+                    <div id="detail-emoji-box" class="w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-sm mb-4 border-2 border-white dark:border-slate-900 z-10 transition-colors">
                         <span id="detail-emoji">✨</span>
                     </div>
 
-                    <p class="text-slate-400 font-bold tracking-widest text-[10px] uppercase" id="detail-subtitle">Cargando...</p>
-                    <h3 class="text-slate-800 font-black text-2xl mt-1 tracking-tight" id="detail-header-date"></h3>
+                    <p class="text-slate-400 dark:text-slate-500 font-bold tracking-widest text-[10px] uppercase" id="detail-subtitle">Cargando...</p>
+                    <h3 class="text-slate-800 dark:text-white font-black text-2xl mt-1 tracking-tight" id="detail-header-date">...</h3>
                     
                     <div class="my-6 w-full flex flex-col items-center justify-center">
-                        <div id="detail-counter" class="text-[3.25rem] sm:text-[3.5rem] leading-none font-black text-brand-500 tracking-tighter tabular-nums drop-shadow-sm truncate w-full px-2">0</div>
+                        <div id="detail-counter" class="text-[3.25rem] sm:text-[3.5rem] leading-none font-black text-brand-500 dark:text-brand-400 tracking-tighter tabular-nums drop-shadow-sm truncate w-full px-2">0</div>
                         
                         <div class="relative mt-2 inline-block">
-                            <select id="detail-unit-selector" class="appearance-none bg-transparent text-xl font-bold text-slate-400 cursor-pointer outline-none text-center hover:text-slate-600 pr-6 pl-2 transition-colors" onchange="window.app.updateDetailUnit()">
+                            <select id="detail-unit-selector" class="appearance-none bg-transparent text-xl font-bold text-slate-400 dark:text-slate-500 cursor-pointer outline-none text-center hover:text-slate-600 dark:hover:text-slate-300 pr-6 pl-2 transition-colors" onchange="window.app.updateDetailUnit()">
                                 <option value="segundos">segundos</option>
                                 <option value="minutos" selected>minutos</option>
                                 <option value="horas">horas</option>
@@ -322,38 +328,45 @@
                         </div>
                     </div>
 
-                    <div id="detail-exact-box" class="bg-slate-50 py-3 px-4 rounded-xl mb-4 w-full text-[13px] font-medium text-slate-500 leading-relaxed border border-slate-100">
-                        <span id="detail-exact-prefix">Calculando...</span> <strong id="detail-exact-time" class="text-slate-700">...</strong> <span id="detail-exact-suffix"></span>
+                    <div id="detail-exact-box" class="bg-slate-50 dark:bg-slate-800/50 py-3 px-4 rounded-xl mb-4 w-full text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-relaxed border border-slate-100 dark:border-slate-700/50">
+                        <span id="detail-exact-prefix">...</span> <strong id="detail-exact-time" class="text-slate-700 dark:text-slate-200">...</strong> <span id="detail-exact-suffix"></span>
+                    </div>
+
+                    <!-- Only shown if recurrent -->
+                    <div id="detail-next-box" class="hidden mb-6 bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 py-3 block px-4 rounded-xl w-full text-[13px] font-medium flex justify-between items-center shadow-lg">
+                        <span>Próximo aniversario / Hito:</span>
+                        <strong id="detail-next-days" class="text-brand-400 dark:text-brand-600 font-bold tracking-tight text-sm">...</strong>
                     </div>
 
                     <div id="detail-anecdote-box" class="hidden mb-6 w-full text-left">
-                        <div class="bg-white text-slate-600 p-4 rounded-xl text-[13px] font-medium italic border border-slate-100 flex gap-3 shadow-sm">
+                        <div class="bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 p-4 rounded-xl text-[13px] font-medium italic border border-slate-100 dark:border-slate-700 flex gap-3 shadow-sm">
                             <span class="text-xl">💭</span>
                             <span id="detail-anecdote-text" class="leading-relaxed">...</span>
                         </div>
                     </div>
 
-                    <div id="detail-next-box" class="hidden mb-6 bg-slate-50 text-slate-700 py-3 px-4 rounded-xl w-full text-[13px] font-medium border border-slate-100 flex justify-between items-center shadow-sm">
-                        Siguiente hito: <strong id="detail-next-days" class="text-brand-500 font-bold tracking-tight text-sm">...</strong>
-                    </div>
-                    
-                    <div class="w-full text-left mb-6 border-t border-slate-100 pt-6 mt-2">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex justify-between items-center">
-                            <span>Mensaje Sugerido</span>
-                            <span class="text-slate-500 lowercase tracking-normal bg-slate-100 px-2 py-0.5 rounded text-[10px] font-medium">Toca para editar</span>
-                        </label>
-                        <textarea id="whatsapp-message" rows="4" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-500/20 outline-none transition-all text-[13px] font-semibold text-slate-700 resize-none shadow-sm leading-relaxed"></textarea>
+                    <div class="w-full text-left mb-6 border-t border-slate-100 dark:border-slate-800 pt-6 mt-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                Mensaje Sugerido
+                            </label>
+                            <button onclick="window.app.regenerateMessage()" class="text-[#075E54] dark:text-[#25D366] hover:bg-[#25D366]/10 px-2 py-1 rounded text-[11px] font-bold tracking-normal flex items-center gap-1 transition-colors">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                Cambiar estilo
+                            </button>
+                        </div>
+                        <textarea id="whatsapp-message" rows="5" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 focus:border-green-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-green-500/20 outline-none transition-all text-[13px] font-semibold text-slate-700 dark:text-slate-200 resize-none shadow-sm leading-relaxed"></textarea>
                     </div>
                     
                     <div class="w-full flex flex-col gap-3">
-                        <button onclick="window.app.sendWhatsapp()" class="w-full bg-[#128C7E] text-white font-bold py-3.5 rounded-xl shadow-md shadow-green-900/10 hover:bg-[#075E54] active:scale-[0.98] transition-all flex justify-center items-center gap-2.5">
+                        <button onclick="window.app.sendWhatsapp()" class="w-full bg-[#128C7E] dark:bg-[#128C7E]/90 text-white font-bold py-3.5 rounded-xl shadow-md shadow-green-900/10 hover:bg-[#075E54] active:scale-[0.98] transition-all flex justify-center items-center gap-2.5">
                             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                             Enviar por WhatsApp
                         </button>
                         
-                        <button onclick="window.app.setupNotifications()" class="w-full bg-slate-50 border border-slate-200 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-100 active:scale-[0.98] transition-all flex justify-center items-center gap-2.5 mt-1 shadow-sm">
-                            <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            Guardar en Calendario Nativo
+                        <button onclick="window.app.setupNotifications()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-[0.98] transition-all flex justify-center items-center gap-2.5 mt-1 shadow-sm">
+                            <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            Alarma de Calendario
                         </button>
                     </div>
                 </div>
@@ -363,18 +376,18 @@
         <!-- View: Inspiration (Maps) -->
         <section id="view-inspiration" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-500 opacity-0 translate-y-4 hidden z-20 pb-24">
             <div class="mb-6">
-                <h2 class="text-3xl font-black text-slate-800 tracking-tight leading-tight">Módulo<br>Inspiración</h2>
-                <p class="text-slate-500 mt-2 text-[15px] font-medium">Buscador automático para regalar momentos. Usa tu ubicación actual gratis.</p>
+                <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight leading-tight">Explorar</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 text-[15px] font-medium">Buscador automático para regalar momentos. Usa tu ubicación actual gratis.</p>
             </div>
 
-            <div id="geo-prompt-box" class="bg-white border text-center border-slate-200 rounded-[2rem] p-8 shadow-sm">
-                <div class="w-20 h-20 bg-blue-50 text-blue-500 rounded-[1.5rem] flex items-center justify-center mx-auto mb-5 rotate-3 shadow-inner">
+            <div id="geo-prompt-box" class="bg-white dark:bg-slate-900 border text-center border-slate-200 dark:border-slate-800 rounded-[2rem] p-8 shadow-sm">
+                <div class="w-20 h-20 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-[1.5rem] flex items-center justify-center mx-auto mb-5 rotate-3 shadow-inner">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
-                <h3 class="text-lg font-bold text-slate-700">Conectar GPS</h3>
-                <p class="text-slate-500 mt-2 text-sm">Escanea los lugares secretos y mejor valorados para visitar a 5km de aquí.</p>
-                <button onclick="window.app.acquireLocation()" class="mt-6 w-full bg-blue-500 text-white font-bold py-3.5 rounded-xl shadow-md active:scale-95 transition-all">
-                    Generar Ideas en mi Zona
+                <h3 class="text-lg font-bold text-slate-700 dark:text-white">Conectar Radares</h3>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">Escanea los lugares secretos y mejor valorados para visitar aquí.</p>
+                <button onclick="window.app.acquireLocation()" class="mt-6 w-full bg-blue-500 dark:bg-blue-600 text-white font-bold py-3.5 rounded-xl shadow-md active:scale-95 transition-all">
+                    Descubrir mi Zona
                 </button>
             </div>
 
@@ -388,24 +401,24 @@
     <!-- Floating FAB -->
     <div id="global-fab" class="fixed bottom-[95px] left-0 right-0 pointer-events-none z-30 flex justify-center transition-opacity duration-300">
         <div class="w-full max-w-md relative h-14">
-            <button onclick="window.app.navigate('add')" class="absolute right-6 w-14 h-14 bg-slate-900 text-white rounded-full shadow-lg shadow-slate-900/20 flex items-center justify-center hover:bg-slate-800 active:scale-[0.9] transition-all duration-300 pointer-events-auto group ring-4 ring-white">
+            <button onclick="window.app.navigate('add')" class="absolute right-6 w-14 h-14 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full shadow-lg shadow-slate-900/20 dark:shadow-white/10 flex items-center justify-center hover:bg-slate-800 dark:hover:bg-slate-100 active:scale-[0.9] transition-all duration-300 pointer-events-auto group ring-4 ring-white dark:ring-slate-950">
                 <svg class="w-7 h-7 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
             </button>
         </div>
     </div>
 
     <!-- Bottom Navigation Bar -->
-    <nav id="main-nav" class="fixed bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 z-50 transition-all duration-300">
+    <nav id="main-nav" class="fixed bottom-0 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 z-50 transition-all duration-300">
         <div class="max-w-md mx-auto nav-container px-2 py-3 pb-[max(env(safe-area-inset-bottom),12px)]">
             <button onclick="window.app.navigate('dashboard')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-Brand-500 hover:scale-105 active:scale-95 transition-all" data-target="dashboard">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" /><path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" /></svg>
                 <span class="text-[11px] font-bold tracking-wide">Recuerdos</span>
             </button>
-            <button onclick="window.app.navigate('catalog')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-slate-400 hover:text-slate-600 hover:scale-105 active:scale-95 transition-all" data-target="catalog">
+            <button onclick="window.app.navigate('catalog')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:scale-105 active:scale-95 transition-all" data-target="catalog">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                 <span class="text-[11px] font-bold tracking-wide">Plantillas</span>
             </button>
-            <button onclick="window.app.navigate('inspiration')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-slate-400 hover:text-slate-600 hover:scale-105 active:scale-95 transition-all" data-target="inspiration">
+            <button onclick="window.app.navigate('inspiration')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:scale-105 active:scale-95 transition-all" data-target="inspiration">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
                 <span class="text-[11px] font-bold tracking-wide">Inspiración</span>
             </button>
