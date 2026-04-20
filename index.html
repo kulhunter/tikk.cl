@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>tikk | Next-Gen Store Builder</title>
+    <title>tikk | Tu catálogo online tan fácil como un Excel</title>
     
-    <!-- SEO / AEO / GEO -->
-    <meta name="description" content="La plataforma más avanzada para transformar Google Sheets en tiendas Apple-Style. Optimizado para SEO local y motores de respuesta (AEO).">
-    <meta name="keywords" content="ecommerce apple style, dark mode shop, google sheets store, dan tagle, tikk">
-    <meta name="geo.region" content="CL" />
-    <meta name="geo.placename" content="Chile" />
+    <!-- SEO / AEO -->
+    <meta name="description" content="La forma más fácil para que el negocio de tu barrio tenga su propia página web. Actualiza tus productos desde un Excel y recibe pedidos por WhatsApp. Creado por Dan Tagle.">
+    <meta name="author" content="Dan Tagle">
     
-    <!-- Tailwind & UI Assets -->
+    <!-- Tailwind & UI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -19,291 +17,253 @@
             theme: {
                 extend: {
                     colors: {
-                        apple: {
-                            50: '#f5f5f7',
-                            100: '#e8e8ed',
-                            400: '#86868b',
-                            500: '#1d1d1f',
-                            600: '#121212',
-                            blue: '#0071e3'
-                        },
-                        obsidian: '#000000',
+                        apple: { 50: '#f5f5f7', 100: '#e8e8ed', 400: '#86868b', 500: '#1d1d1f', 600: '#121212', blue: '#0071e3' },
+                        obsidian: '#000',
                     },
-                    fontFamily: {
-                        sans: ['SF Pro Display', 'Inter', 'system-ui', 'sans-serif'],
-                    },
-                    backdropBlur: {
-                        'xl': '20px',
-                    }
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
                 }
             }
         }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- JSZip for the pro download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <style>
-        :root { --safari-helper: env(safe-area-inset-bottom); }
-        body { 
-            background-color: #000; 
-            color: #f5f5f7;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        /* Glassmorphism Pro */
-        .apple-glass {
-            background: rgba(29, 29, 31, 0.7);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .apple-card {
-            background: #121212;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .apple-card:hover {
-            transform: scale(1.02);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5);
-        }
-
-        /* Typography & Scroll */
+        body { background-color: #000; color: #f5f5f7; -webkit-font-smoothing: antialiased; }
+        .apple-glass { background: rgba(29, 29, 31, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .apple-card { background: #121212; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease; }
+        .gradient-text { background: linear-gradient(135deg, #fff 0%, #86868b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         ::-webkit-scrollbar { display: none; }
-        .hide-scroll { scrollbar-width: none; }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 0%, #86868b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Layout Helpers */
-        .pb-safe { padding-bottom: calc(1.5rem + var(--safari-helper)); }
+        .guide-step { display: none; }
+        .guide-step.active { display: block; }
     </style>
 </head>
-<body class="selection:bg-apple-blue selection:text-white">
+<body class="selection:bg-apple-blue selection:text-white pb-safe">
 
     <div id="notification-container" class="fixed top-8 right-8 z-[100] flex flex-col gap-4"></div>
 
     <div id="app" class="min-h-screen flex flex-col">
         
-        <!-- Premium Header -->
+        <!-- Header Pro -->
         <header class="apple-glass sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-                <a href="#" onclick="app.navigate('landing')" class="flex items-center gap-3 group">
-                    <div class="h-8 w-8 bg-white rounded-[0.5rem] flex items-center justify-center group-hover:rotate-[15deg] transition-transform duration-500">
-                        <i data-lucide="command" class="text-black w-5 h-5"></i>
+                <a href="#" onclick="app.navigate('landing')" class="flex items-center gap-2">
+                    <div class="h-8 w-8 bg-white rounded-lg flex items-center justify-center">
+                        <i data-lucide="shopping-bag" class="text-black w-5 h-5"></i>
                     </div>
-                    <span class="text-lg font-bold tracking-tight">tikk</span>
+                    <span class="text-lg font-black tracking-tight">tikk</span>
                 </a>
                 
                 <div class="flex items-center gap-6">
-                    <nav class="hidden md:flex items-center gap-8 text-[12px] font-medium text-apple-400">
-                        <a href="https://dantagle.cl" target="_blank" class="hover:text-white transition-colors">Dan Tagle</a>
-                        <a href="#" onclick="app.navigate('diy')" class="hover:text-white transition-colors">Crear Tienda</a>
-                    </nav>
-                    <button id="cart-button" onclick="app.toggleCart()" class="hidden relative p-1 text-apple-400 hover:text-white transition-all">
-                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-apple-blue text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                    <button onclick="app.toggleCart()" id="cart-button" class="hidden relative p-1 text-apple-400 hover:text-white transition-all">
+                        <i data-lucide="shopping-basket" class="w-6 h-6"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-apple-blue text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Dynamic Main -->
+        <!-- Contenido Dinámico -->
         <main id="main-content" class="flex-grow">
-            <!-- Templates will be active here -->
+            <!-- Templates se inyectan aquí -->
         </main>
 
-        <!-- Signature Footer -->
-        <footer class="py-20 text-center border-t border-white/[0.05]">
-            <div class="max-w-7xl mx-auto px-6">
-                <p class="text-[12px] font-semibold text-apple-400 uppercase tracking-[0.3em] mb-4">Innovation in Commerce</p>
-                <p class="text-[13px] text-white font-medium">
-                    Handcrafted by <a href="https://dantagle.cl" target="_blank" class="text-apple-blue hover:opacity-80 transition-opacity">Dan Tagle</a>
-                </p>
-            </div>
+        <!-- Footer -->
+        <footer class="py-16 text-center border-t border-white/5 opacity-60">
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] mb-4">Negocio de Barrio 2.0</p>
+            <p class="text-[13px] font-medium text-white/50">
+                Creado con ❤️ por <a href="https://dantagle.cl" target="_blank" class="text-apple-blue font-bold underline">Dan Tagle</a>
+            </p>
         </footer>
     </div>
 
-    <!-- Apple Style Cart Drawer -->
-    <div id="cart-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-500"></div>
-    <aside id="cart-sidebar" class="fixed top-2 bottom-2 right-2 w-full max-w-md bg-apple-600 rounded-[2rem] z-[70] translate-x-[110%] shadow-2xl transition-transform duration-500 flex flex-col overflow-hidden border border-white/10">
-        <div class="p-8 border-b border-white/5 flex items-center justify-between">
+    <!-- Carrito / Checkout -->
+    <aside id="cart-sidebar" class="fixed top-2 bottom-2 right-2 w-full max-w-md bg-apple-600 rounded-[2rem] z-[70] translate-x-[110%] transition-transform duration-500 flex flex-col border border-white/10 shadow-2xl overflow-hidden">
+        <div class="p-8 flex items-center justify-between border-b border-white/5">
             <div>
-                <h2 class="text-xl font-bold">Resumen de Pedido</h2>
-                <p id="store-label-cart" class="text-[10px] text-apple-400 font-bold uppercase tracking-widest mt-1">Nombre Tienda</p>
+                <h2 class="text-xl font-bold">Tu Pedido</h2>
+                <p id="cart-store-name" class="text-[9px] text-apple-400 font-black uppercase tracking-widest mt-1">Nombre Tienda</p>
             </div>
-            <button onclick="app.toggleCart()" class="h-8 w-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <button onclick="app.toggleCart()" class="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button>
         </div>
         <div id="cart-items" class="flex-grow overflow-y-auto p-8 space-y-6"></div>
         <div class="p-8 bg-black/40 space-y-6">
-            <div class="space-y-4">
-                <input type="text" id="buyer-name" placeholder="Tu Nombre" class="w-full h-12 px-5 rounded-xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none font-medium text-sm transition-all">
-                <textarea id="order-comments" placeholder="Nota adicional..." class="w-full p-5 rounded-xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none font-medium text-sm transition-all resize-none" rows="2"></textarea>
+            <div class="space-y-3">
+                <input type="text" id="buyer-name" placeholder="Tu Nombre Completo" class="w-full h-12 px-5 rounded-xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-sm font-medium">
+                <input type="text" id="buyer-address" placeholder="Dirección de Despacho (Ciudad, Calle, N°)" class="w-full h-12 px-5 rounded-xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-sm font-medium">
+                <textarea id="order-comments" placeholder="Notas (ej: dejar en conserjería)" class="w-full p-5 rounded-xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-sm font-medium resize-none" rows="2"></textarea>
             </div>
-            <div class="flex justify-between items-end border-t border-white/5 pt-6">
-                <span class="text-apple-400 text-sm font-medium">Total Estimado</span>
-                <span id="cart-total" class="text-3xl font-bold tracking-tight">$0</span>
+            <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                <div>
+                    <span class="text-apple-400 text-[10px] font-bold uppercase block tracking-widest mb-1">Total Productos</span>
+                    <span id="cart-total" class="text-3xl font-black">$0</span>
+                </div>
+                <div class="text-right">
+                    <a href="https://www.blue.cl/enviar/enviar-paquete" target="_blank" class="text-[10px] text-apple-blue font-bold flex items-center gap-1 hover:underline">
+                        Calcular envío <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                    <span class="text-[9px] text-white/30 italic block mt-1">El valor del envío se coordina con el vendedor</span>
+                </div>
             </div>
-            <button onclick="app.sendOrder()" class="w-full h-14 bg-apple-blue text-white rounded-2xl font-bold text-base hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                <i data-lucide="message-circle" class="w-5 h-5"></i>
-                Pedir por WhatsApp
+            <button onclick="app.sendOrder()" class="w-full h-14 bg-apple-blue text-white rounded-2xl font-bold flex items-center justify-center gap-3 active:scale-95 transition-all">
+                <i data-lucide="message-circle" class="w-5 h-5"></i> Enviar Pedido por WhatsApp
             </button>
         </div>
     </aside>
 
+    <!-- Modal de Guías Paso a Paso -->
+    <div id="modal-guide" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="apple-card w-full max-w-2xl rounded-[2.5rem] overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-8 border-b border-white/5 flex justify-between items-center">
+                <h2 id="guide-title" class="text-xl font-bold italic">Configuración Pro</h2>
+                <button onclick="app.toggleGuideModal(false)" class="text-apple-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <div class="p-8 overflow-y-auto flex-grow space-y-8" id="guide-content">
+                <!-- Se inyecta contenido aquí -->
+            </div>
+        </div>
+    </div>
+
     <!-- TEMPLATES -->
 
-    <!-- Template: Landing (High-CX Experience) -->
+    <!-- Template: HOME (Lenguaje simple) -->
     <template id="tpl-landing">
-        <div class="relative overflow-hidden">
-            <!-- Hero Section -->
-            <section class="max-w-7xl mx-auto px-6 pt-24 pb-40 text-center relative z-10">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-apple-400 mb-10">Beta Access 0.9</span>
-                <h1 class="text-6xl md:text-[100px] font-bold tracking-tight leading-[0.9] mb-12 gradient-text">
-                    La tienda definitiva. <br> Diseñada con Excel.
+        <div class="relative">
+            <section class="max-w-5xl mx-auto px-6 pt-24 pb-40 text-center">
+                <h1 class="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-10 gradient-text">
+                    La web de tu negocio, <br> tan fácil como <br> <span class="bg-white/10 px-4 rounded-3xl">un Excel.</span>
                 </h1>
                 <p class="text-xl md:text-2xl text-apple-400 max-w-2xl mx-auto mb-16 font-medium leading-relaxed">
-                    Transforma un simple Google Sheet en una experiencia de compra Apple-Style. <span class="text-white">Con peras y manzanas.</span>
+                    Si sabes usar un Excel, ya sabes tener una página web. Sin pagar programadores, sin saber de tecnología. 
+                    <span class="text-white">Ideal para bazares, donuts, repuestos y pedidos de barrio.</span>
                 </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <button onclick="app.navigate('diy')" class="h-16 px-10 bg-white text-black rounded-full font-bold text-lg hover:bg-apple-100 transition-all active:scale-95 shadow-2xl">
-                        Empezar mi transformación
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <button onclick="app.navigate('diy')" class="h-16 px-12 bg-white text-black rounded-full font-black text-xl hover:scale-105 transition-all shadow-2xl">
+                        Crear mi página ahora
                     </button>
-                    <a href="https://dantagle.cl" target="_blank" class="text-apple-400 font-bold hover:text-white transition-all underline underline-offset-8">Consultoría Personalizada</a>
+                    <div class="text-left bg-white/5 border border-white/10 p-4 rounded-2xl max-w-xs">
+                        <p class="text-[10px] uppercase font-black text-apple-blue mb-1">Agenda personalizada</p>
+                        <p class="text-xs text-apple-400">¿Quieres que <span class="text-white">Dan Tagle</span> lo haga por ti? <a href="https://calendly.com/dan-tagle/30min" target="_blank" class="underline text-white font-bold">Reserva aquí</a>.</p>
+                        <p class="text-[9px] text-white/30 italic mt-2">*Costo 1 UF. No incluye el precio del nombre de dominio .cl</p>
+                    </div>
                 </div>
             </section>
 
-            <!-- CX Cards (Steps) -->
-            <section class="max-w-7xl mx-auto px-6 pb-40">
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="apple-card p-10 rounded-[2.5rem] flex flex-col justify-between h-[450px]">
-                        <div>
-                            <div class="h-12 w-12 bg-white/5 rounded-2xl flex items-center justify-center mb-8 border border-white/10"><i data-lucide="table" class="w-6 h-6 text-apple-blue"></i></div>
-                            <h3 class="text-2xl font-bold mb-4">Paso 1: Tu Bodega</h3>
-                            <p class="text-apple-400 font-medium leading-relaxed">Simplemente pon tus productos en un Excel. Tikk lee los datos en tiempo real. Si cambias un precio en el Excel, cambia en tu tienda.</p>
-                        </div>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-white/20">Google Sheets Integration</div>
-                    </div>
-                    <div class="apple-card p-10 rounded-[2.5rem] flex flex-col justify-between h-[450px]">
-                        <div>
-                            <div class="h-12 w-12 bg-white/5 rounded-2xl flex items-center justify-center mb-8 border border-white/10"><i data-lucide="smartphone" class="w-6 h-6 text-apple-blue"></i></div>
-                            <h3 class="text-2xl font-bold mb-4">Paso 2: La Conexión</h3>
-                            <p class="text-apple-400 font-medium leading-relaxed">Pega el link de tu Excel y tu número de WhatsApp. Nosotros armamos el carrito, las categorías y el buscador automáticamente.</p>
-                        </div>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-white/20">Zero Configuration</div>
-                    </div>
-                    <div class="apple-card p-10 rounded-[2.5rem] flex flex-col justify-between h-[450px]">
-                        <div>
-                            <div class="h-12 w-12 bg-white/5 rounded-2xl flex items-center justify-center mb-8 border border-white/10"><i data-lucide="rocket" class="w-6 h-6 text-apple-blue"></i></div>
-                            <h3 class="text-2xl font-bold mb-4">Paso 3: Lanzamiento</h3>
-                            <p class="text-apple-400 font-medium leading-relaxed">Decide si quieres hostearlo con nosotros gratis o descargar el código completo para tener tu propia página profesional.</p>
-                        </div>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-white/20">Flexible Deployment</div>
-                    </div>
+            <section class="max-w-6xl mx-auto px-6 pb-40 grid md:grid-cols-3 gap-8">
+                <div class="apple-card p-10 rounded-[2.5rem]">
+                    <div class="h-12 w-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-apple-blue"><i data-lucide="clipboard-list" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-bold mb-4 italic">¿Cómo funciona?</h3>
+                    <p class="text-apple-400 text-sm leading-relaxed">Pones tus productos, precios y stock en un archivo de Google Sheets. Ese archivo es el "alma" de tu web.</p>
+                </div>
+                <div class="apple-card p-10 rounded-[2.5rem]">
+                    <div class="h-12 w-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-apple-blue"><i data-lucide="smartphone" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-bold mb-4 italic">El cliente elige</h3>
+                    <p class="text-apple-400 text-sm leading-relaxed">Tus clientes entran a tu página desde el celular, agregan a la bolsa y te envían el pedido listo a tu WhatsApp.</p>
+                </div>
+                <div class="apple-card p-10 rounded-[2.5rem]">
+                    <div class="h-12 w-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-apple-blue"><i data-lucide="refresh-cw" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-bold mb-4 italic">Fácil de actualizar</h3>
+                    <p class="text-apple-400 text-sm leading-relaxed">¿Se acabó el stock? ¿Subiste un precio? Solo cámbialo en tu Excel y desaparecerá de la web al instante.</p>
                 </div>
             </section>
         </div>
     </template>
 
-    <!-- Template: DIY (Apple Sleek Input) -->
+    <!-- Template: DIY (Con ayuda extra) -->
     <template id="tpl-diy">
-        <div class="max-w-2xl mx-auto px-6 py-24">
+        <div class="max-w-2xl mx-auto px-6 py-20">
             <header class="text-center mb-16">
-                <h2 class="text-4xl font-bold tracking-tight mb-4">Configuración del Salto</h2>
-                <p class="text-apple-400 font-medium">Los datos que conectarán tu negocio con el mundo.</p>
+                <h2 class="text-4xl font-bold tracking-tight mb-4 italic">Crea tu Vitrina</h2>
+                <p class="text-apple-400 font-medium">Completa estos 3 datos para tener tu web.</p>
             </header>
             
             <div class="space-y-6">
                 <div class="apple-card p-8 rounded-4xl space-y-6">
                     <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-apple-400 mb-3 ml-1">¿Cómo llamamos a tu tienda?</label>
-                        <input type="text" id="store-name-input" placeholder="Ej: Elite Sneakers" class="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-lg font-bold transition-all placeholder:text-white/20">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-apple-400 mb-3">Nombre de tu Negocio</label>
+                        <input type="text" id="store-name-input" placeholder="Ej: Las Donas de Don Pepe" class="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-lg font-bold transition-all">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-apple-400 mb-3 ml-1">WhatsApp para Pedidos</label>
-                        <input type="number" id="whatsapp-input" placeholder="Ej: 56912345678" class="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-lg font-bold transition-all placeholder:text-white/20">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-apple-400 mb-3">Tu WhatsApp (sin el +)</label>
+                        <input type="number" id="whatsapp-input" placeholder="56912345678" class="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-lg font-bold transition-all">
                     </div>
                     <div>
-                        <div class="flex justify-between items-center mb-3 ml-1">
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-apple-400 text-left">Link de Google Sheet</label>
-                            <a href="https://docs.google.com/spreadsheets/d/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/edit#gid=0" target="_blank" class="text-[9px] font-bold text-apple-blue hover:text-white transition-all uppercase tracking-wider underline">Ver Plantilla Pro</a>
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-apple-400">Link del Excel (Google Drive)</label>
+                            <a href="https://docs.google.com/spreadsheets/d/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/edit#gid=0" target="_blank" class="text-[9px] font-bold text-apple-blue underline tracking-wider uppercase">Ver Ejemplo</a>
                         </div>
-                        <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-sm font-medium transition-all placeholder:text-white/20">
+                        <input type="text" id="sheet-url-input" placeholder="Pega el link de tu archivo Sheets aquí" class="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-sm font-medium transition-all">
                     </div>
                 </div>
 
-                <button onclick="app.generateFromDiy()" class="w-full h-16 bg-white text-black rounded-3xl font-black text-xl hover:bg-apple-100 transition-all active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3">
-                    Construir Mi Experiencia
-                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                <button onclick="app.generateFromDiy()" class="w-full h-16 bg-white text-black rounded-3xl font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-2xl">
+                    Crear mi web ahora
+                    <i data-lucide="arrow-right" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
     </template>
 
-    <!-- Template: Share (Options view) -->
+    <!-- Template: SHARE (Con guías y edición) -->
     <template id="tpl-share">
         <div class="max-w-4xl mx-auto px-6 py-24 text-center">
-            <h2 class="text-5xl font-bold mb-6 gradient-text" id="share-title">¡Estructura Creada!</h2>
-            <p class="text-apple-400 font-medium mb-16 max-w-lg mx-auto">Selecciona el método de despliegue para tu nueva vitrina digital.</p>
+            <h2 class="text-5xl font-extrabold mb-4 gradient-text italic">¡Tu tienda está viva!</h2>
+            <p class="text-apple-400 font-medium mb-16">Usa el link o descarga los archivos para hacerla 100% tuya.</p>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="apple-card p-10 rounded-4xl flex flex-col justify-between">
-                    <div class="text-left">
-                        <div class="h-10 w-10 bg-apple-blue/10 text-apple-blue rounded-xl flex items-center justify-center mb-6"><i data-lucide="link" class="w-5 h-5"></i></div>
-                        <h3 class="text-xl font-bold mb-3">Enlace Directo tikk.cl</h3>
-                        <p class="text-apple-400 text-sm leading-relaxed mb-10">Tu tienda ya está activa bajo nuestra infraestructura optimizada. Ideal para venta inmediata.</p>
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="apple-card p-10 rounded-[2.5rem] flex flex-col justify-between">
+                    <div class="text-left space-y-4">
+                        <i data-lucide="link" class="w-8 h-8 text-apple-blue"></i>
+                        <h3 class="text-xl font-bold">Link para Compartir</h3>
+                        <p class="text-apple-400 text-xs">Usa este enlace rápido para redes sociales.</p>
+                        <input type="text" id="shareable-url" readonly class="w-full bg-white/5 p-3 rounded-xl text-[10px] font-bold text-apple-400 border border-white/10">
+                        <button onclick="app.copyStoreLink()" class="w-full h-12 bg-white text-black rounded-xl font-bold text-xs mt-2">Copiar Link</button>
                     </div>
-                    <div class="space-y-4">
-                        <input type="text" id="shareable-url" readonly class="w-full bg-black/40 border border-white/5 p-4 rounded-xl text-[10px] font-bold text-apple-400 truncate">
-                        <button onclick="app.copyStoreLink()" class="w-full h-14 bg-white text-black rounded-2xl font-bold text-sm shadow-xl hover:bg-apple-100 transition-all">Copiar Enlace</button>
-                        <a href="#" id="view-store-btn" class="block text-xs font-bold text-apple-blue hover:text-white transition-all">Ver vitrina ahora</a>
+                    <div class="mt-8 flex flex-col gap-3">
+                        <a href="#" id="view-store-btn" target="_blank" class="text-xs font-bold text-apple-blue underline">Ver mi tienda ahora</a>
+                        <button onclick="app.editStoreData()" class="text-xs text-white/30 hover:text-white underline">¿Cometiste un error? Editar datos</button>
                     </div>
                 </div>
 
-                <div class="apple-card p-10 rounded-4xl bg-apple-blue flex flex-col justify-between border-none shadow-2xl shadow-apple-blue/20">
-                    <div class="text-left">
-                        <div class="h-10 w-10 bg-white/20 text-white rounded-xl flex items-center justify-center mb-6"><i data-lucide="folder-down" class="w-5 h-5"></i></div>
-                        <h3 class="text-xl font-bold mb-3 text-white">Full Project Package</h3>
-                        <p class="text-white/80 text-sm leading-relaxed mb-10">Descarga un ZIP con todo el código base profesional para subirlo a tu propio GitHub y tener autonomía total.</p>
+                <div class="apple-card p-10 rounded-[2.5rem] bg-apple-blue/20 flex flex-col justify-between border-apple-blue/30">
+                    <div class="text-left space-y-4">
+                        <i data-lucide="archive" class="w-8 h-8 text-apple-blue"></i>
+                        <h3 class="text-xl font-bold">Tu propia Web (.zip)</h3>
+                        <p class="text-apple-400 text-xs">Descarga un paquete listo para tener tu web propia en GitHub.</p>
+                        <button onclick="app.downloadProZip()" class="w-full h-14 bg-apple-blue text-white rounded-xl font-black text-xs flex items-center justify-center gap-2">
+                            Descargar Proyecto ZIP
+                        </button>
                     </div>
-                    <button id="btn-download-zip" onclick="app.downloadProZip()" class="w-full h-14 bg-white text-black rounded-2xl font-bold text-sm shadow-xl hover:bg-apple-100 transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="archive" class="w-4 h-4"></i>
-                        Descargar Proyecto (.zip)
-                    </button>
+                    <div class="mt-8 pt-6 border-t border-white/5 space-y-3">
+                        <button onclick="app.toggleGuideModal(true, 'github')" class="text-[10px] font-bold text-white flex items-center gap-2 mx-auto uppercase tracking-widest"><i data-lucide="help-circle" class="w-3 h-3 text-apple-blue"></i> Ver guía de GitHub Pages</button>
+                        <button onclick="app.toggleGuideModal(true, 'domain')" class="text-[10px] font-bold text-white flex items-center gap-2 mx-auto uppercase tracking-widest"><i data-lucide="globe" class="w-3 h-3 text-apple-blue"></i> Ver guía de Dominio .cl</button>
+                    </div>
                 </div>
             </div>
         </div>
     </template>
 
-    <!-- Template: Store (The Pro Experience) -->
+    <!-- Template: STORE (Vitrina con fotos inteligentes) -->
     <template id="tpl-store">
         <div id="store-container" class="max-w-7xl mx-auto px-6 py-12 pb-40">
             <header class="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16">
                 <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2 py-0.5 rounded bg-apple-blue text-[9px] font-black uppercase text-white">Live</span>
-                        <h2 id="store-title" class="text-4xl font-bold tracking-tight">Cargando...</h2>
+                    <div class="flex items-center gap-2">
+                        <div class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <h2 id="store-title" class="text-4xl md:text-5xl font-black tracking-tighter">Cargando Tienda...</h2>
                     </div>
-                    <!-- Pro Search Bar -->
                     <div class="relative max-w-md">
                         <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-apple-400"></i>
-                        <input type="text" id="store-search" placeholder="Buscar productos..." oninput="app.handleSearch(this.value)" class="w-full h-12 pl-12 pr-6 rounded-xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none font-medium text-sm transition-all focus:bg-white/10">
+                        <input type="text" id="store-search" placeholder="Busca un producto..." oninput="app.handleSearch(this.value)" class="w-full h-12 pl-12 pr-6 rounded-xl bg-white/5 border border-white/10 focus:border-apple-blue outline-none text-sm font-medium transition-all">
                     </div>
                 </div>
-                <!-- Categories Flex -->
-                <div id="category-filters" class="flex flex-wrap gap-2 hide-scroll"></div>
+                <div id="category-filters" class="flex flex-wrap gap-2"></div>
             </header>
 
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <!-- Grid items injected here -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Se inyecta grilla -->
             </div>
         </div>
     </template>
