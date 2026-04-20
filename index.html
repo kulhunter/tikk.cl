@@ -1,430 +1,394 @@
 <!DOCTYPE html>
-<html lang="es" class="light">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Tikk</title>
-    <meta name="description" content="Tikk - Tu Catálogo de Recuerdos">
-    <meta name="theme-color" content="#f8fafc">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tikk | Crea tu tienda con Google Sheets</title>
+    <meta name="description" content="Conecta tu Google Sheets y crea una tienda online con carrito de compras y pedidos por WhatsApp en segundos.">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="Tikk - Tu Catálogo de Recuerdos">
-    <meta property="og:description" content="El contador emocional. Registra fechas vitales, anécdotas y obtén insights mágicos para celebrar.">
-    <meta property="og:image" content="https://tikk.cl/icon-512.png">
-    <meta property="og:url" content="https://tikk.cl/">
-    <meta property="og:type" content="website">
-    
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="icon-192.png" type="image/png">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af',
-                            400: '#fb7185', 500: '#f43f5e', 600: '#e11d48',
-                        }
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
                     },
                     fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
-                    }
+                        sans: ['Inter', 'sans-serif'],
+                    },
                 }
             }
         }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Day.js -->
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/duration.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/es.js"></script>
-    <script>
-        dayjs.extend(window.dayjs_plugin_relativeTime);
-        dayjs.extend(window.dayjs_plugin_duration);
-        dayjs.locale('es');
-    </script>
-    
+    <!-- Lucide Icons (for that premium feel) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-            touch-action: pan-y;
+        [v-cloak] { display: none; }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        ::-webkit-scrollbar { display: none; }
-        * { scrollbar-width: none; }
-        
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
-        .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
-
-        select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+        .dark-glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .swipe-card-wrapper {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1.5rem;
-            margin-bottom: 1rem;
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .swipe-actions-bg {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 1.5rem;
-            z-index: 0;
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
-        .swipe-action-left { background-color: #3b82f6; width: 50%; height: 100%; display: flex; align-items: center; padding-left: 1.5rem; color: white; font-weight: 700; }
-        .swipe-action-right { background-color: #ef4444; width: 50%; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 1.5rem; color: white; font-weight: 700; }
-        .swipe-surface {
-            position: relative;
-            z-index: 10;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 15px -3px rgba(0,0,0,0.03);
-            transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-            will-change: transform;
-            touch-action: pan-y;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
-        .swipe-surface.dragging { transition: none; }
-
-        /* Categorical Specific Light Mode */
-        html.light .cat-amor { background: #fff1f2; color: #f43f5e; border: 1px solid #ffe4e6; }
-        html.light .cat-salud { background: #f0fdf4; color: #22c55e; border: 1px solid #dcfce7; }
-        html.light .cat-trabajo { background: #eff6ff; color: #3b82f6; border: 1px solid #dbeafe; }
-        html.light .cat-mascota { background: #fdf4ff; color: #d946ef; border: 1px solid #fae8ff; }
-        html.light .cat-personal { background: #fffbeb; color: #f59e0b; border: 1px solid #fef3c7; }
-        html.light .cat-custom { background: #ffffff; color: #475569; border: 1px solid #f1f5f9; }
-
-        /* Categorical Specific Dark Mode */
-        html.dark .cat-amor { background: #4c1d25; color: #fda4af; border: 1px solid #8e1f32; }
-        html.dark .cat-salud { background: #143621; color: #86efac; border: 1px solid #1f5f38; }
-        html.dark .cat-trabajo { background: #1e3a63; color: #93c5fd; border: 1px solid #2a528c; }
-        html.dark .cat-mascota { background: #4a1d56; color: #f0abfc; border: 1px solid #75298a; }
-        html.dark .cat-personal { background: #4c360a; color: #fcd34d; border: 1px solid #7c570b; }
-        html.dark .cat-custom { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; }
-        
-        .nav-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
     </style>
 </head>
-<body class="text-slate-800 dark:text-slate-200 min-h-screen pb-safe pt-safe bg-slate-50 dark:bg-slate-950 transition-colors duration-300" id="main-body">
+<body class="bg-gray-50 text-slate-900 font-sans selection:bg-primary-100 selection:text-primary-900">
 
-    <!-- Header -->
-    <header id="main-header" class="sticky top-0 z-40 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 px-6 py-4 flex justify-between items-center transition-all duration-300">
-        <h1 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight" id="header-title">Tikk</h1>
-        <div class="flex items-center gap-3">
-            <button id="btn-theme-toggle" class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-90" onclick="window.app.toggleTheme()">
-                <svg id="icon-sun" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                <svg id="icon-moon" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-            </button>
-            <button id="btn-back" class="hidden text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors p-2 -mr-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-90" onclick="window.app.navigate('dashboard')">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-            </button>
-        </div>
-    </header>
+    <!-- Notification Overlay -->
+    <div id="notification-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-2"></div>
 
-    <!-- Onboarding View -->
-    <section id="view-onboarding" class="fixed inset-0 bg-slate-50 dark:bg-slate-950 z-[100] flex flex-col px-6 transition-all duration-500 opacity-0 translate-y-4 hidden overflow-y-auto">
-        <div class="flex-1 flex flex-col items-center justify-center text-center pt-8">
-            <div id="onboarding-icon" class="w-32 h-32 bg-brand-100 dark:bg-brand-900/40 text-brand-500 dark:text-brand-400 rounded-[2.5rem] flex items-center justify-center mb-8 rotate-[5deg] shadow-inner transition-all duration-300 mx-auto">
-                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <h2 id="onboarding-title" class="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-all duration-300">Tus Momentos</h2>
-            <p id="onboarding-text" class="text-slate-500 dark:text-slate-400 mt-5 text-[15px] font-medium leading-relaxed max-w-[280px] mx-auto transition-all duration-300">
-                Un espacio íntimo para las fechas que de verdad te importan. Guarda recuerdos, anécdotas y celébralos.
-            </p>
-            
-            <div class="flex gap-2.5 mt-12 justify-center" id="onboarding-dots">
-                <div class="h-2 w-6 rounded-full bg-brand-500 transition-all duration-300" id="dot-0"></div>
-                <div class="h-2 w-2 rounded-full bg-slate-200 dark:bg-slate-700" id="dot-1"></div>
-            </div>
-        </div>
+    <!-- App Shell -->
+    <div id="app" class="min-h-screen flex flex-col">
         
-        <div class="pb-[max(calc(env(safe-area-inset-bottom)+1rem),2rem)] w-full pt-6 mt-auto">
-            <button onclick="window.app.nextOnboarding()" class="w-full max-w-md mx-auto bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold text-lg py-4 rounded-2xl shadow-xl active:scale-[0.98] transition-all flex justify-center items-center" id="onboarding-btn">
-                Siguiente
+        <!-- Header / Nav -->
+        <header id="app-header" class="sticky top-0 z-50 glass border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <a href="#" onclick="app.navigate('landing')" class="flex items-center gap-2 group">
+                    <div class="bg-primary-600 text-white p-1.5 rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-primary-200">
+                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-tight text-slate-900">tikk<span class="text-primary-600">.</span></span>
+                </a>
+                <div class="flex items-center gap-4">
+                    <button id="cart-button" onclick="app.toggleCart()" class="relative p-2 text-slate-600 hover:text-primary-600 transition-colors hidden">
+                        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-primary-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">0</span>
+                    </button>
+                    <a href="https://calendly.com/dan-tagle/30min" target="_blank" class="hidden md:flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+                        Soporte Personalizado
+                    </a>
+                    <button onclick="app.navigate('diy')" class="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-slate-800 transition-all shadow-md active:scale-95">
+                        Empezar Gratis
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content (Views) -->
+        <main id="main-content" class="flex-grow">
+            <!-- Content will be injected here by app.js -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-100 py-12">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-slate-400 text-sm">© 2024 tikk.cl - Crea tu tienda online en segundos.</p>
+                <div class="mt-4 flex justify-center gap-6 text-slate-400">
+                    <a href="#" class="hover:text-primary-500 transition-colors text-sm">Términos</a>
+                    <a href="#" class="hover:text-primary-500 transition-colors text-sm">Privacidad</a>
+                    <a href="https://github.com/kulhunter/tikk.cl" class="hover:text-primary-500 transition-colors text-sm">GitHub</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Cart Sidebar / Modal Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <aside id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[70] translate-x-full transition-transform duration-300 shadow-2xl flex flex-col">
+        <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-slate-50">
+            <h2 class="text-xl font-bold flex items-center gap-2">
+                <i data-lucide="shopping-cart" class="w-5 h-5 text-primary-600"></i>
+                Tu Carrito
+            </h2>
+            <button onclick="app.toggleCart()" class="p-2 hover:bg-gray-200 rounded-full transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
-    </section>
-
-    <!-- App Container -->
-    <main id="app-container" class="max-w-md mx-auto relative px-5 py-6 mb-24 min-h-[70vh]">
-        
-        <!-- View: Dashboard -->
-        <section id="view-dashboard" class="w-full transition-all duration-300 opacity-0 translate-y-4 hidden">
-            <div class="mb-6">
-                <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight">Recuerdos</h2>
-                <p class="text-slate-500 dark:text-slate-400 mt-1.5 text-sm font-medium">El timeline de tu historia vivida.</p>
+        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
+            <!-- Cart items injected here -->
+            <div class="text-center py-20 text-slate-400">
+                <i data-lucide="shopping-basket" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>
+                <p>Tu carrito está vacío</p>
             </div>
-            
-            <div id="dates-list" class="w-full">
-                <!-- Cards injected via JS -->
+        </div>
+        <div class="p-6 border-t border-gray-100 bg-slate-50 space-y-4">
+            <div class="flex flex-col gap-3">
+                <input type="text" id="buyer-name" placeholder="Tu Nombre completo" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none text-sm transition-all font-medium">
+                <textarea id="order-comments" placeholder="Instrucciones adicionales (ej: horario de entrega)" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none text-sm transition-all font-medium resize-none" rows="2"></textarea>
             </div>
-            
-            <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16 text-center">
-                <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-[2rem] flex items-center justify-center mb-6 shadow-sm border border-slate-200 dark:border-slate-700">
-                    <span class="text-4xl text-slate-400 dark:text-slate-500">👻</span>
-                </div>
-                <h3 class="text-lg font-bold text-slate-700 dark:text-slate-300">Aún no hay historias</h3>
-                <p class="text-slate-500 dark:text-slate-400 mt-2 text-[15px] max-w-[240px] font-medium leading-relaxed">Toca en Plantillas para encontrar inspiración o toca el (+) para añadir un hito.</p>
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-slate-500 font-medium">Total Estimado</span>
+                <span id="cart-total" class="text-3xl font-black text-slate-900">$0</span>
             </div>
-        </section>
-
-        <!-- View: Templates (Catalog) -->
-        <section id="view-catalog" class="w-full relative transition-all duration-300 opacity-0 translate-y-4 hidden pb-10">
-            <div class="mb-6">
-                <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight">Plantillas Pro</h2>
-                <p class="text-slate-500 dark:text-slate-400 mt-1.5 text-sm font-medium">Automatiza la gestión de tus eventos y obtén cálculos inteligentes.</p>
-            </div>
-
-            <!-- Horizontal Carousel -->
-            <h3 class="font-bold text-slate-700 dark:text-slate-300 mb-3 mt-8">Las más útiles</h3>
-            <div class="flex overflow-x-auto gap-4 pb-4 -mx-5 px-5 snap-x">
-                <div onclick="window.app.loadTemplate('Cumple de mi Pareja', 'amor', '🎂', 'annual')" class="snap-start flex-shrink-0 w-40 bg-brand-50 dark:bg-red-950/30 border border-brand-100 dark:border-red-900/50 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform">
-                    <span class="text-3xl block mb-2">🎂</span>
-                    <h4 class="font-bold text-slate-800 dark:text-slate-100 leading-tight">Cumple de<br>mi Pareja</h4>
-                    <p class="text-[10px] uppercase font-bold text-brand-500 mt-2 tracking-wider">Avisa 1 día antes</p>
-                </div>
-
-                <div onclick="window.app.loadTemplate('Renovación Seguro Auto', 'custom', '🚗', 'annual')" class="snap-start flex-shrink-0 w-40 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform">
-                    <span class="text-3xl block mb-2">🚗</span>
-                    <h4 class="font-bold text-slate-800 dark:text-slate-100 leading-tight">Seguro<br>Vehículo</h4>
-                    <p class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 mt-2 tracking-wider">Trámite Anual</p>
-                </div>
-
-                <div onclick="window.app.loadTemplate('Día de Adopción', 'mascota', '🐶', 'annual')" class="snap-start flex-shrink-0 w-40 bg-fdf4ff border border-fae8ff dark:bg-purple-950/30 dark:border-purple-900/50 rounded-[1.5rem] p-5 cursor-pointer active:scale-95 transition-transform">
-                    <span class="text-3xl block mb-2">🐶</span>
-                    <h4 class="font-bold text-slate-800 dark:text-slate-100 leading-tight">Día de<br>Adopción</h4>
-                    <p class="text-[10px] uppercase font-bold text-purple-500 mt-2 tracking-wider">Aniversario</p>
-                </div>
-            </div>
-
-            <h3 class="font-bold text-slate-700 dark:text-slate-300 mb-3 mt-6">Por Entornos</h3>
-            <div class="grid grid-cols-2 gap-3 pb-8">
-                <button onclick="window.app.loadTemplate('', 'amor', '❤️', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl drop-shadow-sm">❤️</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Amor y Pareja</span>
-                </button>
-                <button onclick="window.app.loadTemplate('', 'personal', '🚀', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl drop-shadow-sm">🚀</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Creación/Negocio</span>
-                </button>
-                <button onclick="window.app.loadTemplate('', 'trabajo', '💼', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl drop-shadow-sm">💼</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Laboral</span>
-                </button>
-                <button onclick="window.app.loadTemplate('', 'salud', '🏃‍♂️', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl drop-shadow-sm">💊</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Salud / Médico</span>
-                </button>
-                <button onclick="window.app.loadTemplate('', 'mascota', '🐈', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl drop-shadow-sm">🐈</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Mascotas</span>
-                </button>
-                <button onclick="window.app.loadTemplate('', 'custom', '⭐', 'none')" class="bg-white dark:bg-slate-900 border text-left border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center gap-3 active:scale-95">
-                    <span class="text-2xl drop-shadow-sm">⭐</span><span class="font-bold text-slate-700 dark:text-slate-200 text-sm">Otro Tema...</span>
-                </button>
-            </div>
-            
-            <button onclick="window.app.navigate('add')" class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold py-4 rounded-2xl flex justify-center items-center gap-2 active:scale-95 shadow-md">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                Crear desde cero
+            <button onclick="app.sendOrder()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-700 transition-all shadow-lg shadow-green-200 flex items-center justify-center gap-2 group active:scale-95">
+                <i data-lucide="message-circle" class="w-6 h-6"></i>
+                Enviar pedido por WhatsApp
             </button>
-        </section>
+            <p class="text-[10px] text-center text-slate-400 italic">No realizas pagos aquí. Al enviar, serás redirigido a WhatsApp para coordinar con el vendedor.</p>
+        </div>
+    </aside>
 
-        <!-- View: Add / Edit -->
-        <section id="view-add" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-300 opacity-0 translate-y-4 hidden z-20 pb-20">
-            <form id="form-add" class="bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-xl shadow-slate-200/40 dark:shadow-black/40 border border-slate-100 dark:border-slate-800 transition-all">
-                <h2 id="form-add-title" class="text-2xl font-black text-slate-800 dark:text-white mb-6 tracking-tight">Nueva Ficha</h2>
-                
-                <div class="flex gap-4 mb-5">
-                    <div class="w-1/2">
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Color de Aura</label>
-                        <select id="input-category" class="w-full h-[52px] px-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-sm font-semibold text-slate-700 dark:text-slate-200 cursor-pointer">
-                            <option value="amor">Amor (Rosa)</option>
-                            <option value="personal">Personal (Amarillo)</option>
-                            <option value="salud">Salud (Verde)</option>
-                            <option value="trabajo">Trabajo (Azul)</option>
-                            <option value="mascota">Mascota (Morado)</option>
-                            <option value="custom" selected>Neutro (Gris)</option>
-                        </select>
-                    </div>
-                    <div class="w-1/2">
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Icono / Emoji</label>
-                        <input type="text" id="input-emoji" placeholder="Ej: 🍕" class="w-full h-[52px] text-2xl px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-brand-400 dark:focus:border-brand-500 text-center dark:text-white">
-                    </div>
-                </div>
+    <!-- Templates (Hidden in DOM for SPA injection) -->
+    <template id="tpl-landing">
+        <div class="relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-primary-50 to-white -z-10"></div>
+            <div class="absolute top-20 right-[-10%] w-[500px] h-[500px] bg-primary-200/20 rounded-full blur-3xl -z-10 animate-float"></div>
+            <div class="absolute bottom-20 left-[-5%] w-[400px] h-[400px] bg-blue-200/20 rounded-full blur-3xl -z-10 animate-float" style="animation-delay: 2s"></div>
 
-                <div class="mb-5">
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Título del Evento</label>
-                    <input type="text" id="input-title" placeholder="Ej: El día de la pizzería" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-slate-800 dark:text-white font-semibold placeholder:text-slate-400 dark:placeholder:text-slate-500">
+            <section class="max-w-7xl mx-auto px-4 pt-20 pb-32 flex flex-col items-center text-center">
+                <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-primary-100 mb-8 animate-bounce">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                    </span>
+                    <span class="text-xs font-bold text-primary-700 uppercase tracking-wider">Nuevo: Modo Google Sheets v2.0</span>
                 </div>
                 
-                <div class="mb-5">
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">Fecha de Origen</label>
-                    <input type="date" id="input-date" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-slate-800 dark:text-white font-semibold appearance-none color-scheme-target">
-                </div>
-
-                <div class="mb-5">
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1">¿Es Cíclico?</label>
-                    <select id="input-recurrence" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-sm font-bold text-slate-700 dark:text-slate-200 cursor-pointer">
-                        <option value="none" selected>No, Evento Único</option>
-                        <option value="daily">Se repite Diario</option>
-                        <option value="weekly">Semanal</option>
-                        <option value="monthly">Mensual</option>
-                        <option value="semestral">Semestral</option>
-                        <option value="annual">Anual / Cumpleaños / Aniversario</option>
-                    </select>
-                </div>
-
-                <div class="mb-8">
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 ml-1 flex justify-between">
-                        Tu Historia Secreta
-                        <span class="text-brand-500 dark:text-brand-400 normal-case font-medium tracking-normal text-[9px] bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded">Para Auto-Generar RRSS</span>
-                    </label>
-                    <textarea id="input-anecdote" rows="3" placeholder="Ej: Llovía, comimos helado, nos reímos muchísimo... (La IA local usará esto para escribir)" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-brand-400 outline-none text-[13px] font-medium text-slate-600 dark:text-slate-300 resize-none"></textarea>
-                </div>
+                <h1 class="text-5xl md:text-7xl font-black tracking-tight text-slate-900 max-w-4xl leading-[1.1] mb-6">
+                    Tu tienda online en <span class="gradient-text">un clic</span> desde tu Excel.
+                </h1>
                 
-                <button type="submit" class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold text-[15px] py-4 rounded-xl shadow-md active:scale-95 transition-all">
-                    Guardar Vida
-                </button>
-            </form>
-        </section>
+                <p class="text-xl text-slate-600 max-w-2xl mb-12 leading-relaxed">
+                    Conecta tu Google Sheets y obtén una tienda online con carrito de compras que envía pedidos por WhatsApp. <strong>Sin saber de tecnología.</strong>
+                </p>
 
-        <!-- View: Detail -->
-        <section id="view-detail" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-500 opacity-0 translate-y-4 hidden z-20 pb-36">
-            <div class="bg-white dark:bg-slate-900 rounded-[2rem] px-5 py-8 text-center relative overflow-hidden transition-all duration-500 shadow-sm ring-1 ring-slate-900/5 dark:ring-white/10">
-                <div class="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 -z-10"></div>
-                
-                <div class="relative w-full flex flex-col items-center">
-                    
-                    <div id="detail-emoji-box" class="w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-sm mb-4 border-2 border-white dark:border-slate-900 z-10 transition-colors">
-                        <span id="detail-emoji">✨</span>
+                <div class="grid md:grid-cols-2 gap-6 w-full max-w-4xl text-left">
+                    <!-- Option 1 -->
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-gray-100 flex flex-col group transition-all hover:-translate-y-1">
+                        <div class="bg-primary-100 text-primary-600 w-12 h-12 rounded-2xl flex items-center justify-center mb-6">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">Hazlo tú mismo (Gratis)</h3>
+                        <p class="text-slate-500 mb-8 flex-grow">Sigue unos pasos simples, pega el enlace de tu Google Sheet y tu tienda quedará lista en segundos.</p>
+                        <button onclick="app.navigate('diy')" class="w-full bg-primary-600 text-white py-4 rounded-2xl font-bold hover:bg-primary-700 transition-all flex items-center justify-center gap-2">
+                            Crear tienda ahora
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
                     </div>
 
-                    <p class="text-slate-400 dark:text-slate-500 font-bold tracking-widest text-[10px] uppercase" id="detail-subtitle">Cargando...</p>
-                    <h3 class="text-slate-800 dark:text-white font-black text-2xl mt-1 tracking-tight" id="detail-header-date">...</h3>
-                    
-                    <div class="my-6 w-full flex flex-col items-center justify-center">
-                        <div id="detail-counter" class="text-[3.25rem] sm:text-[3.5rem] leading-none font-black text-brand-500 dark:text-brand-400 tracking-tighter tabular-nums drop-shadow-sm truncate w-full px-2">0</div>
-                        
-                        <div class="relative mt-2 inline-block">
-                            <select id="detail-unit-selector" class="appearance-none bg-transparent text-xl font-bold text-slate-400 dark:text-slate-500 cursor-pointer outline-none text-center hover:text-slate-600 dark:hover:text-slate-300 pr-6 pl-2 transition-colors" onchange="window.app.updateDetailUnit()">
-                                <option value="segundos">segundos</option>
-                                <option value="minutos" selected>minutos</option>
-                                <option value="horas">horas</option>
-                                <option value="días">días</option>
-                                <option value="semanas">semanas</option>
-                                <option value="meses">meses</option>
-                                <option value="años">años</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1 text-slate-400">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                    <!-- Option 2 -->
+                    <div class="bg-slate-900 p-8 rounded-[2.5rem] shadow-xl shadow-slate-900/20 border border-slate-800 flex flex-col transition-all hover:-translate-y-1">
+                        <div class="bg-slate-800 text-white w-12 h-12 rounded-2xl flex items-center justify-center mb-6">
+                            <i data-lucide="user" class="w-6 h-6 text-primary-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">DanTagle lo hace por ti</h3>
+                        <p class="text-slate-400 mb-6">Sesión online de hasta 1 hora. Configuramos tu tienda juntos usando tu Excel y la dejamos lista para vender.</p>
+                        <div class="space-y-2 mb-8">
+                            <div class="flex items-center gap-2 text-primary-400 font-bold text-sm">
+                                <i data-lucide="check" class="w-4 h-4"></i> Costo: 1 UF
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400 text-xs">
+                                <i data-lucide="clock" class="w-4 h-4"></i> Agenda de 30 min (extensible)
+                            </div>
+                        </div>
+                        <a href="https://calendly.com/dan-tagle/30min" target="_blank" class="w-full bg-white text-slate-900 py-4 rounded-2xl font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-2">
+                            Agendar en Calendly
+                            <i data-lucide="external-link" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How it works -->
+            <section class="max-w-7xl mx-auto px-4 py-24 border-t border-gray-100">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold mb-4">¿Cómo funciona?</h2>
+                    <p class="text-slate-500">Solo necesitas un archivo de Google Drive.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white shadow-lg rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary-600 border border-gray-50">
+                            <span class="text-2xl font-black">1</span>
+                        </div>
+                        <h4 class="font-bold mb-2">Crea tu Excel</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Usa nuestras 6 columnas base: Codigo, Categoria, Producto, Stock, Precio y Foto.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white shadow-lg rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary-600 border border-gray-50">
+                            <span class="text-2xl font-black">2</span>
+                        </div>
+                        <h4 class="font-bold mb-2">Pega tu enlace</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Asegúrate de compartir el archivo como "Cualquiera con el enlace puede ver".</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white shadow-lg rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary-600 border border-gray-50">
+                            <span class="text-2xl font-black">3</span>
+                        </div>
+                        <h4 class="font-bold mb-2">¡A vender!</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Comparte el link de tu nueva tienda y recibe pedidos directamente en tu WhatsApp.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <template id="tpl-diy">
+        <div class="max-w-4xl mx-auto px-4 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black text-slate-900 mb-4">Hazlo tú mismo</h2>
+                <p class="text-slate-500 max-w-xl mx-auto">Crea tu propia tienda. Solo necesitas tu WhatsApp y un Google Sheet configurado.</p>
+            </div>
+
+            <div class="space-y-12">
+                <!-- Step 1 -->
+                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
+                    <div class="flex items-start gap-6">
+                        <div class="bg-primary-600 text-white w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold mb-4">Prepara tu archivo</h3>
+                            <p class="text-slate-600 mb-6 font-medium">Tu Google Sheet debe tener exactamente estas 6 columnas (sin tildes):</p>
+                            
+                            <div class="overflow-x-auto rounded-xl border border-gray-200 mb-6 bg-slate-50 text-[11px]">
+                                <table class="w-full text-left">
+                                    <thead class="bg-slate-100 text-slate-500 font-bold uppercase tracking-wider">
+                                        <tr>
+                                            <th class="px-4 py-3 border-b">Codigo</th>
+                                            <th class="px-4 py-3 border-b">Categoria</th>
+                                            <th class="px-4 py-3 border-b">Producto</th>
+                                            <th class="px-4 py-3 border-b">Stock</th>
+                                            <th class="px-4 py-3 border-b">Precio</th>
+                                            <th class="px-4 py-3 border-b">LinkFoto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-4 py-3">A01</td>
+                                            <td class="px-4 py-3">Poleras</td>
+                                            <td class="px-4 py-3">Camiseta Algodón</td>
+                                            <td class="px-4 py-3 text-center">15</td>
+                                            <td class="px-4 py-3">12990</td>
+                                            <td class="px-4 py-3 text-blue-500 italic">https://...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="text-xs text-slate-400 mb-4">💡 El archivo debe estar compartido como <strong>"Cualquiera con el enlace puede ver"</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
+                    <div class="flex items-start gap-6">
+                        <div class="bg-primary-600 text-white w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold mb-4">Número de WhatsApp</h3>
+                            <div class="space-y-4">
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Para recibir pedidos</label>
+                                <input type="number" id="whatsapp-input" placeholder="Ej: 56912345678" class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none text-slate-800 font-medium transition-all">
+                                <p class="text-[10px] text-slate-400">Incluye código de país sin el "+". Ej: 569... (Chile), 549... (Arg), 521... (Mex)</p>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div id="detail-exact-box" class="bg-slate-50 dark:bg-slate-800/50 py-3 px-4 rounded-xl mb-4 w-full text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-relaxed border border-slate-100 dark:border-slate-700/50">
-                        <span id="detail-exact-prefix">...</span> <strong id="detail-exact-time" class="text-slate-700 dark:text-slate-200">...</strong> <span id="detail-exact-suffix"></span>
-                    </div>
-
-                    <!-- Only shown if recurrent -->
-                    <div id="detail-next-box" class="hidden mb-6 bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 py-3 block px-4 rounded-xl w-full text-[13px] font-medium flex justify-between items-center shadow-lg">
-                        <span>Próximo aniversario / Hito:</span>
-                        <strong id="detail-next-days" class="text-brand-400 dark:text-brand-600 font-bold tracking-tight text-sm">...</strong>
-                    </div>
-
-                    <div id="detail-anecdote-box" class="hidden mb-6 w-full text-left">
-                        <div class="bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 p-4 rounded-xl text-[13px] font-medium italic border border-slate-100 dark:border-slate-700 flex gap-3 shadow-sm">
-                            <span class="text-xl">💭</span>
-                            <span id="detail-anecdote-text" class="leading-relaxed">...</span>
+                <!-- Step 3 -->
+                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
+                    <div class="flex items-start gap-6">
+                        <div class="bg-primary-600 text-white w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold mb-4">Pega el link de Google Sheets</h3>
+                            <div class="space-y-4">
+                                <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none text-slate-800 font-medium transition-all">
+                                <button onclick="app.generateFromDiy()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2">
+                                    Generar Mi Tienda
+                                    <i data-lucide="rocket" class="w-5 h-5"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="w-full text-left mb-6 border-t border-slate-100 dark:border-slate-800 pt-6 mt-2">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                                Mensaje Sugerido
-                            </label>
-                            <button onclick="window.app.regenerateMessage()" class="text-[#075E54] dark:text-[#25D366] hover:bg-[#25D366]/10 px-2 py-1 rounded text-[11px] font-bold tracking-normal flex items-center gap-1 transition-colors">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                                Cambiar estilo
-                            </button>
-                        </div>
-                        <textarea id="whatsapp-message" rows="5" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 focus:border-green-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-green-500/20 outline-none transition-all text-[13px] font-semibold text-slate-700 dark:text-slate-200 resize-none shadow-sm leading-relaxed"></textarea>
-                    </div>
-                    
-                    <div class="w-full flex flex-col gap-3">
-                        <button onclick="window.app.sendWhatsapp()" class="w-full bg-[#128C7E] dark:bg-[#128C7E]/90 text-white font-bold py-3.5 rounded-xl shadow-md shadow-green-900/10 hover:bg-[#075E54] active:scale-[0.98] transition-all flex justify-center items-center gap-2.5">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            Enviar por WhatsApp
-                        </button>
-                        
-                        <button onclick="window.app.setupNotifications()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-[0.98] transition-all flex justify-center items-center gap-2.5 mt-1 shadow-sm">
-                            <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            Alarma de Calendario
-                        </button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </template>
 
-        <!-- View: Inspiration (Maps) -->
-        <section id="view-inspiration" class="w-full absolute top-0 left-0 px-5 pt-6 transition-all duration-500 opacity-0 translate-y-4 hidden z-20 pb-24">
-            <div class="mb-6">
-                <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight leading-tight">Explorar</h2>
-                <p class="text-slate-500 dark:text-slate-400 mt-2 text-[15px] font-medium">Buscador automático para regalar momentos. Usa tu ubicación actual gratis.</p>
+    <template id="tpl-share">
+        <div class="max-w-xl mx-auto px-4 py-20 text-center">
+            <div class="w-24 h-24 bg-green-100 text-green-600 rounded-[3rem] flex items-center justify-center mx-auto mb-8 shadow-inner shadow-green-200 animate-bounce">
+                <i data-lucide="check" class="w-12 h-12"></i>
             </div>
-
-            <div id="geo-prompt-box" class="bg-white dark:bg-slate-900 border text-center border-slate-200 dark:border-slate-800 rounded-[2rem] p-8 shadow-sm">
-                <div class="w-20 h-20 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-[1.5rem] flex items-center justify-center mx-auto mb-5 rotate-3 shadow-inner">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <h2 class="text-4xl font-black text-slate-900 mb-4 tracking-tight">¡Tienda lista!</h2>
+            <p class="text-slate-500 mb-10">Copia este enlace y envíaselo a tus clientes o ponlo en tu bio de Instagram.</p>
+            
+            <div class="bg-white p-6 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-gray-100 mb-8">
+                <div class="flex items-center gap-2 mb-6 bg-slate-50 p-4 rounded-xl border border-gray-100">
+                    <input type="text" id="shareable-url" readonly class="bg-transparent border-none outline-none w-full text-slate-500 font-medium text-xs truncate">
+                    <button onclick="app.copyStoreLink()" class="bg-slate-900 text-white p-3 rounded-lg hover:bg-primary-600 transition-all active:scale-90 flex-shrink-0">
+                        <i data-lucide="copy" class="w-5 h-5"></i>
+                    </button>
                 </div>
-                <h3 class="text-lg font-bold text-slate-700 dark:text-white">Conectar Radares</h3>
-                <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">Escanea los lugares secretos y mejor valorados para visitar aquí.</p>
-                <button onclick="window.app.acquireLocation()" class="mt-6 w-full bg-blue-500 dark:bg-blue-600 text-white font-bold py-3.5 rounded-xl shadow-md active:scale-95 transition-all">
-                    Descubrir mi Zona
-                </button>
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="#" id="view-store-btn" class="bg-primary-600 text-white py-4 rounded-2xl font-bold hover:bg-primary-700 transition-all flex items-center justify-center gap-2 text-sm">
+                        Ver tienda
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                    <button onclick="app.navigate('diy')" class="bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all text-sm">
+                        Crear otra
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-store">
+        <div id="store-view" class="max-w-7xl mx-auto px-4 py-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-gray-100 pb-8">
+                <div>
+                    <h2 id="store-title" class="text-4xl font-black text-slate-900 mb-2">Tienda Online</h2>
+                    <p class="text-slate-500 font-medium flex items-center gap-2">
+                        <i data-lucide="info" class="w-4 h-4 text-primary-500"></i>
+                        Selecciona tus productos y pide por WhatsApp.
+                    </p>
+                </div>
+                <div id="category-filters" class="flex flex-wrap gap-2">
+                    <button onclick="app.filterCategory('all')" class="category-pill active bg-primary-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md shadow-primary-200 transition-all">Todas</button>
+                </div>
             </div>
 
-            <div id="inspiration-grid" class="hidden flex flex-col gap-4 mt-4">
-                <!-- Cards render via JS -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Products injected here -->
+                <div class="col-span-full py-20 flex flex-col items-center justify-center text-slate-300">
+                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-slate-200 border-t-primary-500 mb-4"></div>
+                    <p class="font-bold text-slate-500">Cargando productos...</p>
+                </div>
             </div>
-        </section>
-        
-    </main>
-
-    <!-- Floating FAB -->
-    <div id="global-fab" class="fixed bottom-[95px] left-0 right-0 pointer-events-none z-30 flex justify-center transition-opacity duration-300">
-        <div class="w-full max-w-md relative h-14">
-            <button onclick="window.app.navigate('add')" class="absolute right-6 w-14 h-14 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full shadow-lg shadow-slate-900/20 dark:shadow-white/10 flex items-center justify-center hover:bg-slate-800 dark:hover:bg-slate-100 active:scale-[0.9] transition-all duration-300 pointer-events-auto group ring-4 ring-white dark:ring-slate-950">
-                <svg class="w-7 h-7 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-            </button>
         </div>
-    </div>
+    </template>
 
-    <!-- Bottom Navigation Bar -->
-    <nav id="main-nav" class="fixed bottom-0 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 z-50 transition-all duration-300">
-        <div class="max-w-md mx-auto nav-container px-2 py-3 pb-[max(env(safe-area-inset-bottom),12px)]">
-            <button onclick="window.app.navigate('dashboard')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-Brand-500 hover:scale-105 active:scale-95 transition-all" data-target="dashboard">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" /><path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" /></svg>
-                <span class="text-[11px] font-bold tracking-wide">Recuerdos</span>
-            </button>
-            <button onclick="window.app.navigate('catalog')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:scale-105 active:scale-95 transition-all" data-target="catalog">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                <span class="text-[11px] font-bold tracking-wide">Plantillas</span>
-            </button>
-            <button onclick="window.app.navigate('inspiration')" class="nav-btn w-full py-1 flex flex-col items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:scale-105 active:scale-95 transition-all" data-target="inspiration">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
-                <span class="text-[11px] font-bold tracking-wide">Inspiración</span>
-            </button>
-        </div>
-    </nav>
-    
     <script src="app.js"></script>
 </body>
 </html>
