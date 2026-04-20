@@ -3,17 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>tikk | Tu vitrina profesional con Google Sheets</title>
+    <title>tikk | Vitrinas Digitales de Alto Nivel</title>
     
-    <!-- Meta Tags para WhatsApp/Redes (Social Preview) -->
-    <meta name="description" content="Crea una vitrina online profesional usando solo tu Excel. Pedidos directos a tu WhatsApp. Sin complicaciones.">
-    <meta property="og:title" content="tikk | Crea tu tienda online en segundos">
-    <meta property="og:description" content="Usa tu Google Sheets para gestionar stock y vender por WhatsApp con un diseño de clase mundial.">
+    <!-- SEO & Social Preview -->
+    <meta name="description" content="La herramienta más innovadora para PyMEs. Transforma tu Excel en una boutique online de alta gama. Creado por Dan Tagle.">
     <meta property="og:image" content="https://tikk.cl/icon-512.png">
-    <meta property="og:url" content="https://tikk.cl">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Tailwind & UI Assets -->
+    
+    <!-- tailwind & Lux Assets -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,350 +17,248 @@
             theme: {
                 extend: {
                     colors: {
-                        apple: { 50: '#f5f5f7', 100: '#e8e8ed', 400: '#86868b', 500: '#1d1d1f', 600: '#121212', blue: '#0071e3' },
-                        obsidian: '#000',
+                        lux: { 50: '#f9f9f9', 100: '#efefef', 400: '#8e8e93', 500: '#1c1c1e', 600: '#000000', blue: '#0066cc' },
                     },
-                    fontFamily: {
-                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
                 }
             }
         }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <style>
-        body { 
-            background-color: #000; 
-            color: #f5f5f7;
-            -webkit-font-smoothing: antialiased;
-            font-size: 16px;
-        }
+        body { background-color: #000; color: #fff; -webkit-font-smoothing: antialiased; }
+        .lux-glass { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .lux-card { background: #0a0a0a; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.5s cubic-bezier(0.2, 1, 0.2, 1); }
+        .lux-card:hover { border-color: rgba(255, 255, 255, 0.15); transform: translateY(-4px); }
         
-        /* Animación del Icono */
-        @keyframes zap-pulse {
-            0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0px #fff); }
-            50% { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
-            100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0px #fff); }
-        }
-        .icon-animate { animation: zap-pulse 2s infinite ease-in-out; }
-
-        .apple-glass {
-            background: rgba(18, 18, 18, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        /* Animaciones */
+        @keyframes reveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { animation: reveal 0.8s forwards; }
         
-        .card-pro {
-            background: #121212;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 2rem;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
+        @keyframes pulse-zap { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.1); filter: brightness(1.3); } }
+        .zap-icon { animation: pulse-zap 2s infinite ease-in-out; }
 
-        .card-pro:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: #fff;
-            color: #000;
-            font-weight: 700;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary:active { transform: scale(0.96); }
-
-        /* Ajustes de Legibilidad */
-        h1, h2 { letter-spacing: -0.02em; line-height: 1.1; }
-        p { line-height: 1.6; color: #a1a1a6; }
-
+        /* Scroll */
         ::-webkit-scrollbar { display: none; }
         
-        .modal-blur {
-            backdrop-filter: blur(10px);
-            background: rgba(0,0,0,0.7);
-        }
+        /* Product Modal Drawer */
+        #product-modal { transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1); }
+        .drawer-open { transform: translateY(0) !important; }
+        .drawer-closed { transform: translateY(100%) !important; }
+        @media (min-width: 768px) { .drawer-closed { transform: translateX(100%) translateY(0) !important; } }
     </style>
 </head>
-<body class="selection:bg-apple-blue selection:text-white">
+<body class="selection:bg-lux-blue selection:text-white">
 
-    <div id="notification-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-3 w-full max-w-xs px-4"></div>
+    <div id="notification-container" class="fixed top-6 right-6 z-[200] flex flex-col gap-3"></div>
 
     <div id="app" class="min-h-screen flex flex-col">
         
-        <!-- Header Pro con Animación -->
-        <header id="main-header" class="apple-glass sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <!-- Main Navbar -->
+        <header id="main-header" class="lux-glass sticky top-0 z-[100]">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <a href="#" onclick="app.navigate('landing')" class="flex items-center gap-3">
-                    <div class="h-9 w-9 bg-white rounded-xl flex items-center justify-center icon-animate shadow-lg">
+                    <div class="h-10 w-10 bg-white rounded-xl flex items-center justify-center zap-icon">
                         <i data-lucide="zap" class="text-black w-6 h-6 fill-current"></i>
                     </div>
-                    <span class="text-xl font-black tracking-tight tracking-wider">tikk</span>
+                    <span class="text-2xl font-black italic tracking-tighter">tikk</span>
                 </a>
-                
-                <div class="flex items-center gap-4">
-                    <button onclick="app.navigate('diy')" class="text-sm font-bold bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-all">
-                        Crear Tienda
-                    </button>
-                    <button id="cart-button" onclick="app.toggleCart()" class="hidden relative p-2 text-white">
-                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-apple-blue text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">0</span>
-                    </button>
-                </div>
+                <button onclick="app.navigate('diy')" class="bg-white text-black px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all">Crear Boutique</button>
             </div>
         </header>
 
-        <!-- Main Content -->
+        <!-- Dynamic Experience -->
         <main id="main-content" class="flex-grow">
-            <!-- Templates se auto-inyectan -->
+            <!-- Content will be injected -->
         </main>
 
-        <!-- Footer Simplificado -->
-        <footer id="main-footer" class="py-12 text-center border-t border-white/5">
-            <div class="max-w-7xl mx-auto px-6">
-                <p class="text-xs font-bold text-white/30 uppercase tracking-[0.4em] mb-6">Innovación para Emprendedores</p>
-                <div class="flex justify-center items-center gap-2 text-sm text-white/60">
-                    <span>Diseñado por</span>
-                    <a href="https://dantagle.cl" target="_blank" class="text-white font-bold hover:text-apple-blue transition-colors underline underline-offset-4 decoration-apple-blue/40">Dan Tagle</a>
+        <!-- Global Identity Footer -->
+        <footer id="global-footer" class="py-24 border-t border-white/5 bg-black">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <p class="text-[10px] font-black uppercase tracking-[0.5em] text-lux-400 mb-8">The Future of Small Business</p>
+                <div class="space-y-4">
+                    <p class="text-white/40 text-sm font-medium">Una creación original de</p>
+                    <a href="https://dantagle.cl" target="_blank" class="inline-block">
+                        <span class="text-2xl font-black tracking-tighter hover:text-lux-blue transition-colors">Dan Tagle<span class="text-lux-blue">.</span></span>
+                    </a>
+                </div>
+                <div class="mt-16 flex justify-center gap-8">
+                    <button onclick="app.shareWithFriend()" class="flex items-center gap-2 text-xs font-bold text-lux-400 hover:text-white transition-all uppercase tracking-widest border border-white/10 px-6 py-3 rounded-full">
+                        <i data-lucide="share" class="w-4 h-4"></i> Recomienda a un emprendedor
+                    </button>
                 </div>
             </div>
         </footer>
     </div>
 
-    <!-- Modal: ¿Cómo conectar mi dominio? -->
-    <div id="modal-domain" class="fixed inset-0 z-[110] flex items-center justify-center p-4 modal-blur opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-apple-600 w-full max-w-lg rounded-[2.5rem] border border-white/10 p-8 shadow-2xl flex flex-col gap-8 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-bold italic">Configura tu Dominio</h2>
-                <button onclick="app.toggleDomainModal(false)" class="h-10 w-10 flex items-center justify-center rounded-full bg-white/5"><i data-lucide="x" class="w-6 h-6"></i></button>
-            </div>
-            
-            <div class="space-y-8 text-left">
-                <div class="flex gap-6">
-                    <div class="h-10 w-10 bg-apple-blue rounded-xl flex items-center justify-center flex-shrink-0 font-bold">1</div>
-                    <div>
-                        <h4 class="font-bold text-white mb-1 leading-tight">Compra tu .cl</h4>
-                        <p class="text-sm">Entra a NIC.cl y registra tu nombre de tienda. Cuesta aprox. $9.990 al año.</p>
-                    </div>
-                </div>
-                <div class="flex gap-6">
-                    <div class="h-10 w-10 bg-apple-blue rounded-xl flex items-center justify-center flex-shrink-0 font-bold">2</div>
-                    <div>
-                        <h4 class="font-bold text-white mb-1 leading-tight">Usa Cloudflare</h4>
-                        <p class="text-sm">Crea una cuenta gratuita en Cloudflare, añade tu dominio y cambia los servidores de nombre (DNS) en NIC.cl.</p>
-                    </div>
-                </div>
-                <div class="flex gap-6">
-                    <div class="h-10 w-10 bg-apple-blue rounded-xl flex items-center justify-center flex-shrink-0 font-bold">3</div>
-                    <div>
-                        <h4 class="font-bold text-white mb-1 leading-tight">Apunta a GitHub</h4>
-                        <p class="text-sm">Configura un registro CNAME en Cloudflare apuntando a tu página de GitHub y listo.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="p-6 bg-white/5 rounded-3xl border border-white/5">
-                <p class="text-xs font-medium leading-relaxed opacity-60">Esta guía es resumida. Si quieres que yo maneje todo el proceso técnico por ti, abajo tienes la opción "Dan lo hace por ti".</p>
-            </div>
+    <!-- PRODUCT DETAIL MODAL (Drawer style) -->
+    <div id="modal-overlay" onclick="app.closeProductModal()" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[150] opacity-0 pointer-events-none transition-opacity duration-500"></div>
+    <aside id="product-modal" class="fixed bottom-0 right-0 h-[85vh] md:h-full w-full md:max-w-xl bg-lux-500 z-[160] drawer-closed shadow-2xl flex flex-col md:border-l border-white/10 rounded-t-[3rem] md:rounded-l-[3rem] md:rounded-t-none">
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-white/10 rounded-full md:hidden"></div>
+        <button onclick="app.closeProductModal()" class="absolute top-8 right-8 h-12 w-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all"><i data-lucide="x" class="w-6 h-6"></i></button>
+        
+        <div id="modal-content" class="flex-grow overflow-y-auto p-10 mt-6 sm:mt-0">
+            <!-- Product data injected here -->
         </div>
-    </div>
-
-    <!-- Carrito Lateral (Se mantiene Pro) -->
-    <aside id="cart-sidebar" class="fixed top-2 bottom-2 right-2 w-full max-w-sm bg-apple-600 rounded-[2.5rem] z-[70] translate-x-[110%] transition-transform duration-500 border border-white/10 shadow-2xl flex flex-col overflow-hidden">
-        <div class="p-8 border-b border-white/5 flex justify-between items-center">
-            <h2 class="text-xl font-bold italic">Tu Pedido</h2>
-            <button onclick="app.toggleCart()" class="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button>
-        </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto p-8 space-y-6"></div>
-        <div class="p-8 bg-black/40 space-y-6">
-            <div class="space-y-4">
-                <input type="text" id="buyer-name" placeholder="Tu Nombre Completo" class="w-full h-12 px-5 rounded-xl bg-white/5 border border-white/10 outline-none focus:border-apple-blue font-medium text-sm">
-                <input type="text" id="buyer-address" placeholder="Dirección de envío completa" class="w-full h-12 px-5 rounded-xl bg-white/5 border border-white/10 outline-none focus:border-apple-blue font-medium text-sm">
-            </div>
-            <div class="flex justify-between items-center">
-                <span class="text-white/40 text-xs font-bold uppercase tracking-widest">Total Productos</span>
-                <span id="cart-total" class="text-3xl font-black">$0</span>
-            </div>
-            <button onclick="app.sendOrder()" class="w-full h-14 bg-apple-blue text-white rounded-2xl font-bold flex items-center justify-center gap-3">
-                <i data-lucide="message-circle" class="w-5 h-5"></i> Enviar Pedido por WhatsApp
-            </button>
+        
+        <div id="modal-actions" class="p-10 border-t border-white/5 bg-black/40 grid grid-cols-2 gap-4">
+            <!-- Buttons injected here -->
         </div>
     </aside>
 
-    <!-- TEMPLATES -->
+    <!-- UI TEMPLATES -->
 
-    <!-- Template: Landing (Rediseño Humano) -->
+    <!-- Template: Landing (Sensual & Direct) -->
     <template id="tpl-landing">
-        <div class="max-w-7xl mx-auto px-6 pt-16 md:pt-32 pb-48 relative">
-            <!-- Hero Section -->
-            <div class="max-w-3xl mx-auto text-center mb-24">
-                <h1 class="text-5xl md:text-7xl font-extrabold mb-8 text-white leading-tight tracking-tighter italic">
-                    Vende profesional <br> usando solo un Excel.
-                </h1>
-                <p class="text-lg md:text-xl text-white/60 mb-12 font-medium max-w-xl mx-auto">
-                    La solución para emprendedores que no quieren complicaciones técnicas. Gestiona tu stock en segundos y recibe pedidos por WhatsApp.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="app.navigate('diy')" class="h-16 px-10 bg-white text-black rounded-full font-bold text-lg hover:bg-apple-100 transition-all flex items-center justify-center gap-2">
-                        Empezar gratis
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                    </button>
-                    <button onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})" class="h-16 px-10 bg-white/5 border border-white/10 rounded-full font-bold text-lg hover:bg-white/10 transition-all">
-                        Ver cómo funciona
-                    </button>
+        <div class="max-w-7xl mx-auto px-6 pt-24 pb-48 text-center sm:text-left">
+            <div class="flex flex-col lg:flex-row items-center gap-20">
+                <div class="lg:w-2/3 reveal">
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-10">Bespoke E-commerce Platform</span>
+                    <h1 class="text-6xl md:text-[120px] font-black tracking-tighter leading-[0.8] mb-12">
+                        Vende <br> <span class="italic text-lux-blue">superior</span>.
+                    </h1>
+                    <p class="text-xl md:text-2xl text-lux-400 font-medium max-w-2xl mb-16 leading-relaxed">
+                        Transformamos tu simple Google Sheet en una <span class="text-white">boutique digital</span> de alto nivel. Para PyMEs que valoran la imagen y la velocidad.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <button onclick="app.navigate('diy')" class="h-16 px-12 bg-white text-black rounded-2xl font-black text-xl hover:scale-105 transition-all shadow-2xl">Empezar a crear</button>
+                        <button onclick="document.getElementById('tutorial').scrollIntoView({behavior:'smooth'})" class="h-16 px-12 border border-white/10 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition-all text-sm uppercase tracking-widest">Ver el método</button>
+                    </div>
+                </div>
+                <div class="lg:w-1/3 flex flex-col items-center gap-10 reveal" style="animation-delay: 0.2s">
+                    <div class="h-64 w-64 bg-lux-blue/10 rounded-[4rem] flex items-center justify-center p-8 border border-lux-blue/20">
+                        <i data-lucide="zap" class="w-24 h-24 text-lux-blue fill-lux-blue animate-pulse"></i>
+                    </div>
+                    <p class="text-xs text-center font-bold text-white/30 uppercase tracking-[0.3em]">No-code Revolution</p>
                 </div>
             </div>
 
-            <!-- Onboarding Section (Mejor lectura) -->
-            <div id="how-it-works" class="max-w-4xl mx-auto py-32 border-t border-white/5">
-                <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center italic">Esto funciona así:</h2>
-                
-                <div class="grid md:grid-cols-3 gap-12 text-left">
-                    <div class="space-y-6">
-                        <div class="h-14 w-14 bg-apple-blue rounded-[1.2rem] flex items-center justify-center shadow-lg"><i data-lucide="edit-3" class="text-white w-7 h-7"></i></div>
-                        <h3 class="text-xl font-bold text-white italic">1. Crea tu lista</h3>
-                        <p class="text-base font-medium leading-relaxed">Anota tus productos en un Google Sheets. Es tu bodega digital: fácil de leer y actualizar desde tu celular.</p>
-                    </div>
-                    <div class="space-y-6">
-                        <div class="h-14 w-14 bg-apple-blue rounded-[1.2rem] flex items-center justify-center shadow-lg"><i data-lucide="link-2" class="text-white w-7 h-7"></i></div>
-                        <h3 class="text-xl font-bold text-white italic">2. Conecta tu Excel</h3>
-                        <p class="text-base font-medium leading-relaxed">Pegas el link de tu archivo en nuestra plataforma. Nosotros leemos tu lista y creamos una vitrina profesional automáticamente.</p>
-                    </div>
-                    <div class="space-y-6">
-                        <div class="h-14 w-14 bg-apple-blue rounded-[1.2rem] flex items-center justify-center shadow-lg"><i data-lucide="share" class="text-white w-7 h-7"></i></div>
-                        <h3 class="text-xl font-bold text-white italic">3. Comparte y vende</h3>
-                        <p class="text-base font-medium leading-relaxed">Obtienes un link único para tus redes sociales. Los pedidos de tus clientes te llegarán directo a tu WhatsApp, organizados y listos.</p>
-                    </div>
+            <!-- Steps Section -->
+            <div id="tutorial" class="mt-64 grid md:grid-cols-3 gap-16 border-t border-white/5 pt-32">
+                <div class="space-y-6">
+                    <h3 class="text-4xl font-black italic mb-4">1. Bodega</h3>
+                    <p class="text-lux-400 font-medium text-lg leading-relaxed">Tu stock vive en un Excel. <a href="https://docs.google.com/spreadsheets/d/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/edit#gid=0" target="_blank" class="text-lux-blue underline">Copia nuestra plantilla pro aquí</a> y añade tus productos en segundos.</p>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-4xl font-black italic mb-4">2. Conexión</h3>
+                    <p class="text-lux-400 font-medium text-lg leading-relaxed">Pegas el link, eliges un nombre y tikk genera una cabecera cinematográfica y una vitrina optimizada para ventas.</p>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-4xl font-black italic mb-4">3. Victoria</h3>
+                    <p class="text-lux-400 font-medium text-lg leading-relaxed">Compartes tu nueva boutique. Tus clientes compran y los pedidos llegan perfectos y organizados a tu WhatsApp.</p>
                 </div>
             </div>
         </div>
     </template>
 
-    <!-- Template: DIY (Sencillo y Mobile First) -->
+    <!-- Template: DIY (Minimalist form) -->
     <template id="tpl-diy">
-        <div class="max-w-xl mx-auto px-6 py-20">
-            <header class="text-center mb-12">
-                <h2 class="text-4xl font-black mb-4 italic">Arma tu vitrina</h2>
-                <p class="text-white/60 font-medium">Solo necesitamos estos 3 datos.</p>
-            </header>
-            
-            <div class="space-y-5">
-                <div class="card-pro p-6 md:p-8 space-y-6">
+        <div class="max-w-2xl mx-auto px-6 py-24">
+            <h2 class="text-4xl font-black italic mb-12 text-center reveal">Construye tu Boutique</h2>
+            <div class="space-y-6 reveal" style="animation-delay: 0.1s">
+                <div class="lux-card p-10 rounded-[3rem] space-y-10">
                     <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-white/40 mb-3 ml-1">¿Nombre de tu marca?</label>
-                        <input type="text" id="store-name-input" placeholder="Ej: Mi Repostería" class="w-full h-14 px-6 rounded-2xl bg-black border border-white/10 outline-none focus:border-apple-blue text-lg font-bold transition-all">
+                        <label class="text-[10px] font-black uppercase tracking-[0.3em] text-lux-400 mb-4 block">Nombre de Marca</label>
+                        <input type="text" id="store-name-input" placeholder="Ej: Elite Boutique" class="w-full bg-transparent border-b border-white/10 py-4 text-3xl font-black outline-none focus:border-lux-blue transition-all">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-white/40 mb-3 ml-1">WhatsApp para pedidos</label>
-                        <div class="flex gap-3">
-                            <select id="country-code" class="h-14 px-3 rounded-2xl bg-black border border-white/10 outline-none text-sm font-bold text-white/60 focus:border-apple-blue">
+                        <label class="text-[10px] font-black uppercase tracking-[0.3em] text-lux-400 mb-4 block">WhatsApp de Ventas</label>
+                        <div class="flex gap-4">
+                            <select id="country-code" class="bg-white/5 px-4 rounded-xl text-lg font-bold outline-none border border-white/10">
                                 <option value="56" selected>🇨🇱 +56</option>
                                 <option value="54">🇦🇷 +54</option>
-                                <option value="52">🇲🇽 +52</option>
                                 <option value="57">🇨🇴 +57</option>
-                                <option value="51">🇵🇪 +51</option>
+                                <option value="52">🇲🇽 +52</option>
                                 <option value="34">🇪🇸 +34</option>
                             </select>
-                            <input type="number" id="whatsapp-input" placeholder="Ej: 912345678" class="flex-grow h-14 px-6 rounded-2xl bg-black border border-white/10 outline-none focus:border-apple-blue text-lg font-bold transition-all">
+                            <input type="number" id="whatsapp-input" placeholder="912345678" class="flex-grow bg-transparent border-b border-white/10 py-4 text-3xl font-black outline-none focus:border-lux-blue transition-all">
                         </div>
                     </div>
                     <div>
-                        <div class="flex justify-between items-center mb-3 ml-1">
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-white/40">Link de tu archivo Sheets</label>
-                        </div>
-                        <input type="text" id="sheet-url-input" placeholder="Pega el link aquí..." class="w-full h-14 px-6 rounded-2xl bg-black border border-white/10 outline-none focus:border-apple-blue text-sm font-medium">
+                        <label class="text-[10px] font-black uppercase tracking-[0.3em] text-lux-400 mb-4 block">URL del Google Sheet</label>
+                        <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-lux-blue transition-all text-sm font-medium">
                     </div>
                 </div>
-
-                <button onclick="app.generateFromDiy()" class="w-full h-16 bg-white text-black rounded-3xl font-black text-xl hover:bg-apple-100 transition-all flex items-center justify-center gap-3 shadow-2xl">
-                    Crear mi tienda ahora
-                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
-                </button>
+                <button onclick="app.generateFromDiy()" class="w-full h-20 bg-white text-black rounded-[2.5rem] font-black text-xl hover:scale-105 transition-all shadow-2xl">Generar Experiencia</button>
             </div>
         </div>
     </template>
 
-    <!-- Template: SHARE (Asesoría aquí) -->
+    <!-- Template: SHARE (Post-Win Experience) -->
     <template id="tpl-share">
         <div class="max-w-4xl mx-auto px-6 py-24 text-center">
-            <h2 class="text-4xl md:text-5xl font-black mb-4 italic">¡Tu tienda está lista!</h2>
-            <p class="text-white/60 font-medium mb-16">Ya puedes empezar a vender con este link exclusivo.</p>
-
-            <div class="grid md:grid-cols-2 gap-10 mb-24">
-                <div class="card-pro p-10 flex flex-col justify-between items-center text-center">
-                    <h3 id="share-store-name" class="text-2xl font-black mb-4 italic text-white">Mi Tienda Pró</h3>
-                    <p class="text-sm text-white/40 mb-8 leading-relaxed">Comparte el enlace oficial de tikk.cl en tu Instagram y recibe pedidos hoy mismo.</p>
+            <h2 class="text-5xl md:text-7xl font-black italic mb-8 reveal">¡Boutique Lista!</h2>
+            <p class="text-lux-400 text-xl font-medium mb-16 reveal">Selecciona tu método de lanzamiento.</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 reveal">
+                <div class="lux-card p-12 rounded-[3.5rem] flex flex-col items-center">
+                    <div class="h-16 w-16 bg-lux-blue/10 rounded-2xl mb-8 flex items-center justify-center text-lux-blue"><i data-lucide="globe" class="w-8 h-8"></i></div>
+                    <h3 id="share-store-name" class="text-3xl font-black mb-4">Elite Boutique</h3>
+                    <p class="text-lux-400 text-sm mb-10 leading-relaxed">Tu vitrina ya está online bajo la infraestructura de tikk.cl. Perfecta para venta inmediata.</p>
                     <div class="w-full space-y-4">
-                        <a href="#" id="view-store-btn" target="_blank" class="w-full h-16 bg-apple-blue text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl shadow-apple-blue/20">
-                            VER MI TIENDA
-                            <i data-lucide="external-link" class="w-5 h-5"></i>
-                        </a>
-                        <button onclick="app.copyStoreLink()" class="w-full h-12 bg-white/5 border border-white/10 rounded-xl font-bold text-xs uppercase tracking-widest">Copiar Link Corto</button>
+                        <a href="#" id="view-store-btn" target="_blank" class="w-full h-16 bg-white text-black rounded-2xl font-black flex items-center justify-center gap-2">VER TIENDA</a>
+                        <button onclick="app.copyStoreLink()" class="text-xs font-bold text-lux-blue uppercase tracking-widest hover:underline">Copiar Link para Instagram</button>
                     </div>
                 </div>
 
-                <div class="card-pro p-10 bg-apple-500 flex flex-col justify-between items-center text-center border-none shadow-2xl">
-                    <h3 class="text-2xl font-black mb-4 italic text-white leading-tight">Proyecto Profesional</h3>
-                    <p class="text-sm text-white/60 mb-8 leading-relaxed">Descarga el código base para instalarlo en tu propio servidor o GitHub.</p>
-                    <button onclick="app.downloadProZip()" class="w-full h-16 bg-white text-black rounded-2xl font-black flex items-center justify-center gap-3 shadow-2xl shadow-black/40">
-                        DESCARGAR PROYECTO (.zip)
-                        <i data-lucide="download-cloud" class="w-6 h-6"></i>
-                    </button>
-                    <button onclick="app.editStoreData()" class="text-xs font-bold text-white/40 hover:text-white transition-all underline underline-offset-4 mt-6">Volver y corregir datos</button>
+                <div class="lux-card p-12 rounded-[3.5rem] bg-lux-blue flex flex-col items-center border-none shadow-2xl shadow-lux-blue/20">
+                    <div class="h-16 w-16 bg-white/20 rounded-2xl mb-8 flex items-center justify-center text-white"><i data-lucide="archive" class="w-8 h-8"></i></div>
+                    <h3 class="text-3xl font-black mb-4">Proyecto Base</h3>
+                    <p class="text-indigo-100 text-sm mb-10 leading-relaxed opacity-80">Descarga un paquete con todo el código base para subirlo a tu propio GitHub y marca propia.</p>
+                    <button onclick="app.downloadProZip()" class="w-full h-16 bg-white text-black rounded-2xl font-black flex items-center justify-center gap-2">DESCARGAR ZIP</button>
+                    <button onclick="app.editStoreData()" class="mt-8 text-xs font-bold text-white underline opacity-40">Editar configuración</button>
                 </div>
             </div>
 
-            <!-- Sección de Asesoría Pro -->
-            <div id="pro-help" class="max-w-2xl mx-auto py-16 border-t border-white/5">
-                <h3 class="text-2xl font-bold mb-6 italic">¿Quieres una web propia tipo "tutienda.cl"?</h3>
-                <p class="text-white/60 mb-10 text-base leading-relaxed">
-                    Si quieres dar el salto profesional y dejar de usar el link de tikk.cl, puedes tener tu propia página web en tu propio dominio.
-                </p>
-                <div class="grid sm:grid-cols-2 gap-4">
-                    <button onclick="app.toggleDomainModal(true)" class="h-16 px-8 rounded-2xl bg-white/5 border border-white/10 font-bold hover:bg-white/10 transition-all text-sm">
-                        Hazlo tú mismo (Gratis)
-                    </button>
-                    <a href="https://calendly.com/dan-tagle/30min" target="_blank" class="h-16 px-8 rounded-2xl bg-apple-blue text-white font-bold flex flex-col items-center justify-center hover:brightness-110 transition-all">
-                        <span class="text-xs opacity-80 font-medium">Asesoría Dan Tagle (Yo lo hago)</span>
-                        <span class="text-base font-black italic">COSTO 1 UF + Dominio</span>
-                    </a>
-                </div>
-                <p class="mt-8 text-[11px] text-white/30 uppercase tracking-[0.2em] font-bold">Nota: Dominio .cl cuesta aprox $9.990 x año</p>
+            <div class="mt-24 pt-16 border-t border-white/5 grid sm:grid-cols-2 gap-6 reveal">
+                <button onclick="app.toggleDomainModal(true)" class="h-20 lux-card rounded-3xl font-bold flex items-center justify-center gap-2 hover:bg-white/5">Tengo mi propio dominio .cl</button>
+                <a href="https://calendly.com/dan-tagle/30min" target="_blank" class="h-20 bg-lux-blue rounded-3xl font-bold flex flex-col items-center justify-center hover:brightness-110">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-white/60">Asesoría Dan Tagle</span>
+                    <span class="italic text-lg">Yo lo hago por ti (1 UF)</span>
+                </a>
             </div>
+            <p class="mt-6 text-[10px] font-bold text-white/20 uppercase tracking-[0.3em]">No incluye el valor del dominio .cl ($9.990 aprox)</p>
         </div>
     </template>
 
-    <!-- Template: Store (Header Dinámico) -->
+    <!-- Template: STORE (The Masterpiece) -->
     <template id="tpl-store">
-        <div class="bg-black min-h-screen">
-            <div id="store-hero" class="bg-apple-500 overflow-hidden relative border-b border-white/10">
-                <img id="store-hero-img" src="" class="absolute inset-0 w-full h-full object-cover">
+        <div class="bg-black min-h-screen pb-40">
+            <!-- Boutique Hero -->
+            <div id="store-hero" class="relative h-[50vh] min-h-[400px] overflow-hidden">
+                <img id="store-hero-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-60 scale-105">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 mt-10">
-                    <h2 id="store-title" class="text-4xl md:text-8xl font-black text-white italic tracking-tighter drop-shadow-2xl"></h2>
-                    <p class="text-white/60 text-sm md:text-lg font-bold tracking-widest mt-4 uppercase">Bienvenidos a nuestra vitrina</p>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                    <h1 id="store-title" class="text-5xl md:text-[100px] font-black italic tracking-tighter text-white drop-shadow-2xl reveal"></h1>
+                    <div class="mt-8 h-px w-24 bg-white/20 reveal" style="animation-delay: 0.2s"></div>
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-6 py-12 pb-40">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-10 mb-16">
+            <!-- Boutique Contenido -->
+            <div class="max-w-7xl mx-auto px-6 py-20">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-10 mb-24 reveal">
                     <div class="relative w-full max-w-sm">
-                        <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30"></i>
-                        <input type="text" id="store-search" placeholder="Busca productos..." oninput="app.handleSearch(this.value)" class="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-apple-blue font-medium text-sm transition-all focus:bg-white/10">
+                        <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20"></i>
+                        <input type="text" id="store-search" placeholder="Busca en la colección..." oninput="app.handleSearch(this.value)" class="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/5 border border-white/5 outline-none focus:bg-white/10 transition-all font-medium text-sm">
                     </div>
                     <div id="category-filters" class="flex flex-wrap items-center justify-center gap-3"></div>
-                    <button onclick="app.toggleCart()" class="h-14 px-8 bg-white/5 border border-white/10 rounded-full font-bold flex items-center gap-4 hover:bg-white/10 transition-all">
-                        <span class="text-apple-blue font-black tracking-widest text-[10px] uppercase">Bolsa</span>
-                        <span id="cart-count-btn" class="bg-white text-black h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-black">0</span>
+                    <button onclick="app.toggleCart()" class="h-14 px-8 bg-white/5 border border-white/5 rounded-full font-black text-[10px] uppercase tracking-widest flex items-center gap-4 hover:bg-white/10 transition-all relative">
+                        Mi Bolsa (<span id="cart-count-btn">0</span>)
                     </button>
                 </div>
-                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+                
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 reveal">
+                    <!-- Products inject here -->
+                </div>
+            </div>
+
+            <!-- Dan Tagle Credit in Store -->
+            <div class="py-20 text-center opacity-30">
+                <p class="text-[9px] font-black uppercase tracking-[0.5em]">Powered by tikk.cl — Creado por Dan Tagle</p>
             </div>
         </div>
     </template>
