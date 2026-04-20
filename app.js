@@ -1,10 +1,8 @@
 /**
- * tikk.js - Technological E-commerce Engine
- * Optimized for mobile-first & SaaS architecture.
+ * tikk.js - Store Platform & Project Generator
  */
 
 const app = {
-    // --- Config & State ---
     state: {
         currentView: 'landing',
         sheetId: null,
@@ -12,34 +10,25 @@ const app = {
         categories: [],
         cart: JSON.parse(localStorage.getItem('tikk-cart') || '[]'),
         activeCategory: 'all',
-        sellerWhatsApp: '56936305140',
-        storeName: 'Mi Tienda Online',
-        isCartOpen: false,
-        isLoading: false
+        sellerWhatsApp: '',
+        storeName: '',
+        isCartOpen: false
     },
 
-    // --- Initialization ---
     init() {
-        console.log("tikk core online");
+        console.log("tikk engine started");
         window.addEventListener('popstate', () => this.handleRouting());
         window.addEventListener('hashchange', () => this.handleRouting());
-        
-        // Handle initial routing
         this.handleRouting();
         this.updateCartCount();
-        this.updateMobileDock();
     },
 
-    // --- Routing & URL Management ---
     handleRouting() {
         const hash = window.location.hash;
-        const params = new URLSearchParams(window.location.search);
         
-        // Priority 1: Pretty Hash (/slug/id/wa)
         if (hash.startsWith('#/')) {
-            const parts = hash.split('/').filter(p => p !== '#' && p !== '');
+            const parts = hash.split('/').filter(p => !!p && p !== '#');
             if (parts.length >= 3) {
-                // Format: #/slug/id/whatsapp
                 this.state.storeName = decodeURIComponent(parts[0].replace(/-/g, ' '));
                 this.state.sheetId = parts[1];
                 this.state.sellerWhatsApp = parts[2];
@@ -49,141 +38,91 @@ const app = {
             }
         }
 
-        // Priority 2: Old Query Params (backward compatibility)
-        const s = params.get('s');
-        const w = params.get('w');
-        if (s) {
-            this.state.sheetId = s;
-            if (w) this.state.sellerWhatsApp = w;
-            this.navigate('store', false);
-            this.loadStoreData(s);
-            return;
-        }
-
-        // Priority 3: Internal Views via Hash
         const view = hash.replace('#', '') || 'landing';
-        if (['landing', 'diy', 'share'].includes(view)) {
-            this.navigate(view, false);
-        } else {
-            this.navigate('landing', false);
-        }
+        this.navigate(view, false);
     },
 
     navigate(view, pushState = true) {
         this.state.currentView = view;
-        this.toggleCart(false);
         this.renderView(view);
-
-        if (pushState) {
-            if (view === 'landing') {
-                window.history.pushState({}, '', window.location.pathname);
-            } else if (view !== 'store' && view !== 'share') {
-                window.location.hash = view;
-            }
-        }
-
-        // UI Adjustments
-        this.updateMobileDock();
+        if (pushState && view !== 'store' && view !== 'share') window.location.hash = view;
         
         const cartBtn = document.getElementById('cart-button');
-        if (view === 'store') {
-            cartBtn?.classList.remove('hidden');
-        } else {
-            cartBtn?.classList.add('hidden');
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    },
-
-    updateMobileDock() {
-        const dock = document.getElementById('mobile-dock');
-        // Hide dock if we are inside a store view (to don't crowd the mobile UI)
-        if (this.state.currentView === 'store') {
-            dock?.classList.add('translate-y-32');
-            dock?.classList.add('opacity-0');
-        } else {
-            dock?.classList.remove('translate-y-32');
-            dock?.classList.remove('opacity-0');
-        }
+        if (view === 'store') cartBtn?.classList.remove('hidden');
+        else cartBtn?.classList.add('hidden');
+        
+        window.scrollTo(0, 0);
+        lucide.createIcons();
     },
 
     renderView(view) {
         const container = document.getElementById('main-content');
         const template = document.getElementById(`tpl-${view}`);
+        if (!template) return;
         
-        if (template) {
-            container.innerHTML = template.innerHTML;
-            
-            if (view === 'store') {
-                document.getElementById('store-title').textContent = this.state.storeName;
-                if (this.state.products.length > 0) this.renderProductGrid();
-            }
-
-            if (view === 'share') {
-                const slug = this.state.storeName.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
-                const shareUrl = `${window.location.origin}${window.location.pathname}#/${slug}/${this.state.sheetId}/${this.state.sellerWhatsApp}`;
-                
-                const input = document.getElementById('shareable-url');
-                const btn = document.getElementById('view-store-btn');
-                if (input) input.value = shareUrl;
-                if (btn) btn.href = shareUrl;
-            }
-
-            lucide.createIcons();
+        container.innerHTML = template.innerHTML;
+        
+        if (view === 'store') {
+            document.getElementById('store-title').textContent = this.state.storeName;
+            if (this.state.products.length > 0) this.renderProductGrid();
         }
+
+        if (view === 'share') {
+            const slug = this.state.storeName.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+            const shareUrl = `${window.location.origin}${window.location.pathname}#/${slug}/${this.state.sheetId}/${this.state.sellerWhatsApp}`;
+            document.getElementById('shareable-url').value = shareUrl;
+            document.getElementById('view-store-btn').href = shareUrl;
+        }
+        lucide.createIcons();
     },
 
-    // --- DIY Logic ---
     async generateFromDiy() {
-        const sheetInput = document.getElementById('sheet-url-input');
-        const waInput = document.getElementById('whatsapp-input');
-        const nameInput = document.getElementById('store-name-input');
-        
-        const url = sheetInput?.value.trim();
-        const whatsapp = waInput?.value.trim();
-        const name = nameInput?.value.trim() || 'Mi Tienda Pro';
-        
-        if (!whatsapp || !url) {
-            this.notify("Completa el número y el link de Excel", "error");
+        const wa = document.getElementById('whatsapp-input').value.trim();
+        const name = document.getElementById('store-name-input').value.trim();
+        const url = document.getElementById('sheet-url-input').value.trim();
+
+        if (!wa || !name || !url) {
+            this.notify("Completa todos los campos", "error");
             return;
         }
 
         const match = url.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
         if (!match) {
-            this.notify("Enlace de Sheets no válido", "error");
+            this.notify("Link de Excel no válido", "error");
             return;
         }
 
         this.state.sheetId = match[1];
-        this.state.sellerWhatsApp = whatsapp.replace('+', '').trim();
+        this.state.sellerWhatsApp = wa.replace('+', '');
         this.state.storeName = name;
-        
         this.navigate('share');
     },
 
     copyStoreLink() {
         const input = document.getElementById('shareable-url');
-        if (input) {
-            navigator.clipboard.writeText(input.value);
-            this.notify("Link copiado con éxito", "success");
-        }
+        input.select();
+        navigator.clipboard.writeText(input.value);
+        this.notify("¡Link copiado!", "success");
     },
 
-    // --- Store Data ---
+    // --- Data Engine ---
     async loadStoreData(id) {
-        if (this.state.products.length > 0 && this.state.sheetId === id) return; // Already loaded
-
         try {
             const csvUrl = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv`;
             const response = await fetch(csvUrl);
-            if (!response.ok) throw new Error("Error al leer base de datos. Verifica compartir.");
-            
             const csvText = await response.text();
-            const data = this.parseCSV(csvText);
             
-            if (data.length === 0) throw new Error("Archivo vacío o sin formato correcto.");
-
-            this.state.products = data.map(p => ({
+            const rows = csvText.split(/\n/);
+            const headers = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
+            
+            this.state.products = rows.slice(1).map(row => {
+                const values = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                let obj = {};
+                headers.forEach((h, i) => {
+                    obj[h] = values[i] ? values[i].replace(/"/g, '').trim() : '';
+                });
+                return obj;
+            }).filter(o => !!o.Producto).map(p => ({
                 id: p.Codigo,
                 Codigo: p.Codigo,
                 Categoria: p.Categoria || 'General',
@@ -193,64 +132,30 @@ const app = {
                 LinkFoto: p.LinkFoto
             }));
 
-            this.state.categories = [...new Set(this.state.products.map(p => p.Categoria))];
             this.renderProductGrid();
-            this.renderCategoryFilters();
-
-        } catch (err) {
-            this.notify(err.message, "error");
-            const grid = document.getElementById('product-grid');
-            if (grid) grid.innerHTML = `<div class="col-span-full py-20 text-center text-red-500 font-bold">${err.message}</div>`;
+        } catch (e) {
+            this.notify("Error cargando productos", "error");
         }
-    },
-
-    parseCSV(text) {
-        const rows = text.split(/\n/);
-        const headers = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
-        return rows.slice(1).map(row => {
-            const values = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            let obj = {};
-            headers.forEach((h, i) => {
-                obj[h] = values[i] ? values[i].replace(/"/g, '').trim() : '';
-            });
-            return obj;
-        }).filter(o => o.Producto);
     },
 
     renderProductGrid() {
         const grid = document.getElementById('product-grid');
         if (!grid) return;
 
-        const filtered = this.state.activeCategory === 'all' 
-            ? this.state.products 
-            : this.state.products.filter(p => p.Categoria === this.state.activeCategory);
-
-        grid.innerHTML = filtered.map(p => `
-            <div class="tech-card rounded-4xl h-full flex flex-col group overflow-hidden bg-white shadow-sm ring-1 ring-slate-100">
-                <div class="relative h-72 sm:h-80 overflow-hidden bg-slate-50">
-                    <img src="${p.LinkFoto}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://placehold.co/600x800/f8fafc/cbd5e1?text=${p.Producto}'">
-                    <div class="absolute top-4 right-4 translate-y-1 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                        <span class="bg-white/90 backdrop-blur-md text-[10px] font-black px-3 py-1.5 rounded-full text-slate-500 shadow-xl ring-1 ring-slate-100">#${p.Codigo}</span>
-                    </div>
+        grid.innerHTML = this.state.products.map(p => `
+            <div class="bg-white rounded-4xl overflow-hidden border border-slate-100 flex flex-col h-full shadow-sm hover:shadow-xl transition-all group">
+                <div class="h-64 overflow-hidden bg-slate-50">
+                    <img src="${p.LinkFoto}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x500/f8fafc/cbd5e1?text=${encodeURIComponent(p.Producto)}'">
                 </div>
-                <div class="p-8 flex flex-col flex-grow">
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-tech-500 mb-2">${p.Categoria}</span>
-                    <h3 class="text-xl font-bold text-dark mb-4 leading-snug group-hover:text-tech-600 transition-colors">${p.Producto}</h3>
-                    <div class="mt-auto pt-6 flex flex-col gap-5 border-t border-slate-50">
-                        <div class="flex items-center justify-between">
-                            <span class="text-3xl font-black text-dark">$${p.Precio.toLocaleString('es-CL')}</span>
-                            ${p.Stock > 0 ? 
-                                `<span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-[10px] font-black">Stock: ${p.Stock}</span>` : 
-                                `<span class="bg-red-50 text-red-600 px-3 py-1 rounded-full text-[10px] font-black italic">Agotado</span>`
-                            }
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="font-bold text-dark mb-2">${p.Producto}</h3>
+                    <div class="mt-auto">
+                        <div class="flex justify-between items-end mb-4">
+                            <span class="text-2xl font-black">$${p.Precio.toLocaleString('es-CL')}</span>
+                            <span class="text-[10px] font-bold text-slate-300">#${p.Codigo}</span>
                         </div>
-                        <button 
-                            onclick="app.addToCart('${p.id}')"
-                            ${p.Stock <= 0 ? 'disabled' : ''}
-                            class="w-full ${p.Stock > 0 ? 'bg-dark text-white hover:bg-tech-600' : 'bg-slate-100 text-slate-400 cursor-not-allowed'} py-4 rounded-2xl font-black text-sm transition-all flex items-center justify-center gap-2 group-active:scale-95 shadow-lg shadow-slate-200"
-                        >
-                            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
-                            Agregar
+                        <button onclick="app.addToCart('${p.id}')" ${p.Stock <= 0 ? 'disabled' : ''} class="w-full ${p.Stock > 0 ? 'bg-dark text-white' : 'bg-slate-100 text-slate-400'} py-3 rounded-2xl font-bold flex items-center justify-center gap-2">
+                             ${p.Stock > 0 ? 'Añadir al Carrito' : 'Agotado'}
                         </button>
                     </div>
                 </div>
@@ -259,161 +164,173 @@ const app = {
         lucide.createIcons();
     },
 
-    renderCategoryFilters() {
-        const container = document.getElementById('category-filters');
-        if (!container) return;
+    // --- Download Project Hack ---
+    downloadProject() {
+        const slug = this.state.storeName.toLowerCase().replace(/\s+/g, '-');
+        const fileName = `tienda-${slug}.html`;
         
-        container.innerHTML = ['all', ...this.state.categories].map(cat => `
-            <button onclick="app.filterCategory('${cat}')" class="px-5 py-2.5 rounded-full text-xs font-bold transition-all border ${this.state.activeCategory === cat ? 'bg-tech-600 text-white border-tech-600 shadow-lg shadow-tech-100' : 'bg-white text-slate-500 border-slate-100 hover:border-tech-200'}">
-                ${cat === 'all' ? 'Ver Todos' : cat}
+        const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${this.state.storeName} | Powered by tikk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+</head>
+<body class="bg-[#f8fafc] text-slate-900 pb-32">
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+            <h1 class="text-xl font-black">${this.state.storeName}</h1>
+            <button onclick="toggleCart()" class="relative p-2">
+                <i data-lucide="shopping-cart"></i>
+                <span id="cart-count" class="absolute top-0 right-0 bg-indigo-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
             </button>
-        `).join('');
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto px-5 py-10">
+        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">Cargando productos...</div>
+    </main>
+    <footer class="py-10 text-center text-slate-400 text-xs">
+        <p>Potenciado por <a href="https://tikk.cl" class="font-bold underline">tikk.cl</a></p>
+        <p class="mt-2">Creado por <a href="https://dantagle.cl" class="font-bold underline">Dan Tagle</a></p>
+    </footer>
+
+    <!-- Cart Overlay -->
+    <div id="overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/40 hidden z-[60]"></div>
+    <div id="sidebar" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white z-[70] translate-x-full transition-transform p-8 flex flex-col">
+        <h2 class="text-2xl font-black mb-8">Pedido</h2>
+        <div id="items" class="flex-grow overflow-auto"></div>
+        <div class="pt-6 border-t font-black text-2xl flex justify-between mb-4"><span>Total:</span><span id="total">$0</span></div>
+        <input type="text" id="buyer" placeholder="Tu Nombre" class="w-full bg-slate-50 p-4 rounded-xl mb-4 border-none outline-none">
+        <button onclick="send()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black">Pedir por WhatsApp</button>
+    </div>
+
+    <script>
+        const ID = "${this.state.sheetId}";
+        const WA = "${this.state.sellerWhatsApp}";
+        let cart = [];
+
+        async function init() {
+            const res = await fetch(\`https://docs.google.com/spreadsheets/d/\${ID}/export?format=csv\`);
+            const txt = await res.text();
+            const rows = txt.split('\\n');
+            const heads = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
+            const data = rows.slice(1).map(row => {
+                const vals = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                let o = {}; heads.forEach((h, i) => o[h] = vals[i] ? vals[i].replace(/"/g, '') : ''); return o;
+            }).filter(d => d.Producto);
+            
+            document.getElementById('grid').innerHTML = data.map(d => \`
+                <div class="bg-white rounded-3xl overflow-hidden border p-4 shadow-sm">
+                    <img src="\${d.LinkFoto}" class="h-48 w-full object-cover rounded-2xl mb-4">
+                    <h3 class="font-bold mb-2">\${d.Producto}</h3>
+                    <p class="font-black text-xl mb-4">$\${parseInt(d.Precio).toLocaleString('es-CL')}</p>
+                    <button onclick="add('\${d.Codigo}', '\${d.Producto}', \${d.Precio})" class="w-full bg-slate-900 text-white py-2 rounded-xl font-bold">Añadir</button>
+                </div>\`).join('');
+            lucide.createIcons();
+        }
+
+        function add(id, name, price) {
+            const e = cart.find(i => i.id === id);
+            if (e) e.q++; else cart.push({id, name, price, q: 1});
+            render();
+        }
+
+        function render() {
+            const count = cart.reduce((s, i) => s + i.q, 0);
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('items').innerHTML = cart.map(i => \`
+                <div class="flex justify-between mb-2"><span>\${i.name} x\${i.q}</span><span>$\${(i.price * i.q).toLocaleString('es-CL')}</span></div>\`).join('');
+            document.getElementById('total').innerText = '$' + cart.reduce((s, i) => s + (i.price * i.q), 0).toLocaleString('es-CL');
+        }
+
+        function toggleCart() {
+            const s = document.getElementById('sidebar');
+            const o = document.getElementById('overlay');
+            s.classList.toggle('translate-x-full');
+            o.classList.toggle('hidden');
+        }
+
+        function send() {
+            const name = document.getElementById('buyer').value;
+            if(!name) return alert('Pon tu nombre');
+            let m = '🛍️ Nuevo Pedido: ' + name + '\\n\\n';
+            cart.forEach(i => m += '- ' + i.name + ' x' + i.q + '\\n');
+            window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(m));
+        }
+
+        init(); lucide.createIcons();
+    </script>
+</body>
+</html>`;
+
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        this.notify("Proyecto preparado y descargado", "success");
     },
 
-    filterCategory(cat) {
-        this.state.activeCategory = cat;
-        this.renderCategoryFilters();
-        this.renderProductGrid();
-    },
-
-    // --- Cart & Orders ---
+    // --- Cart logic ---
     addToCart(id) {
         const prod = this.state.products.find(p => p.id === id);
-        if (!prod || prod.Stock <= 0) return;
-
         const cur = this.state.cart.find(i => i.id === id);
-        if (cur) {
-            if (cur.quantity < prod.Stock) cur.quantity++;
-            else this.notify("Tope de stock", "warning");
-        } else {
-            this.state.cart.push({ ...prod, quantity: 1 });
-        }
-
+        if (cur) cur.quantity++; else this.state.cart.push({ ...prod, quantity: 1 });
         this.updateCartCount();
         this.saveCart();
-        this.notify(`Añadido: ${prod.Producto}`, "success");
-    },
-
-    updateQuantity(id, mod) {
-        const item = this.state.cart.find(i => i.id === id);
-        if (!item) return;
-        const prod = this.state.products.find(p => p.id === id);
-
-        item.quantity += mod;
-        if (item.quantity <= 0) this.state.cart = this.state.cart.filter(i => i.id !== id);
-        else if (item.quantity > prod.Stock) {
-            item.quantity = prod.Stock;
-            this.notify("Stock máximo alcanzado", "warning");
-        }
-
-        this.updateCartCount();
-        this.saveCart();
-        this.renderCart();
     },
 
     updateCartCount() {
         const count = this.state.cart.reduce((s, i) => s + i.quantity, 0);
-        const els = [document.getElementById('cart-count'), document.getElementById('dock-cart-btn')?.querySelector('span')];
-        els.forEach(el => {
-            if (el) el.textContent = count;
-        });
+        document.getElementById('cart-count').innerText = count;
     },
 
     saveCart() { localStorage.setItem('tikk-cart', JSON.stringify(this.state.cart)); },
 
-    toggleCart(val) {
-        this.state.isCartOpen = val !== undefined ? val : !this.state.isCartOpen;
+    toggleCart() {
+        this.state.isCartOpen = !this.state.isCartOpen;
         const s = document.getElementById('cart-sidebar');
         const o = document.getElementById('cart-overlay');
-        
         if (this.state.isCartOpen) {
             s.classList.remove('translate-x-full');
+            o.classList.remove('opacity-100');
             o.classList.remove('pointer-events-none');
-            o.classList.add('opacity-100');
             this.renderCart();
         } else {
             s.classList.add('translate-x-full');
+            o.classList.add('opacity-100');
             o.classList.add('pointer-events-none');
-            o.classList.remove('opacity-100');
         }
     },
 
     renderCart() {
         const list = document.getElementById('cart-items');
-        const totalEl = document.getElementById('cart-total');
-        if (!list) return;
-
-        if (this.state.cart.length === 0) {
-            list.innerHTML = `<div class="py-20 text-center text-slate-400 font-bold uppercase text-[10px] tracking-widest">Nada por aquí aún...</div>`;
-            totalEl.textContent = '$0';
-            return;
-        }
-
         list.innerHTML = this.state.cart.map(i => `
-            <div class="flex gap-4 items-center bg-white p-4 rounded-3xl ring-1 ring-slate-100">
-                <img src="${i.LinkFoto}" class="h-16 w-16 rounded-2xl object-cover bg-slate-50" onerror="this.src='https://placehold.co/100/f8fafc/cbd5e1?text=X'">
-                <div class="flex-grow">
-                    <h4 class="font-bold text-dark text-sm leading-tight mb-1">${i.Producto}</h4>
-                    <p class="text-tech-500 font-black text-sm">$${(i.Precio * i.quantity).toLocaleString('es-CL')}</p>
-                </div>
-                <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-xl">
-                    <button onclick="app.updateQuantity('${i.id}', -1)" class="w-6 h-6 flex items-center justify-center hover:bg-white rounded-lg transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
-                    <span class="w-6 text-center font-black text-xs">${i.quantity}</span>
-                    <button onclick="app.updateQuantity('${i.id}', 1)" class="w-6 h-6 flex items-center justify-center hover:bg-white rounded-lg transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
-                </div>
-            </div>
+            <div class="flex justify-between mb-4"><div><b>${i.Producto}</b><br><small>x${i.quantity}</small></div><b>$${(i.Precio * i.quantity).toLocaleString('es-CL')}</b></div>
         `).join('');
-
         const total = this.state.cart.reduce((s, i) => s + (i.Precio * i.quantity), 0);
-        totalEl.textContent = `$${total.toLocaleString('es-CL')}`;
-        lucide.createIcons();
+        document.getElementById('cart-total').innerText = '$' + total.toLocaleString('es-CL');
     },
 
     sendOrder() {
-        if (this.state.cart.length === 0) return;
-        const name = document.getElementById('buyer-name').value.trim();
-        const comments = document.getElementById('order-comments').value.trim();
-
-        if (!name) { 
-            this.notify("Tu nombre es obligatorio", "error"); 
-            document.getElementById('buyer-name').focus();
-            return; 
-        }
-
-        let msg = `🛍️ *NUEVO PEDIDO - ${this.state.storeName.toUpperCase()}*\n\n`;
-        msg += `👤 *Cliente:* ${name}\n`;
-        if (comments) msg += `💭 *Nota:* ${comments}\n`;
-        msg += `\n----------------------------\n`;
-
-        this.state.cart.forEach(i => {
-            msg += `▫️ *${i.Producto}* (Cod: ${i.Codigo})\n`;
-            msg += `    ${i.quantity} x $${i.Precio.toLocaleString('es-CL')} | Sub: $${(i.Precio * i.quantity).toLocaleString('es-CL')}\n\n`;
-        });
-
-        const total = this.state.cart.reduce((s, i) => s + (i.Precio * i.quantity), 0);
-        msg += `----------------------------\n`;
-        msg += `💰 *TOTAL A PAGAR: $${total.toLocaleString('es-CL')}*`;
-
-        window.open(`https://wa.me/${this.state.sellerWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
+        const buyer = document.getElementById('buyer-name').value;
+        if (!buyer) return;
+        let msg = `🛍️ Pedido de ${buyer}\n\n`;
+        this.state.cart.forEach(i => msg += `- ${i.Producto} x${i.quantity}\n`);
+        window.open(`https://wa.me/${this.state.sellerWhatsApp}?text=${encodeURIComponent(msg)}`);
     },
 
-    // --- Utils ---
-    notify(msg, type = 'info') {
-        const c = document.getElementById('notification-container');
-        if (!c) return;
-
+    notify(m, t) {
         const n = document.createElement('div');
-        const bg = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-dark' : 'bg-tech-600';
-        n.className = `${bg} text-white px-6 py-4 rounded-3xl shadow-2xl flex items-center gap-3 transition-all duration-500 translate-x-12 opacity-0 font-bold text-sm`;
-        n.innerHTML = `<i data-lucide="${type === 'success' ? 'check' : 'info'}" class="w-4 h-4"></i><span>${msg}</span>`;
-        c.appendChild(n);
-        lucide.createIcons();
-
-        setTimeout(() => n.classList.remove('translate-x-12', 'opacity-0'), 10);
-        setTimeout(() => {
-            n.classList.add('opacity-0', '-translate-y-4');
-            setTimeout(() => n.remove(), 500);
-        }, 3500);
+        n.className = `fixed bottom-4 left-4 ${t === 'error' ? 'bg-red-600' : 'bg-tech-600'} text-white px-6 py-3 rounded-xl z-[100] shadow-xl font-bold`;
+        n.innerText = m;
+        document.body.appendChild(n);
+        setTimeout(() => n.remove(), 3000);
     }
 };
 
