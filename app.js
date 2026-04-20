@@ -1,6 +1,6 @@
 /**
- * tikk.js - Core Application Logic
- * Built with vanilla JS for high performance and low maintenance.
+ * tikk.js - Technological E-commerce Engine
+ * Optimized for mobile-first & SaaS architecture.
  */
 
 const app = {
@@ -12,85 +12,79 @@ const app = {
         categories: [],
         cart: JSON.parse(localStorage.getItem('tikk-cart') || '[]'),
         activeCategory: 'all',
-        sellerWhatsApp: '56936305140', // Base default
+        sellerWhatsApp: '56936305140',
+        storeName: 'Mi Tienda Online',
         isCartOpen: false,
         isLoading: false
     },
 
     // --- Initialization ---
     init() {
-        console.log("tikk.cl initialized");
-        this.bindEvents();
+        console.log("tikk core online");
+        window.addEventListener('popstate', () => this.handleRouting());
+        window.addEventListener('hashchange', () => this.handleRouting());
+        
+        // Handle initial routing
         this.handleRouting();
         this.updateCartCount();
-        lucide.createIcons();
+        this.updateMobileDock();
     },
 
-    bindEvents() {
-        window.addEventListener('popstate', () => this.handleRouting());
-        
-        // Form submission inside DIY template (delegated)
-        document.addEventListener('submit', (e) => {
-            if (e.target.id === 'form-diy') {
-                e.preventDefault();
-                this.generateFromDiy();
-            }
-        });
-
-        // Close cart on overlay click
-        const overlay = document.getElementById('cart-overlay');
-        if (overlay) {
-            overlay.addEventListener('click', () => this.toggleCart(false));
-        }
-    },
-
-    // --- Routing ---
+    // --- Routing & URL Management ---
     handleRouting() {
+        const hash = window.location.hash;
         const params = new URLSearchParams(window.location.search);
-        const storeId = params.get('s'); // Spreadsheet ID
-        const whatsapp = params.get('w'); // Seller WhatsApp
-        const viewOverride = params.get('v');
-
-        if (whatsapp) {
-            this.state.sellerWhatsApp = whatsapp.replace('+', '');
+        
+        // Priority 1: Pretty Hash (/slug/id/wa)
+        if (hash.startsWith('#/')) {
+            const parts = hash.split('/').filter(p => p !== '#' && p !== '');
+            if (parts.length >= 3) {
+                // Format: #/slug/id/whatsapp
+                this.state.storeName = decodeURIComponent(parts[0].replace(/-/g, ' '));
+                this.state.sheetId = parts[1];
+                this.state.sellerWhatsApp = parts[2];
+                this.navigate('store', false);
+                this.loadStoreData(this.state.sheetId);
+                return;
+            }
         }
 
-        if (storeId) {
-            this.state.sheetId = storeId;
+        // Priority 2: Old Query Params (backward compatibility)
+        const s = params.get('s');
+        const w = params.get('w');
+        if (s) {
+            this.state.sheetId = s;
+            if (w) this.state.sellerWhatsApp = w;
             this.navigate('store', false);
-            this.loadStoreData(storeId);
-        } else if (viewOverride) {
-            this.navigate(viewOverride, false);
+            this.loadStoreData(s);
+            return;
+        }
+
+        // Priority 3: Internal Views via Hash
+        const view = hash.replace('#', '') || 'landing';
+        if (['landing', 'diy', 'share'].includes(view)) {
+            this.navigate(view, false);
         } else {
-            const hash = window.location.hash.replace('#', '') || 'landing';
-            this.navigate(hash, false);
+            this.navigate('landing', false);
         }
     },
 
     navigate(view, pushState = true) {
         this.state.currentView = view;
-        
-        // Hide cart on navigation
         this.toggleCart(false);
-
-        // Update UI
         this.renderView(view);
 
         if (pushState) {
-            const url = new URL(window.location);
-            // If we are in DIY share mode or Store mode, we keep the search params
             if (view === 'landing') {
-                url.search = '';
-                url.hash = '';
-            } else if (view === 'share' || view === 'store') {
-                // Keep params
-            } else {
-                url.hash = view;
+                window.history.pushState({}, '', window.location.pathname);
+            } else if (view !== 'store' && view !== 'share') {
+                window.location.hash = view;
             }
-            window.history.pushState({}, '', url);
         }
 
-        // Show/Hide header elements
+        // UI Adjustments
+        this.updateMobileDock();
+        
         const cartBtn = document.getElementById('cart-button');
         if (view === 'store') {
             cartBtn?.classList.remove('hidden');
@@ -98,8 +92,19 @@ const app = {
             cartBtn?.classList.add('hidden');
         }
 
-        window.scrollTo(0, 0);
-        lucide.createIcons();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+
+    updateMobileDock() {
+        const dock = document.getElementById('mobile-dock');
+        // Hide dock if we are inside a store view (to don't crowd the mobile UI)
+        if (this.state.currentView === 'store') {
+            dock?.classList.add('translate-y-32');
+            dock?.classList.add('opacity-0');
+        } else {
+            dock?.classList.remove('translate-y-32');
+            dock?.classList.remove('opacity-0');
+        }
     },
 
     renderView(view) {
@@ -109,15 +114,14 @@ const app = {
         if (template) {
             container.innerHTML = template.innerHTML;
             
-            // View-specific initializations
-            if (view === 'store' && this.state.products.length > 0) {
-                this.renderProductGrid();
+            if (view === 'store') {
+                document.getElementById('store-title').textContent = this.state.storeName;
+                if (this.state.products.length > 0) this.renderProductGrid();
             }
 
             if (view === 'share') {
-                const url = new URL(window.location);
-                url.searchParams.set('v', 'store'); // Customers will hit the store view
-                const shareUrl = url.toString().replace('v=store', 's=' + this.state.sheetId + '&w=' + this.state.sellerWhatsApp);
+                const slug = this.state.storeName.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+                const shareUrl = `${window.location.origin}${window.location.pathname}#/${slug}/${this.state.sheetId}/${this.state.sellerWhatsApp}`;
                 
                 const input = document.getElementById('shareable-url');
                 const btn = document.getElementById('view-store-btn');
@@ -126,8 +130,6 @@ const app = {
             }
 
             lucide.createIcons();
-        } else {
-            console.error(`Template tpl-${view} not found`);
         }
     },
 
@@ -135,17 +137,14 @@ const app = {
     async generateFromDiy() {
         const sheetInput = document.getElementById('sheet-url-input');
         const waInput = document.getElementById('whatsapp-input');
+        const nameInput = document.getElementById('store-name-input');
         
         const url = sheetInput?.value.trim();
         const whatsapp = waInput?.value.trim();
+        const name = nameInput?.value.trim() || 'Mi Tienda Pro';
         
-        if (!whatsapp) {
-            this.notify("Ingresa tu número de WhatsApp", "error");
-            return;
-        }
-
-        if (!url) {
-            this.notify("Ingresa un enlace de Google Sheets", "error");
+        if (!whatsapp || !url) {
+            this.notify("Completa el número y el link de Excel", "error");
             return;
         }
 
@@ -156,13 +155,8 @@ const app = {
         }
 
         this.state.sheetId = match[1];
-        this.state.sellerWhatsApp = whatsapp.replace('+', '');
-        
-        // Navigate to share view
-        const newUrl = new URL(window.location.origin + window.location.pathname);
-        newUrl.searchParams.set('s', this.state.sheetId);
-        newUrl.searchParams.set('w', this.state.sellerWhatsApp);
-        window.history.pushState({}, '', newUrl);
+        this.state.sellerWhatsApp = whatsapp.replace('+', '').trim();
+        this.state.storeName = name;
         
         this.navigate('share');
     },
@@ -170,76 +164,59 @@ const app = {
     copyStoreLink() {
         const input = document.getElementById('shareable-url');
         if (input) {
-            input.select();
-            input.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(input.value);
-            this.notify("¡Enlace copiado!", "success");
+            this.notify("Link copiado con éxito", "success");
         }
     },
 
+    // --- Store Data ---
     async loadStoreData(id) {
-        this.state.isLoading = true;
-        this.notify("Cargando productos...", "info");
-
-        // We use export format csv. It's public if the sheet is shared as "Anyone with the link can view"
-        const csvUrl = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv`;
+        if (this.state.products.length > 0 && this.state.sheetId === id) return; // Already loaded
 
         try {
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv`;
             const response = await fetch(csvUrl);
-            if (!response.ok) throw new Error("No se pudo leer el archivo. Verifica los permisos.");
+            if (!response.ok) throw new Error("Error al leer base de datos. Verifica compartir.");
             
             const csvText = await response.text();
             const data = this.parseCSV(csvText);
             
-            // Validate columns
-            const requiredLines = ["Codigo", "Categoria", "Producto", "Stock", "Precio", "LinkFoto"];
-            const headers = Object.keys(data[0] || {});
-            const missing = requiredLines.filter(h => !headers.includes(h));
-
-            if (missing.length > 0) {
-                this.notify(`Faltan columnas: ${missing.join(", ")}`, "error");
-                return;
-            }
+            if (data.length === 0) throw new Error("Archivo vacío o sin formato correcto.");
 
             this.state.products = data.map(p => ({
-                ...p,
+                id: p.Codigo,
+                Codigo: p.Codigo,
+                Categoria: p.Categoria || 'General',
+                Producto: p.Producto,
                 Stock: parseInt(p.Stock) || 0,
                 Precio: parseInt(p.Precio) || 0,
-                id: p.Codigo // Unique identifier
+                LinkFoto: p.LinkFoto
             }));
 
             this.state.categories = [...new Set(this.state.products.map(p => p.Categoria))];
-            
             this.renderProductGrid();
             this.renderCategoryFilters();
-            this.notify("Tienda cargada con éxito", "success");
 
         } catch (err) {
-            console.error(err);
             this.notify(err.message, "error");
-        } finally {
-            this.state.isLoading = false;
+            const grid = document.getElementById('product-grid');
+            if (grid) grid.innerHTML = `<div class="col-span-full py-20 text-center text-red-500 font-bold">${err.message}</div>`;
         }
     },
 
     parseCSV(text) {
-        const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
-        if (lines.length < 2) return [];
-
-        const headers = lines[0].split(',').map(h => h.replace(/\"/g, "").trim());
-        
-        return lines.slice(1).map(line => {
-            // This is a simple regex-based csv splitter that handles quotes
-            const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-            const obj = {};
+        const rows = text.split(/\n/);
+        const headers = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
+        return rows.slice(1).map(row => {
+            const values = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            let obj = {};
             headers.forEach((h, i) => {
-                obj[h] = (values[i] || "").replace(/\"/g, "").trim();
+                obj[h] = values[i] ? values[i].replace(/"/g, '').trim() : '';
             });
             return obj;
-        });
+        }).filter(o => o.Producto);
     },
 
-    // --- Store Rendering ---
     renderProductGrid() {
         const grid = document.getElementById('product-grid');
         if (!grid) return;
@@ -248,67 +225,49 @@ const app = {
             ? this.state.products 
             : this.state.products.filter(p => p.Categoria === this.state.activeCategory);
 
-        if (filtered.length === 0) {
-            grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-400">No hay productos en esta categoría</div>`;
-            return;
-        }
-
-        grid.innerHTML = filtered.map(product => `
-            <div class="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all group flex flex-col h-full">
-                <div class="relative h-64 overflow-hidden bg-slate-100">
-                    <img src="${product.LinkFoto}" alt="${product.Producto}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x600/f1f5f9/94a3b8?text=Sin+Foto'">
-                    ${product.Stock <= 0 ? `
-                        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] flex items-center justify-center">
-                            <span class="bg-white text-slate-900 px-4 py-1 rounded-full text-sm font-black uppercase tracking-widest">Agotado</span>
-                        </div>
-                    ` : ''}
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-slate-500 shadow-sm border border-white/50">${product.Categoria}</span>
+        grid.innerHTML = filtered.map(p => `
+            <div class="tech-card rounded-4xl h-full flex flex-col group overflow-hidden bg-white shadow-sm ring-1 ring-slate-100">
+                <div class="relative h-72 sm:h-80 overflow-hidden bg-slate-50">
+                    <img src="${p.LinkFoto}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://placehold.co/600x800/f8fafc/cbd5e1?text=${p.Producto}'">
+                    <div class="absolute top-4 right-4 translate-y-1 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="bg-white/90 backdrop-blur-md text-[10px] font-black px-3 py-1.5 rounded-full text-slate-500 shadow-xl ring-1 ring-slate-100">#${p.Codigo}</span>
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">${product.Producto}</h3>
-                        <span class="text-xs font-bold text-slate-300">#${product.Codigo}</span>
-                    </div>
-                    <p class="text-2xl font-black text-slate-900 mb-6">$${product.Precio.toLocaleString('es-CL')}</p>
-                    
-                    <div class="mt-auto">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-xs font-bold ${product.Stock > 5 ? 'text-green-500' : 'text-orange-500'}">
-                                ${product.Stock > 0 ? `${product.Stock} disponibles` : 'Sin stock'}
-                            </span>
+                <div class="p-8 flex flex-col flex-grow">
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-tech-500 mb-2">${p.Categoria}</span>
+                    <h3 class="text-xl font-bold text-dark mb-4 leading-snug group-hover:text-tech-600 transition-colors">${p.Producto}</h3>
+                    <div class="mt-auto pt-6 flex flex-col gap-5 border-t border-slate-50">
+                        <div class="flex items-center justify-between">
+                            <span class="text-3xl font-black text-dark">$${p.Precio.toLocaleString('es-CL')}</span>
+                            ${p.Stock > 0 ? 
+                                `<span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-[10px] font-black">Stock: ${p.Stock}</span>` : 
+                                `<span class="bg-red-50 text-red-600 px-3 py-1 rounded-full text-[10px] font-black italic">Agotado</span>`
+                            }
                         </div>
                         <button 
-                            onclick="app.addToCart('${product.id}')"
-                            ${product.Stock <= 0 ? 'disabled' : ''}
-                            class="w-full ${product.Stock <= 0 ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-primary-600 text-white hover:bg-primary-700 active:scale-95'} py-3 px-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+                            onclick="app.addToCart('${p.id}')"
+                            ${p.Stock <= 0 ? 'disabled' : ''}
+                            class="w-full ${p.Stock > 0 ? 'bg-dark text-white hover:bg-tech-600' : 'bg-slate-100 text-slate-400 cursor-not-allowed'} py-4 rounded-2xl font-black text-sm transition-all flex items-center justify-center gap-2 group-active:scale-95 shadow-lg shadow-slate-200"
                         >
-                            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                            Agregar al carrito
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                            Agregar
                         </button>
                     </div>
                 </div>
             </div>
         `).join('');
-        
         lucide.createIcons();
     },
 
     renderCategoryFilters() {
-        const filterContainer = document.getElementById('category-filters');
-        if (!filterContainer) return;
-
-        const pills = ['all', ...this.state.categories].map(cat => `
-            <button 
-                onclick="app.filterCategory('${cat}')" 
-                class="category-pill ${this.state.activeCategory === cat ? 'active bg-primary-600 text-white shadow-md shadow-primary-200' : 'bg-white text-slate-500 hover:bg-slate-100'} px-4 py-2 rounded-full text-sm font-bold border border-gray-100 transition-all"
-            >
-                ${cat === 'all' ? 'Todas' : cat}
+        const container = document.getElementById('category-filters');
+        if (!container) return;
+        
+        container.innerHTML = ['all', ...this.state.categories].map(cat => `
+            <button onclick="app.filterCategory('${cat}')" class="px-5 py-2.5 rounded-full text-xs font-bold transition-all border ${this.state.activeCategory === cat ? 'bg-tech-600 text-white border-tech-600 shadow-lg shadow-tech-100' : 'bg-white text-slate-500 border-slate-100 hover:border-tech-200'}">
+                ${cat === 'all' ? 'Ver Todos' : cat}
             </button>
         `).join('');
-
-        filterContainer.innerHTML = pills;
     },
 
     filterCategory(cat) {
@@ -317,201 +276,145 @@ const app = {
         this.renderProductGrid();
     },
 
-    // --- Cart Logic ---
-    addToCart(productId) {
-        const product = this.state.products.find(p => p.id === productId);
-        if (!product || product.Stock <= 0) return;
+    // --- Cart & Orders ---
+    addToCart(id) {
+        const prod = this.state.products.find(p => p.id === id);
+        if (!prod || prod.Stock <= 0) return;
 
-        const existing = this.state.cart.find(item => item.id === productId);
-        if (existing) {
-            if (existing.quantity < product.Stock) {
-                existing.quantity++;
-                this.notify(`Añadido: ${product.Producto}`, "success");
-            } else {
-                this.notify("No hay más stock disponible", "warning");
-            }
+        const cur = this.state.cart.find(i => i.id === id);
+        if (cur) {
+            if (cur.quantity < prod.Stock) cur.quantity++;
+            else this.notify("Tope de stock", "warning");
         } else {
-            this.state.cart.push({
-                ...product,
-                quantity: 1
-            });
-            this.notify(`Añadido: ${product.Producto}`, "success");
+            this.state.cart.push({ ...prod, quantity: 1 });
         }
 
-        this.saveCart();
         this.updateCartCount();
-        this.renderCart();
+        this.saveCart();
+        this.notify(`Añadido: ${prod.Producto}`, "success");
     },
 
-    updateQuantity(productId, delta) {
-        const item = this.state.cart.find(i => i.id === productId);
+    updateQuantity(id, mod) {
+        const item = this.state.cart.find(i => i.id === id);
         if (!item) return;
+        const prod = this.state.products.find(p => p.id === id);
 
-        const product = this.state.products.find(p => p.id === productId);
-        const newQty = item.quantity + delta;
-
-        if (newQty <= 0) {
-            this.state.cart = this.state.cart.filter(i => i.id !== productId);
-        } else if (newQty <= (product?.Stock || 999)) {
-            item.quantity = newQty;
-        } else {
-            this.notify("Límite de stock alcanzado", "warning");
+        item.quantity += mod;
+        if (item.quantity <= 0) this.state.cart = this.state.cart.filter(i => i.id !== id);
+        else if (item.quantity > prod.Stock) {
+            item.quantity = prod.Stock;
+            this.notify("Stock máximo alcanzado", "warning");
         }
 
-        this.saveCart();
         this.updateCartCount();
+        this.saveCart();
         this.renderCart();
-    },
-
-    saveCart() {
-        localStorage.setItem('tikk-cart', JSON.stringify(this.state.cart));
     },
 
     updateCartCount() {
-        const count = this.state.cart.reduce((sum, item) => sum + item.quantity, 0);
-        const el = document.getElementById('cart-count');
-        if (el) el.textContent = count;
+        const count = this.state.cart.reduce((s, i) => s + i.quantity, 0);
+        const els = [document.getElementById('cart-count'), document.getElementById('dock-cart-btn')?.querySelector('span')];
+        els.forEach(el => {
+            if (el) el.textContent = count;
+        });
     },
 
-    toggleCart(force) {
-        this.state.isCartOpen = force !== undefined ? force : !this.state.isCartOpen;
-        const sidebar = document.getElementById('cart-sidebar');
-        const overlay = document.getElementById('cart-overlay');
+    saveCart() { localStorage.setItem('tikk-cart', JSON.stringify(this.state.cart)); },
+
+    toggleCart(val) {
+        this.state.isCartOpen = val !== undefined ? val : !this.state.isCartOpen;
+        const s = document.getElementById('cart-sidebar');
+        const o = document.getElementById('cart-overlay');
         
         if (this.state.isCartOpen) {
-            sidebar?.classList.remove('translate-x-full');
-            overlay?.classList.remove('pointer-events-none');
-            overlay?.classList.add('opacity-100');
+            s.classList.remove('translate-x-full');
+            o.classList.remove('pointer-events-none');
+            o.classList.add('opacity-100');
             this.renderCart();
         } else {
-            sidebar?.classList.add('translate-x-full');
-            overlay?.classList.add('pointer-events-none');
-            overlay?.classList.remove('opacity-100');
+            s.classList.add('translate-x-full');
+            o.classList.add('pointer-events-none');
+            o.classList.remove('opacity-100');
         }
     },
 
     renderCart() {
-        const container = document.getElementById('cart-items');
-        if (!container) return;
+        const list = document.getElementById('cart-items');
+        const totalEl = document.getElementById('cart-total');
+        if (!list) return;
 
         if (this.state.cart.length === 0) {
-            container.innerHTML = `
-                <div class="text-center py-20 text-slate-400">
-                    <div class="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-lucide="shopping-basket" class="w-10 h-10 opacity-20"></i>
-                    </div>
-                    <p class="font-medium text-slate-500">Tu carrito está vacío</p>
-                    <p class="text-xs mt-1">¡Agrega algunos productos para empezar!</p>
-                </div>
-            `;
-            document.getElementById('cart-total').textContent = '$0';
-            lucide.createIcons();
+            list.innerHTML = `<div class="py-20 text-center text-slate-400 font-bold uppercase text-[10px] tracking-widest">Nada por aquí aún...</div>`;
+            totalEl.textContent = '$0';
             return;
         }
 
-        container.innerHTML = this.state.cart.map(item => `
-            <div class="flex gap-4 bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
-                <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-slate-50 border border-gray-100">
-                    <img src="${item.LinkFoto}" alt="${item.Producto}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/f1f5f9/94a3b8?text=X'">
-                </div>
+        list.innerHTML = this.state.cart.map(i => `
+            <div class="flex gap-4 items-center bg-white p-4 rounded-3xl ring-1 ring-slate-100">
+                <img src="${i.LinkFoto}" class="h-16 w-16 rounded-2xl object-cover bg-slate-50" onerror="this.src='https://placehold.co/100/f8fafc/cbd5e1?text=X'">
                 <div class="flex-grow">
-                    <h4 class="font-bold text-sm text-slate-900 leading-snug mb-1">${item.Producto}</h4>
-                    <p class="text-primary-600 font-black text-sm mb-2">$${item.Precio.toLocaleString('es-CL')}</p>
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-1 bg-slate-50 rounded-lg p-1 border border-gray-100">
-                            <button onclick="app.updateQuantity('${item.id}', -1)" class="w-8 h-8 flex items-center justify-center hover:bg-white rounded-md transition-all text-slate-400 hover:text-slate-900">
-                                <i data-lucide="minus" class="w-4 h-4"></i>
-                            </button>
-                            <span class="w-8 text-center text-sm font-black text-slate-700">${item.quantity}</span>
-                            <button onclick="app.updateQuantity('${item.id}', 1)" class="w-8 h-8 flex items-center justify-center hover:bg-white rounded-md transition-all text-slate-400 hover:text-slate-900">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                        <button onclick="app.updateQuantity('${item.id}', -999)" class="text-xs font-bold text-red-400 hover:text-red-600 transition-colors">Eliminar</button>
-                    </div>
+                    <h4 class="font-bold text-dark text-sm leading-tight mb-1">${i.Producto}</h4>
+                    <p class="text-tech-500 font-black text-sm">$${(i.Precio * i.quantity).toLocaleString('es-CL')}</p>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-xl">
+                    <button onclick="app.updateQuantity('${i.id}', -1)" class="w-6 h-6 flex items-center justify-center hover:bg-white rounded-lg transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                    <span class="w-6 text-center font-black text-xs">${i.quantity}</span>
+                    <button onclick="app.updateQuantity('${i.id}', 1)" class="w-6 h-6 flex items-center justify-center hover:bg-white rounded-lg transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
                 </div>
             </div>
         `).join('');
 
-        const total = this.state.cart.reduce((sum, item) => sum + (item.Precio * item.quantity), 0);
-        document.getElementById('cart-total').textContent = `$${total.toLocaleString('es-CL')}`;
-        
+        const total = this.state.cart.reduce((s, i) => s + (i.Precio * i.quantity), 0);
+        totalEl.textContent = `$${total.toLocaleString('es-CL')}`;
         lucide.createIcons();
     },
 
-    // --- WhatsApp Integration ---
     sendOrder() {
-        if (this.state.cart.length === 0) {
-            this.notify("Tu carrito está vacío", "warning");
-            return;
-        }
-
-        const buyerName = document.getElementById('buyer-name').value.trim();
+        if (this.state.cart.length === 0) return;
+        const name = document.getElementById('buyer-name').value.trim();
         const comments = document.getElementById('order-comments').value.trim();
 
-        if (!buyerName) {
-            this.notify("Por favor, ingresa tu nombre", "warning");
+        if (!name) { 
+            this.notify("Tu nombre es obligatorio", "error"); 
             document.getElementById('buyer-name').focus();
-            return;
+            return; 
         }
 
-        let message = `Hola! 👋 Quiero realizar el siguiente pedido:\n\n`;
-        message += `👤 *Cliente:* ${buyerName}\n`;
-        if (comments) message += `💬 *Comentarios:* ${comments}\n`;
-        message += `\n----------------------------\n`;
+        let msg = `🛍️ *NUEVO PEDIDO - ${this.state.storeName.toUpperCase()}*\n\n`;
+        msg += `👤 *Cliente:* ${name}\n`;
+        if (comments) msg += `💭 *Nota:* ${comments}\n`;
+        msg += `\n----------------------------\n`;
 
-        this.state.cart.forEach(item => {
-            const subtotal = item.Precio * item.quantity;
-            message += `📦 *${item.Producto}*\n`;
-            message += `   Cod: ${item.Codigo} | Cant: ${item.quantity}\n`;
-            message += `   Subtotal: $${subtotal.toLocaleString('es-CL')}\n\n`;
+        this.state.cart.forEach(i => {
+            msg += `▫️ *${i.Producto}* (Cod: ${i.Codigo})\n`;
+            msg += `    ${i.quantity} x $${i.Precio.toLocaleString('es-CL')} | Sub: $${(i.Precio * i.quantity).toLocaleString('es-CL')}\n\n`;
         });
 
-        const total = this.state.cart.reduce((sum, item) => sum + (item.Precio * item.quantity), 0);
-        message += `----------------------------\n`;
-        message += `💰 *TOTAL: $${total.toLocaleString('es-CL')}*`;
+        const total = this.state.cart.reduce((s, i) => s + (i.Precio * i.quantity), 0);
+        msg += `----------------------------\n`;
+        msg += `💰 *TOTAL A PAGAR: $${total.toLocaleString('es-CL')}*`;
 
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/${this.state.sellerWhatsApp}?text=${encodedMessage}`;
-
-        // External redirect
-        window.open(whatsappUrl, '_blank');
+        window.open(`https://wa.me/${this.state.sellerWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
     },
 
-    // --- Utility ---
-    notify(msg, type = "info") {
-        const container = document.getElementById('notification-container');
-        if (!container) return;
+    // --- Utils ---
+    notify(msg, type = 'info') {
+        const c = document.getElementById('notification-container');
+        if (!c) return;
 
-        const notification = document.createElement('div');
-        const colors = {
-            info: 'bg-blue-600',
-            success: 'bg-green-600',
-            error: 'bg-red-600',
-            warning: 'bg-orange-600'
-        };
-
-        notification.className = `${colors[type]} text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 translate-x-12 opacity-0 font-bold text-sm border-l-4 border-black/10`;
-        notification.innerHTML = `
-            <i data-lucide="${type === 'success' ? 'check-circle' : type === 'error' ? 'alert-octagon' : 'info'}" class="w-5 h-5"></i>
-            <span>${msg}</span>
-        `;
-        
-        container.appendChild(notification);
+        const n = document.createElement('div');
+        const bg = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-dark' : 'bg-tech-600';
+        n.className = `${bg} text-white px-6 py-4 rounded-3xl shadow-2xl flex items-center gap-3 transition-all duration-500 translate-x-12 opacity-0 font-bold text-sm`;
+        n.innerHTML = `<i data-lucide="${type === 'success' ? 'check' : 'info'}" class="w-4 h-4"></i><span>${msg}</span>`;
+        c.appendChild(n);
         lucide.createIcons();
 
-        // Animate in
+        setTimeout(() => n.classList.remove('translate-x-12', 'opacity-0'), 10);
         setTimeout(() => {
-            notification.classList.remove('translate-x-12', 'opacity-0');
-        }, 10);
-
-        // Remove after delay
-        setTimeout(() => {
-            notification.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => notification.remove(), 300);
-        }, 4000);
+            n.classList.add('opacity-0', '-translate-y-4');
+            setTimeout(() => n.remove(), 500);
+        }, 3500);
     }
 };
 
-// Start the app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => app.init());
