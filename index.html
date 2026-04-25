@@ -87,6 +87,7 @@
                     <span class="text-2xl font-black italic tracking-tighter">tikk</span>
                 </a>
                 <div class="flex items-center gap-6">
+                    <a href="#/paso-a-paso" class="text-white/50 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors hidden md:block">Paso a Paso</a>
                     <button onclick="app.navigate('diy')" class="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-all">Crear Tienda</button>
                     <button id="cart-button" onclick="app.toggleCart()" class="hidden p-2 text-white/50 hover:text-white transition-colors"><i data-lucide="shopping-basket" class="w-7 h-7"></i></button>
                 </div>
@@ -132,7 +133,7 @@
                         </p>
                         <div class="flex flex-wrap gap-8">
                             <button onclick="app.navigate('diy')" class="h-20 px-14 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all">Lanzar mi Tienda Gratis</button>
-                            <a href="https://docs.google.com/spreadsheets/d/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/edit#gid=0" target="_blank" class="h-20 px-10 border border-white/20 rounded-full font-bold flex items-center text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all">Ver Plantilla Maestra</a>
+                            <a href="#/tienda-miau/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/56928623092?desc=Miau+miau+bings&logo=https%3A%2F%2Fimg.freepik.com%2Fvector-gratis%2Fvector-diseno-marca-minima-plantilla-logotipo-empresa_53876-136229.jpg%3Fsemt%3Dais_hybrid%26w%3D740%26q%3D80&color=blue" class="h-20 px-10 bg-lux-blue/20 text-lux-blue rounded-full font-bold flex items-center text-[10px] uppercase tracking-[0.2em] hover:bg-lux-blue hover:text-white transition-all shadow-xl shadow-lux-blue/20">Probar Demo Mágica (2 segs)</a>
                         </div>
                     </div>
                     
@@ -183,8 +184,45 @@
                     </div>
                 </div>
                 <div>
-                    <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold">Vínculo Maestro Drive <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Pega la URL de tu Google Sheet. RECUERDA: Debe estar configurado como 'Cualquiera con el enlace puede ver'.</div></span></label>
+                    <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold mt-10">Vínculo Maestro Drive <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Pega la URL de tu Google Sheet. RECUERDA: Debe estar configurado como 'Cualquiera con el enlace puede ver'.</div></span></label>
                     <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full bg-white/10 border border-white/5 p-6 rounded-3xl outline-none focus:border-lux-blue transition-all text-sm font-medium">
+                </div>
+                
+                <div class="border-t border-white/10 pt-10">
+                    <h3 class="text-xl font-black italic mb-8">Personalización Boutique (Opcional)</h3>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Descripción Corta</label>
+                            <input type="text" id="store-desc-input" placeholder="La mejor boutique de ropa sustentable" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">URL Logo (Imagen)</label>
+                            <input type="text" id="store-logo-input" placeholder="https://imgur.com/mi-logo.png" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Apps Script URL (Control de Stock Automático)</label>
+                            <input type="text" id="store-script-input" placeholder="https://script.google.com/macros/s/..." class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Tema</label>
+                                <select id="store-theme-select" class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
+                                    <option value="dark">Noir (Oscuro)</option>
+                                    <option value="light">Minimal (Claro)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Color de Acento</label>
+                                <select id="store-color-select" class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
+                                    <option value="blue">Blue Signature</option>
+                                    <option value="green">WhatsApp Green</option>
+                                    <option value="purple">Luxury Purple</option>
+                                    <option value="red">Cherry Red</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <button onclick="app.generateFromDiy()" class="w-full h-24 bg-white text-black rounded-full font-black text-2xl mt-12 shadow-2xl hover:scale-105 transition-all">Activar mi Boutique Digital</button>
@@ -211,9 +249,11 @@
             </div>
             
             <div class="mt-32 pt-24 border-t border-white/5 max-w-2xl mx-auto">
-                <h4 class="text-3xl font-black mb-12 italic leading-tight">¿Quieres conectar tu dominio propio (tutienda.cl)?</h4>
+                <h4 class="text-3xl font-black mb-12 italic leading-tight">¿Quieres conectar tu dominio propio o habilitar control de stock?</h4>
                 <div class="grid sm:grid-cols-2 gap-6">
-                    <button onclick="app.toggleDomainModal(true)" class="h-20 lux-card rounded-[2rem] font-bold text-sm bg-white/5 hover:bg-white/10 transition-all">Ver Tutorial DIY</button>
+                    <button onclick="app.navigate('paso-a-paso')" class="h-20 lux-card rounded-[2rem] font-bold text-sm bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-3">
+                        <i data-lucide="book-open" class="w-5 h-5"></i> Leer Paso a Paso Completo
+                    </button>
                     <a href="https://calendly.com/dan-tagle/30min" target="_blank" class="h-20 bg-lux-blue rounded-[2rem] font-black flex flex-col items-center justify-center group overflow-hidden">
                         <span class="text-[10px] uppercase opacity-70 group-hover:scale-105 transition-all italic">Servicio Personalizado Dan Tagle</span>
                         <span class="text-lg">1 UF — Configuración Avanzada</span>
@@ -253,38 +293,146 @@
                 <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-24 gap-x-12"></div>
             </div>
             
-            <div class="py-24 text-center border-t border-white/5 bg-black">
+            <div class="py-24 text-center border-t border-white/5" style="background: var(--bg-lux);">
                 <div class="opacity-30 space-y-4">
-                    <p class="text-[9px] font-black uppercase tracking-[0.6em]">Official tikk Engine Integration</p>
-                    <p class="text-xl font-black italic tracking-tighter">Powered by Dan Tagle Boutique Systems</p>
+                    <p class="text-[9px] font-black uppercase tracking-[0.6em]" style="color: var(--text-lux);">Official tikk Engine Integration</p>
+                    <p class="text-xl font-black italic tracking-tighter" style="color: var(--text-lux);">Powered by Dan Tagle Boutique Systems</p>
                 </div>
+            </div>
+            
+            <a id="wa-float-btn" href="#" onclick="event.preventDefault(); window.open('https://wa.me/' + app.state.sellerWhatsApp + '?text=Hola! Tengo una duda de la tienda...', '_blank')" class="fixed bottom-6 right-6 w-16 h-16 bg-lux-blue rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all z-50">
+                <i data-lucide="message-circle" class="text-white w-8 h-8"></i>
+            </a>
+        </div>
+    </template>
+    
+    <template id="tpl-paso-a-paso">
+        <div class="max-w-4xl mx-auto px-6 py-24">
+            <div class="text-center mb-20">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-lux-blue/10 border border-lux-blue/30 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-6 italic">Guía Definitiva 2026</span>
+                <h1 class="text-6xl font-black italic mb-6">El Paso a Paso del <br>Emprendedor Digital</h1>
+                <p class="text-lux-400 text-xl font-medium max-w-2xl mx-auto">Pensado para cero experiencia. Desde crear tu Google Sheet hasta conectar tu dominio .cl y automatizar tu stock.</p>
+            </div>
+            
+            <div class="space-y-24">
+                
+                <section class="lux-card p-10 md:p-16 border-white/10">
+                    <div class="flex items-center gap-6 mb-10">
+                        <div class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">1</div>
+                        <h2 class="text-4xl font-black italic">Crear Google Sheet</h2>
+                    </div>
+                    <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
+                        <p>El corazón de Tikk es un simple Excel online (Google Sheets). No necesitas programar ni bases de datos.</p>
+                        <ol class="list-decimal pl-6 space-y-4">
+                            <li>Entra a <a href="https://sheets.google.com" target="_blank" class="text-lux-blue font-bold hover:underline">Google Sheets</a> (requieres un Gmail gratuito).</li>
+                            <li>Haz clic en "En blanco" para crear un documento nuevo.</li>
+                            <li>Crea estas columnas exactas en la primera fila: <b>Codigo, Categoria, Producto, Descripcion, Stock, Precio, LinkFoto</b>.</li>
+                            <li>Llena algunos productos de prueba. <br><br>
+                                <div class="bg-black/50 p-6 rounded-2xl border border-white/5 text-sm mt-4">
+                                    <i>Tip: Para LinkFoto, te recomendamos subir fotos cuadradas a sitios gratis como Imgur, Postimages o tu propio Facebook, y pegar el link directo terminado en .jpg o .png</i>
+                                </div>
+                            </li>
+                            <li>En la esquina superior derecha, clic en <b>Compartir</b> > "Cambiar a cualquier persona que tenga el enlace". Esto permite que Tikk pueda leer tu catálogo.</li>
+                        </ol>
+                        <div class="mt-8 bg-white/5 rounded-3xl p-4 overflow-hidden border border-white/10">
+                            <img src="https://i.imgur.com/KqS1u5H.png" alt="Google Sheets Demo" class="w-full rounded-2xl opacity-90 mix-blend-screen">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lux-card p-10 md:p-16 border-white/10">
+                    <div class="flex items-center gap-6 mb-10">
+                        <div class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">2</div>
+                        <h2 class="text-4xl font-black italic">Dominio en NIC.cl</h2>
+                    </div>
+                    <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
+                        <p>Para tener "tutienda.cl" en lugar de "tikk.cl/...", debes comprar tu nombre en NIC Chile (cuesta $9.990 anuales).</p>
+                        <ol class="list-decimal pl-6 space-y-4">
+                            <li>Ve a <a href="https://nic.cl" target="_blank" class="text-lux-blue font-bold hover:underline">NIC.cl</a> y crea una cuenta.</li>
+                            <li>Busca el nombre de tu tienda en el buscador. Si está disponible, haz clic en "Crear Dominio".</li>
+                            <li>Llena tus datos de facturación y paga por transferencia o Webpay.</li>
+                            <li>Una vez pagado, tu dominio está reservado, pero no apunta a ningún lado. Déjalo así por ahora y pasa al Paso 3.</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="lux-card p-10 md:p-16 border-white/10">
+                    <div class="flex items-center gap-6 mb-10">
+                        <div class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">3</div>
+                        <h2 class="text-4xl font-black italic">Cloudflare & GitHub</h2>
+                    </div>
+                    <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
+                        <p>Aquí es donde hacemos la "magia gratuita". GitHub alojará tu tienda descargada de Tikk, y Cloudflare la conectará a NIC.cl de forma segura y veloz.</p>
+                        
+                        <h3 class="text-white font-bold text-2xl mt-8 mb-4">Paso A: Alojamiento en GitHub</h3>
+                        <ol class="list-decimal pl-6 space-y-4">
+                            <li>Crea cuenta en <a href="https://github.com" target="_blank" class="text-lux-blue font-bold">GitHub</a>.</li>
+                            <li>Crea un "New Repository" (público) llamado como tu tienda.</li>
+                            <li>Haz clic en "uploading an existing file" y sube el archivo <b>.zip</b> o <b>index.html</b> que descargaste de Tikk.</li>
+                            <li>Ve a <i>Settings > Pages</i> y selecciona "Deploy from branch" -> "main". Listo! Tu página ya vive en la web.</li>
+                        </ol>
+
+                        <h3 class="text-white font-bold text-2xl mt-8 mb-4">Paso B: Conectar a Cloudflare</h3>
+                        <ol class="list-decimal pl-6 space-y-4">
+                            <li>Crea cuenta gratis en <a href="https://cloudflare.com" target="_blank" class="text-lux-blue font-bold">Cloudflare</a>.</li>
+                            <li>Clic en "Add Site" y escribe tu dominio "tutienda.cl". Elige el plan GRATIS.</li>
+                            <li>Cloudflare te dará 2 "Nameservers" (ejemplo: <i>amy.ns.cloudflare.com</i>).</li>
+                            <li>Vuelve a <b>NIC.cl</b>, entra a tu dominio, busca la sección "Servidores DNS" y pega los 2 Nameservers de Cloudflare.</li>
+                            <li>De vuelta en Cloudflare, ve a "DNS > Records" y añade un CNAME apuntando tu dominio hacia "tu-usuario.github.io".</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="lux-card p-10 md:p-16 border-lux-blue/50 relative overflow-hidden bg-gradient-to-br from-black to-lux-blue/10">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-lux-blue/20 blur-[100px] rounded-full pointer-events-none"></div>
+                    <div class="flex items-center gap-6 mb-10 relative z-10">
+                        <div class="w-16 h-16 bg-white text-black rounded-2xl flex items-center justify-center text-2xl font-black italic">4</div>
+                        <h2 class="text-4xl font-black italic text-white">Automatizar Stock</h2>
+                    </div>
+                    <div class="space-y-8 text-white/80 font-medium text-lg leading-relaxed relative z-10">
+                        <p>¿Quieres que cuando alguien presione "Comprar ahora", se descuente 1 unidad de stock en tu Excel automáticamente? Usa <b>Google Apps Script</b>.</p>
+                        <ol class="list-decimal pl-6 space-y-4">
+                            <li>Abre tu Google Sheet. Ve a <b>Extensiones > Apps Script</b>.</li>
+                            <li>Borra todo el código que aparece y pega este código mágico:
+<pre class="bg-black/50 p-6 rounded-xl border border-white/10 mt-4 text-xs font-mono text-lux-blue overflow-x-auto">
+function doGet(e) {
+  var action = e.parameter.action;
+  if(action === 'deduct') {
+    var items = JSON.parse(e.parameter.items);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = sheet.getDataRange().getValues();
+    
+    for(var i=0; i<items.length; i++) {
+      var id = items[i].id;
+      var qty = parseInt(items[i].quantity);
+      for(var r=1; r<data.length; r++) {
+        if(data[r][0] == id) {
+          var currentStock = parseInt(data[r][4]);
+          if(currentStock >= qty) {
+            sheet.getRange(r+1, 5).setValue(currentStock - qty);
+          }
+        }
+      }
+    }
+    return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
+  }
+}
+</pre>
+                            </li>
+                            <li>Arriba a la derecha, haz clic en el botón azul <b>Implementar > Nueva Implementación</b>.</li>
+                            <li>Elige "Aplicación web". Ejecutar como "Tú" y Acceso: "Cualquier persona".</li>
+                            <li>Copia la <b>URL de la aplicación web</b> que te arrojará Google.</li>
+                            <li>Pega esa URL en el paso "Crear Tienda" de Tikk, en la casilla que dice "Apps Script URL".</li>
+                        </ol>
+                        <p class="font-bold text-white mt-8 italic text-2xl border-l-4 border-lux-blue pl-6 py-2">¡Felicidades! Tienes una tienda profesional operando 100% gratis y en piloto automático.</p>
+                    </div>
+                </section>
+
             </div>
         </div>
     </template>
 
-    <!-- Modal Dominio -->
-    <div id="modal-domain" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-3xl animate-in fade-in transition-all">
-        <div class="max-w-xl w-full bg-lux-500 rounded-[3rem] p-12 border border-white/10 space-y-12">
-            <div class="flex justify-between items-center border-b border-white/5 pb-8">
-                <h3 class="text-3xl font-black italic">Guía Dominio .cl</h3>
-                <button onclick="app.toggleDomainModal(false)" class="text-white/40 hover:text-white transition-colors"><i data-lucide="x"></i></button>
-            </div>
-            <div class="space-y-10 text-base text-lux-400 font-medium">
-                <div class="flex gap-6">
-                    <div class="bg-lux-blue h-10 w-10 flex items-center justify-center rounded-xl font-black flex-shrink-0">1</div>
-                    <p>Adquiere tu nombre en <b>NIC.cl</b> ($9.990 x año). Es tu dirección oficial en internet.</p>
-                </div>
-                <div class="flex gap-6">
-                    <div class="bg-lux-blue h-10 w-10 flex items-center justify-center rounded-xl font-black flex-shrink-0">2</div>
-                    <p>Usa <b>Cloudflare</b> (Gratis) para gestionar la seguridad y el despliegue del sitio.</p>
-                </div>
-                <div class="flex gap-6">
-                    <div class="bg-lux-blue h-10 w-10 flex items-center justify-center rounded-xl font-black flex-shrink-0">3</div>
-                    <p>En el panel de Cloudflare, apunta los DNS a tu página de <b>tikk</b> o a tu repositorio de <b>GitHub</b>.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script src="app.js"></script>
 </body>

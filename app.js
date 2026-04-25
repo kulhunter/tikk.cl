@@ -32,18 +32,48 @@ const app = {
     handleRouting() {
         const hash = window.location.hash;
         if (hash.startsWith('#/')) {
-            const parts = hash.split('/').filter(p => !!p && p !== '#');
-            if (parts.length >= 3) {
-                this.state.storeName = decodeURIComponent(parts[0].replace(/-/g, ' '));
-                this.state.sheetId = parts[1];
-                this.state.sellerWhatsApp = parts[2];
+            const hashParts = hash.split('?')[0].split('/').filter(p => !!p && p !== '#');
+            if (hashParts.length >= 3) {
+                this.state.storeName = decodeURIComponent(hashParts[0].replace(/-/g, ' '));
+                this.state.sheetId = hashParts[1];
+                this.state.sellerWhatsApp = hashParts[2];
+                
+                const params = new URLSearchParams(hash.split('?')[1] || '');
+                this.state.storeDesc = params.get('desc') || '';
+                this.state.storeLogo = params.get('logo') || '';
+                this.state.scriptUrl = params.get('script') || '';
+                this.state.storeTheme = params.get('theme') || 'dark';
+                this.state.storeColor = params.get('color') || 'blue';
+                
+                this.applyTheme(this.state.storeTheme, this.state.storeColor);
+
                 this.navigate('store', false);
                 this.loadStoreData(this.state.sheetId);
                 return;
             }
         }
-        const view = hash.replace('#', '') || 'landing';
+        this.applyTheme('dark', 'blue');
+        const view = hash.split('?')[0].replace('#', '') || 'landing';
         this.navigate(view, false);
+    },
+
+    applyTheme(theme, color) {
+        if (theme === 'light') {
+            document.body.style.backgroundColor = '#ffffff';
+            document.body.style.color = '#000000';
+            document.documentElement.style.setProperty('--bg-lux', '#ffffff');
+            document.documentElement.style.setProperty('--text-lux', '#000000');
+        } else {
+            document.body.style.backgroundColor = '#000000';
+            document.body.style.color = '#ffffff';
+            document.documentElement.style.setProperty('--bg-lux', '#000000');
+            document.documentElement.style.setProperty('--text-lux', '#ffffff');
+        }
+        
+        const colors = { blue: '#0071e3', green: '#25D366', purple: '#bf5af2', red: '#ff3b30' };
+        if (colors[color]) {
+            document.documentElement.style.setProperty('--color-lux-blue', colors[color]);
+        }
     },
 
     navigate(view, pushState = true) {
@@ -94,7 +124,18 @@ const app = {
 
         if (view === 'share') {
             const slug = this.state.storeName.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
-            const shareUrl = `${window.location.origin}${window.location.pathname}#/${slug}/${this.state.sheetId}/${this.state.sellerWhatsApp}`;
+            let shareUrl = `${window.location.origin}${window.location.pathname}#/${slug}/${this.state.sheetId}/${this.state.sellerWhatsApp}`;
+            
+            const params = new URLSearchParams();
+            if (this.state.storeTheme !== 'dark') params.append('theme', this.state.storeTheme);
+            if (this.state.storeColor !== 'blue') params.append('color', this.state.storeColor);
+            if (this.state.storeDesc) params.append('desc', this.state.storeDesc);
+            if (this.state.storeLogo) params.append('logo', this.state.storeLogo);
+            if (this.state.scriptUrl) params.append('script', this.state.scriptUrl);
+            
+            const queryString = params.toString();
+            if (queryString) shareUrl += `?${queryString}`;
+
             const input = document.getElementById('shareable-url');
             if (input) input.value = shareUrl;
             const btn = document.getElementById('view-store-btn');
@@ -111,6 +152,12 @@ const app = {
         const wa = document.getElementById('whatsapp-input').value.trim();
         const url = document.getElementById('sheet-url-input').value.trim();
         const code = document.getElementById('country-code').value;
+        
+        const desc = document.getElementById('store-desc-input')?.value.trim() || '';
+        const logo = document.getElementById('store-logo-input')?.value.trim() || '';
+        const script = document.getElementById('store-script-input')?.value.trim() || '';
+        const theme = document.getElementById('store-theme-select')?.value || 'dark';
+        const color = document.getElementById('store-color-select')?.value || 'blue';
 
         if (!name || !wa || !url) return this.notify("Completa el perfil boutique", "error");
 
@@ -120,22 +167,49 @@ const app = {
         this.state.sheetId = match[1];
         this.state.sellerWhatsApp = `${code}${wa}`.replace(/[^\d]/g, '');
         this.state.storeName = name;
+        this.state.storeDesc = desc;
+        this.state.storeLogo = logo;
+        this.state.scriptUrl = script;
+        this.state.storeTheme = theme;
+        this.state.storeColor = color;
+        
+        this.applyTheme(theme, color);
         this.navigate('share');
+    },
+
+    parseCSV(text) {
+        let result = []; let row = []; let inQuotes = false; let currentValue = '';
+        for (let i = 0; i < text.length; i++) {
+            let char = text[i];
+            if (inQuotes) {
+                if (char === '"') {
+                    if (i + 1 < text.length && text[i+1] === '"') { currentValue += '"'; i++; } else { inQuotes = false; }
+                } else { currentValue += char; }
+            } else {
+                if (char === '"') { inQuotes = true; } else if (char === ',') { row.push(currentValue); currentValue = ''; } else if (char === '\n' || char === '\r') {
+                    row.push(currentValue); result.push(row); row = []; currentValue = '';
+                    if (char === '\r' && text[i+1] === '\n') i++;
+                } else { currentValue += char; }
+            }
+        }
+        if (currentValue || row.length > 0) { row.push(currentValue); result.push(row); }
+        return result;
     },
 
     async loadStoreData(id) {
         try {
             const csvUrl = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv`;
             const response = await fetch(csvUrl);
+            if (!response.ok) throw new Error("Network response error");
             const csvText = await response.text();
             
-            const rows = csvText.split(/\n/);
-            const headers = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
+            const rows = this.parseCSV(csvText);
+            if (rows.length < 2) throw new Error("No data rows");
+            const headers = rows[0].map(h => h.trim());
             
             this.state.products = rows.slice(1).map(row => {
-                const values = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 let obj = {};
-                headers.forEach((h, i) => { obj[h] = values[i] ? values[i].replace(/"/g, '').trim() : ''; });
+                headers.forEach((h, i) => { obj[h] = row[i] ? row[i].trim() : ''; });
                 return obj;
             }).filter(o => !!o.Producto).map(p => ({
                 id: p.Codigo,
@@ -255,10 +329,20 @@ const app = {
         this.notify(`Añadido: ${p.Producto}`, "success");
     },
     
-    buyNow(id) {
+    async buyNow(id) {
         const p = this.state.products.find(x => x.id === id);
         let m = ` *BOUTIQUE: ${this.state.storeName.toUpperCase()}*\n✨ *Producto:* ${p.Producto}\n💰 *Precio:* $${p.Precio.toLocaleString('es-CL')}\n\n Deseo comprar esta pieza ahora.`;
+        
+        if (this.state.scriptUrl) {
+            this.notify("Procesando tu compra...", "info");
+            try {
+                const items = [{ id: p.id, quantity: 1 }];
+                await fetch(`${this.state.scriptUrl}?action=deduct&items=${encodeURIComponent(JSON.stringify(items))}`, { method: 'GET', mode: 'no-cors' });
+            } catch (e) { console.error("Error stock:", e); }
+        }
+        
         window.open(`https://wa.me/${this.state.sellerWhatsApp}?text=${encodeURIComponent(m)}`);
+        this.closeProductModal();
     },
 
     updateCartCount() {
@@ -269,13 +353,25 @@ const app = {
 
     saveCart() { localStorage.setItem('tikk-cart-lux-v2', JSON.stringify(this.state.cart)); },
 
-    toggleCart() {
+    async toggleCart() {
         if (this.state.cart.length === 0) return this.notify("La bolsa está vacía", "info");
         let m = ` *PEDIDO: ${this.state.storeName.toUpperCase()}*\n\n`;
         this.state.cart.forEach(i => m += `▫️ *${i.Producto}* (x${i.quantity}) - $${(i.Precio * i.quantity).toLocaleString('es-CL')}\n`);
         const total = this.state.cart.reduce((s, i) => s + (i.Precio * i.quantity), 0);
         m += `\n💰 *TOTAL SOLICITADO: $${total.toLocaleString('es-CL')}*\n\n_Gestionado vía tikk.cl_`;
+        
+        if (this.state.scriptUrl) {
+            this.notify("Procesando carrito...", "info");
+            try {
+                const items = this.state.cart.map(i => ({ id: i.id, quantity: i.quantity }));
+                await fetch(`${this.state.scriptUrl}?action=deduct&items=${encodeURIComponent(JSON.stringify(items))}`, { method: 'GET', mode: 'no-cors' });
+            } catch (e) { console.error("Error stock:", e); }
+        }
+        
         window.open(`https://wa.me/${this.state.sellerWhatsApp}?text=${encodeURIComponent(m)}`);
+        this.state.cart = [];
+        this.saveCart();
+        this.updateCartCount();
     },
 
     toggleDomainModal(show) {
@@ -297,8 +393,12 @@ const app = {
 
     copyStoreLink() {
         const url = document.getElementById('shareable-url').value;
-        navigator.clipboard.writeText(url);
-        this.notify("Enlace copiado", "success");
+        if (!url) return this.notify("Error obteniendo URL", "error");
+        navigator.clipboard.writeText(url).then(() => {
+            this.notify("Enlace copiado", "success");
+        }).catch(err => {
+            this.notify("Error al copiar enlace", "error");
+        });
     },
     
     editStoreData() { this.navigate('diy'); },
@@ -309,10 +409,44 @@ const app = {
     },
 
     async downloadProZip() {
-        this.notify("Generando Paquete Boutique...", "info");
-        const zip = new JSZip();
-        // Skip full ZIP logic for standard tool sync but it's fully mapped in the state
-        this.notify("Descarga iniciada", "success");
+        if (typeof JSZip === 'undefined') {
+            return this.notify("Librería ZIP no disponible", "error");
+        }
+        this.notify("Empaquetando Boutique...", "info");
+        
+        try {
+            const redirectUrl = document.getElementById('shareable-url').value;
+            const zip = new JSZip();
+            
+            const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>${this.state.storeName} | Tienda Online</title>
+    <meta http-equiv="refresh" content="0; url=${redirectUrl}">
+    <script>window.location.href = "${redirectUrl}";</script>
+    <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#000;color:#fff;}</style>
+</head>
+<body>
+    <div style="text-align:center;">
+        <h2>Redirigiendo a tu boutique segura...</h2>
+    </div>
+</body>
+</html>`;
+            
+            zip.file("index.html", htmlContent);
+            const content = await zip.generateAsync({type:"blob"});
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(content);
+            a.download = `boutique-${this.state.storeName.replace(/\\s+/g, '-').toLowerCase()}.zip`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+            
+            this.notify("¡Boutique descargada!", "success");
+        } catch (e) {
+            console.error("ZIP Error:", e);
+            this.notify("Error al generar ZIP", "error");
+        }
     }
 };
 
