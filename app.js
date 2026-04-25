@@ -53,7 +53,7 @@ const app = {
             }
         }
         this.applyTheme('dark', 'blue');
-        const view = hash.split('?')[0].replace('#', '') || 'landing';
+        const view = hash.split('?')[0].replace(/^#\/?/, '') || 'landing';
         this.navigate(view, false);
     },
 
