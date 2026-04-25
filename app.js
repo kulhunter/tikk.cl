@@ -112,8 +112,9 @@ const app = {
             
             const heroImg = document.getElementById('store-hero-img');
             if (heroImg) {
-                const keyword = encodeURIComponent(this.state.storeName.split(' ')[0]);
-                heroImg.src = `https://source.unsplash.com/1600x900/?${keyword},luxury,store`;
+                const keyword = encodeURIComponent(this.state.storeName.split(' ')[0] || 'boutique');
+                // source.unsplash.com is deprecated, using image.pollinations.ai or a fallback
+                heroImg.src = `https://image.pollinations.ai/prompt/luxury%20boutique%20store%20dark%20aesthetic%20${keyword}?width=1600&height=900&nologo=true`;
                 heroImg.onerror = () => { heroImg.src = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600'; };
             }
             if (this.state.products.length > 0) {
