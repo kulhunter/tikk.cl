@@ -1,0 +1,33 @@
+# tikk.cl — Herramienta gratuita de e-commerce para PYMEs en Chile
+
+## Descripción
+Tikk es una plataforma web 100% gratuita que permite a pequeños empresarios, emprendedores y PYMEs de Chile crear una tienda online profesional en menos de 5 minutos, sin pagar mensualidades, sin saber programar y sin comisiones por venta.
+
+## Cómo funciona
+1. El comerciante crea un inventario en Google Sheets (como un Excel online)
+2. Pega el link del Google Sheet en tikk.cl junto con su número de WhatsApp
+3. Tikk genera automáticamente una tienda web profesional y un link compartible
+4. Los clientes visitan la tienda, agregan productos al carrito y envían su pedido directamente al WhatsApp del comerciante
+
+## Audiencia objetivo
+- Microempresarios y emprendedores de Chile
+- PYMEs que venden por WhatsApp, Instagram o Facebook
+- Negocios de barrio (minimarkets, bazares, ferreterías, rotiserías, salones de belleza)
+- Personas que venden comida, ropa, manualidades o servicios por redes sociales
+
+## Ventajas clave
+- 100% gratuito, sin comisiones y sin mensualidades
+- No requiere conocimientos técnicos
+- Inventario sincronizado en tiempo real desde Google Sheets
+- Pedidos directos a WhatsApp sin intermediarios
+- Funciona en móviles (PWA instalable)
+- Alternativa gratuita a Shopify, Jumpseller y Bsale
+
+## URL principal
+https://tikk.cl
+
+## Creador
+Dan Tagle — https://dantagle.cl
+
+## Licencia
+Herramienta gratuita y de código abierto en GitHub: https://github.com/kulhunter/tikk.cl
