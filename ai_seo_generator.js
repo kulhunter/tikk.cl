@@ -4,7 +4,7 @@ const path = require('path');
 // ─────────────────────────────────────────────────────────────────────────────
 // GOOGLE ADSENSE PUBLISHER ID  ← Reemplaza con tu ID real ca-pub-XXXXXXXXXX
 // ─────────────────────────────────────────────────────────────────────────────
-const ADSENSE_PUB_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+const ADSENSE_PUB_ID = 'ca-pub-7868880098336635';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MASTER KEYWORD POOL  (se expande automáticamente con variantes de fecha)
