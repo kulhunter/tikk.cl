@@ -2,8 +2,8 @@ name: AI SEO Autopilot
 
 on:
   schedule:
-    # Run automatically every Sunday at midnight
-    - cron: '0 0 * * 0'
+    # Run automatically every day at 10:00 UTC (6am Chile time)
+    - cron: '0 10 * * *'
   workflow_dispatch: # Allows manual triggering from GitHub UI
 
 jobs:

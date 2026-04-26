@@ -247,10 +247,10 @@ const app = {
                 <div class="p-10 flex flex-col flex-grow">
                     <span class="text-[9px] font-black uppercase text-lux-blue mb-3 tracking-[0.3em] font-bold italic">${p.Categoria}</span>
                     <h3 class="text-2xl font-black italic mb-6 leading-none">${p.Producto}</h3>
-                    <div class="mt-auto flex justify-between items-end border-t border-white/5 pt-8">
-                        <span class="text-3xl font-black italic tracking-tighter text-white">$${p.Precio.toLocaleString('es-CL')}</span>
-                        <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest ${p.Stock > 0 ? 'text-green-400' : 'text-red-400'}">
-                            ${p.Stock > 0 ? `<svg class="w-3 h-3 fill-current" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/></svg> Disponible` : `<svg class="w-3 h-3 fill-current" viewBox="0 0 12 12"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="2" fill="none"/></svg> Agotado`}
+                    <div class="mt-auto border-t border-white/5 pt-6 space-y-3">
+                        <span class="text-3xl font-black italic tracking-tighter text-white block">$${p.Precio.toLocaleString('es-CL')}</span>
+                        <div class="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest ${p.Stock > 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${p.Stock > 0 ? `<svg class="w-2.5 h-2.5 fill-current flex-shrink-0" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/></svg><span>Disponible</span>` : `<svg class="w-2.5 h-2.5 fill-current flex-shrink-0" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/></svg><span>Agotado</span>`}
                         </div>
                     </div>
                 </div>
