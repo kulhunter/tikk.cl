@@ -433,7 +433,7 @@ const app = {
 
         try {
             // Webhook del Apps Script (El usuario debe reemplazar esto con su propia URL de despliegue)
-            const scriptURL = "https://script.google.com/macros/s/TU_SCRIPT_ID_AQUI/exec";
+            const scriptURL = "https://script.google.com/macros/s/AKfycbyzEde_RuzxeszLghaTAaMuEBRWaRWjDGxDYboSN1PgRW5YFm-pT6rr5gXKYHjFnQ6Zkw/exec";
             
             const formData = new FormData();
             formData.append('email', email);
