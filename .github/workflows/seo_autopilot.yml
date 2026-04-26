@@ -9,6 +9,9 @@ on:
 permissions:
   contents: write  # Required to push generated files back to the repo
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # Silence deprecation warning
+
 jobs:
   generate-seo:
     runs-on: ubuntu-latest
@@ -22,25 +25,8 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Run AI SEO Generator
+      - name: Run AI SEO Generator and Sitemap
         run: node ai_seo_generator.js
-
-      - name: Regenerate Sitemap
-        run: |
-          node -e "
-          const fs = require('fs');
-          const files = fs.readdirSync('.').filter(f => f.endsWith('.html'));
-          const today = new Date().toISOString().split('T')[0];
-          const urls = [
-            '  <url><loc>https://tikk.cl/</loc><changefreq>daily</changefreq><priority>1.0</priority><lastmod>' + today + '</lastmod></url>',
-            '  <url><loc>https://tikk.cl/#masterclass</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>',
-            '  <url><loc>https://tikk.cl/#paso-a-paso</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>',
-            ...files.map(f => '  <url><loc>https://tikk.cl/' + f + '</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>' + today + '</lastmod></url>')
-          ];
-          const xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n' + urls.join('\n') + '\n</urlset>';
-          fs.writeFileSync('sitemap.xml', xml);
-          console.log('Sitemap updated with ' + (files.length + 3) + ' URLs');
-          "
 
       - name: Commit and Push Changes
         run: |

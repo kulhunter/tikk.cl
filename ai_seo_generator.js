@@ -265,7 +265,26 @@ async function run() {
         console.log(`  ✓ [SEO] ${fileName}`);
     }
 
-    console.log(`\n✅ Éxito: ${count} páginas generadas/actualizadas con AdSense y rich content.`);
+    console.log(`\n✅ Éxito: ${count} páginas generadas/actualizadas.`);
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // REGENERACIÓN DE SITEMAP.XML
+    // ─────────────────────────────────────────────────────────────────────────────
+    console.log("Actualizando sitemap.xml...");
+    const files = fs.readdirSync(rootDir).filter(f => f.endsWith('.html'));
+    const today = new Date().toISOString().split('T')[0];
+    const urls = [
+        `  <url><loc>https://tikk.cl/</loc><changefreq>daily</changefreq><priority>1.0</priority><lastmod>${today}</lastmod></url>`,
+        `  <url><loc>https://tikk.cl/#masterclass</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>`,
+        `  <url><loc>https://tikk.cl/#paso-a-paso</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
+        ...files.map(f => `  <url><loc>https://tikk.cl/${f}</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>${today}</lastmod></url>`)
+    ];
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join('\n')}
+</urlset>`;
+    fs.writeFileSync(path.join(rootDir, 'sitemap.xml'), xml);
+    console.log(`✅ Sitemap.xml actualizado con ${files.length + 3} URLs.`);
 }
 
 run();
