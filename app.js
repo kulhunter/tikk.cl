@@ -419,6 +419,43 @@ const app = {
         this.notify("Redirigiendo a tu correo...", "success");
     },
 
+    async registerMasterclass() {
+        const email = document.getElementById('mc-email').value;
+        const store = document.getElementById('mc-store').value;
+        const niche = document.getElementById('mc-niche').value;
+        
+        if (!email || !store || !niche) return this.notify("Completa todos los campos", "error");
+
+        const btn = document.querySelector('#masterclass-form button');
+        const ogText = btn.innerText;
+        btn.innerText = "PROCESANDO...";
+        btn.disabled = true;
+
+        try {
+            // Webhook del Apps Script (El usuario debe reemplazar esto con su propia URL de despliegue)
+            const scriptURL = "https://script.google.com/macros/s/TU_SCRIPT_ID_AQUI/exec";
+            
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('store', store);
+            formData.append('niche', niche);
+
+            // Fetch en background sin bloqueo por CORS
+            fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' }).catch(e => console.log(e));
+            
+            await new Promise(r => setTimeout(r, 800));
+
+            document.getElementById('masterclass-form-container').classList.add('hidden');
+            document.getElementById('masterclass-success-container').classList.remove('hidden');
+            this.notify("¡Inscripción exitosa!", "success");
+            
+        } catch (error) {
+            this.notify("Hubo un error de conexión.", "error");
+            btn.innerText = ogText;
+            btn.disabled = false;
+        }
+    },
+
     shareWithFriend() {
         const m = "Impulsa tu negocio con tikk.cl: Tu tienda boutique pro usando solo un Excel. Creado por Dan Tagle: https://tikk.cl";
         window.open(`https://wa.me/?text=${encodeURIComponent(m)}`);

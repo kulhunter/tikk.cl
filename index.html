@@ -136,6 +136,19 @@
                             <button onclick="app.navigate('diy')" class="h-20 px-14 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all">Crear Tienda Gratis</button>
                             <a href="#/tienda-demo/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/56928623092?desc=Tu+nueva+tienda+online&color=blue" class="h-20 px-10 bg-lux-blue/20 text-lux-blue rounded-full font-bold flex items-center text-[10px] uppercase tracking-[0.2em] hover:bg-lux-blue hover:text-white transition-all shadow-xl shadow-lux-blue/20">Probar Demo (2 segs)</a>
                         </div>
+                        
+                        <div class="mt-12 bg-red-600/10 border border-red-500/30 rounded-3xl p-6 flex items-center justify-between gap-6 cursor-pointer hover:bg-red-600/20 transition-all max-w-xl" onclick="app.navigate('masterclass')">
+                            <div class="flex gap-4 items-center">
+                                <div class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center animate-pulse">
+                                    <i data-lucide="video" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-black italic">Masterclass en Vivo</h4>
+                                    <p class="text-white/60 text-xs">Crea tu tienda gratis paso a paso con nosotros</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-red-500 hidden sm:block">Inscribirse →</span>
+                        </div>
                     </div>
                     
                     <div class="mt-48 grid lg:grid-cols-3 gap-16 border-t border-white/10 pt-32 text-left">
@@ -159,6 +172,44 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-masterclass">
+        <div class="max-w-3xl mx-auto px-6 py-24 text-center">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-[10px] font-black uppercase tracking-widest text-red-500 mb-8 italic animate-pulse">🔴 Evento en Vivo y Gratuito</span>
+            <h1 class="text-5xl md:text-7xl font-black mb-8 italic tracking-tighter leading-tight">Masterclass:<br>Crea tu Tienda Hoy.</h1>
+            <p class="text-lux-400 text-xl mb-16">Aprende paso a paso cómo armar tu catálogo en Google Sheets, conectarlo a WhatsApp y empezar a vender sin pagar comisiones jamás.</p>
+
+            <div id="masterclass-form-container" class="lux-card p-10 md:p-14 text-left border-white/10 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-transparent"></div>
+                <h3 class="text-2xl font-black italic mb-8">Reserva tu Cupo</h3>
+                <form id="masterclass-form" onsubmit="event.preventDefault(); app.registerMasterclass();" class="space-y-8">
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Correo Electrónico</label>
+                        <input type="email" id="mc-email" required placeholder="tu@correo.com" class="w-full bg-transparent border-b border-white/10 py-3 text-2xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                    </div>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Nombre de tu Tienda</label>
+                            <input type="text" id="mc-store" required placeholder="Ej. Tienda Miau" class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Rubro / Industria</label>
+                            <input type="text" id="mc-niche" required placeholder="Ej. Ropa, Mascotas, etc." class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full h-20 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all mt-8">ASEGURAR MI LUGAR</button>
+                </form>
+            </div>
+
+            <div id="masterclass-success-container" class="hidden lux-card p-14 bg-red-600 border-none shadow-2xl shadow-red-600/40">
+                <h3 class="text-4xl font-black mb-6 italic text-white">¡Cupo Confirmado! 🎉</h3>
+                <p class="text-white/80 text-xl mb-10 font-bold">Haz clic en el botón de abajo, entra a YouTube y presiona "Notificarme" para que no te pierdas la clase.</p>
+                <a href="https://youtube.com/live/RE3D-WUFbac" target="_blank" class="inline-flex h-24 px-14 bg-black text-white rounded-[2rem] items-center justify-center font-black text-2xl hover:scale-105 shadow-2xl transition-all gap-4">
+                    <i data-lucide="youtube" class="w-8 h-8 text-red-500"></i> IR AL LIVE EN YOUTUBE
+                </a>
             </div>
         </div>
     </template>
