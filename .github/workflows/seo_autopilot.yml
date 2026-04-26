@@ -2,31 +2,49 @@ name: AI SEO Autopilot
 
 on:
   schedule:
-    # Run automatically every day at 10:00 UTC (6am Chile time)
+    # Runs every day at 10:00 UTC (6am Chile time)
     - cron: '0 10 * * *'
   workflow_dispatch: # Allows manual triggering from GitHub UI
+
+permissions:
+  contents: write  # Required to push generated files back to the repo
 
 jobs:
   generate-seo:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          
+          node-version: '20'
+
       - name: Run AI SEO Generator
         run: node ai_seo_generator.js
-        
+
+      - name: Regenerate Sitemap
+        run: |
+          node -e "
+          const fs = require('fs');
+          const files = fs.readdirSync('.').filter(f => f.endsWith('.html'));
+          const today = new Date().toISOString().split('T')[0];
+          const urls = [
+            '  <url><loc>https://tikk.cl/</loc><changefreq>daily</changefreq><priority>1.0</priority><lastmod>' + today + '</lastmod></url>',
+            '  <url><loc>https://tikk.cl/#masterclass</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>',
+            '  <url><loc>https://tikk.cl/#paso-a-paso</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>',
+            ...files.map(f => '  <url><loc>https://tikk.cl/' + f + '</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>' + today + '</lastmod></url>')
+          ];
+          const xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n' + urls.join('\n') + '\n</urlset>';
+          fs.writeFileSync('sitemap.xml', xml);
+          console.log('Sitemap updated with ' + (files.length + 3) + ' URLs');
+          "
+
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generated new SEO landing pages" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-generated SEO pages [$(date +'%Y-%m-%d')]" && git push)
