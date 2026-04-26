@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
     <!-- SEO AVANZADO -->
     <title>tikk | Crea tu Tienda Online Profesional con un Excel</title>
-    <meta name="description" content="La plataforma más rápida para crear tu boutique digital. Sincroniza stock desde Google Drive y recibe pedidos por WhatsApp. Ideal para PyMEs y Emprendedores Pro.">
-    <meta name="keywords" content="tienda online excel, catalogo whatsapp, ecommerce google sheets, crear boutique digital, ventas whatsapp chile, stock online fácil">
+    <meta name="description"
+        content="La plataforma más rápida para crear tu boutique digital. Sincroniza stock desde Google Drive y recibe pedidos por WhatsApp. Ideal para PyMEs y Emprendedores Pro.">
+    <meta name="keywords"
+        content="tienda online excel, catalogo whatsapp, ecommerce google sheets, crear boutique digital, ventas whatsapp chile, stock online fácil">
     <meta name="author" content="Dan Tagle">
-    
+
     <!-- Open Graph / RRSS -->
     <meta property="og:title" content="tikk | Tu Vitrina Pro en 60 Segundos">
-    <meta property="og:description" content="¿Sabes usar Excel? Entonces ya sabes tener una tienda de lujo. Sincroniza y vende por WhatsApp al instante.">
+    <meta property="og:description"
+        content="¿Sabes usar Excel? Entonces ya sabes tener una tienda de lujo. Sincroniza y vende por WhatsApp al instante.">
     <meta property="og:image" content="https://tikk.cl/icon-512.png">
     <meta property="og:url" content="https://tikk.cl">
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7868880098336635" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7868880098336635"
+        crossorigin="anonymous"></script>
 
     <!-- JSON-LD Structured Data (Google loves this) -->
     <script type="application/ld+json">
@@ -79,48 +85,112 @@
             }
         }
     </script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <style>
-        body { background-color: #000; color: #fff; -webkit-font-smoothing: antialiased; }
-        .hero-bg { 
-            background-image: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1600&h=900'); 
-            background-size: cover; 
+        body {
+            background-color: #000;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1600&h=900');
+            background-size: cover;
             background-position: center;
         }
-        .lux-overlay { background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 100%); }
-        .lux-glass { background: rgba(0, 0, 0, 0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-        .lux-card { background: #0a0a0a; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 2.5rem; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .tooltip-box { background: rgba(29, 29, 31, 1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.5); visibility: hidden; opacity: 0; transition: all 0.3s ease; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); z-index: 50; width: 220px; pointer-events: none; }
-        .has-tooltip:hover .tooltip-box { visibility: visible; opacity: 1; transform: translateY(-20px); }
-        ::-webkit-scrollbar { display: none; }
-        #product-modal { transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1); }
-        .drawer-open { transform: translateY(0) !important; }
-        .drawer-closed { transform: translateY(100%) !important; }
+
+        .lux-overlay {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 100%);
+        }
+
+        .lux-glass {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .lux-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tooltip-box {
+            background: rgba(29, 29, 31, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            transform: translateY(-10px);
+            z-index: 50;
+            width: 220px;
+            pointer-events: none;
+        }
+
+        .has-tooltip:hover .tooltip-box {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(-20px);
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        #product-modal {
+            transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        .drawer-open {
+            transform: translateY(0) !important;
+        }
+
+        .drawer-closed {
+            transform: translateY(100%) !important;
+        }
     </style>
 </head>
+
 <body class="selection:bg-lux-blue selection:text-white">
 
-    <div id="notification-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-3 w-full max-w-sm px-6"></div>
+    <div id="notification-container"
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-3 w-full max-w-sm px-6"></div>
 
     <div id="app" class="min-h-screen flex flex-col">
-        
+
         <header id="main-header" class="lux-glass sticky top-0 z-[100]">
             <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <a href="#" onclick="app.navigate('landing')" class="flex items-center gap-3">
-                    <div class="h-10 w-10 bg-white rounded-2xl flex items-center justify-center shadow-lg hover:rotate-12 transition-transform">
+                    <div
+                        class="h-10 w-10 bg-white rounded-2xl flex items-center justify-center shadow-lg hover:rotate-12 transition-transform">
                         <i data-lucide="zap" class="text-black w-6 h-6 fill-current"></i>
                     </div>
                     <span class="text-2xl font-black italic tracking-tighter">tikk</span>
                 </a>
                 <div class="flex items-center gap-6">
-                    <a href="#landing" class="text-white/50 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors hidden md:block">Inicio</a>
-                    <a href="#paso-a-paso" class="text-white/50 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors hidden md:block">Paso a Paso</a>
-                    <button onclick="app.navigate('diy')" class="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-all">Crear Tienda</button>
-                    <button id="cart-button" onclick="app.toggleCart()" class="hidden p-2 text-white/50 hover:text-white transition-colors"><i data-lucide="shopping-basket" class="w-7 h-7"></i></button>
+                    <a href="#landing"
+                        class="text-white/50 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors hidden md:block">Inicio</a>
+                    <a href="#paso-a-paso"
+                        class="text-white/50 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors hidden md:block">Paso
+                        a Paso</a>
+                    <button onclick="app.navigate('diy')"
+                        class="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-all">Crear
+                        Tienda</button>
+                    <button id="cart-button" onclick="app.toggleCart()"
+                        class="hidden p-2 text-white/50 hover:text-white transition-colors"><i
+                            data-lucide="shopping-basket" class="w-7 h-7"></i></button>
                 </div>
             </div>
         </header>
@@ -131,19 +201,26 @@
 
         <footer id="global-footer" class="py-24 border-t border-white/5 bg-black text-center">
             <div class="max-w-7xl mx-auto px-6">
-                <p class="text-[9px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 font-bold">Official Platform for Professional Entrepreneurs</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 font-bold">Official
+                    Platform for Professional Entrepreneurs</p>
                 <div class="flex flex-col items-center gap-4">
                     <span class="text-white/40 text-sm font-medium">Bespoke Design by</span>
-                    <a href="https://dantagle.cl" target="_blank" class="text-2xl font-black tracking-tighter hover:text-lux-blue transition-colors">Dan Tagle<span class="text-lux-blue">.</span></a>
+                    <a href="https://dantagle.cl" target="_blank"
+                        class="text-2xl font-black tracking-tighter hover:text-lux-blue transition-colors">Dan
+                        Tagle<span class="text-lux-blue">.</span></a>
                 </div>
             </div>
         </footer>
     </div>
 
     <!-- Modals -->
-    <div id="modal-overlay" onclick="app.closeProductModal()" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[150] opacity-0 pointer-events-none transition-opacity duration-500"></div>
-    <aside id="product-modal" class="fixed bottom-0 right-0 h-[85vh] md:h-full w-full md:max-w-xl bg-lux-500 z-[160] drawer-closed shadow-2xl flex flex-col md:border-l border-white/10 rounded-t-[3rem] md:rounded-l-[3rem] md:rounded-t-none">
-        <button onclick="app.closeProductModal()" class="absolute top-8 right-8 h-12 w-12 rounded-full bg-white/5 flex items-center justify-center font-bold text-xl hover:rotate-90 transition-all">×</button>
+    <div id="modal-overlay" onclick="app.closeProductModal()"
+        class="fixed inset-0 bg-black/95 backdrop-blur-md z-[150] opacity-0 pointer-events-none transition-opacity duration-500">
+    </div>
+    <aside id="product-modal"
+        class="fixed bottom-0 right-0 h-[85vh] md:h-full w-full md:max-w-xl bg-lux-500 z-[160] drawer-closed shadow-2xl flex flex-col md:border-l border-white/10 rounded-t-[3rem] md:rounded-l-[3rem] md:rounded-t-none">
+        <button onclick="app.closeProductModal()"
+            class="absolute top-8 right-8 h-12 w-12 rounded-full bg-white/5 flex items-center justify-center font-bold text-xl hover:rotate-90 transition-all">×</button>
         <div id="modal-content" class="flex-grow overflow-y-auto p-10 pt-20"></div>
         <div id="modal-actions" class="p-10 border-t border-white/5 bg-black/40 grid grid-cols-2 gap-4"></div>
     </aside>
@@ -155,21 +232,31 @@
             <div class="lux-overlay pt-32 pb-64 px-6">
                 <div class="max-w-7xl mx-auto">
                     <div class="max-w-4xl">
-                        <span class="inline-block px-4 py-1.5 rounded-full bg-lux-blue/10 border border-lux-blue/30 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-10 italic">La Alternativa Gratis a Shopify</span>
+                        <span
+                            class="inline-block px-4 py-1.5 rounded-full bg-lux-blue/10 border border-lux-blue/30 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-10 italic">La
+                            Alternativa Gratis a Shopify</span>
                         <h1 class="text-7xl md:text-[140px] font-black tracking-tighter leading-[0.8] mb-14 text-white">
                             Tu Tienda <br> <span class="italic text-lux-blue">en Excel</span>.
                         </h1>
-                        <p class="text-2xl md:text-4xl text-lux-100 font-medium mb-16 leading-relaxed max-w-3xl opacity-90">
-                            Olvídate de pagar mensualidades. Sincroniza tu inventario desde Google Sheets y recibe pedidos directamente a tu WhatsApp.
+                        <p
+                            class="text-2xl md:text-4xl text-lux-100 font-medium mb-16 leading-relaxed max-w-3xl opacity-90">
+                            Olvídate de pagar mensualidades. Sincroniza tu inventario desde Google Sheets y recibe
+                            pedidos directamente a tu WhatsApp.
                         </p>
                         <div class="flex flex-wrap gap-8">
-                            <button onclick="app.navigate('diy')" class="h-20 px-14 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all">Crear Tienda Gratis</button>
-                            <a href="#/tienda-demo/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/56928623092?desc=Tu+nueva+tienda+online&color=blue" class="h-20 px-10 bg-lux-blue/20 text-lux-blue rounded-full font-bold flex items-center text-[10px] uppercase tracking-[0.2em] hover:bg-lux-blue hover:text-white transition-all shadow-xl shadow-lux-blue/20">Probar Demo (2 segs)</a>
+                            <button onclick="app.navigate('diy')"
+                                class="h-20 px-14 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all">Crear
+                                Tienda Gratis</button>
+                            <a href="#/tienda-demo/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/56928623092?desc=Tu+nueva+tienda+online&color=blue"
+                                class="h-20 px-10 bg-lux-blue/20 text-lux-blue rounded-full font-bold flex items-center text-[10px] uppercase tracking-[0.2em] hover:bg-lux-blue hover:text-white transition-all shadow-xl shadow-lux-blue/20">Probar
+                                Demo (2 segs)</a>
                         </div>
-                        
-                        <div class="mt-12 bg-red-600/10 border border-red-500/30 rounded-3xl p-6 flex items-center justify-between gap-6 cursor-pointer hover:bg-red-600/20 transition-all max-w-xl" onclick="app.navigate('masterclass')">
+
+                        <div class="mt-12 bg-red-600/10 border border-red-500/30 rounded-3xl p-6 flex items-center justify-between gap-6 cursor-pointer hover:bg-red-600/20 transition-all max-w-xl"
+                            onclick="app.navigate('masterclass')">
                             <div class="flex gap-4 items-center">
-                                <div class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center animate-pulse">
+                                <div
+                                    class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center animate-pulse">
                                     <i data-lucide="video" class="w-5 h-5"></i>
                                 </div>
                                 <div>
@@ -177,27 +264,33 @@
                                     <p class="text-white/60 text-xs">Crea tu tienda gratis paso a paso con nosotros</p>
                                 </div>
                             </div>
-                            <span class="text-[10px] font-black uppercase tracking-widest text-red-500 hidden sm:block">Inscribirse →</span>
+                            <span
+                                class="text-[10px] font-black uppercase tracking-widest text-red-500 hidden sm:block">Inscribirse
+                                →</span>
                         </div>
                     </div>
-                    
+
                     <div class="mt-48 grid lg:grid-cols-3 gap-16 border-t border-white/10 pt-32 text-left">
                         <div class="space-y-6">
                             <h2 class="text-4xl font-black italic mb-4">Stock en Tiempo Real</h2>
-                            <p class="text-lux-400 text-lg leading-relaxed">Tu inventario está conectado a Google Drive. Cambias un precio en tu planilla Excel y tu sitio web se actualiza al segundo.</p>
+                            <p class="text-lux-400 text-lg leading-relaxed">Tu inventario está conectado a Google Drive.
+                                Cambias un precio en tu planilla Excel y tu sitio web se actualiza al segundo.</p>
                         </div>
                         <div class="space-y-6">
                             <h2 class="text-4xl font-black italic mb-4">Ventas por WhatsApp</h2>
-                            <p class="text-lux-400 text-lg leading-relaxed">Tus clientes llenan su bolsa de compras y te envían el pedido ordenado (con foto y total) directo a tu chat personal.</p>
+                            <p class="text-lux-400 text-lg leading-relaxed">Tus clientes llenan su bolsa de compras y te
+                                envían el pedido ordenado (con foto y total) directo a tu chat personal.</p>
                         </div>
                         <div class="space-y-6">
                             <h2 class="text-4xl font-black italic mb-4">100% Gratis Siempre</h2>
-                            <p class="text-lux-400 text-lg leading-relaxed">Sin comisiones por venta, sin mensualidades y sin tarjetas de crédito. Creado especialmente para emprendedores de Chile.</p>
+                            <p class="text-lux-400 text-lg leading-relaxed">Sin comisiones por venta, sin mensualidades
+                                y sin tarjetas de crédito. Creado especialmente para emprendedores de Chile.</p>
                         </div>
                     </div>
 
                     <div class="mt-32 flex justify-center">
-                        <button onclick="app.shareWithFriend()" class="h-16 px-10 border border-white/5 rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-lux-blue/10 transition-all flex items-center gap-3">
+                        <button onclick="app.shareWithFriend()"
+                            class="h-16 px-10 border border-white/5 rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-lux-blue/10 transition-all flex items-center gap-3">
                             <i data-lucide="share-2" class="w-4 h-4"></i> Comparte con tu emprendedor favorito
                         </button>
                     </div>
@@ -208,36 +301,55 @@
 
     <template id="tpl-masterclass">
         <div class="max-w-3xl mx-auto px-6 py-24 text-center">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-[10px] font-black uppercase tracking-widest text-red-500 mb-8 italic animate-pulse">🔴 Evento en Vivo y Gratuito</span>
-            <h1 class="text-5xl md:text-7xl font-black mb-8 italic tracking-tighter leading-tight">Masterclass:<br>Crea tu Tienda Hoy.</h1>
-            <p class="text-lux-400 text-xl mb-16">Aprende paso a paso cómo armar tu catálogo en Google Sheets, conectarlo a WhatsApp y empezar a vender sin pagar comisiones jamás.</p>
+            <span
+                class="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-[10px] font-black uppercase tracking-widest text-red-500 mb-8 italic animate-pulse">🔴
+                Evento en Vivo y Gratuito</span>
+            <h1 class="text-5xl md:text-7xl font-black mb-8 italic tracking-tighter leading-tight">Masterclass:<br>Crea
+                tu Tienda Hoy.</h1>
+            <p class="text-lux-400 text-xl mb-16">Aprende paso a paso cómo armar tu catálogo en Google Sheets,
+                conectarlo a WhatsApp y empezar a vender sin pagar comisiones jamás.</p>
 
-            <div id="masterclass-form-container" class="lux-card p-10 md:p-14 text-left border-white/10 shadow-2xl relative overflow-hidden">
+            <div id="masterclass-form-container"
+                class="lux-card p-10 md:p-14 text-left border-white/10 shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-transparent"></div>
                 <h3 class="text-2xl font-black italic mb-8">Reserva tu Cupo</h3>
-                <form id="masterclass-form" onsubmit="event.preventDefault(); app.registerMasterclass();" class="space-y-8">
+                <form id="masterclass-form" onsubmit="event.preventDefault(); app.registerMasterclass();"
+                    class="space-y-8">
                     <div>
-                        <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Correo Electrónico</label>
-                        <input type="email" id="mc-email" required placeholder="tu@correo.com" class="w-full bg-transparent border-b border-white/10 py-3 text-2xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                        <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Correo
+                            Electrónico</label>
+                        <input type="email" id="mc-email" required placeholder="tu@correo.com"
+                            class="w-full bg-transparent border-b border-white/10 py-3 text-2xl font-bold outline-none focus:border-red-500 transition-all text-white">
                     </div>
                     <div class="grid grid-cols-2 gap-8">
                         <div>
-                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Nombre de tu Tienda</label>
-                            <input type="text" id="mc-store" required placeholder="Ej. Tienda Miau" class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                            <label
+                                class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Nombre
+                                de tu Tienda</label>
+                            <input type="text" id="mc-store" required placeholder="Ej. Tienda Miau"
+                                class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
                         </div>
                         <div>
-                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Rubro / Industria</label>
-                            <input type="text" id="mc-niche" required placeholder="Ej. Ropa, Mascotas, etc." class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                            <label
+                                class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Rubro
+                                / Industria</label>
+                            <input type="text" id="mc-niche" required placeholder="Ej. Ropa, Mascotas, etc."
+                                class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
                         </div>
                     </div>
-                    <button type="submit" class="w-full h-20 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all mt-8">ASEGURAR MI LUGAR</button>
+                    <button type="submit"
+                        class="w-full h-20 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all mt-8">ASEGURAR
+                        MI LUGAR</button>
                 </form>
             </div>
 
-            <div id="masterclass-success-container" class="hidden lux-card p-14 bg-red-600 border-none shadow-2xl shadow-red-600/40">
+            <div id="masterclass-success-container"
+                class="hidden lux-card p-14 bg-red-600 border-none shadow-2xl shadow-red-600/40">
                 <h3 class="text-4xl font-black mb-6 italic text-white">¡Cupo Confirmado! 🎉</h3>
-                <p class="text-white/80 text-xl mb-10 font-bold">Haz clic en el botón de abajo, entra a YouTube y presiona "Notificarme" para que no te pierdas la clase.</p>
-                <a href="https://youtube.com/live/RE3D-WUFbac" target="_blank" class="inline-flex h-24 px-14 bg-black text-white rounded-[2rem] items-center justify-center font-black text-2xl hover:scale-105 shadow-2xl transition-all gap-4">
+                <p class="text-white/80 text-xl mb-10 font-bold">Haz clic en el botón de abajo, entra a YouTube y
+                    presiona "Notificarme" para que no te pierdas la clase.</p>
+                <a href="https://youtube.com/live/RE3D-WUFbac" target="_blank"
+                    class="inline-flex h-24 px-14 bg-black text-white rounded-[2rem] items-center justify-center font-black text-2xl hover:scale-105 shadow-2xl transition-all gap-4">
                     <i data-lucide="youtube" class="w-8 h-8 text-red-500"></i> IR AL LIVE EN YOUTUBE
                 </a>
             </div>
@@ -249,47 +361,71 @@
             <h2 class="text-5xl font-black italic mb-14 text-center">Inicia tu Tienda</h2>
             <div class="lux-card p-12 space-y-12 shadow-2xl border-white/10">
                 <div>
-                    <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold">Identidad de Marca <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Este nombre será el que tus clientes vean en grande al entrar a tu tienda.</div></span></label>
-                    <input type="text" id="store-name-input" placeholder="Nombre de tu Marca" class="w-full bg-transparent border-b border-white/10 py-5 text-4xl font-black outline-none focus:border-lux-blue transition-all">
+                    <label
+                        class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold">Identidad
+                        de Marca <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div
+                                class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Este nombre
+                                será el que tus clientes vean en grande al entrar a tu tienda.</div></span></label>
+                    <input type="text" id="store-name-input" placeholder="Nombre de tu Marca"
+                        class="w-full bg-transparent border-b border-white/10 py-5 text-4xl font-black outline-none focus:border-lux-blue transition-all">
                 </div>
                 <div>
-                    <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold">Tu Número de WhatsApp</label>
+                    <label
+                        class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold">Tu
+                        Número de WhatsApp</label>
                     <div class="flex gap-4">
-                        <select id="country-code" class="bg-white/10 px-6 rounded-2xl font-bold border border-white/5 outline-none text-lg">
+                        <select id="country-code"
+                            class="bg-white/10 px-6 rounded-2xl font-bold border border-white/5 outline-none text-lg">
                             <option value="56">🇨🇱 +56</option>
                             <option value="54">🇦🇷 +54</option>
                             <option value="52">🇲🇽 +52</option>
                             <option value="57">🇨🇴 +57</option>
                             <option value="34">🇪🇸 +34</option>
                         </select>
-                        <input type="number" id="whatsapp-input" placeholder="912345678" class="flex-grow bg-transparent border-b border-white/10 py-5 text-4xl font-black outline-none focus:border-lux-blue transition-all">
+                        <input type="number" id="whatsapp-input" placeholder="912345678"
+                            class="flex-grow bg-transparent border-b border-white/10 py-5 text-4xl font-black outline-none focus:border-lux-blue transition-all">
                     </div>
                 </div>
                 <div>
-                    <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold mt-10">Link de tu Excel (Google Sheets) <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Debe estar configurado como 'Cualquier persona con el enlace puede ver'. Si no sabes cómo, mira el Paso a Paso.</div></span></label>
-                    <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full bg-white/10 border border-white/5 p-6 rounded-3xl outline-none focus:border-lux-blue transition-all text-sm font-medium">
-                    <p class="mt-3 text-[10px] font-bold text-lux-blue/70 italic">⚠️ Recuerda presionar el botón "Compartir" arriba a la derecha en tu Excel.</p>
+                    <label
+                        class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold mt-10">Link
+                        de tu Excel (Google Sheets) <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div
+                                class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Debe estar
+                                configurado como 'Cualquier persona con el enlace puede ver'. Si no sabes cómo, mira el
+                                Paso a Paso.</div></span></label>
+                    <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..."
+                        class="w-full bg-white/10 border border-white/5 p-6 rounded-3xl outline-none focus:border-lux-blue transition-all text-sm font-medium">
+                    <p class="mt-3 text-[10px] font-bold text-lux-blue/70 italic">⚠️ Recuerda presionar el botón
+                        "Compartir" arriba a la derecha en tu Excel.</p>
                 </div>
-                
+
                 <div class="border-t border-white/10 pt-10">
                     <h3 class="text-xl font-black italic mb-8">Personalización (Opcional)</h3>
-                    
+
                     <div class="space-y-8">
                         <div>
-                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Descripción Corta (Slogan)</label>
-                            <input type="text" id="store-desc-input" placeholder="La mejor tienda de la ciudad" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all">
+                            <label
+                                class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Descripción
+                                Corta (Slogan)</label>
+                            <input type="text" id="store-desc-input" placeholder="La mejor tienda de la ciudad"
+                                class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all">
                         </div>
                         <div class="grid grid-cols-2 gap-6">
                             <div>
-                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Fondo</label>
-                                <select id="store-theme-select" class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
+                                <label
+                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Fondo</label>
+                                <select id="store-theme-select"
+                                    class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
                                     <option value="dark">Fondo Negro (Elegante)</option>
                                     <option value="light">Fondo Blanco (Clásico)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Color de Botones</label>
-                                <select id="store-color-select" class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
+                                <label
+                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Color
+                                    de Botones</label>
+                                <select id="store-color-select"
+                                    class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
                                     <option value="blue">Azul</option>
                                     <option value="green">Verde WhatsApp</option>
                                     <option value="purple">Morado</option>
@@ -298,24 +434,34 @@
                             </div>
                         </div>
 
-                        <button onclick="app.toggleAdvancedDiy()" class="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all w-full text-left py-4 flex items-center gap-2">
+                        <button onclick="app.toggleAdvancedDiy()"
+                            class="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all w-full text-left py-4 flex items-center gap-2">
                             <i data-lucide="settings-2" class="w-4 h-4"></i> Mostrar Opciones Avanzadas
                         </button>
 
                         <div id="diy-advanced-section" class="hidden space-y-8 border-t border-white/5 pt-8">
                             <div>
-                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">URL Logo (Para el header)</label>
-                                <input type="text" id="store-logo-input" placeholder="https://imgur.com/mi-logo.png" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
+                                <label
+                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">URL
+                                    Logo (Para el header)</label>
+                                <input type="text" id="store-logo-input" placeholder="https://imgur.com/mi-logo.png"
+                                    class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
                             </div>
                             <div>
-                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Apps Script URL (Control de Stock Automático)</label>
-                                <input type="text" id="store-script-input" placeholder="https://script.google.com/macros/s/..." class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
+                                <label
+                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Apps
+                                    Script URL (Control de Stock Automático)</label>
+                                <input type="text" id="store-script-input"
+                                    placeholder="https://script.google.com/macros/s/..."
+                                    class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button onclick="app.generateFromDiy()" class="w-full h-24 bg-white text-black rounded-full font-black text-2xl mt-12 shadow-2xl hover:scale-105 transition-all">Activar mi Boutique Digital</button>
+            <button onclick="app.generateFromDiy()"
+                class="w-full h-24 bg-white text-black rounded-full font-black text-2xl mt-12 shadow-2xl hover:scale-105 transition-all">Activar
+                mi Boutique Digital</button>
         </div>
     </template>
 
@@ -324,39 +470,62 @@
             <h1 class="text-6xl font-black mb-20 italic">¡Tienda Creada!</h1>
             <div class="grid md:grid-cols-2 gap-10">
                 <div class="lux-card p-14 flex flex-col items-center">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-lux-blue mb-8">Acceso Inmediato</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-lux-blue mb-8">Acceso
+                        Inmediato</span>
                     <h3 id="share-store-name" class="text-4xl font-black mb-10 italic">Tu Tienda</h3>
-                    <a href="#" id="view-store-btn" target="_blank" class="w-full h-20 bg-white text-black rounded-3xl font-black text-lg flex items-center justify-center hover:scale-105 shadow-xl transition-all">ENTRAR A MI TIENDA</a>
-                    <button onclick="app.copyStoreLink()" class="mt-10 text-[10px] font-black text-white/30 uppercase tracking-widest hover:text-white transition-all px-8 py-4 border border-white/10 rounded-full">Copiar Link para RRSS</button>
+                    <a href="#" id="view-store-btn" target="_blank"
+                        class="w-full h-20 bg-white text-black rounded-3xl font-black text-lg flex items-center justify-center hover:scale-105 shadow-xl transition-all">ENTRAR
+                        A MI TIENDA</a>
+                    <button onclick="app.copyStoreLink()"
+                        class="mt-10 text-[10px] font-black text-white/30 uppercase tracking-widest hover:text-white transition-all px-8 py-4 border border-white/10 rounded-full">Copiar
+                        Link para RRSS</button>
                     <input type="hidden" id="shareable-url">
                 </div>
-                <div class="lux-card p-14 bg-lux-blue border-none flex flex-col items-center shadow-2xl shadow-lux-blue/40">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-white/60 mb-8 font-bold">Independencia Total</span>
+                <div
+                    class="lux-card p-14 bg-lux-blue border-none flex flex-col items-center shadow-2xl shadow-lux-blue/40">
+                    <span
+                        class="text-[10px] font-black uppercase tracking-widest text-white/60 mb-8 font-bold">Independencia
+                        Total</span>
                     <h3 class="text-4xl font-black mb-10 italic">Descargar Código</h3>
-                    <button onclick="app.downloadProZip()" class="w-full h-20 bg-white text-black rounded-3xl font-black text-lg flex items-center justify-center hover:scale-105 shadow-2xl transition-all">DESCARGAR ARCHIVO ZIP</button>
-                    <button onclick="app.editStoreData()" class="mt-10 text-[10px] font-black text-white/40 hover:text-white uppercase tracking-widest italic font-bold">Editar datos de mi tienda</button>
+                    <button onclick="app.downloadProZip()"
+                        class="w-full h-20 bg-white text-black rounded-3xl font-black text-lg flex items-center justify-center hover:scale-105 shadow-2xl transition-all">DESCARGAR
+                        ARCHIVO ZIP</button>
+                    <button onclick="app.editStoreData()"
+                        class="mt-10 text-[10px] font-black text-white/40 hover:text-white uppercase tracking-widest italic font-bold">Editar
+                        datos de mi tienda</button>
                 </div>
             </div>
             <div class="mt-16 lux-card p-10 max-w-2xl mx-auto flex flex-col items-center border-white/5">
                 <h4 class="text-xl font-black italic mb-6 text-white">Guárdalo en tu Correo</h4>
                 <div class="flex w-full gap-4">
-                    <input type="email" id="save-email-input" placeholder="tu@correo.com" class="flex-grow bg-white/10 border border-white/5 rounded-2xl px-6 outline-none focus:border-lux-blue transition-all font-bold text-white">
-                    <button onclick="app.sendToEmail()" class="h-14 px-8 bg-white text-black rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-xl">Enviar Link</button>
+                    <input type="email" id="save-email-input" placeholder="tu@correo.com"
+                        class="flex-grow bg-white/10 border border-white/5 rounded-2xl px-6 outline-none focus:border-lux-blue transition-all font-bold text-white">
+                    <button onclick="app.sendToEmail()"
+                        class="h-14 px-8 bg-white text-black rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-xl">Enviar
+                        Link</button>
                 </div>
             </div>
 
             <div class="mt-24 pt-24 border-t border-white/5 max-w-2xl mx-auto">
-                <h4 class="text-3xl font-black mb-12 italic leading-tight">¿Quieres conectar tu dominio propio o habilitar control de stock?</h4>
+                <h4 class="text-3xl font-black mb-12 italic leading-tight">¿Quieres conectar tu dominio propio o
+                    habilitar control de stock?</h4>
                 <div class="grid sm:grid-cols-2 gap-6">
-                    <button onclick="window.open('#paso-a-paso', '_blank')" class="h-20 lux-card rounded-[2rem] font-bold text-sm bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-3">
+                    <button onclick="window.open('#paso-a-paso', '_blank')"
+                        class="h-20 lux-card rounded-[2rem] font-bold text-sm bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-3">
                         <i data-lucide="book-open" class="w-5 h-5"></i> Leer Paso a Paso Completo
                     </button>
-                    <a href="https://calendly.com/dan-tagle/30min" target="_blank" class="h-20 bg-lux-blue rounded-[2rem] font-black flex flex-col items-center justify-center group overflow-hidden">
-                        <span class="text-[10px] uppercase opacity-70 group-hover:scale-105 transition-all italic">Servicio Personalizado Dan Tagle</span>
+                    <a href="https://calendly.com/dan-tagle/30min" target="_blank"
+                        class="h-20 bg-lux-blue rounded-[2rem] font-black flex flex-col items-center justify-center group overflow-hidden">
+                        <span
+                            class="text-[10px] uppercase opacity-70 group-hover:scale-105 transition-all italic">Servicio
+                            Personalizado Dan Tagle</span>
                         <span class="text-lg">1 UF — Configuración Avanzada</span>
                     </a>
                 </div>
-                <p class="mt-10 text-[11px] font-black text-white/20 uppercase tracking-[0.4em] font-bold italic leading-relaxed">Nota: Tikk no incluye el costo del registro .cl ($9.990 aprox). Dan Tagle apoya en la integración técnica.</p>
+                <p
+                    class="mt-10 text-[11px] font-black text-white/20 uppercase tracking-[0.4em] font-bold italic leading-relaxed">
+                    Nota: Tikk no incluye el costo del registro .cl ($9.990 aprox). Dan Tagle apoya en la integración
+                    técnica.</p>
             </div>
         </div>
     </template>
@@ -364,147 +533,205 @@
     <template id="tpl-store">
         <div class="bg-black min-h-screen">
             <!-- Sticky store header -->
-            <div id="store-sticky-header" class="sticky top-20 z-[90] lux-glass border-b border-white/5 px-6 py-3 flex items-center justify-between">
+            <div id="store-sticky-header"
+                class="sticky top-20 z-[90] lux-glass border-b border-white/5 px-6 py-3 flex items-center justify-between">
                 <span id="store-sticky-title" class="font-black italic text-lg tracking-tight truncate"></span>
-                <button onclick="app.toggleCart()" class="flex items-center gap-3 h-12 px-6 bg-white/5 border border-white/10 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                <button onclick="app.toggleCart()"
+                    class="flex items-center gap-3 h-12 px-6 bg-white/5 border border-white/10 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white/10 transition-all">
                     <i data-lucide="shopping-basket" class="w-4 h-4"></i>
                     Bolsa
-                    <div id="store-cart-count" class="bg-lux-blue text-white h-6 min-w-[24px] px-2 rounded-full flex items-center justify-center text-[10px] font-black">0</div>
+                    <div id="store-cart-count"
+                        class="bg-lux-blue text-white h-6 min-w-[24px] px-2 rounded-full flex items-center justify-center text-[10px] font-black">
+                        0</div>
                 </button>
             </div>
-            <div id="store-hero" class="relative flex items-center justify-center h-[50vh] min-h-[400px] overflow-hidden border-b border-white/10">
-                <img id="store-hero-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity">
+            <div id="store-hero"
+                class="relative flex items-center justify-center h-[50vh] min-h-[400px] overflow-hidden border-b border-white/10">
+                <img id="store-hero-img" src=""
+                    class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                 <div class="relative z-10 flex flex-col items-center justify-center text-center p-8 w-full mt-10">
-                    <h1 id="store-title" class="text-6xl md:text-[110px] lg:text-[140px] font-black italic tracking-tighter text-white drop-shadow-2xl leading-[0.8] uppercase break-words max-w-full px-4"></h1>
-                    <div class="mt-8 md:mt-12 text-[9px] md:text-[11px] font-black uppercase tracking-[1em] text-white/50 italic">Exclusive Digital Boutique</div>
+                    <h1 id="store-title"
+                        class="text-6xl md:text-[110px] lg:text-[140px] font-black italic tracking-tighter text-white drop-shadow-2xl leading-[0.8] uppercase break-words max-w-full px-4">
+                    </h1>
+                    <div
+                        class="mt-8 md:mt-12 text-[9px] md:text-[11px] font-black uppercase tracking-[1em] text-white/50 italic">
+                        Exclusive Digital Boutique</div>
                 </div>
             </div>
 
             <div class="max-w-7xl mx-auto px-6 py-20 pb-48">
-                <nav class="flex flex-col xl:flex-row justify-between items-center gap-10 mb-24 border-b border-white/10 pb-12">
+                <nav
+                    class="flex flex-col xl:flex-row justify-between items-center gap-10 mb-24 border-b border-white/10 pb-12">
                     <div class="relative w-full max-w-md">
-                        <i data-lucide="search" class="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20"></i>
-                        <input type="text" id="store-search" placeholder="Colección completa..." oninput="app.handleSearch(this.value)" class="w-full h-16 pl-16 pr-8 rounded-full bg-white/5 border border-white/10 outline-none text-sm transition-all focus:bg-white/10">
+                        <i data-lucide="search"
+                            class="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20"></i>
+                        <input type="text" id="store-search" placeholder="Colección completa..."
+                            oninput="app.handleSearch(this.value)"
+                            class="w-full h-16 pl-16 pr-8 rounded-full bg-white/5 border border-white/10 outline-none text-sm transition-all focus:bg-white/10">
                     </div>
-                    
+
                     <div id="category-filters" class="flex flex-wrap items-center justify-center gap-4"></div>
-                    
-                    <button onclick="app.toggleCart()" class="h-16 px-10 bg-white/5 border border-white/10 rounded-full font-black text-[12px] uppercase tracking-widest flex items-center gap-6 hover:bg-white/10 transition-all no-wrap group">
+
+                    <button onclick="app.toggleCart()"
+                        class="h-16 px-10 bg-white/5 border border-white/10 rounded-full font-black text-[12px] uppercase tracking-widest flex items-center gap-6 hover:bg-white/10 transition-all no-wrap group">
                         <span class="group-hover:text-lux-blue transition-colors">Bolsa de Compra</span>
-                        <div id="cart-count-btn" class="bg-lux-blue text-white h-7 min-w-[28px] px-2.5 rounded-full flex items-center justify-center text-[10px] font-black">0</div>
+                        <div id="cart-count-btn"
+                            class="bg-lux-blue text-white h-7 min-w-[28px] px-2.5 rounded-full flex items-center justify-center text-[10px] font-black">
+                            0</div>
                     </button>
                 </nav>
-                
+
                 <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-24 gap-x-12"></div>
             </div>
-            
+
             <div class="py-24 text-center border-t border-white/5" style="background: var(--bg-lux);">
                 <div class="opacity-30 space-y-4">
-                    <p class="text-[9px] font-black uppercase tracking-[0.6em]" style="color: var(--text-lux);">Official tikk Engine Integration</p>
-                    <p class="text-xl font-black italic tracking-tighter" style="color: var(--text-lux);">Powered by Dan Tagle Boutique Systems</p>
+                    <p class="text-[9px] font-black uppercase tracking-[0.6em]" style="color: var(--text-lux);">Official
+                        tikk Engine Integration</p>
+                    <p class="text-xl font-black italic tracking-tighter" style="color: var(--text-lux);">Powered by Dan
+                        Tagle Boutique Systems</p>
                 </div>
             </div>
-            
-            <a id="wa-float-btn" href="#" onclick="event.preventDefault(); window.open('https://wa.me/' + app.state.sellerWhatsApp + '?text=Hola! Tengo una duda de la tienda...', '_blank')" class="fixed bottom-6 right-6 w-16 h-16 bg-lux-blue rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all z-50">
+
+            <a id="wa-float-btn" href="#"
+                onclick="event.preventDefault(); window.open('https://wa.me/' + app.state.sellerWhatsApp + '?text=Hola! Tengo una duda de la tienda...', '_blank')"
+                class="fixed bottom-6 right-6 w-16 h-16 bg-lux-blue rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all z-50">
                 <i data-lucide="message-circle" class="text-white w-8 h-8"></i>
             </a>
         </div>
     </template>
-    
+
     <template id="tpl-paso-a-paso">
         <div class="max-w-4xl mx-auto px-6 py-24">
             <div class="text-center mb-20">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-lux-blue/10 border border-lux-blue/30 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-6 italic">Guía Definitiva 2026</span>
+                <span
+                    class="inline-block px-4 py-1.5 rounded-full bg-lux-blue/10 border border-lux-blue/30 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-6 italic">Guía
+                    Definitiva 2026</span>
                 <h1 class="text-6xl font-black italic mb-6">El Paso a Paso del <br>Emprendedor Digital</h1>
-                <p class="text-lux-400 text-xl font-medium max-w-2xl mx-auto">Pensado para cero experiencia. Desde crear tu Google Sheet hasta conectar tu dominio .cl y automatizar tu stock.</p>
+                <p class="text-lux-400 text-xl font-medium max-w-2xl mx-auto">Pensado para cero experiencia. Desde crear
+                    tu Google Sheet hasta conectar tu dominio .cl y automatizar tu stock.</p>
             </div>
-            
+
             <div class="space-y-24">
-                
+
                 <div class="bg-lux-blue/10 border border-lux-blue/30 rounded-[2rem] p-8 md:p-12 text-center mb-16">
                     <i data-lucide="youtube" class="w-16 h-16 text-lux-blue mx-auto mb-6"></i>
                     <h3 class="text-3xl font-black italic mb-4">¿Prefieres verlo en video?</h3>
-                    <p class="text-lux-400 font-medium mb-8">Mira nuestro video de 3 minutos: "Arma tu tienda mientras te tomas un café". Te mostramos exactamente dónde hacer clic en tu pantalla.</p>
-                    <a href="https://youtube.com" target="_blank" class="inline-block h-16 px-10 bg-lux-blue text-white rounded-full font-black text-sm uppercase tracking-widest leading-[4rem] hover:scale-105 shadow-xl transition-all">Ver Video Tutorial</a>
+                    <p class="text-lux-400 font-medium mb-8">Mira nuestro video de 3 minutos: "Arma tu tienda mientras
+                        te tomas un café". Te mostramos exactamente dónde hacer clic en tu pantalla.</p>
+                    <a href="https://www.youtube.com/@DanTagleCL" target="_blank"
+                        class="inline-block h-16 px-10 bg-lux-blue text-white rounded-full font-black text-sm uppercase tracking-widest leading-[4rem] hover:scale-105 shadow-xl transition-all">Ver
+                        Video Tutorial</a>
                 </div>
 
                 <section class="lux-card p-10 md:p-16 border-white/10">
                     <div class="flex items-center gap-6 mb-10">
-                        <div class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">1</div>
+                        <div
+                            class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">
+                            1</div>
                         <h2 class="text-4xl font-black italic">Crear Google Sheet</h2>
                     </div>
                     <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
-                        <p>El corazón de Tikk es un simple Excel online (Google Sheets). No necesitas programar ni bases de datos.</p>
+                        <p>El corazón de Tikk es un simple Excel online (Google Sheets). No necesitas programar ni bases
+                            de datos.</p>
                         <ol class="list-decimal pl-6 space-y-4">
-                            <li>Entra a <a href="https://sheets.google.com" target="_blank" class="text-lux-blue font-bold hover:underline">Google Sheets</a> (requieres un Gmail gratuito).</li>
+                            <li>Entra a <a href="https://sheets.google.com" target="_blank"
+                                    class="text-lux-blue font-bold hover:underline">Google Sheets</a> (requieres un
+                                Gmail gratuito).</li>
                             <li>Haz clic en "En blanco" para crear un documento nuevo.</li>
-                            <li>Crea estas columnas exactas en la primera fila: <b>Codigo, Categoria, Producto, Descripcion, Stock, Precio, LinkFoto</b>.</li>
+                            <li>Crea estas columnas exactas en la primera fila: <b>Codigo, Categoria, Producto,
+                                    Descripcion, Stock, Precio, LinkFoto</b>.</li>
                             <li>Llena algunos productos de prueba. <br><br>
                                 <div class="bg-black/50 p-6 rounded-2xl border border-white/5 text-sm mt-4">
-                                    <i>Tip: Para LinkFoto, te recomendamos subir fotos cuadradas a sitios gratis como Imgur, Postimages o tu propio Facebook, y pegar el link directo terminado en .jpg o .png</i>
+                                    <i>Tip: Para LinkFoto, te recomendamos subir fotos cuadradas a sitios gratis como
+                                        Imgur, Postimages o tu propio Facebook, y pegar el link directo terminado en
+                                        .jpg o .png</i>
                                 </div>
                             </li>
-                            <li>En la esquina superior derecha, clic en <b>Compartir</b> > "Cambiar a cualquier persona que tenga el enlace". Esto permite que Tikk pueda leer tu catálogo.</li>
+                            <li>En la esquina superior derecha, clic en <b>Compartir</b> > "Cambiar a cualquier persona
+                                que tenga el enlace". Esto permite que Tikk pueda leer tu catálogo.</li>
                         </ol>
                     </div>
                 </section>
 
                 <section class="lux-card p-10 md:p-16 border-white/10">
                     <div class="flex items-center gap-6 mb-10">
-                        <div class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">2</div>
+                        <div
+                            class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">
+                            2</div>
                         <h2 class="text-4xl font-black italic">Dominio en NIC.cl</h2>
                     </div>
                     <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
-                        <p>Para tener "tutienda.cl" en lugar de "tikk.cl/...", debes comprar tu nombre en NIC Chile (cuesta $9.990 anuales).</p>
+                        <p>Para tener "tutienda.cl" en lugar de "tikk.cl/...", debes comprar tu nombre en NIC Chile
+                            (cuesta $9.990 anuales).</p>
                         <ol class="list-decimal pl-6 space-y-4">
-                            <li>Ve a <a href="https://nic.cl" target="_blank" class="text-lux-blue font-bold hover:underline">NIC.cl</a> y crea una cuenta.</li>
-                            <li>Busca el nombre de tu tienda en el buscador. Si está disponible, haz clic en "Crear Dominio".</li>
+                            <li>Ve a <a href="https://nic.cl" target="_blank"
+                                    class="text-lux-blue font-bold hover:underline">NIC.cl</a> y crea una cuenta.</li>
+                            <li>Busca el nombre de tu tienda en el buscador. Si está disponible, haz clic en "Crear
+                                Dominio".</li>
                             <li>Llena tus datos de facturación y paga por transferencia o Webpay.</li>
-                            <li>Una vez pagado, tu dominio está reservado, pero no apunta a ningún lado. Déjalo así por ahora y pasa al Paso 3.</li>
+                            <li>Una vez pagado, tu dominio está reservado, pero no apunta a ningún lado. Déjalo así por
+                                ahora y pasa al Paso 3.</li>
                         </ol>
                     </div>
                 </section>
 
                 <section class="lux-card p-10 md:p-16 border-white/10">
                     <div class="flex items-center gap-6 mb-10">
-                        <div class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">3</div>
+                        <div
+                            class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">
+                            3</div>
                         <h2 class="text-4xl font-black italic">Cloudflare & GitHub</h2>
                     </div>
                     <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
-                        <p>Aquí es donde hacemos la "magia gratuita". GitHub alojará tu tienda descargada de Tikk, y Cloudflare la conectará a NIC.cl de forma segura y veloz.</p>
-                        
+                        <p>Aquí es donde hacemos la "magia gratuita". GitHub alojará tu tienda descargada de Tikk, y
+                            Cloudflare la conectará a NIC.cl de forma segura y veloz.</p>
+
                         <h3 class="text-white font-bold text-2xl mt-8 mb-4">Paso A: Alojamiento en GitHub</h3>
                         <ol class="list-decimal pl-6 space-y-4">
-                            <li>Crea cuenta en <a href="https://github.com" target="_blank" class="text-lux-blue font-bold">GitHub</a>.</li>
+                            <li>Crea cuenta en <a href="https://github.com" target="_blank"
+                                    class="text-lux-blue font-bold">GitHub</a>.</li>
                             <li>Crea un "New Repository" (público) llamado como tu tienda.</li>
-                            <li>Haz clic en "uploading an existing file" y sube el archivo <b>.zip</b> o <b>index.html</b> que descargaste de Tikk.</li>
-                            <li>Ve a <i>Settings > Pages</i> y selecciona "Deploy from branch" -> "main". Listo! Tu página ya vive en la web.</li>
+                            <li>Haz clic en "uploading an existing file" y sube el archivo <b>.zip</b> o
+                                <b>index.html</b> que descargaste de Tikk.</li>
+                            <li>Ve a <i>Settings > Pages</i> y selecciona "Deploy from branch" -> "main". Listo! Tu
+                                página ya vive en la web.</li>
                         </ol>
 
                         <h3 class="text-white font-bold text-2xl mt-8 mb-4">Paso B: Conectar a Cloudflare</h3>
                         <ol class="list-decimal pl-6 space-y-4">
-                            <li>Crea cuenta gratis en <a href="https://cloudflare.com" target="_blank" class="text-lux-blue font-bold">Cloudflare</a>.</li>
+                            <li>Crea cuenta gratis en <a href="https://cloudflare.com" target="_blank"
+                                    class="text-lux-blue font-bold">Cloudflare</a>.</li>
                             <li>Clic en "Add Site" y escribe tu dominio "tutienda.cl". Elige el plan GRATIS.</li>
                             <li>Cloudflare te dará 2 "Nameservers" (ejemplo: <i>amy.ns.cloudflare.com</i>).</li>
-                            <li>Vuelve a <b>NIC.cl</b>, entra a tu dominio, busca la sección "Servidores DNS" y pega los 2 Nameservers de Cloudflare.</li>
-                            <li>De vuelta en Cloudflare, ve a "DNS > Records" y añade un CNAME apuntando tu dominio hacia "tu-usuario.github.io".</li>
+                            <li>Vuelve a <b>NIC.cl</b>, entra a tu dominio, busca la sección "Servidores DNS" y pega los
+                                2 Nameservers de Cloudflare.</li>
+                            <li>De vuelta en Cloudflare, ve a "DNS > Records" y añade un CNAME apuntando tu dominio
+                                hacia "tu-usuario.github.io".</li>
                         </ol>
                     </div>
                 </section>
 
-                <section class="lux-card p-10 md:p-16 border-lux-blue/50 relative overflow-hidden bg-gradient-to-br from-black to-lux-blue/10">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-lux-blue/20 blur-[100px] rounded-full pointer-events-none"></div>
+                <section
+                    class="lux-card p-10 md:p-16 border-lux-blue/50 relative overflow-hidden bg-gradient-to-br from-black to-lux-blue/10">
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-lux-blue/20 blur-[100px] rounded-full pointer-events-none">
+                    </div>
                     <div class="flex items-center gap-6 mb-10 relative z-10">
-                        <div class="w-16 h-16 bg-white text-black rounded-2xl flex items-center justify-center text-2xl font-black italic">4</div>
+                        <div
+                            class="w-16 h-16 bg-white text-black rounded-2xl flex items-center justify-center text-2xl font-black italic">
+                            4</div>
                         <h2 class="text-4xl font-black italic text-white">Automatizar Stock</h2>
                     </div>
                     <div class="space-y-8 text-white/80 font-medium text-lg leading-relaxed relative z-10">
-                        <p>¿Quieres que cuando alguien presione "Comprar ahora", se descuente 1 unidad de stock en tu Excel automáticamente? Usa <b>Google Apps Script</b>.</p>
+                        <p>¿Quieres que cuando alguien presione "Comprar ahora", se descuente 1 unidad de stock en tu
+                            Excel automáticamente? Usa <b>Google Apps Script</b>.</p>
                         <ol class="list-decimal pl-6 space-y-4">
                             <li>Abre tu Google Sheet. Ve a <b>Extensiones > Apps Script</b>.</li>
                             <li>Borra todo el código que aparece y pega este código mágico:
-<pre class="bg-black/50 p-6 rounded-xl border border-white/10 mt-4 text-xs font-mono text-lux-blue overflow-x-auto">
+                                <pre
+                                    class="bg-black/50 p-6 rounded-xl border border-white/10 mt-4 text-xs font-mono text-lux-blue overflow-x-auto">
 function doGet(e) {
   var action = e.parameter.action;
   if(action === 'deduct') {
@@ -529,12 +756,15 @@ function doGet(e) {
 }
 </pre>
                             </li>
-                            <li>Arriba a la derecha, haz clic en el botón azul <b>Implementar > Nueva Implementación</b>.</li>
+                            <li>Arriba a la derecha, haz clic en el botón azul <b>Implementar > Nueva
+                                    Implementación</b>.</li>
                             <li>Elige "Aplicación web". Ejecutar como "Tú" y Acceso: "Cualquier persona".</li>
                             <li>Copia la <b>URL de la aplicación web</b> que te arrojará Google.</li>
-                            <li>Pega esa URL en el paso "Crear Tienda" de Tikk, en la casilla que dice "Apps Script URL".</li>
+                            <li>Pega esa URL en el paso "Crear Tienda" de Tikk, en la casilla que dice "Apps Script
+                                URL".</li>
                         </ol>
-                        <p class="font-bold text-white mt-8 italic text-2xl border-l-4 border-lux-blue pl-6 py-2">¡Felicidades! Tienes una tienda profesional operando 100% gratis y en piloto automático.</p>
+                        <p class="font-bold text-white mt-8 italic text-2xl border-l-4 border-lux-blue pl-6 py-2">
+                            ¡Felicidades! Tienes una tienda profesional operando 100% gratis y en piloto automático.</p>
                     </div>
                 </section>
 
@@ -546,4 +776,5 @@ function doGet(e) {
 
     <script src="app.js"></script>
 </body>
+
 </html>
