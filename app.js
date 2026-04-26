@@ -402,6 +402,11 @@ const app = {
         });
     },
     
+    toggleAdvancedDiy() {
+        const section = document.getElementById('diy-advanced-section');
+        if (section) section.classList.toggle('hidden');
+    },
+
     editStoreData() { this.navigate('diy'); },
 
     sendToEmail() {

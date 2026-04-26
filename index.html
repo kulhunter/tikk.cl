@@ -185,8 +185,9 @@
                     </div>
                 </div>
                 <div>
-                    <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold mt-10">Vínculo Maestro Drive <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Pega la URL de tu Google Sheet. RECUERDA: Debe estar configurado como 'Cualquiera con el enlace puede ver'.</div></span></label>
+                    <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold mt-10">Link de tu Excel (Google Sheets) <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Debe estar configurado como 'Cualquier persona con el enlace puede ver'. Si no sabes cómo, mira el Paso a Paso.</div></span></label>
                     <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full bg-white/10 border border-white/5 p-6 rounded-3xl outline-none focus:border-lux-blue transition-all text-sm font-medium">
+                    <p class="mt-3 text-[10px] font-bold text-lux-blue/70 italic">⚠️ Recuerda presionar el botón "Compartir" arriba a la derecha en tu Excel.</p>
                 </div>
                 
                 <div class="border-t border-white/10 pt-10">
@@ -194,33 +195,40 @@
                     
                     <div class="space-y-8">
                         <div>
-                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Descripción Corta</label>
-                            <input type="text" id="store-desc-input" placeholder="La mejor boutique de ropa sustentable" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">URL Logo (Imagen)</label>
-                            <input type="text" id="store-logo-input" placeholder="https://imgur.com/mi-logo.png" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Apps Script URL (Control de Stock Automático)</label>
-                            <input type="text" id="store-script-input" placeholder="https://script.google.com/macros/s/..." class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
+                            <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Descripción Corta (Slogan)</label>
+                            <input type="text" id="store-desc-input" placeholder="La mejor tienda de la ciudad" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all">
                         </div>
                         <div class="grid grid-cols-2 gap-6">
                             <div>
-                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Tema</label>
+                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Fondo</label>
                                 <select id="store-theme-select" class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
-                                    <option value="dark">Noir (Oscuro)</option>
-                                    <option value="light">Minimal (Claro)</option>
+                                    <option value="dark">Fondo Negro (Elegante)</option>
+                                    <option value="light">Fondo Blanco (Clásico)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Color de Acento</label>
+                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Color de Botones</label>
                                 <select id="store-color-select" class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
-                                    <option value="blue">Blue Signature</option>
-                                    <option value="green">WhatsApp Green</option>
-                                    <option value="purple">Luxury Purple</option>
-                                    <option value="red">Cherry Red</option>
+                                    <option value="blue">Azul</option>
+                                    <option value="green">Verde WhatsApp</option>
+                                    <option value="purple">Morado</option>
+                                    <option value="red">Rojo</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <button onclick="app.toggleAdvancedDiy()" class="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all w-full text-left py-4 flex items-center gap-2">
+                            <i data-lucide="settings-2" class="w-4 h-4"></i> Mostrar Opciones Avanzadas
+                        </button>
+
+                        <div id="diy-advanced-section" class="hidden space-y-8 border-t border-white/5 pt-8">
+                            <div>
+                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">URL Logo (Para el header)</label>
+                                <input type="text" id="store-logo-input" placeholder="https://imgur.com/mi-logo.png" class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Apps Script URL (Control de Stock Automático)</label>
+                                <input type="text" id="store-script-input" placeholder="https://script.google.com/macros/s/..." class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
                             </div>
                         </div>
                     </div>
@@ -324,6 +332,13 @@
             
             <div class="space-y-24">
                 
+                <div class="bg-lux-blue/10 border border-lux-blue/30 rounded-[2rem] p-8 md:p-12 text-center mb-16">
+                    <i data-lucide="youtube" class="w-16 h-16 text-lux-blue mx-auto mb-6"></i>
+                    <h3 class="text-3xl font-black italic mb-4">¿Prefieres verlo en video?</h3>
+                    <p class="text-lux-400 font-medium mb-8">Mira nuestro video de 3 minutos: "Arma tu tienda mientras te tomas un café". Te mostramos exactamente dónde hacer clic en tu pantalla.</p>
+                    <a href="https://youtube.com" target="_blank" class="inline-block h-16 px-10 bg-lux-blue text-white rounded-full font-black text-sm uppercase tracking-widest leading-[4rem] hover:scale-105 shadow-xl transition-all">Ver Video Tutorial</a>
+                </div>
+
                 <section class="lux-card p-10 md:p-16 border-white/10">
                     <div class="flex items-center gap-6 mb-10">
                         <div class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">1</div>
