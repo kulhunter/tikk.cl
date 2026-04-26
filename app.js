@@ -404,6 +404,16 @@ const app = {
     
     editStoreData() { this.navigate('diy'); },
 
+    sendToEmail() {
+        const email = document.getElementById('save-email-input').value.trim();
+        if (!email) return this.notify("Ingresa un correo válido", "error");
+        const url = document.getElementById('shareable-url').value;
+        const subject = encodeURIComponent("El link de tu nueva Tienda Online Tikk");
+        const body = encodeURIComponent(`¡Felicidades por tu nueva tienda!\n\nAquí tienes tu enlace de acceso permanente (guárdalo bien):\n${url}\n\nRecuerda que si necesitas el código fuente (ZIP) puedes generarlo entrando a tu tienda y volviendo a generar el enlace desde Tikk.`);
+        window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+        this.notify("Redirigiendo a tu correo...", "success");
+    },
+
     shareWithFriend() {
         const m = "Impulsa tu negocio con tikk.cl: Tu tienda boutique pro usando solo un Excel. Creado por Dan Tagle: https://tikk.cl";
         window.open(`https://wa.me/?text=${encodeURIComponent(m)}`);
