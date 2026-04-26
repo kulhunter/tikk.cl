@@ -109,6 +109,8 @@ const app = {
             document.title = `${this.state.storeName} | tikk Boutique`;
             const titleEl = document.getElementById('store-title');
             if (titleEl) titleEl.textContent = this.state.storeName;
+            const stickyTitle = document.getElementById('store-sticky-title');
+            if (stickyTitle) stickyTitle.textContent = this.state.storeName;
             
             const heroImg = document.getElementById('store-hero-img');
             if (heroImg) {
@@ -247,7 +249,9 @@ const app = {
                     <h3 class="text-2xl font-black italic mb-6 leading-none">${p.Producto}</h3>
                     <div class="mt-auto flex justify-between items-end border-t border-white/5 pt-8">
                         <span class="text-3xl font-black italic tracking-tighter text-white">$${p.Precio.toLocaleString('es-CL')}</span>
-                        <div class="text-[9px] font-black uppercase text-white/20 tracking-widest italic">Curated</div>
+                        <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest ${p.Stock > 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${p.Stock > 0 ? `<svg class="w-3 h-3 fill-current" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/></svg> Disponible` : `<svg class="w-3 h-3 fill-current" viewBox="0 0 12 12"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="2" fill="none"/></svg> Agotado`}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -348,31 +352,136 @@ const app = {
 
     updateCartCount() {
         const c = this.state.cart.reduce((s, i) => s + i.quantity, 0);
-        const btn = document.getElementById('cart-count-btn');
-        if (btn) btn.textContent = c;
+        ['cart-count-btn', 'store-cart-count'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = c;
+        });
     },
 
     saveCart() { localStorage.setItem('tikk-cart-lux-v2', JSON.stringify(this.state.cart)); },
 
-    async toggleCart() {
-        if (this.state.cart.length === 0) return this.notify("La bolsa está vacía", "info");
-        let m = ` *PEDIDO: ${this.state.storeName.toUpperCase()}*\n\n`;
-        this.state.cart.forEach(i => m += `▫️ *${i.Producto}* (x${i.quantity}) - $${(i.Precio * i.quantity).toLocaleString('es-CL')}\n`);
+    toggleCart() {
+        const cartDrawer = document.getElementById('cart-drawer');
+        if (cartDrawer) {
+            cartDrawer.classList.toggle('drawer-closed');
+            cartDrawer.classList.toggle('drawer-open');
+            document.getElementById('modal-overlay').classList.toggle('opacity-100');
+            document.getElementById('modal-overlay').classList.toggle('pointer-events-auto');
+            this.renderCartDrawer();
+            return;
+        }
+        // Fallback: inject cart drawer if not present yet
+        this.injectCartDrawer();
+    },
+
+    injectCartDrawer() {
+        const existing = document.getElementById('cart-drawer');
+        if (existing) { this.toggleCart(); return; }
+        const drawer = document.createElement('aside');
+        drawer.id = 'cart-drawer';
+        drawer.className = 'fixed bottom-0 right-0 h-[90vh] md:h-full w-full md:max-w-xl bg-lux-500 z-[160] drawer-open shadow-2xl flex flex-col md:border-l border-white/10 rounded-t-[3rem] md:rounded-l-[3rem] md:rounded-t-none';
+        drawer.innerHTML = `
+            <div class="flex items-center justify-between px-10 pt-10 pb-6 border-b border-white/10">
+                <h2 class="text-2xl font-black italic">Tu Bolsa</h2>
+                <button onclick="app.closeCartDrawer()" class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center font-bold text-xl hover:rotate-90 transition-all">×</button>
+            </div>
+            <div id="cart-items-list" class="flex-grow overflow-y-auto px-10 py-6 space-y-6"></div>
+            <div id="cart-footer" class="px-10 py-8 border-t border-white/10 bg-black/40 space-y-4"></div>
+        `;
+        document.body.appendChild(drawer);
+        document.getElementById('modal-overlay').classList.add('opacity-100', 'pointer-events-auto');
+        this.renderCartDrawer();
+    },
+
+    closeCartDrawer() {
+        const d = document.getElementById('cart-drawer');
+        if (d) d.remove();
+        document.getElementById('modal-overlay').classList.remove('opacity-100', 'pointer-events-auto');
+    },
+
+    renderCartDrawer() {
+        const list = document.getElementById('cart-items-list');
+        const footer = document.getElementById('cart-footer');
+        if (!list || !footer) return;
+
+        if (this.state.cart.length === 0) {
+            list.innerHTML = `<div class="text-center py-20 text-white/30 font-bold italic">La bolsa está vacía</div>`;
+            footer.innerHTML = '';
+            return;
+        }
+
+        list.innerHTML = this.state.cart.map(i => `
+            <div class="flex items-center gap-6 py-4 border-b border-white/5">
+                ${i.LinkFoto ? `<img src="${i.LinkFoto}" class="w-20 h-20 object-cover rounded-2xl flex-shrink-0">` : `<div class="w-20 h-20 bg-white/5 rounded-2xl flex-shrink-0"></div>`}
+                <div class="flex-grow min-w-0">
+                    <p class="font-black italic leading-tight truncate">${i.Producto}</p>
+                    <p class="text-lux-blue font-black text-lg">$${i.Precio.toLocaleString('es-CL')}</p>
+                </div>
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <button onclick="app.cartAdjust('${i.id}', -1)" class="w-8 h-8 bg-white/10 rounded-full font-black hover:bg-white/20">-</button>
+                    <span class="font-black w-4 text-center">${i.quantity}</span>
+                    <button onclick="app.cartAdjust('${i.id}', 1)" class="w-8 h-8 bg-white/10 rounded-full font-black hover:bg-white/20">+</button>
+                    <button onclick="app.cartRemove('${i.id}')" class="w-8 h-8 bg-red-500/20 text-red-400 rounded-full font-black hover:bg-red-500/40">×</button>
+                </div>
+            </div>
+        `).join('');
+
         const total = this.state.cart.reduce((s, i) => s + (i.Precio * i.quantity), 0);
-        m += `\n💰 *TOTAL SOLICITADO: $${total.toLocaleString('es-CL')}*\n\n_Gestionado vía tikk.cl_`;
-        
+
+        footer.innerHTML = `
+            <div class="flex justify-between items-center mb-4">
+                <span class="font-black uppercase tracking-widest text-[11px] text-white/50">Total</span>
+                <span class="text-3xl font-black italic text-white">$${total.toLocaleString('es-CL')}</span>
+            </div>
+            <div class="space-y-3">
+                <input id="buyer-name" type="text" placeholder="Tu Nombre" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 font-bold outline-none focus:border-lux-blue transition-all text-sm">
+                <input id="buyer-phone" type="tel" placeholder="Tu Teléfono (opcional)" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 font-bold outline-none focus:border-lux-blue transition-all text-sm">
+                <input id="buyer-address" type="text" placeholder="Dirección de entrega (opcional)" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 font-bold outline-none focus:border-lux-blue transition-all text-sm">
+            </div>
+            <button onclick="app.checkoutWhatsApp()" class="w-full h-16 bg-lux-blue text-white rounded-2xl font-black uppercase tracking-widest text-sm mt-4 hover:scale-105 shadow-xl transition-all">💬 Enviar Pedido por WhatsApp</button>
+        `;
+    },
+
+    cartAdjust(id, delta) {
+        const item = this.state.cart.find(i => i.id === id);
+        if (!item) return;
+        item.quantity += delta;
+        if (item.quantity <= 0) this.cartRemove(id);
+        else { this.saveCart(); this.updateCartCount(); this.renderCartDrawer(); }
+    },
+
+    cartRemove(id) {
+        this.state.cart = this.state.cart.filter(i => i.id !== id);
+        this.saveCart(); this.updateCartCount(); this.renderCartDrawer();
+    },
+
+    async checkoutWhatsApp() {
+        const name = document.getElementById('buyer-name')?.value.trim();
+        const phone = document.getElementById('buyer-phone')?.value.trim();
+        const address = document.getElementById('buyer-address')?.value.trim();
+
+        if (!name) return this.notify("Ingresa tu nombre para continuar", "error");
+
+        const total = this.state.cart.reduce((s, i) => s + (i.Precio * i.quantity), 0);
+        let m = `*PEDIDO: ${this.state.storeName.toUpperCase()}*\n`;
+        m += `*Cliente:* ${name}\n`;
+        if (phone) m += `*Teléfono:* ${phone}\n`;
+        if (address) m += `*Dirección:* ${address}\n`;
+        m += `\n*Productos:*\n`;
+        this.state.cart.forEach(i => m += `  \u25ab️ ${i.Producto} (x${i.quantity}) — $${(i.Precio * i.quantity).toLocaleString('es-CL')}\n`);
+        m += `\n*TOTAL: $${total.toLocaleString('es-CL')}*\n\n_Pedido gestionado vía tikk.cl_`;
+
         if (this.state.scriptUrl) {
-            this.notify("Procesando carrito...", "info");
             try {
                 const items = this.state.cart.map(i => ({ id: i.id, quantity: i.quantity }));
                 await fetch(`${this.state.scriptUrl}?action=deduct&items=${encodeURIComponent(JSON.stringify(items))}`, { method: 'GET', mode: 'no-cors' });
             } catch (e) { console.error("Error stock:", e); }
         }
-        
+
         window.open(`https://wa.me/${this.state.sellerWhatsApp}?text=${encodeURIComponent(m)}`);
-        this.state.cart = [];
-        this.saveCart();
-        this.updateCartCount();
+        this.state.cart = []; this.saveCart(); this.updateCartCount();
+        this.closeCartDrawer();
+        this.notify("¡Pedido enviado con éxito!", "success");
     },
 
     toggleDomainModal(show) {

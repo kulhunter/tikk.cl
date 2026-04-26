@@ -333,6 +333,15 @@
 
     <template id="tpl-store">
         <div class="bg-black min-h-screen">
+            <!-- Sticky store header -->
+            <div id="store-sticky-header" class="sticky top-20 z-[90] lux-glass border-b border-white/5 px-6 py-3 flex items-center justify-between">
+                <span id="store-sticky-title" class="font-black italic text-lg tracking-tight truncate"></span>
+                <button onclick="app.toggleCart()" class="flex items-center gap-3 h-12 px-6 bg-white/5 border border-white/10 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                    <i data-lucide="shopping-basket" class="w-4 h-4"></i>
+                    Bolsa
+                    <div id="store-cart-count" class="bg-lux-blue text-white h-6 min-w-[24px] px-2 rounded-full flex items-center justify-center text-[10px] font-black">0</div>
+                </button>
+            </div>
             <div id="store-hero" class="relative flex items-center justify-center h-[50vh] min-h-[400px] overflow-hidden border-b border-white/10">
                 <img id="store-hero-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
