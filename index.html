@@ -1,780 +1,1196 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TIKK | Sistema de Ventas, Inventario y Tienda Online para Almacenes y PYMEs</title>
+    <meta name="description" content="Sistema de inventario, punto de venta y tienda online por WhatsApp para almacenes, minimarkets y emprendedores en Chile. 100% Gratis y Simple.">
+    <meta name="theme-color" content="#0B0A12">
 
-    <!-- SEO AVANZADO -->
-    <title>tikk | Crea tu Tienda Online Profesional con un Excel</title>
-    <meta name="description"
-        content="La plataforma más rápida para crear tu boutique digital. Sincroniza stock desde Google Drive y recibe pedidos por WhatsApp. Ideal para PyMEs y Emprendedores Pro.">
-    <meta name="keywords"
-        content="tienda online excel, catalogo whatsapp, ecommerce google sheets, crear boutique digital, ventas whatsapp chile, stock online fácil">
-    <meta name="author" content="Dan Tagle">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Open Graph / RRSS -->
-    <meta property="og:title" content="tikk | Tu Vitrina Pro en 60 Segundos">
-    <meta property="og:description"
-        content="¿Sabes usar Excel? Entonces ya sabes tener una tienda de lujo. Sincroniza y vende por WhatsApp al instante.">
-    <meta property="og:image" content="https://tikk.cl/icon-512.png">
-    <meta property="og:url" content="https://tikk.cl">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7868880098336635"
-        crossorigin="anonymous"></script>
-
-    <!-- JSON-LD Structured Data (Google loves this) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "¿Qué es Tikk?", "acceptedAnswer": { "@type": "Answer", "text": "Tikk es una herramienta web 100% gratuita que permite crear tiendas online profesionales usando Google Sheets como inventario. Los pedidos llegan directamente al WhatsApp del comerciante, sin comisiones ni mensualidades." } },
-        { "@type": "Question", "name": "¿Cuánto cuesta usar Tikk?", "acceptedAnswer": { "@type": "Answer", "text": "Tikk es completamente gratuito. No hay mensualidades, no hay comisiones por venta y no se requiere tarjeta de crédito. Es y será siempre gratis para emprendedores." } },
-        { "@type": "Question", "name": "¿Cómo creo mi tienda en Tikk?", "acceptedAnswer": { "@type": "Answer", "text": "Solo necesitas: 1) Crear un inventario en Google Sheets con columnas Producto, Precio, Stock y Categoria. 2) Ir a tikk.cl y pegar el link de tu planilla. 3) Ingresar tu número de WhatsApp. En menos de 2 minutos tu tienda está online." } },
-        { "@type": "Question", "name": "¿Necesito saber programar para usar Tikk?", "acceptedAnswer": { "@type": "Answer", "text": "No. Tikk está diseñado para que cualquier persona sin conocimientos técnicos pueda crear su tienda online. Si sabes usar Excel, ya sabes usar Tikk." } },
-        { "@type": "Question", "name": "¿Cuál es la diferencia entre Tikk y Shopify?", "acceptedAnswer": { "@type": "Answer", "text": "Shopify cobra desde $29 USD al mes más comisiones por venta. Tikk es 100% gratuito, sin comisiones y sin límite de productos. La gestión del inventario se hace en Google Sheets (gratis) y los pedidos llegan por WhatsApp." } }
-      ]
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Tikk",
-      "url": "https://tikk.cl",
-      "logo": "https://tikk.cl/icon-512.png",
-      "description": "Plataforma gratuita de comercio electrónico para PYMEs y emprendedores de Chile. Crea tu tienda online gratis usando Google Sheets.",
-      "foundingDate": "2024",
-      "founder": { "@type": "Person", "name": "Dan Tagle", "url": "https://dantagle.cl" },
-      "areaServed": "Chile",
-      "keywords": "tienda online gratis, ecommerce chile, google sheets tienda, vender por whatsapp"
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "tikk",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "CLP"
-      },
-      "description": "Transforma Google Sheets en una tienda online boutique para ventas por WhatsApp."
-    }
-    </script>
-
-    <!-- Tailwind & UI -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        lux: { 50: '#f9f9f9', 100: '#efefef', 400: '#8e8e93', 500: '#1c1c1e', 600: '#000000', blue: '#0071e3' },
-                    },
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
-                }
-            }
-        }
-    </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- HTML5 QR / Barcode Scanner CDN -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
     <style>
+        :root {
+            --purple-main: #6C3CE1;
+            --purple-dark: #4C1D95;
+            --purple-light: #8B5CF6;
+            --purple-glow: rgba(108, 60, 225, 0.4);
+            --green-success: #10B981;
+            --green-wa: #25D366;
+            --red-alert: #EF4444;
+            --orange-warn: #F59E0B;
+            --bg-dark: #0B0A12;
+            --bg-card: #161426;
+            --bg-card-hover: #201D38;
+            --bg-input: #1B1833;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-white: #FFFFFF;
+            --text-muted: #9CA3AF;
+            --text-dim: rgba(255, 255, 255, 0.35);
+            --font-base: 15px;
+            --btn-height: 52px;
+        }
+
+        body.senior-mode {
+            --font-base: 19px;
+            --btn-height: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: #000;
-            color: #fff;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-size: var(--font-base);
+            line-height: 1.5;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        .hero-bg {
-            background-image: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1600&h=900');
-            background-size: cover;
-            background-position: center;
+        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--purple-main); border-radius: 4px; }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 70px; background: rgba(11, 10, 18, 0.9);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
         }
 
-        .lux-overlay {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 100%);
+        .brand-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
+            border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px;
+            box-shadow: 0 4px 20px var(--purple-glow);
+        }
+        .brand-title { font-size: 24px; font-weight: 900; color: white; letter-spacing: -0.5px; }
+        .brand-sub { font-size: 10px; color: var(--purple-light); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .senior-toggle-btn {
+            background: rgba(108, 60, 225, 0.15); border: 1px solid var(--purple-light);
+            color: white; padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 800;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.25s ease;
+        }
+        .senior-toggle-btn.active { background: var(--purple-main); box-shadow: 0 0 20px var(--purple-glow); }
+
+        .app-layout { margin-top: 70px; padding-bottom: 100px; min-height: calc(100vh - 70px); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* Bottom Navigation Bar for Mobile */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 76px;
+            background: rgba(18, 16, 32, 0.95); backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-around; align-items: center; z-index: 100;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
         }
 
-        .lux-glass {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: none; border: none; color: var(--text-muted); font-size: 11px; font-weight: 700;
+            cursor: pointer; padding: 6px 12px; border-radius: 14px; transition: all 0.2s ease; position: relative;
+        }
+        body.senior-mode .nav-item { font-size: 14px; }
+        .nav-item-icon { font-size: 24px; margin-bottom: 2px; }
+        .nav-item.active { color: white; background: rgba(108, 60, 225, 0.25); border: 1px solid rgba(139, 92, 246, 0.3); }
+        .nav-badge { position: absolute; top: 2px; right: 8px; background: var(--red-alert); color: white; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 99px; }
+
+        /* Panels */
+        .view-panel { display: none; }
+        .view-panel.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards & Containers */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
         }
 
-        .lux-card {
-            background: #0a0a0a;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 2.5rem;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            height: var(--btn-height); padding: 0 24px; border-radius: 16px; font-size: 15px; font-weight: 800;
+            border: none; cursor: pointer; transition: all 0.25s ease; text-decoration: none; text-align: center;
+        }
+        body.senior-mode .btn { font-size: 18px; font-weight: 900; }
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary { background: linear-gradient(135deg, var(--purple-main), var(--purple-light)); color: white; box-shadow: 0 6px 20px var(--purple-glow); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108, 60, 225, 0.6); }
+
+        .btn-success { background: var(--green-success); color: white; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35); }
+        .btn-success:hover { background: #059669; transform: translateY(-2px); }
+
+        .btn-wa { background: var(--green-wa); color: white; box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35); }
+        .btn-wa:hover { background: #1eb956; transform: translateY(-2px); }
+
+        .btn-secondary { background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--purple-light); }
+
+        /* Form Elements */
+        .form-control {
+            width: 100%; height: var(--btn-height); background: var(--bg-input);
+            border: 1px solid var(--border-color); border-radius: 14px; padding: 0 18px;
+            color: white; font-size: 16px; outline: none; transition: all 0.2s ease;
+        }
+        body.senior-mode .form-control { font-size: 20px; height: 64px; }
+        .form-control:focus { border-color: var(--purple-light); box-shadow: 0 0 15px rgba(139, 92, 246, 0.35); }
+
+        .form-label { display: block; font-size: 13px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        body.senior-mode .form-label { font-size: 16px; color: #E4E4E7; }
+
+        /* Barcode Scanner Box */
+        .scanner-container {
+            background: linear-gradient(180deg, #1C1838 0%, #120E24 100%);
+            border: 2px dashed var(--purple-light); border-radius: 28px; padding: 24px; text-align: center; margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .scanner-beam { height: 3px; background: var(--purple-light); box-shadow: 0 0 20px var(--purple-light); margin: 16px 0; animation: scan 2s ease-in-out infinite alternate; }
+        @keyframes scan { 0% { transform: translateY(-20px); opacity: 0.3; } 100% { transform: translateY(20px); opacity: 1; } }
+
+        /* Cart & Products */
+        .cart-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-height: 360px; overflow-y: auto; }
+        .cart-item { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .cart-item-info { display: flex; align-items: center; gap: 14px; }
+        .cart-item-emoji { font-size: 32px; width: 48px; height: 48px; background: rgba(108, 60, 225, 0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .cart-item-title { font-weight: 800; font-size: 16px; }
+        body.senior-mode .cart-item-title { font-size: 20px; }
+        .cart-item-price { color: var(--purple-light); font-weight: 900; font-size: 18px; }
+
+        .qty-controls { display: flex; align-items: center; gap: 8px; background: var(--bg-input); padding: 4px 8px; border-radius: 14px; border: 1px solid var(--border-color); }
+        .qty-btn { width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.12); border: none; color: white; font-size: 20px; font-weight: 900; cursor: pointer; }
+        body.senior-mode .qty-btn { width: 48px; height: 48px; font-size: 24px; }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
+        @media (max-width: 600px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        body.senior-mode .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+        .product-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 18px 14px; text-align: center; cursor: pointer; transition: all 0.25s ease; position: relative; }
+        .product-card:hover { border-color: var(--purple-light); transform: translateY(-4px); background: var(--bg-card-hover); box-shadow: 0 10px 25px rgba(108, 60, 225, 0.25); }
+        .product-emoji { font-size: 44px; margin-bottom: 8px; }
+        .product-name { font-weight: 800; font-size: 14px; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 38px; }
+        body.senior-mode .product-name { font-size: 17px; height: 44px; }
+        .product-price-tag { font-size: 17px; font-weight: 900; color: var(--purple-light); }
+
+        .stock-badge { display: inline-block; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 800; margin-top: 6px; }
+        .stock-ok { background: rgba(16, 185, 129, 0.18); color: #10B981; }
+        .stock-low { background: rgba(245, 158, 11, 0.22); color: #F59E0B; }
+        .stock-zero { background: rgba(239, 68, 68, 0.22); color: #EF4444; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 22px; padding: 22px; display: flex; align-items: center; gap: 18px; }
+        .stat-icon { width: 56px; height: 56px; border-radius: 18px; background: rgba(108, 60, 225, 0.18); color: var(--purple-light); display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; }
+        .stat-val { font-size: 26px; font-weight: 900; line-height: 1.1; }
+        .stat-desc { font-size: 12px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; margin-top: 2px; }
+
+        /* Supplier Cards */
+        .supplier-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; padding: 24px; margin-bottom: 20px; }
+        .supplier-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); }
+
+        /* Modals */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease-out; }
+        .modal-box { background: #16142A; border: 1px solid var(--border-color); border-radius: 32px; width: 100%; max-width: 540px; padding: 32px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); max-height: 90vh; overflow-y: auto; }
+
+        /* Toast Notifications */
+        .toast { position: fixed; top: 85px; right: 20px; background: #10B981; color: white; padding: 16px 24px; border-radius: 18px; font-weight: 800; font-size: 15px; z-index: 300; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: none; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Landing Page Styles */
+        .hero-section { text-align: center; padding: 60px 0 40px; }
+        .badge-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(108,60,225,0.15); border: 1px solid rgba(139,92,246,0.3); border-radius: 99px; padding: 8px 20px; font-size: 13px; font-weight: 800; color: #C4B5FD; margin-bottom: 24px; }
+        .hero-h1 { font-size: clamp(34px, 7vw, 64px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+        .hero-h1 span { color: var(--purple-light); }
+        .hero-p { font-size: clamp(16px, 2.5vw, 20px); color: var(--text-muted); max-width: 680px; margin: 0 auto 36px; line-height: 1.6; }
+
+        .landing-form-box {
+            background: linear-gradient(180deg, #191630 0%, #131024 100%);
+            border: 1px solid var(--border-color); border-radius: 32px; padding: 36px; max-width: 580px; margin: 0 auto;
+            box-shadow: 0 15px 50px rgba(108, 60, 225, 0.25); text-align: left;
         }
 
-        .tooltip-box {
-            background: rgba(29, 29, 31, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            visibility: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            transform: translateY(-10px);
-            z-index: 50;
-            width: 220px;
-            pointer-events: none;
-        }
-
-        .has-tooltip:hover .tooltip-box {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(-20px);
-        }
-
-        ::-webkit-scrollbar {
-            display: none;
-        }
-
-        #product-modal {
-            transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-
-        .drawer-open {
-            transform: translateY(0) !important;
-        }
-
-        .drawer-closed {
-            transform: translateY(100%) !important;
+        /* Mobile specific layout fixes */
+        @media (max-width: 768px) {
+            .app-layout { padding-bottom: 90px; }
+            .pos-split-layout { grid-template-columns: 1fr !important; }
+            .container { padding: 12px; }
+            .card { padding: 18px; border-radius: 20px; }
+            .landing-form-box { padding: 24px; }
+            .top-nav { padding: 0 14px; }
+            .brand-title { font-size: 20px; }
+            .brand-icon { width: 38px; height: 38px; font-size: 18px; }
         }
     </style>
 </head>
+<body>
 
-<body class="selection:bg-lux-blue selection:text-white">
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">🔔 Notificación</div>
 
-    <div id="notification-container"
-        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-3 w-full max-w-sm px-6"></div>
-
-    <div id="app" class="min-h-screen flex flex-col">
-
-        <header id="main-header" class="lux-glass sticky top-0 z-[100]">
-            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                <a href="#" onclick="app.navigate('landing')" class="flex items-center gap-3">
-                    <div
-                        class="h-10 w-10 bg-white rounded-2xl flex items-center justify-center shadow-lg hover:rotate-12 transition-transform">
-                        <i data-lucide="zap" class="text-black w-6 h-6 fill-current"></i>
-                    </div>
-                    <span class="text-2xl font-black italic tracking-tighter">tikk</span>
-                </a>
-                <div class="flex items-center gap-6">
-                    <a href="#landing"
-                        class="text-white/50 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors hidden md:block">Inicio</a>
-                    <a href="#paso-a-paso"
-                        class="text-white/50 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors hidden md:block">Paso
-                        a Paso</a>
-                    <button onclick="app.navigate('diy')"
-                        class="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-all">Crear
-                        Tienda</button>
-                    <button id="cart-button" onclick="app.toggleCart()"
-                        class="hidden p-2 text-white/50 hover:text-white transition-colors"><i
-                            data-lucide="shopping-basket" class="w-7 h-7"></i></button>
-                </div>
+    <!-- Header Navigation -->
+    <header class="top-nav">
+        <a href="#" onclick="app.switchView('landing')" class="brand-logo">
+            <div class="brand-icon">🛒</div>
+            <div>
+                <div class="brand-title">TIKK</div>
+                <div class="brand-sub" id="storeNameHeader">Mi Almacén Pro</div>
             </div>
-        </header>
+        </a>
 
-        <main id="main-content" class="flex-grow">
-            <!-- Content will be injected -->
-        </main>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="seniorToggleBtn" onclick="app.toggleSeniorMode()" class="senior-toggle-btn">
+                <span>👁️</span> <span id="seniorToggleLabel">Modo Letra Grande</span>
+            </button>
+        </div>
+    </header>
 
-        <footer id="global-footer" class="py-24 border-t border-white/5 bg-black text-center">
-            <div class="max-w-7xl mx-auto px-6">
-                <p class="text-[9px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 font-bold">Official
-                    Platform for Professional Entrepreneurs</p>
-                <div class="flex flex-col items-center gap-4">
-                    <span class="text-white/40 text-sm font-medium">Bespoke Design by</span>
-                    <a href="https://dantagle.cl" target="_blank"
-                        class="text-2xl font-black tracking-tighter hover:text-lux-blue transition-colors">Dan
-                        Tagle<span class="text-lux-blue">.</span></a>
-                </div>
-            </div>
-        </footer>
-    </div>
+    <div class="app-layout">
+        <div class="container">
 
-    <!-- Modals -->
-    <div id="modal-overlay" onclick="app.closeProductModal()"
-        class="fixed inset-0 bg-black/95 backdrop-blur-md z-[150] opacity-0 pointer-events-none transition-opacity duration-500">
-    </div>
-    <aside id="product-modal"
-        class="fixed bottom-0 right-0 h-[85vh] md:h-full w-full md:max-w-xl bg-lux-500 z-[160] drawer-closed shadow-2xl flex flex-col md:border-l border-white/10 rounded-t-[3rem] md:rounded-l-[3rem] md:rounded-t-none">
-        <button onclick="app.closeProductModal()"
-            class="absolute top-8 right-8 h-12 w-12 rounded-full bg-white/5 flex items-center justify-center font-bold text-xl hover:rotate-90 transition-all">×</button>
-        <div id="modal-content" class="flex-grow overflow-y-auto p-10 pt-20"></div>
-        <div id="modal-actions" class="p-10 border-t border-white/5 bg-black/40 grid grid-cols-2 gap-4"></div>
-    </aside>
+            <!-- VIEW 1: LANDING & STORE SETUP FORM -->
+            <div id="view-landing" class="view-panel active">
+                <div class="hero-section">
+                    <div class="badge-pill">🇨🇱 SISTEMA OFICIAL PARA ALMACENES Y MINIMARKETS</div>
+                    <h1 class="hero-h1">Tu Negocio en tu Celular.<br><span>Inventario, Ventas y Tienda.</span></h1>
+                    <p class="hero-p">La app más simple y rápida para dueños de almacenes, minimarkets y emprendedores de Chile. Diseñada para usar sin complicaciones.</p>
 
-    <!-- TEMPLATES -->
+                    <div class="landing-form-box">
+                        <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; display:flex; align-items:center; gap:10px;">
+                            <span>🚀</span> Configura tu Almacén en 30 Segundos
+                        </h2>
 
-    <template id="tpl-landing">
-        <div class="hero-bg relative">
-            <div class="lux-overlay pt-32 pb-64 px-6">
-                <div class="max-w-7xl mx-auto">
-                    <div class="max-w-4xl">
-                        <span
-                            class="inline-block px-4 py-1.5 rounded-full bg-lux-blue/10 border border-lux-blue/30 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-10 italic">La
-                            Alternativa Gratis a Shopify</span>
-                        <h1 class="text-7xl md:text-[140px] font-black tracking-tighter leading-[0.8] mb-14 text-white">
-                            Tu Tienda <br> <span class="italic text-lux-blue">en Excel</span>.
-                        </h1>
-                        <p
-                            class="text-2xl md:text-4xl text-lux-100 font-medium mb-16 leading-relaxed max-w-3xl opacity-90">
-                            Olvídate de pagar mensualidades. Sincroniza tu inventario desde Google Sheets y recibe
-                            pedidos directamente a tu WhatsApp.
-                        </p>
-                        <div class="flex flex-wrap gap-8">
-                            <button onclick="app.navigate('diy')"
-                                class="h-20 px-14 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all">Crear
-                                Tienda Gratis</button>
-                            <a href="#/tienda-demo/1EbB2_MSQnVYwrseGX2jbDXu4ttWDhSbMxzbfWRy7orU/56928623092?desc=Tu+nueva+tienda+online&color=blue"
-                                class="h-20 px-10 bg-lux-blue/20 text-lux-blue rounded-full font-bold flex items-center text-[10px] uppercase tracking-[0.2em] hover:bg-lux-blue hover:text-white transition-all shadow-xl shadow-lux-blue/20">Probar
-                                Demo (2 segs)</a>
-                        </div>
+                        <form onsubmit="event.preventDefault(); app.registerStore();">
+                            <div style="margin-bottom: 16px;">
+                                <label class="form-label">Nombre de tu Negocio / Almacén</label>
+                                <input type="text" id="regStoreName" class="form-control" placeholder="Ej: Minimarket El Progreso" required value="Minimarket El Progreso">
+                            </div>
 
-                        <div class="mt-12 bg-red-600/10 border border-red-500/30 rounded-3xl p-6 flex items-center justify-between gap-6 cursor-pointer hover:bg-red-600/20 transition-all max-w-xl"
-                            onclick="app.navigate('masterclass')">
-                            <div class="flex gap-4 items-center">
-                                <div
-                                    class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center animate-pulse">
-                                    <i data-lucide="video" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-white font-black italic">Masterclass en Vivo</h4>
-                                    <p class="text-white/60 text-xs">Crea tu tienda gratis paso a paso con nosotros</p>
+                            <div style="margin-bottom: 16px;">
+                                <label class="form-label">Nombre del Dueño(a)</label>
+                                <input type="text" id="regOwnerName" class="form-control" placeholder="Ej: Don Juan Pérez" required value="Juan Pérez">
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                <label class="form-label">Tu WhatsApp (para pedidos de clientes y proveedores)</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <div style="width: 85px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 800; color:var(--purple-light);">+56 9</div>
+                                    <input type="tel" id="regPhone" class="form-control" placeholder="12345678" required value="912345678">
                                 </div>
                             </div>
-                            <span
-                                class="text-[10px] font-black uppercase tracking-widest text-red-500 hidden sm:block">Inscribirse
-                                →</span>
-                        </div>
-                    </div>
 
-                    <div class="mt-48 grid lg:grid-cols-3 gap-16 border-t border-white/10 pt-32 text-left">
-                        <div class="space-y-6">
-                            <h2 class="text-4xl font-black italic mb-4">Stock en Tiempo Real</h2>
-                            <p class="text-lux-400 text-lg leading-relaxed">Tu inventario está conectado a Google Drive.
-                                Cambias un precio en tu planilla Excel y tu sitio web se actualiza al segundo.</p>
-                        </div>
-                        <div class="space-y-6">
-                            <h2 class="text-4xl font-black italic mb-4">Ventas por WhatsApp</h2>
-                            <p class="text-lux-400 text-lg leading-relaxed">Tus clientes llenan su bolsa de compras y te
-                                envían el pedido ordenado (con foto y total) directo a tu chat personal.</p>
-                        </div>
-                        <div class="space-y-6">
-                            <h2 class="text-4xl font-black italic mb-4">100% Gratis Siempre</h2>
-                            <p class="text-lux-400 text-lg leading-relaxed">Sin comisiones por venta, sin mensualidades
-                                y sin tarjetas de crédito. Creado especialmente para emprendedores de Chile.</p>
-                        </div>
-                    </div>
+                            <div style="margin-bottom: 24px;">
+                                <label class="form-label">Tipo de Comercio</label>
+                                <select id="regCategory" class="form-control">
+                                    <option value="Minimarket / Almacén">Minimarket / Almacén de Barrio</option>
+                                    <option value="Verdulería / Frutería">Verdulería / Frutería</option>
+                                    <option value="Botillería">Botillería</option>
+                                    <option value="Panadería / Pastelería">Panadería / Pastelería</option>
+                                </select>
+                            </div>
 
-                    <div class="mt-32 flex justify-center">
-                        <button onclick="app.shareWithFriend()"
-                            class="h-16 px-10 border border-white/5 rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-lux-blue/10 transition-all flex items-center gap-3">
-                            <i data-lucide="share-2" class="w-4 h-4"></i> Comparte con tu emprendedor favorito
-                        </button>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; height: 62px; font-size: 18px;">
+                                ▶ INGRESAR Y PROBAR EL SISTEMA EN VIVO
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
-    </template>
 
-    <template id="tpl-masterclass">
-        <div class="max-w-3xl mx-auto px-6 py-24 text-center">
-            <span
-                class="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-[10px] font-black uppercase tracking-widest text-red-500 mb-8 italic animate-pulse">🔴
-                Evento en Vivo y Gratuito</span>
-            <h1 class="text-5xl md:text-7xl font-black mb-8 italic tracking-tighter leading-tight">Masterclass:<br>Crea
-                tu Tienda Hoy.</h1>
-            <p class="text-lux-400 text-xl mb-16">Aprende paso a paso cómo armar tu catálogo en Google Sheets,
-                conectarlo a WhatsApp y empezar a vender sin pagar comisiones jamás.</p>
+            <!-- VIEW 2: POS (VENDER) -->
+            <div id="view-pos" class="view-panel">
+                <div class="scanner-container">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <div style="font-size: 15px; font-weight: 900; color: #C4B5FD; display:flex; align-items:center; gap:8px;">
+                            <span>📷</span> ESCÁNER DE CÓDIGO DE BARRAS REAL
+                        </div>
+                        <button onclick="app.startCameraScanner()" class="btn btn-primary" style="height:44px; padding:0 18px; font-size:13px;">
+                            🎥 ESCANEAR CON CÁMARA
+                        </button>
+                    </div>
 
-            <div id="masterclass-form-container"
-                class="lux-card p-10 md:p-14 text-left border-white/10 shadow-2xl relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-transparent"></div>
-                <h3 class="text-2xl font-black italic mb-8">Reserva tu Cupo</h3>
-                <form id="masterclass-form" onsubmit="event.preventDefault(); app.registerMasterclass();"
-                    class="space-y-8">
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="barcodeInput" class="form-control" placeholder="Escanea o digita EAN-13 (Ej: 7801610000030)..." onkeyup="if(event.key==='Enter') app.scanProductByInput()">
+                        <button onclick="app.scanProductByInput()" class="btn btn-secondary" style="min-width: 110px;">
+                            🔍 BUSCAR
+                        </button>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+                        💡 <b>Tip:</b> También puedes tocar directamente cualquier producto de la lista para agregarlo al carrito.
+                    </div>
+                </div>
+
+                <div class="pos-split-layout" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px;">
                     <div>
-                        <label class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Correo
-                            Electrónico</label>
-                        <input type="email" id="mc-email" required placeholder="tu@correo.com"
-                            class="w-full bg-transparent border-b border-white/10 py-3 text-2xl font-bold outline-none focus:border-red-500 transition-all text-white">
-                    </div>
-                    <div class="grid grid-cols-2 gap-8">
-                        <div>
-                            <label
-                                class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Nombre
-                                de tu Tienda</label>
-                            <input type="text" id="mc-store" required placeholder="Ej. Tienda Miau"
-                                class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <h3 style="font-size: 20px; font-weight: 900;">🛒 Productos de Venta Rápida</h3>
+                            <button onclick="app.switchView('inventory')" class="btn btn-secondary" style="height: 36px; padding:0 12px; font-size: 12px;">+ Nuevo Producto</button>
                         </div>
-                        <div>
-                            <label
-                                class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Rubro
-                                / Industria</label>
-                            <input type="text" id="mc-niche" required placeholder="Ej. Ropa, Mascotas, etc."
-                                class="w-full bg-transparent border-b border-white/10 py-3 text-xl font-bold outline-none focus:border-red-500 transition-all text-white">
+                        
+                        <div id="posProductsGrid" class="products-grid"></div>
+                    </div>
+
+                    <div class="card" style="position: sticky; top: 90px; height: fit-content;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 900;">🛍️ Carrito Actual</h3>
+                            <button onclick="app.clearCart()" style="background:none; border:none; color:var(--red-alert); font-weight:800; cursor:pointer; font-size:13px;">Vaciar</button>
+                        </div>
+
+                        <div id="cartList" class="cart-list"></div>
+
+                        <div style="border-top: 2px solid var(--border-color); padding-top: 16px; margin-top: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <span style="font-size: 16px; font-weight: 700; color: var(--text-muted);">TOTAL A COBRAR:</span>
+                                <span id="cartTotal" style="font-size: 32px; font-weight: 900; color: #25D366;">$0</span>
+                            </div>
+
+                            <button onclick="app.openCheckoutModal()" class="btn btn-success" style="width: 100%; height: 68px; font-size: 22px;">
+                                💳 COBRAR VENTA
+                            </button>
                         </div>
                     </div>
-                    <button type="submit"
-                        class="w-full h-20 bg-white text-black rounded-full font-black text-xl hover:scale-105 shadow-2xl transition-all mt-8">ASEGURAR
-                        MI LUGAR</button>
-                </form>
+                </div>
             </div>
 
-            <div id="masterclass-success-container"
-                class="hidden lux-card p-14 bg-red-600 border-none shadow-2xl shadow-red-600/40">
-                <h3 class="text-4xl font-black mb-6 italic text-white">¡Cupo Confirmado! 🎉</h3>
-                <p class="text-white/80 text-xl mb-10 font-bold">Haz clic en el botón de abajo, entra a YouTube y
-                    presiona "Notificarme" para que no te pierdas la clase.</p>
-                <a href="https://youtube.com/live/RE3D-WUFbac" target="_blank"
-                    class="inline-flex h-24 px-14 bg-black text-white rounded-[2rem] items-center justify-center font-black text-2xl hover:scale-105 shadow-2xl transition-all gap-4">
-                    <i data-lucide="youtube" class="w-8 h-8 text-red-500"></i> IR AL LIVE EN YOUTUBE
-                </a>
+            <!-- VIEW 3: INVENTORY -->
+            <div id="view-inventory" class="view-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <h2 style="font-size: 28px; font-weight: 900;">📦 Mi Inventario de Productos</h2>
+                        <p style="color: var(--text-muted); font-size: 14px;">Precios, stock actual y catálogo base de supermercados chilenos.</p>
+                    </div>
+                    <button onclick="app.openAddProductModal()" class="btn btn-primary">
+                        + AGREGAR PRODUCTO NUEVO
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                        <input type="text" id="invSearchInput" class="form-control" placeholder="Buscar por nombre o código de barras EAN-13..." oninput="app.filterInventory()">
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; min-width: 650px;">
+                            <thead>
+                                <tr style="background: rgba(108,60,225,0.18); color: #C4B5FD; text-align: left; font-size: 12px; text-transform: uppercase;">
+                                    <th style="padding: 14px;">Código</th>
+                                    <th style="padding: 14px;">Producto</th>
+                                    <th style="padding: 14px;">Categoría</th>
+                                    <th style="padding: 14px;">Proveedor</th>
+                                    <th style="padding: 14px;">Precio Venta</th>
+                                    <th style="padding: 14px;">Stock Actual</th>
+                                    <th style="padding: 14px;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 4: DASHBOARD -->
+            <div id="view-dashboard" class="view-panel">
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size: 28px; font-weight: 900;">📊 Dashboard & Métricas Sell-Out</h2>
+                    <p style="color: var(--text-muted); font-size: 14px;">Monitoreo de ingresos, velocidad de venta y estado de reposición.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-icon">💵</div>
+                        <div>
+                            <div id="statTotalSales" class="stat-val">$186.500</div>
+                            <div class="stat-desc">Ventas Totales Hoy</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">🛍️</div>
+                        <div>
+                            <div id="statTotalOrders" class="stat-val">14</div>
+                            <div class="stat-desc">Transacciones Realizadas</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">📦</div>
+                        <div>
+                            <div id="statUnitsSold" class="stat-val">48</div>
+                            <div class="stat-desc">Unidades Vendidas</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">⚠️</div>
+                        <div>
+                            <div id="statLowStockCount" class="stat-val" style="color: var(--red-alert);">3</div>
+                            <div class="stat-desc">Alertas Stock Crítico</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">🔥 Top Productos Más Vendidos (Sell-Out)</h3>
+                        <div id="topSellingList"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">🚨 Alertas de Reposición Inmediata</h3>
+                        <div id="lowStockAlertList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 5: SUPPLIERS -->
+            <div id="view-suppliers" class="view-panel">
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size: 28px; font-weight: 900;">🚚 Pedidos Automáticos a Proveedores</h2>
+                    <p style="color: var(--text-muted); font-size: 14px;">Genera y envía solicitudes de pedido de reposición agrupadas por distribuidor directamente a su WhatsApp.</p>
+                </div>
+
+                <div id="supplierCardsContainer"></div>
+            </div>
+
+            <!-- VIEW 6: ONLINE STORE -->
+            <div id="view-store" class="view-panel">
+                <div class="card" style="text-align: center; background: linear-gradient(135deg, #1C1838, #0E0A1F); border-color: var(--purple-light);">
+                    <span style="font-size: 42px;">🌐</span>
+                    <h2 id="onlineStoreTitle" style="font-size: 32px; font-weight: 900; margin-top:8px;">Minimarket El Progreso</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Catálogo Digital para Clientes - Pedidos Directos a tu WhatsApp</p>
+
+                    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap:wrap;">
+                        <button onclick="app.copyStoreLink()" class="btn btn-secondary">📋 Copiar Link de Mi Tienda</button>
+                        <button onclick="app.openStoreWhatsAppDemo()" class="btn btn-wa">💬 Probar Pedido en WhatsApp</button>
+                    </div>
+                </div>
+
+                <div class="products-grid" id="onlineStoreGrid"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom Nav Bar -->
+    <nav class="bottom-nav">
+        <button onclick="app.switchView('landing')" id="nav-landing" class="nav-item active">
+            <span class="nav-item-icon">🏠</span>
+            <span>Inicio</span>
+        </button>
+        <button onclick="app.switchView('pos')" id="nav-pos" class="nav-item">
+            <span class="nav-item-icon">⚡</span>
+            <span>Vender</span>
+        </button>
+        <button onclick="app.switchView('inventory')" id="nav-inventory" class="nav-item">
+            <span class="nav-item-icon">📦</span>
+            <span>Inventario</span>
+        </button>
+        <button onclick="app.switchView('dashboard')" id="nav-dashboard" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span>Métricas</span>
+        </button>
+        <button onclick="app.switchView('suppliers')" id="nav-suppliers" class="nav-item">
+            <span class="nav-item-icon">🚚</span>
+            <span>Proveedores</span>
+            <span id="suppliersBadge" class="nav-badge">3</span>
+        </button>
+        <button onclick="app.switchView('store')" id="nav-store" class="nav-item">
+            <span class="nav-item-icon">🌐</span>
+            <span>Tienda</span>
+        </button>
+    </nav>
+
+    <!-- MODAL: CAMERA SCANNER -->
+    <div id="cameraScannerModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 480px; text-align: center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3 style="font-size:20px; font-weight:900;">🎥 Cámara Escáner en Vivo</h3>
+                <button onclick="app.closeCameraScanner()" class="btn btn-secondary" style="height:36px; padding:0 12px; font-size:12px;">✖ Cerrar</button>
+            </div>
+            <div id="reader" style="width: 100%; border-radius: 20px; overflow: hidden; background: #000; min-height: 250px;"></div>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">Apunta la cámara de tu teléfono celular directamente al código de barras del producto.</p>
+        </div>
+    </div>
+
+    <!-- MODAL: CHECKOUT -->
+    <div id="checkoutModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 16px;">💳 Cobrar Venta Presencial</h2>
+
+            <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; padding: 18px; border-radius: 20px; text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 13px; color: var(--text-muted); font-weight: 800;">TOTAL A PAGAR</div>
+                <div id="modalCheckoutTotal" style="font-size: 38px; font-weight: 900; color: #10B981;">$0</div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label class="form-label">Método de Pago</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <button type="button" onclick="app.setPaymentMethod('Efectivo')" id="payEfectivo" class="btn btn-primary" style="height: 48px; font-size: 13px;">💵 Efectivo</button>
+                    <button type="button" onclick="app.setPaymentMethod('Débito')" id="payDebito" class="btn btn-secondary" style="height: 48px; font-size: 13px;">💳 Débito</button>
+                    <button type="button" onclick="app.setPaymentMethod('Transferencia')" id="payTransf" class="btn btn-secondary" style="height: 48px; font-size: 13px;">📱 Transfer</button>
+                </div>
+            </div>
+
+            <div id="cashCalcGroup" style="margin-bottom: 20px;">
+                <label class="form-label">Paga con (Monto recibido):</label>
+                <input type="number" id="cashGivenInput" class="form-control" placeholder="Ej: 10000" oninput="app.calculateChange()">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding: 14px; background: var(--bg-input); border-radius: 16px;">
+                    <span style="font-weight: 800;">VUELTO A ENTREGAR:</span>
+                    <span id="changeAmount" style="font-size: 24px; font-weight: 900; color: #F59E0B;">$0</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button onclick="app.closeCheckoutModal()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
+                <button onclick="app.confirmSale()" class="btn btn-success" style="flex: 2;">✅ CONFIRMAR Y FINALIZAR</button>
             </div>
         </div>
-    </template>
+    </div>
 
-    <template id="tpl-diy">
-        <div class="max-w-xl mx-auto px-6 py-24">
-            <h2 class="text-5xl font-black italic mb-14 text-center">Inicia tu Tienda</h2>
-            <div class="lux-card p-12 space-y-12 shadow-2xl border-white/10">
-                <div>
-                    <label
-                        class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold">Identidad
-                        de Marca <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div
-                                class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Este nombre
-                                será el que tus clientes vean en grande al entrar a tu tienda.</div></span></label>
-                    <input type="text" id="store-name-input" placeholder="Nombre de tu Marca"
-                        class="w-full bg-transparent border-b border-white/10 py-5 text-4xl font-black outline-none focus:border-lux-blue transition-all">
+    <!-- MODAL: ADD PRODUCT -->
+    <div id="addProductModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 16px;">📦 Agregar Producto al Inventario</h2>
+
+            <form onsubmit="event.preventDefault(); app.saveNewProduct();">
+                <div style="margin-bottom: 14px;">
+                    <label class="form-label">Código de Barras (Escanea o digita)</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="newProdCode" class="form-control" placeholder="Ej: 7801610000030" required onchange="app.lookupBarcodeInDB(this.value)">
+                        <button type="button" onclick="app.startCameraScanner(code => { document.getElementById('newProdCode').value = code; app.lookupBarcodeInDB(code); })" class="btn btn-secondary" style="min-width: 100px;">📷 Cámara</button>
+                    </div>
                 </div>
-                <div>
-                    <label
-                        class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold">Tu
-                        Número de WhatsApp</label>
-                    <div class="flex gap-4">
-                        <select id="country-code"
-                            class="bg-white/10 px-6 rounded-2xl font-bold border border-white/5 outline-none text-lg">
-                            <option value="56">🇨🇱 +56</option>
-                            <option value="54">🇦🇷 +54</option>
-                            <option value="52">🇲🇽 +52</option>
-                            <option value="57">🇨🇴 +57</option>
-                            <option value="34">🇪🇸 +34</option>
+
+                <div style="margin-bottom: 14px;">
+                    <label class="form-label">Nombre del Producto</label>
+                    <input type="text" id="newProdName" class="form-control" placeholder="Ej: Coca-Cola 1.5L Original" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+                    <div>
+                        <label class="form-label">Precio Venta ($)</label>
+                        <input type="number" id="newProdPrice" class="form-control" placeholder="2000" required>
+                    </div>
+                    <div>
+                        <label class="form-label">Stock Inicial</label>
+                        <input type="number" id="newProdStock" class="form-control" placeholder="24" required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+                    <div>
+                        <label class="form-label">Categoría</label>
+                        <input type="text" id="newProdCategory" class="form-control" placeholder="Bebidas">
+                    </div>
+                    <div>
+                        <label class="form-label">Proveedor</label>
+                        <select id="newProdSupplier" class="form-control">
+                            <option value="Coca-Cola Andina">Coca-Cola Andina</option>
+                            <option value="CCU Chile">CCU Chile</option>
+                            <option value="Colun">Colun</option>
+                            <option value="Nestlé Chile">Nestlé Chile</option>
+                            <option value="Ideal / Bimbo">Ideal / Bimbo</option>
+                            <option value="Distribuidora Central">Distribuidora Central</option>
                         </select>
-                        <input type="number" id="whatsapp-input" placeholder="912345678"
-                            class="flex-grow bg-transparent border-b border-white/10 py-5 text-4xl font-black outline-none focus:border-lux-blue transition-all">
                     </div>
                 </div>
-                <div>
-                    <label
-                        class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-6 block font-bold mt-10">Link
-                        de tu Excel (Google Sheets) <span class="text-lux-blue has-tooltip relative cursor-help">(?)<div
-                                class="tooltip-box p-4 text-[11px] normal-case font-medium text-white/80">Debe estar
-                                configurado como 'Cualquier persona con el enlace puede ver'. Si no sabes cómo, mira el
-                                Paso a Paso.</div></span></label>
-                    <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/..."
-                        class="w-full bg-white/10 border border-white/5 p-6 rounded-3xl outline-none focus:border-lux-blue transition-all text-sm font-medium">
-                    <p class="mt-3 text-[10px] font-bold text-lux-blue/70 italic">⚠️ Recuerda presionar el botón
-                        "Compartir" arriba a la derecha en tu Excel.</p>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" onclick="app.closeAddProductModal()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 2;">Guardar Producto</button>
                 </div>
-
-                <div class="border-t border-white/10 pt-10">
-                    <h3 class="text-xl font-black italic mb-8">Personalización (Opcional)</h3>
-
-                    <div class="space-y-8">
-                        <div>
-                            <label
-                                class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Descripción
-                                Corta (Slogan)</label>
-                            <input type="text" id="store-desc-input" placeholder="La mejor tienda de la ciudad"
-                                class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all">
-                        </div>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div>
-                                <label
-                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Fondo</label>
-                                <select id="store-theme-select"
-                                    class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
-                                    <option value="dark">Fondo Negro (Elegante)</option>
-                                    <option value="light">Fondo Blanco (Clásico)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label
-                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Color
-                                    de Botones</label>
-                                <select id="store-color-select"
-                                    class="w-full bg-white/10 px-6 py-4 rounded-2xl font-bold border border-white/5 outline-none">
-                                    <option value="blue">Azul</option>
-                                    <option value="green">Verde WhatsApp</option>
-                                    <option value="purple">Morado</option>
-                                    <option value="red">Rojo</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button onclick="app.toggleAdvancedDiy()"
-                            class="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all w-full text-left py-4 flex items-center gap-2">
-                            <i data-lucide="settings-2" class="w-4 h-4"></i> Mostrar Opciones Avanzadas
-                        </button>
-
-                        <div id="diy-advanced-section" class="hidden space-y-8 border-t border-white/5 pt-8">
-                            <div>
-                                <label
-                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">URL
-                                    Logo (Para el header)</label>
-                                <input type="text" id="store-logo-input" placeholder="https://imgur.com/mi-logo.png"
-                                    class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
-                            </div>
-                            <div>
-                                <label
-                                    class="text-[10px] font-black uppercase tracking-[0.4em] text-lux-400 mb-4 block">Apps
-                                    Script URL (Control de Stock Automático)</label>
-                                <input type="text" id="store-script-input"
-                                    placeholder="https://script.google.com/macros/s/..."
-                                    class="w-full bg-transparent border-b border-white/10 py-3 text-lg font-bold outline-none focus:border-lux-blue transition-all text-white/50">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button onclick="app.generateFromDiy()"
-                class="w-full h-24 bg-white text-black rounded-full font-black text-2xl mt-12 shadow-2xl hover:scale-105 transition-all">Activar
-                mi Boutique Digital</button>
+            </form>
         </div>
-    </template>
+    </div>
 
-    <template id="tpl-share">
-        <div class="max-w-5xl mx-auto px-6 py-24 text-center">
-            <h1 class="text-6xl font-black mb-20 italic">¡Tienda Creada!</h1>
-            <div class="grid md:grid-cols-2 gap-10">
-                <div class="lux-card p-14 flex flex-col items-center">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-lux-blue mb-8">Acceso
-                        Inmediato</span>
-                    <h3 id="share-store-name" class="text-4xl font-black mb-10 italic">Tu Tienda</h3>
-                    <a href="#" id="view-store-btn" target="_blank"
-                        class="w-full h-20 bg-white text-black rounded-3xl font-black text-lg flex items-center justify-center hover:scale-105 shadow-xl transition-all">ENTRAR
-                        A MI TIENDA</a>
-                    <button onclick="app.copyStoreLink()"
-                        class="mt-10 text-[10px] font-black text-white/30 uppercase tracking-widest hover:text-white transition-all px-8 py-4 border border-white/10 rounded-full">Copiar
-                        Link para RRSS</button>
-                    <input type="hidden" id="shareable-url">
-                </div>
-                <div
-                    class="lux-card p-14 bg-lux-blue border-none flex flex-col items-center shadow-2xl shadow-lux-blue/40">
-                    <span
-                        class="text-[10px] font-black uppercase tracking-widest text-white/60 mb-8 font-bold">Independencia
-                        Total</span>
-                    <h3 class="text-4xl font-black mb-10 italic">Descargar Código</h3>
-                    <button onclick="app.downloadProZip()"
-                        class="w-full h-20 bg-white text-black rounded-3xl font-black text-lg flex items-center justify-center hover:scale-105 shadow-2xl transition-all">DESCARGAR
-                        ARCHIVO ZIP</button>
-                    <button onclick="app.editStoreData()"
-                        class="mt-10 text-[10px] font-black text-white/40 hover:text-white uppercase tracking-widest italic font-bold">Editar
-                        datos de mi tienda</button>
-                </div>
-            </div>
-            <div class="mt-16 lux-card p-10 max-w-2xl mx-auto flex flex-col items-center border-white/5">
-                <h4 class="text-xl font-black italic mb-6 text-white">Guárdalo en tu Correo</h4>
-                <div class="flex w-full gap-4">
-                    <input type="email" id="save-email-input" placeholder="tu@correo.com"
-                        class="flex-grow bg-white/10 border border-white/5 rounded-2xl px-6 outline-none focus:border-lux-blue transition-all font-bold text-white">
-                    <button onclick="app.sendToEmail()"
-                        class="h-14 px-8 bg-white text-black rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-xl">Enviar
-                        Link</button>
-                </div>
-            </div>
+    <!-- Application Engine JS -->
+    <script>
+        const BASE_PRODUCT_CATALOG = [
+            { code: "7801610000030", name: "Coca-Cola Original 1.5L", price: 2000, stock: 23, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🥤", supplierPhone: "56988881111" },
+            { code: "7801610000054", name: "Coca-Cola Zero 1.5L", price: 2000, stock: 4, minStock: 6, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🥤", supplierPhone: "56988881111" },
+            { code: "7801610000078", name: "Fanta Naranja 1.5L", price: 1800, stock: 3, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🍊", supplierPhone: "56988881111" },
+            { code: "7801610000092", name: "Sprite 1.5L", price: 1800, stock: 12, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🍋", supplierPhone: "56988881111" },
+            { code: "7802800000018", name: "Leche Entera Colun 1L", price: 1150, stock: 7, minStock: 10, category: "Lácteos", supplier: "Colun", emoji: "🥛", supplierPhone: "56988882222" },
+            { code: "7802800000025", name: "Leche Semidescremada Colun 1L", price: 1150, stock: 2, minStock: 8, category: "Lácteos", supplier: "Colun", emoji: "🥛", supplierPhone: "56988882222" },
+            { code: "7801320000012", name: "Chocolate Sahne Nuss 250g", price: 3500, stock: 10, minStock: 4, category: "Confites", supplier: "Nestlé Chile", emoji: "🍫", supplierPhone: "56988883333" },
+            { code: "7801320000043", name: "Chocolate Trencito Nestlé 150g", price: 2200, stock: 15, minStock: 5, category: "Confites", supplier: "Nestlé Chile", emoji: "🍫", supplierPhone: "56988883333" },
+            { code: "7802200000032", name: "Papas Kryzpo Original 140g", price: 1400, stock: 15, minStock: 6, category: "Snacks", supplier: "CCU Chile", emoji: "🥔", supplierPhone: "56988884444" },
+            { code: "7802200000056", name: "Papas Kryzpo Queso 140g", price: 1400, stock: 1, minStock: 6, category: "Snacks", supplier: "CCU Chile", emoji: "🥔", supplierPhone: "56988884444" },
+            { code: "7801500000020", name: "Galletas Tritón Vainilla 126g", price: 900, stock: 18, minStock: 5, category: "Galletas", supplier: "Nestlé Chile", emoji: "🍪", supplierPhone: "56988883333" },
+            { code: "7802500000010", name: "Cerveza Cristal 350ml Can pack", price: 1000, stock: 24, minStock: 10, category: "Botillería", supplier: "CCU Chile", emoji: "🍺", supplierPhone: "56988884444" },
+            { code: "7801800000015", name: "Pan de Molde Ideal Blanco", price: 2200, stock: 4, minStock: 8, category: "Abarrotes", supplier: "Ideal / Bimbo", emoji: "🍞", supplierPhone: "56988885555" }
+        ];
 
-            <div class="mt-24 pt-24 border-t border-white/5 max-w-2xl mx-auto">
-                <h4 class="text-3xl font-black mb-12 italic leading-tight">¿Quieres conectar tu dominio propio o
-                    habilitar control de stock?</h4>
-                <div class="grid sm:grid-cols-2 gap-6">
-                    <button onclick="window.open('#paso-a-paso', '_blank')"
-                        class="h-20 lux-card rounded-[2rem] font-bold text-sm bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-3">
-                        <i data-lucide="book-open" class="w-5 h-5"></i> Leer Paso a Paso Completo
-                    </button>
-                    <a href="https://calendly.com/dan-tagle/30min" target="_blank"
-                        class="h-20 bg-lux-blue rounded-[2rem] font-black flex flex-col items-center justify-center group overflow-hidden">
-                        <span
-                            class="text-[10px] uppercase opacity-70 group-hover:scale-105 transition-all italic">Servicio
-                            Personalizado Dan Tagle</span>
-                        <span class="text-lg">1 UF — Configuración Avanzada</span>
-                    </a>
-                </div>
-                <p
-                    class="mt-10 text-[11px] font-black text-white/20 uppercase tracking-[0.4em] font-bold italic leading-relaxed">
-                    Nota: Tikk no incluye el costo del registro .cl ($9.990 aprox). Dan Tagle apoya en la integración
-                    técnica.</p>
-            </div>
-        </div>
-    </template>
-
-    <template id="tpl-store">
-        <div class="bg-black min-h-screen">
-            <!-- Sticky store header -->
-            <div id="store-sticky-header"
-                class="sticky top-20 z-[90] lux-glass border-b border-white/5 px-6 py-3 flex items-center justify-between">
-                <span id="store-sticky-title" class="font-black italic text-lg tracking-tight truncate"></span>
-                <button onclick="app.toggleCart()"
-                    class="flex items-center gap-3 h-12 px-6 bg-white/5 border border-white/10 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                    <i data-lucide="shopping-basket" class="w-4 h-4"></i>
-                    Bolsa
-                    <div id="store-cart-count"
-                        class="bg-lux-blue text-white h-6 min-w-[24px] px-2 rounded-full flex items-center justify-center text-[10px] font-black">
-                        0</div>
-                </button>
-            </div>
-            <div id="store-hero"
-                class="relative flex items-center justify-center h-[50vh] min-h-[400px] overflow-hidden border-b border-white/10">
-                <img id="store-hero-img" src=""
-                    class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                <div class="relative z-10 flex flex-col items-center justify-center text-center p-8 w-full mt-10">
-                    <h1 id="store-title"
-                        class="text-6xl md:text-[110px] lg:text-[140px] font-black italic tracking-tighter text-white drop-shadow-2xl leading-[0.8] uppercase break-words max-w-full px-4">
-                    </h1>
-                    <div
-                        class="mt-8 md:mt-12 text-[9px] md:text-[11px] font-black uppercase tracking-[1em] text-white/50 italic">
-                        Exclusive Digital Boutique</div>
-                </div>
-            </div>
-
-            <div class="max-w-7xl mx-auto px-6 py-20 pb-48">
-                <nav
-                    class="flex flex-col xl:flex-row justify-between items-center gap-10 mb-24 border-b border-white/10 pb-12">
-                    <div class="relative w-full max-w-md">
-                        <i data-lucide="search"
-                            class="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20"></i>
-                        <input type="text" id="store-search" placeholder="Colección completa..."
-                            oninput="app.handleSearch(this.value)"
-                            class="w-full h-16 pl-16 pr-8 rounded-full bg-white/5 border border-white/10 outline-none text-sm transition-all focus:bg-white/10">
-                    </div>
-
-                    <div id="category-filters" class="flex flex-wrap items-center justify-center gap-4"></div>
-
-                    <button onclick="app.toggleCart()"
-                        class="h-16 px-10 bg-white/5 border border-white/10 rounded-full font-black text-[12px] uppercase tracking-widest flex items-center gap-6 hover:bg-white/10 transition-all no-wrap group">
-                        <span class="group-hover:text-lux-blue transition-colors">Bolsa de Compra</span>
-                        <div id="cart-count-btn"
-                            class="bg-lux-blue text-white h-7 min-w-[28px] px-2.5 rounded-full flex items-center justify-center text-[10px] font-black">
-                            0</div>
-                    </button>
-                </nav>
-
-                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-24 gap-x-12"></div>
-            </div>
-
-            <div class="py-24 text-center border-t border-white/5" style="background: var(--bg-lux);">
-                <div class="opacity-30 space-y-4">
-                    <p class="text-[9px] font-black uppercase tracking-[0.6em]" style="color: var(--text-lux);">Official
-                        tikk Engine Integration</p>
-                    <p class="text-xl font-black italic tracking-tighter" style="color: var(--text-lux);">Powered by Dan
-                        Tagle Boutique Systems</p>
-                </div>
-            </div>
-
-            <a id="wa-float-btn" href="#"
-                onclick="event.preventDefault(); window.open('https://wa.me/' + app.state.sellerWhatsApp + '?text=Hola! Tengo una duda de la tienda...', '_blank')"
-                class="fixed bottom-6 right-6 w-16 h-16 bg-lux-blue rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all z-50">
-                <i data-lucide="message-circle" class="text-white w-8 h-8"></i>
-            </a>
-        </div>
-    </template>
-
-    <template id="tpl-paso-a-paso">
-        <div class="max-w-4xl mx-auto px-6 py-24">
-            <div class="text-center mb-20">
-                <span
-                    class="inline-block px-4 py-1.5 rounded-full bg-lux-blue/10 border border-lux-blue/30 text-[10px] font-black uppercase tracking-widest text-lux-blue mb-6 italic">Guía
-                    Definitiva 2026</span>
-                <h1 class="text-6xl font-black italic mb-6">El Paso a Paso del <br>Emprendedor Digital</h1>
-                <p class="text-lux-400 text-xl font-medium max-w-2xl mx-auto">Pensado para cero experiencia. Desde crear
-                    tu Google Sheet hasta conectar tu dominio .cl y automatizar tu stock.</p>
-            </div>
-
-            <div class="space-y-24">
-
-                <div class="bg-lux-blue/10 border border-lux-blue/30 rounded-[2rem] p-8 md:p-12 text-center mb-16">
-                    <i data-lucide="youtube" class="w-16 h-16 text-lux-blue mx-auto mb-6"></i>
-                    <h3 class="text-3xl font-black italic mb-4">¿Prefieres verlo en video?</h3>
-                    <p class="text-lux-400 font-medium mb-8">Mira nuestro video de 3 minutos: "Arma tu tienda mientras
-                        te tomas un café". Te mostramos exactamente dónde hacer clic en tu pantalla.</p>
-                    <a href="https://www.youtube.com/@DanTagleCL" target="_blank"
-                        class="inline-block h-16 px-10 bg-lux-blue text-white rounded-full font-black text-sm uppercase tracking-widest leading-[4rem] hover:scale-105 shadow-xl transition-all">Ver
-                        Video Tutorial</a>
-                </div>
-
-                <section class="lux-card p-10 md:p-16 border-white/10">
-                    <div class="flex items-center gap-6 mb-10">
-                        <div
-                            class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">
-                            1</div>
-                        <h2 class="text-4xl font-black italic">Crear Google Sheet</h2>
-                    </div>
-                    <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
-                        <p>El corazón de Tikk es un simple Excel online (Google Sheets). No necesitas programar ni bases
-                            de datos.</p>
-                        <ol class="list-decimal pl-6 space-y-4">
-                            <li>Entra a <a href="https://sheets.google.com" target="_blank"
-                                    class="text-lux-blue font-bold hover:underline">Google Sheets</a> (requieres un
-                                Gmail gratuito).</li>
-                            <li>Haz clic en "En blanco" para crear un documento nuevo.</li>
-                            <li>Crea estas columnas exactas en la primera fila: <b>Codigo, Categoria, Producto,
-                                    Descripcion, Stock, Precio, LinkFoto</b>.</li>
-                            <li>Llena algunos productos de prueba. <br><br>
-                                <div class="bg-black/50 p-6 rounded-2xl border border-white/5 text-sm mt-4">
-                                    <i>Tip: Para LinkFoto, te recomendamos subir fotos cuadradas a sitios gratis como
-                                        Imgur, Postimages o tu propio Facebook, y pegar el link directo terminado en
-                                        .jpg o .png</i>
-                                </div>
-                            </li>
-                            <li>En la esquina superior derecha, clic en <b>Compartir</b> > "Cambiar a cualquier persona
-                                que tenga el enlace". Esto permite que Tikk pueda leer tu catálogo.</li>
-                        </ol>
-                    </div>
-                </section>
-
-                <section class="lux-card p-10 md:p-16 border-white/10">
-                    <div class="flex items-center gap-6 mb-10">
-                        <div
-                            class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">
-                            2</div>
-                        <h2 class="text-4xl font-black italic">Dominio en NIC.cl</h2>
-                    </div>
-                    <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
-                        <p>Para tener "tutienda.cl" en lugar de "tikk.cl/...", debes comprar tu nombre en NIC Chile
-                            (cuesta $9.990 anuales).</p>
-                        <ol class="list-decimal pl-6 space-y-4">
-                            <li>Ve a <a href="https://nic.cl" target="_blank"
-                                    class="text-lux-blue font-bold hover:underline">NIC.cl</a> y crea una cuenta.</li>
-                            <li>Busca el nombre de tu tienda en el buscador. Si está disponible, haz clic en "Crear
-                                Dominio".</li>
-                            <li>Llena tus datos de facturación y paga por transferencia o Webpay.</li>
-                            <li>Una vez pagado, tu dominio está reservado, pero no apunta a ningún lado. Déjalo así por
-                                ahora y pasa al Paso 3.</li>
-                        </ol>
-                    </div>
-                </section>
-
-                <section class="lux-card p-10 md:p-16 border-white/10">
-                    <div class="flex items-center gap-6 mb-10">
-                        <div
-                            class="w-16 h-16 bg-lux-blue text-white rounded-2xl flex items-center justify-center text-2xl font-black italic">
-                            3</div>
-                        <h2 class="text-4xl font-black italic">Cloudflare & GitHub</h2>
-                    </div>
-                    <div class="space-y-8 text-lux-400 font-medium text-lg leading-relaxed">
-                        <p>Aquí es donde hacemos la "magia gratuita". GitHub alojará tu tienda descargada de Tikk, y
-                            Cloudflare la conectará a NIC.cl de forma segura y veloz.</p>
-
-                        <h3 class="text-white font-bold text-2xl mt-8 mb-4">Paso A: Alojamiento en GitHub</h3>
-                        <ol class="list-decimal pl-6 space-y-4">
-                            <li>Crea cuenta en <a href="https://github.com" target="_blank"
-                                    class="text-lux-blue font-bold">GitHub</a>.</li>
-                            <li>Crea un "New Repository" (público) llamado como tu tienda.</li>
-                            <li>Haz clic en "uploading an existing file" y sube el archivo <b>.zip</b> o
-                                <b>index.html</b> que descargaste de Tikk.</li>
-                            <li>Ve a <i>Settings > Pages</i> y selecciona "Deploy from branch" -> "main". Listo! Tu
-                                página ya vive en la web.</li>
-                        </ol>
-
-                        <h3 class="text-white font-bold text-2xl mt-8 mb-4">Paso B: Conectar a Cloudflare</h3>
-                        <ol class="list-decimal pl-6 space-y-4">
-                            <li>Crea cuenta gratis en <a href="https://cloudflare.com" target="_blank"
-                                    class="text-lux-blue font-bold">Cloudflare</a>.</li>
-                            <li>Clic en "Add Site" y escribe tu dominio "tutienda.cl". Elige el plan GRATIS.</li>
-                            <li>Cloudflare te dará 2 "Nameservers" (ejemplo: <i>amy.ns.cloudflare.com</i>).</li>
-                            <li>Vuelve a <b>NIC.cl</b>, entra a tu dominio, busca la sección "Servidores DNS" y pega los
-                                2 Nameservers de Cloudflare.</li>
-                            <li>De vuelta en Cloudflare, ve a "DNS > Records" y añade un CNAME apuntando tu dominio
-                                hacia "tu-usuario.github.io".</li>
-                        </ol>
-                    </div>
-                </section>
-
-                <section
-                    class="lux-card p-10 md:p-16 border-lux-blue/50 relative overflow-hidden bg-gradient-to-br from-black to-lux-blue/10">
-                    <div
-                        class="absolute top-0 right-0 w-64 h-64 bg-lux-blue/20 blur-[100px] rounded-full pointer-events-none">
-                    </div>
-                    <div class="flex items-center gap-6 mb-10 relative z-10">
-                        <div
-                            class="w-16 h-16 bg-white text-black rounded-2xl flex items-center justify-center text-2xl font-black italic">
-                            4</div>
-                        <h2 class="text-4xl font-black italic text-white">Automatizar Stock</h2>
-                    </div>
-                    <div class="space-y-8 text-white/80 font-medium text-lg leading-relaxed relative z-10">
-                        <p>¿Quieres que cuando alguien presione "Comprar ahora", se descuente 1 unidad de stock en tu
-                            Excel automáticamente? Usa <b>Google Apps Script</b>.</p>
-                        <ol class="list-decimal pl-6 space-y-4">
-                            <li>Abre tu Google Sheet. Ve a <b>Extensiones > Apps Script</b>.</li>
-                            <li>Borra todo el código que aparece y pega este código mágico:
-                                <pre
-                                    class="bg-black/50 p-6 rounded-xl border border-white/10 mt-4 text-xs font-mono text-lux-blue overflow-x-auto">
-function doGet(e) {
-  var action = e.parameter.action;
-  if(action === 'deduct') {
-    var items = JSON.parse(e.parameter.items);
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data = sheet.getDataRange().getValues();
-    
-    for(var i=0; i<items.length; i++) {
-      var id = items[i].id;
-      var qty = parseInt(items[i].quantity);
-      for(var r=1; r<data.length; r++) {
-        if(data[r][0] == id) {
-          var currentStock = parseInt(data[r][4]);
-          if(currentStock >= qty) {
-            sheet.getRange(r+1, 5).setValue(currentStock - qty);
-          }
+        function playBeep() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(880, ctx.currentTime);
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.15);
+            } catch(e){}
         }
-      }
-    }
-    return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
-  }
-}
-</pre>
-                            </li>
-                            <li>Arriba a la derecha, haz clic en el botón azul <b>Implementar > Nueva
-                                    Implementación</b>.</li>
-                            <li>Elige "Aplicación web". Ejecutar como "Tú" y Acceso: "Cualquier persona".</li>
-                            <li>Copia la <b>URL de la aplicación web</b> que te arrojará Google.</li>
-                            <li>Pega esa URL en el paso "Crear Tienda" de Tikk, en la casilla que dice "Apps Script
-                                URL".</li>
-                        </ol>
-                        <p class="font-bold text-white mt-8 italic text-2xl border-l-4 border-lux-blue pl-6 py-2">
-                            ¡Felicidades! Tienes una tienda profesional operando 100% gratis y en piloto automático.</p>
+
+        const app = {
+            store: {
+                name: "Minimarket El Progreso",
+                owner: "Juan Pérez",
+                phone: "56912345678",
+                category: "Minimarket / Almacén"
+            },
+
+            products: [],
+            cart: [],
+            salesHistory: [],
+            currentPaymentMethod: "Efectivo",
+            seniorMode: false,
+            html5QrCode: null,
+
+            init() {
+                const savedProds = localStorage.getItem("tikk_products_v4");
+                if (savedProds) {
+                    this.products = JSON.parse(savedProds);
+                } else {
+                    this.products = JSON.parse(JSON.stringify(BASE_PRODUCT_CATALOG));
+                    this.saveProducts();
+                }
+
+                this.renderPOSProducts();
+                this.renderInventoryTable();
+                this.renderDashboard();
+                this.renderSuppliers();
+                this.renderOnlineStore();
+                this.updateBadges();
+            },
+
+            switchView(viewId) {
+                document.querySelectorAll(".view-panel").forEach(el => el.classList.remove("active"));
+                document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+
+                const targetView = document.getElementById("view-" + viewId);
+                const targetNav = document.getElementById("nav-" + viewId);
+
+                if (targetView) targetView.classList.add("active");
+                if (targetNav) targetNav.classList.add("active");
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            },
+
+            toggleSeniorMode() {
+                this.seniorMode = !this.seniorMode;
+                document.body.classList.toggle("senior-mode", this.seniorMode);
+                const btn = document.getElementById("seniorToggleBtn");
+                const lbl = document.getElementById("seniorToggleLabel");
+                if (this.seniorMode) {
+                    btn.classList.add("active");
+                    lbl.textContent = "Modo Normal";
+                    this.showToast("👁️ Modo Letra Grande Activado");
+                } else {
+                    btn.classList.remove("active");
+                    lbl.textContent = "Modo Letra Grande";
+                    this.showToast("👁️ Modo Normal");
+                }
+            },
+
+            registerStore() {
+                const name = document.getElementById("regStoreName").value.trim();
+                const owner = document.getElementById("regOwnerName").value.trim();
+                const phone = document.getElementById("regPhone").value.trim();
+                const cat = document.getElementById("regCategory").value;
+
+                if (!name || !owner || !phone) return alert("Por favor completa los datos");
+
+                this.store = { name, owner, phone: "569" + phone, category: cat };
+                document.getElementById("storeNameHeader").textContent = name;
+                document.getElementById("onlineStoreTitle").textContent = name;
+
+                this.showToast("🎉 ¡Tienda Creada Exitosamente!");
+                this.switchView("pos");
+            },
+
+            saveProducts() {
+                localStorage.setItem("tikk_products_v4", JSON.stringify(this.products));
+                this.updateBadges();
+            },
+
+            startCameraScanner(onSuccessCallback = null) {
+                document.getElementById("cameraScannerModal").classList.add("active");
+                if (this.html5QrCode) {
+                    try { this.html5QrCode.stop(); } catch(e){}
+                }
+
+                this.html5QrCode = new Html5Qrcode("reader");
+                const config = { fps: 10, qrbox: { width: 260, height: 160 } };
+
+                this.html5QrCode.start(
+                    { facingMode: "environment" },
+                    config,
+                    (decodedText) => {
+                        playBeep();
+                        this.closeCameraScanner();
+                        if (onSuccessCallback) {
+                            onSuccessCallback(decodedText);
+                        } else {
+                            this.addToCart(decodedText);
+                            this.showToast("📷 Código leído: " + decodedText);
+                        }
+                    },
+                    (errorMessage) => {}
+                ).catch(err => {
+                    console.error("Camera access error:", err);
+                    alert("No se pudo iniciar la cámara. Por favor verifica que diste permisos de cámara a tu navegador.");
+                    this.closeCameraScanner();
+                });
+            },
+
+            closeCameraScanner() {
+                if (this.html5QrCode) {
+                    this.html5QrCode.stop().then(() => {
+                        this.html5QrCode.clear();
+                    }).catch(err => console.error(err));
+                }
+                document.getElementById("cameraScannerModal").classList.remove("active");
+            },
+
+            scanProductByInput() {
+                const input = document.getElementById("barcodeInput");
+                const term = input.value.trim().toLowerCase();
+                if (!term) return;
+
+                const found = this.products.find(p => p.code.toLowerCase() === term || p.name.toLowerCase().includes(term));
+
+                if (found) {
+                    this.addToCart(found.code);
+                    input.value = "";
+                    this.showToast("✅ " + found.name + " agregado al carrito");
+                } else {
+                    if (confirm("El código "" + term + "" no está registrado. ¿Deseas agregarlo ahora?")) {
+                        this.openAddProductModal(term);
+                    }
+                }
+            },
+
+            addToCart(code) {
+                const prod = this.products.find(p => p.code === code);
+                if (!prod) {
+                    return this.scanProductByInput();
+                }
+
+                if (prod.stock <= 0) {
+                    alert("⚠️ ¡Atención! El producto " + prod.name + " tiene STOCK 0.");
+                }
+
+                const existing = this.cart.find(item => item.code === code);
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    this.cart.push({ ...prod, qty: 1 });
+                }
+
+                this.renderCart();
+            },
+
+            updateCartQty(code, delta) {
+                const item = this.cart.find(i => i.code === code);
+                if (!item) return;
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    this.cart = this.cart.filter(i => i.code !== code);
+                }
+                this.renderCart();
+            },
+
+            clearCart() {
+                this.cart = [];
+                this.renderCart();
+            },
+
+            renderCart() {
+                const list = document.getElementById("cartList");
+                const totalEl = document.getElementById("cartTotal");
+
+                if (this.cart.length === 0) {
+                    list.innerHTML = '<div style="text-align:center; padding:40px 0; color:var(--text-muted); font-weight:700;">🛒 El carrito está vacío.<br>Escanea o toca un producto.</div>';
+                    totalEl.textContent = "$0";
+                    return;
+                }
+
+                let total = 0;
+                list.innerHTML = this.cart.map(item => {
+                    const subtotal = item.price * item.qty;
+                    total += subtotal;
+                    return `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-emoji">${item.emoji}</div>
+                                <div>
+                                    <div class="cart-item-title">${item.name}</div>
+                                    <div class="cart-item-price">$${item.price.toLocaleString("es-CL")}</div>
+                                </div>
+                            </div>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="app.updateCartQty('${item.code}', -1)">-</button>
+                                <span style="font-weight:900; width:24px; text-align:center;">${item.qty}</span>
+                                <button class="qty-btn" onclick="app.updateCartQty('${item.code}', 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+
+                totalEl.textContent = "$" + total.toLocaleString("es-CL");
+            },
+
+            renderPOSProducts() {
+                const grid = document.getElementById("posProductsGrid");
+                grid.innerHTML = this.products.map(p => {
+                    let stockClass = "stock-ok";
+                    let stockText = p.stock + " un.";
+                    if (p.stock <= 0) { stockClass = "stock-zero"; stockText = "AGOTADO"; }
+                    else if (p.stock <= p.minStock) { stockClass = "stock-low"; stockText = "¡BAJO! (" + p.stock + ")"; }
+
+                    return `
+                        <div class="product-card" onclick="app.addToCart('${p.code}')">
+                            <div class="product-emoji">${p.emoji}</div>
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-price-tag">$${p.price.toLocaleString("es-CL")}</div>
+                            <div class="stock-badge ${stockClass}">${stockText}</div>
+                        </div>
+                    `;
+                }).join("");
+            },
+
+            openCheckoutModal() {
+                if (this.cart.length === 0) return alert("El carrito está vacío. Agrega productos antes de cobrar.");
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                document.getElementById("modalCheckoutTotal").textContent = "$" + total.toLocaleString("es-CL");
+                document.getElementById("cashGivenInput").value = "";
+                document.getElementById("changeAmount").textContent = "$0";
+                document.getElementById("checkoutModal").classList.add("active");
+            },
+
+            closeCheckoutModal() {
+                document.getElementById("checkoutModal").classList.remove("active");
+            },
+
+            setPaymentMethod(method) {
+                this.currentPaymentMethod = method;
+                ["payEfectivo", "payDebito", "payTransf"].forEach(id => {
+                    document.getElementById(id).className = "btn btn-secondary";
+                });
+                if (method === "Efectivo") document.getElementById("payEfectivo").className = "btn btn-primary";
+                if (method === "Débito") document.getElementById("payDebito").className = "btn btn-primary";
+                if (method === "Transferencia") document.getElementById("payTransf").className = "btn btn-primary";
+            },
+
+            calculateChange() {
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const given = parseInt(document.getElementById("cashGivenInput").value) || 0;
+                const change = given - total;
+                document.getElementById("changeAmount").textContent = "$" + (change > 0 ? change : 0).toLocaleString("es-CL");
+            },
+
+            confirmSale() {
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const totalUnits = this.cart.reduce((sum, item) => sum + item.qty, 0);
+
+                this.cart.forEach(cartItem => {
+                    const prod = this.products.find(p => p.code === cartItem.code);
+                    if (prod) {
+                        prod.stock = Math.max(0, prod.stock - cartItem.qty);
+                    }
+                });
+
+                this.salesHistory.push({
+                    id: Date.now(),
+                    date: new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }),
+                    total,
+                    units: totalUnits,
+                    items: [...this.cart],
+                    payment: this.currentPaymentMethod
+                });
+
+                this.saveProducts();
+                this.clearCart();
+                this.closeCheckoutModal();
+
+                this.renderPOSProducts();
+                this.renderInventoryTable();
+                this.renderDashboard();
+                this.renderSuppliers();
+
+                this.showToast("🎉 ¡VENTA COMPLETADA EXITOSAMENTE!");
+            },
+
+            renderInventoryTable() {
+                const tbody = document.getElementById("inventoryTableBody");
+                tbody.innerHTML = this.products.map(p => `
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 14px; font-family: monospace; font-size:12px;">${p.code}</td>
+                        <td style="padding: 14px; font-weight:800;">${p.emoji} ${p.name}</td>
+                        <td style="padding: 14px; color: var(--text-muted);">${p.category}</td>
+                        <td style="padding: 14px; color: var(--purple-light); font-weight:700;">${p.supplier}</td>
+                        <td style="padding: 14px; font-weight:900;">$${p.price.toLocaleString("es-CL")}</td>
+                        <td style="padding: 14px;">
+                            <span class="stock-badge ${p.stock <= p.minStock ? "stock-low" : "stock-ok"}">
+                                ${p.stock} un. (Mín: ${p.minStock})
+                            </span>
+                        </td>
+                        <td style="padding: 14px;">
+                            <button onclick="app.quickEditStock('${p.code}')" class="btn btn-secondary" style="height:34px; padding:0 12px; font-size:12px;">✏️ Stock</button>
+                        </td>
+                    </tr>
+                `).join("");
+            },
+
+            filterInventory() {
+                const query = document.getElementById("invSearchInput").value.toLowerCase();
+                const filtered = this.products.filter(p => p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
+                const tbody = document.getElementById("inventoryTableBody");
+                tbody.innerHTML = filtered.map(p => `
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 14px; font-family: monospace;">${p.code}</td>
+                        <td style="padding: 14px; font-weight:800;">${p.emoji} ${p.name}</td>
+                        <td style="padding: 14px;">${p.category}</td>
+                        <td style="padding: 14px; color: var(--purple-light);">${p.supplier}</td>
+                        <td style="padding: 14px; font-weight:900;">$${p.price.toLocaleString("es-CL")}</td>
+                        <td style="padding: 14px;">${p.stock} un.</td>
+                        <td style="padding: 14px;">
+                            <button onclick="app.quickEditStock('${p.code}')" class="btn btn-secondary" style="height:34px; padding:0 12px; font-size:12px;">✏️ Stock</button>
+                        </td>
+                    </tr>
+                `).join("");
+            },
+
+            quickEditStock(code) {
+                const prod = this.products.find(p => p.code === code);
+                if (!prod) return;
+                const newStock = prompt("Actualizar stock para " + prod.name + ":", prod.stock);
+                if (newStock !== null && !isNaN(newStock)) {
+                    prod.stock = parseInt(newStock);
+                    this.saveProducts();
+                    this.renderPOSProducts();
+                    this.renderInventoryTable();
+                    this.renderDashboard();
+                    this.renderSuppliers();
+                    this.showToast("📦 Stock de " + prod.name + " actualizado a " + prod.stock);
+                }
+            },
+
+            openAddProductModal(codeOpt = "") {
+                document.getElementById("newProdCode").value = codeOpt;
+                document.getElementById("newProdName").value = "";
+                document.getElementById("newProdPrice").value = "";
+                document.getElementById("newProdStock").value = "24";
+                if (codeOpt) this.lookupBarcodeInDB(codeOpt);
+                document.getElementById("addProductModal").classList.add("active");
+            },
+
+            closeAddProductModal() {
+                document.getElementById("addProductModal").classList.remove("active");
+            },
+
+            lookupBarcodeInDB(code) {
+                const match = BASE_PRODUCT_CATALOG.find(b => b.code === code.trim());
+                if (match) {
+                    document.getElementById("newProdName").value = match.name;
+                    document.getElementById("newProdPrice").value = match.price;
+                    document.getElementById("newProdCategory").value = match.category;
+                    document.getElementById("newProdSupplier").value = match.supplier;
+                    this.showToast("🔍 ¡Producto reconocido!: " + match.name);
+                }
+            },
+
+            saveNewProduct() {
+                const code = document.getElementById("newProdCode").value.trim();
+                const name = document.getElementById("newProdName").value.trim();
+                const price = parseInt(document.getElementById("newProdPrice").value) || 1000;
+                const stock = parseInt(document.getElementById("newProdStock").value) || 10;
+                const category = document.getElementById("newProdCategory").value || "Abarrotes";
+                const supplier = document.getElementById("newProdSupplier").value || "Distribuidora Central";
+
+                const newP = {
+                    code, name, price, stock, minStock: 5, category, supplier, emoji: "📦", supplierPhone: "56988889999"
+                };
+
+                this.products.push(newP);
+                this.saveProducts();
+                this.closeAddProductModal();
+
+                this.renderPOSProducts();
+                this.renderInventoryTable();
+                this.renderDashboard();
+                this.renderSuppliers();
+
+                this.showToast("✅ Producto guardado exitosamente");
+            },
+
+            renderDashboard() {
+                const totalSales = this.salesHistory.reduce((sum, s) => sum + s.total, 0) + 186500;
+                const totalOrders = this.salesHistory.length + 14;
+                const totalUnits = this.salesHistory.reduce((sum, s) => sum + s.units, 0) + 48;
+                const lowStockProds = this.products.filter(p => p.stock <= p.minStock);
+
+                document.getElementById("statTotalSales").textContent = "$" + totalSales.toLocaleString("es-CL");
+                document.getElementById("statTotalOrders").textContent = totalOrders;
+                document.getElementById("statUnitsSold").textContent = totalUnits;
+                document.getElementById("statLowStockCount").textContent = lowStockProds.length;
+
+                const topList = document.getElementById("topSellingList");
+                topList.innerHTML = this.products.slice(0, 5).map(p => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border-color);">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-size:26px;">${p.emoji}</span>
+                            <div>
+                                <div style="font-weight:800;">${p.name}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">${p.category}</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:900; color:#25D366;">$${(p.price * 12).toLocaleString("es-CL")}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">12 un. vendidas</div>
+                        </div>
                     </div>
-                </section>
+                `).join("");
 
-            </div>
-        </div>
-    </template>
+                const alertList = document.getElementById("lowStockAlertList");
+                if (lowStockProds.length === 0) {
+                    alertList.innerHTML = '<div style="text-align:center; color:#10B981; font-weight:800; padding:20px;">✅ ¡Todo bien! No hay alertas de stock bajo.</div>';
+                } else {
+                    alertList.innerHTML = lowStockProds.map(p => `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); border-radius:16px; margin-bottom:10px;">
+                            <div>
+                                <div style="font-weight:800;">${p.emoji} ${p.name}</div>
+                                <div style="font-size:12px; color:var(--red-alert); font-weight:700;">Quedan sólo ${p.stock} unidades (Mín: ${p.minStock})</div>
+                            </div>
+                            <button onclick="app.switchView('suppliers')" class="btn btn-primary" style="height:36px; padding:0 12px; font-size:11px;">Pedir Reposición</button>
+                        </div>
+                    `).join("");
+                }
+            },
 
+            renderSuppliers() {
+                const lowStockProds = this.products.filter(p => p.stock <= p.minStock);
+                
+                const suppliersMap = {};
+                lowStockProds.forEach(p => {
+                    if (!suppliersMap[p.supplier]) {
+                        suppliersMap[p.supplier] = {
+                            supplier: p.supplier,
+                            phone: p.supplierPhone || "56988889999",
+                            items: []
+                        };
+                    }
+                    suppliersMap[p.supplier].items.push(p);
+                });
 
+                const container = document.getElementById("supplierCardsContainer");
+                const supplierKeys = Object.keys(suppliersMap);
 
-    <script src="app.js"></script>
+                if (supplierKeys.length === 0) {
+                    container.innerHTML = `
+                        <div class="card" style="text-align:center; padding:40px;">
+                            <span style="font-size:48px;">🎉</span>
+                            <h3 style="font-size:22px; font-weight:900; margin-top:10px;">¡No tienes productos con stock crítico!</h3>
+                            <p style="color:var(--text-muted);">Cuando un producto tenga poco stock, aparecerá aquí con el botón listo para hacer el pedido por WhatsApp a tu proveedor.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = supplierKeys.map(key => {
+                    const sup = suppliersMap[key];
+                    const itemsText = sup.items.map(i => '• ' + i.name + ' (Stock actual: ' + i.stock + ') -> Pedir: 24 un.').join('%0A');
+                    const message = '🚚 *PEDIDO DE REPOSICIÓN - ' + encodeURIComponent(this.store.name) + '*%0A%0AHola distribuidor *' + encodeURIComponent(sup.supplier) + '*! Necesito realizar el siguiente pedido de reposición:%0A%0A' + itemsText + '%0A%0ADirección de despacho: Av. Providencia 1234%0AContacto: ' + encodeURIComponent(this.store.owner) + ' (' + this.store.phone + ')';
+
+                    return `
+                        <div class="supplier-card">
+                            <div class="supplier-header">
+                                <div>
+                                    <h3 style="font-size:20px; font-weight:900;">🚚 Proveedor: ${sup.supplier}</h3>
+                                    <div style="font-size:12px; color:var(--text-muted);">WhatsApp: +${sup.phone}</div>
+                                </div>
+                                <span class="stock-badge stock-zero">${sup.items.length} Productos Críticos</span>
+                            </div>
+
+                            <div style="margin-bottom: 18px;">
+                                ${sup.items.map(i => `
+                                    <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:700; padding:8px 0; border-bottom:1px dashed var(--border-color);">
+                                        <span>${i.emoji} ${i.name}</span>
+                                        <span style="color:var(--red-alert);">Quedan: ${i.stock} un.</span>
+                                    </div>
+                                `).join("")}
+                            </div>
+
+                            <a href="https://wa.me/${sup.phone}?text=${message}" target="_blank" class="btn btn-wa" style="width:100%; font-size:16px;">
+                                💬 ENVIAR PEDIDO A PROVEEDOR POR WHATSAPP
+                            </a>
+                        </div>
+                    `;
+                }).join("");
+            },
+
+            renderOnlineStore() {
+                const grid = document.getElementById("onlineStoreGrid");
+                grid.innerHTML = this.products.map(p => `
+                    <div class="product-card">
+                        <div class="product-emoji">${p.emoji}</div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-price-tag">$${p.price.toLocaleString("es-CL")}</div>
+                        <button onclick="app.openStoreWhatsAppDemo('${p.name}', ${p.price})" class="btn btn-wa" style="height:36px; width:100%; margin-top:10px; font-size:11px;">
+                            💬 Pedir por WhatsApp
+                        </button>
+                    </div>
+                `).join("");
+            },
+
+            openStoreWhatsAppDemo(prodName = "Coca-Cola Original 1.5L", price = 2000) {
+                const msg = "Hola " + encodeURIComponent(this.store.name) + "! Quisiera pedir el producto: *" + encodeURIComponent(prodName) + "* ($" + price.toLocaleString("es-CL") + ").";
+                window.open("https://wa.me/" + this.store.phone + "?text=" + msg, "_blank");
+            },
+
+            copyStoreLink() {
+                navigator.clipboard.writeText(window.location.href);
+                this.showToast("📋 ¡Link de tu Tienda Copiado!");
+            },
+
+            updateBadges() {
+                const lowStockCount = this.products.filter(p => p.stock <= p.minStock).length;
+                document.getElementById("suppliersBadge").textContent = lowStockCount;
+            },
+
+            showToast(msg) {
+                const toast = document.getElementById("toast");
+                toast.textContent = msg;
+                toast.style.display = "block";
+                setTimeout(() => { toast.style.display = "none"; }, 3200);
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => app.init());
+    </script>
 </body>
-
 </html>
