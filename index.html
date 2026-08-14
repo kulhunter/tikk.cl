@@ -3,19 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TIKK App | Punto de Venta, Inventario y Fiados</title>
-    <meta name="description" content="Sistema de ventas POS, inventario EAN-13, cuaderno de fiados y pedidos a proveedores para almacenes de barrio en Chile.">
+    
+    <!-- SEO & Metadata -->
+    <title>tikk | Sistema de Ventas, Inventario y Fiados Gratis para tu Negocio</title>
+    <meta name="description" content="Punto de venta POS, inventario EAN-13, cuaderno de fiados y pedidos a proveedores por WhatsApp para almacenes, minimarkets y negocios de barrio en Chile. 100% Gratis.">
+    <meta name="keywords" content="tikk, sistema de ventas gratis, inventario minimarket chile, cuaderno de fiados whatsapp, pos almacenes, escaner codigo de barras online">
+    <meta name="author" content="Dan Tagle">
     <meta name="theme-color" content="#0F172A">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" href="/icon-192.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="tikk | Tu Negocio en tu Celular">
+    <meta property="og:description" content="Punto de Venta POS, Inventario, Fiados y Pedidos a Proveedores por WhatsApp. 100% Gratis y sin instalaciones.">
+    <meta property="og:image" content="https://tikk.cl/icon-512.png">
+    <meta property="og:url" content="https://tikk.cl">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- HTML5 QR Code Barcode Library -->
-    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <!-- Schema.org Microdata -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "tikk",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web, iOS, Android",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CLP" },
+      "description": "Sistema de Punto de Venta POS, inventario EAN-13 y cuaderno de fiados para almacenes y PyMEs."
+    }
+    </script>
 
     <style>
         :root {
@@ -23,1289 +43,175 @@
             --primary-dark: #4F46E5;
             --primary-light: #818CF8;
             --emerald: #10B981;
-            --emerald-dark: #059669;
             --wa-green: #25D366;
             --amber: #F59E0B;
-            --rose: #F43F5E;
-            
             --bg-body: #0F172A;
-            --bg-surface: #1E293B;
-            --bg-surface-hover: #334155;
-            --bg-input: #0F172A;
+            --bg-card: #1E293B;
             --border: #334155;
-            
             --text-main: #F8FAFC;
             --text-muted: #94A3B8;
-            --text-dim: #64748B;
-            
-            --radius-lg: 20px;
-            --radius-md: 14px;
-            --radius-sm: 10px;
-            
-            --btn-height: 52px;
-            --font-base: 15px;
         }
 
-        body.senior-mode {
-            --font-base: 18px;
-            --btn-height: 62px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-        html, body { height: 100%; background: var(--bg-body); color: var(--text-main); font-size: var(--font-base); overflow-x: hidden; }
-        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
-
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-body); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
-
-        /* APP TOP HEADER */
-        .app-header {
-            position: fixed; top: 0; left: 0; right: 0; height: 64px;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px);
+        /* HEADER NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; height: 70px;
+            background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border); z-index: 100;
-            display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
         }
-        .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; cursor: pointer; }
-        .header-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--emerald)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4); }
-        .header-title { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
-        .header-sub { font-size: 10px; color: var(--emerald); font-weight: 800; text-transform: uppercase; }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
+        .nav-logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, var(--primary), var(--emerald)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+        .nav-logo-text { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; }
 
-        .header-actions { display: flex; align-items: center; gap: 8px; }
-        .btn-toggle-senior { background: rgba(99, 102, 241, 0.15); border: 1px solid var(--primary); color: white; padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
-        .btn-toggle-senior.active { background: var(--primary); }
-
-        /* MAIN CONTAINER */
-        .app-main { margin-top: 64px; padding-bottom: 84px; min-height: calc(100vh - 64px); }
-        .container { max-width: 1280px; margin: 0 auto; padding: 16px; }
-
-        /* VIEW PANELS */
-        .view-panel { display: none; }
-        .view-panel.active { display: block; animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* BOTTOM NAV BAR */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 72px;
-            background: rgba(30, 41, 59, 0.96); backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100;
-            box-shadow: 0 -8px 24px rgba(0,0,0,0.4);
+        .btn-cta-nav {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;
+            padding: 10px 22px; border-radius: 99px; font-weight: 800; font-size: 14px;
+            text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
         }
-        .nav-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: none; border: none; color: var(--text-muted); font-size: 11px; font-weight: 700;
-            cursor: pointer; padding: 6px 12px; border-radius: 14px; transition: all 0.2s; position: relative; flex: 1; max-width: 95px;
-        }
-        body.senior-mode .nav-btn { font-size: 13px; }
-        .nav-btn-icon { font-size: 22px; margin-bottom: 2px; }
-        .nav-btn.active { color: #FFF; background: rgba(99, 102, 241, 0.2); border: 1px solid var(--primary-light); }
-        .nav-badge { position: absolute; top: 4px; right: 14px; background: var(--rose); color: white; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 99px; }
+        .btn-cta-nav:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5); }
 
-        /* UI CARDS & BUTTONS */
-        .card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
-        
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            height: var(--btn-height); padding: 0 18px; border-radius: var(--radius-md); font-size: 14px; font-weight: 800;
-            border: none; cursor: pointer; transition: all 0.2s; text-decoration: none; text-align: center;
-        }
-        body.senior-mode .btn { font-size: 17px; height: 60px; }
-        .btn:active { transform: scale(0.97); }
+        /* HERO SECTION */
+        .hero { padding: 130px 24px 70px; text-align: center; max-width: 960px; margin: 0 auto; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(129, 140, 248, 0.3); border-radius: 99px; padding: 6px 18px; font-size: 13px; font-weight: 800; color: #A5B4FC; margin-bottom: 24px; }
+        .hero h1 { font-size: clamp(36px, 7vw, 68px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+        .hero h1 span { color: var(--primary-light); }
+        .hero-desc { font-size: clamp(16px, 2.5vw, 20px); color: var(--text-muted); max-width: 680px; margin: 0 auto 36px; }
 
-        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35); }
-        .btn-emerald { background: linear-gradient(135deg, var(--emerald), var(--emerald-dark)); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35); }
-        .btn-wa { background: var(--wa-green); color: white; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid var(--border); }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.14); border-color: var(--primary-light); }
-        .btn-danger { background: rgba(244, 63, 94, 0.2); color: var(--rose); border: 1px solid rgba(244, 63, 94, 0.4); }
+        .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+        .btn-hero-main { background: linear-gradient(135deg, var(--emerald), #059669); color: white; padding: 18px 36px; border-radius: 99px; font-size: 18px; font-weight: 900; text-decoration: none; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); transition: all 0.25s; }
+        .btn-hero-main:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6); }
 
-        .form-control {
-            width: 100%; height: var(--btn-height); background: var(--bg-input);
-            border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0 16px;
-            color: white; font-size: 15px; outline: none; transition: all 0.2s;
-        }
-        body.senior-mode .form-control { font-size: 18px; height: 60px; }
-        .form-control:focus { border-color: var(--primary-light); box-shadow: 0 0 12px rgba(99, 102, 241, 0.3); }
-        .form-label { display: block; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-hero-sec { background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid var(--border); padding: 18px 32px; border-radius: 99px; font-size: 16px; font-weight: 800; text-decoration: none; transition: all 0.25s; }
+        .btn-hero-sec:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--primary-light); }
 
-        /* SCANNER HEADER */
-        .scanner-bar { background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%); border: 2px dashed var(--primary-light); border-radius: var(--radius-lg); padding: 18px; text-align: center; margin-bottom: 16px; }
+        /* FEATURES GRID */
+        .section { padding: 70px 24px; max-width: 1200px; margin: 0 auto; }
+        .section-tag { text-align: center; text-transform: uppercase; font-size: 12px; font-weight: 800; color: var(--primary-light); letter-spacing: 1px; margin-bottom: 8px; }
+        .section-title { text-align: center; font-size: clamp(26px, 4vw, 42px); font-weight: 900; letter-spacing: -1px; margin-bottom: 48px; }
 
-        /* POS GRID & CART */
-        .pos-grid-layout { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 16px; }
-        @media (max-width: 840px) { .pos-grid-layout { grid-template-columns: 1fr; } }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 28px; transition: all 0.3s ease; }
+        .feature-card:hover { transform: translateY(-4px); border-color: var(--primary-light); box-shadow: 0 12px 30px rgba(99, 102, 241, 0.2); }
+        .feature-icon { font-size: 38px; width: 60px; height: 60px; background: rgba(99, 102, 241, 0.15); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+        .feature-h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+        .feature-p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-        @media (max-width: 600px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+        /* APP PREVIEW CONTAINER */
+        .preview-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 32px; padding: 32px; text-align: center; max-width: 900px; margin: 0 auto 60px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .preview-screen { background: #0F172A; border-radius: 20px; padding: 20px; border: 1px solid var(--border); text-align: left; }
 
-        .product-card {
-            background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-            padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative;
-        }
-        .product-card:hover { border-color: var(--primary-light); transform: translateY(-2px); background: var(--bg-surface-hover); }
-        .product-emoji { font-size: 38px; margin-bottom: 4px; }
-        .product-name { font-weight: 800; font-size: 13px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 36px; }
-        body.senior-mode .product-name { font-size: 16px; height: 42px; }
-        .product-price { font-size: 15px; font-weight: 900; color: var(--emerald); }
-        .stock-badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 10px; font-weight: 800; margin-top: 4px; }
-        .stock-ok { background: rgba(16, 185, 129, 0.2); color: #34D399; }
-        .stock-low { background: rgba(245, 158, 11, 0.2); color: #FBBF24; }
-        .stock-zero { background: rgba(244, 63, 94, 0.2); color: #F87171; }
-
-        .category-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 14px; scrollbar-width: none; }
-        .category-pills::-webkit-scrollbar { display: none; }
-        .cat-pill { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 99px; padding: 8px 16px; font-size: 12px; font-weight: 800; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-        .cat-pill.active { background: var(--primary); color: white; border-color: var(--primary-light); }
-
-        /* CART LIST */
-        .cart-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; max-height: 320px; overflow-y: auto; }
-        .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; display: flex; align-items: center; justify-content: space-between; }
-        .cart-item-info { display: flex; align-items: center; gap: 10px; }
-        .cart-item-emoji { font-size: 26px; width: 40px; height: 40px; background: rgba(99,102,241,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-        .cart-item-title { font-weight: 800; font-size: 14px; }
-        .cart-item-price { color: var(--emerald); font-weight: 900; font-size: 15px; }
-
-        .qty-controls { display: flex; align-items: center; gap: 4px; background: var(--bg-input); padding: 4px 6px; border-radius: 10px; border: 1px solid var(--border); }
-        .qty-btn { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 16px; font-weight: 900; cursor: pointer; }
-
-        /* STATS GRID */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
-        .stat-box { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; display: flex; align-items: center; gap: 14px; }
-        .stat-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(99, 102, 241, 0.18); color: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
-        .stat-val { font-size: 22px; font-weight: 900; line-height: 1.1; }
-        .stat-desc { font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; margin-top: 2px; }
-
-        /* MODALS */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 16px; }
-        .modal-overlay.active { display: flex; animation: slideUp 0.2s ease-out; }
-        .modal-box { background: #1E293B; border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 520px; padding: 24px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-
-        .toast { position: fixed; top: 80px; right: 16px; background: var(--emerald-dark); color: white; padding: 14px 20px; border-radius: 14px; font-weight: 800; font-size: 14px; z-index: 300; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: none; }
-
-        .cash-quick-btns { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 10px 0; }
-        .cash-btn { background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: white; font-weight: 800; font-size: 12px; padding: 8px 0; border-radius: 8px; cursor: pointer; text-align: center; }
-        .cash-btn:hover { background: var(--primary); }
+        /* FOOTER */
+        footer { border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--text-muted); font-size: 13px; }
+        footer a { color: var(--primary-light); text-decoration: none; font-weight: 700; }
     </style>
 </head>
 <body>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">🔔 Notificación</div>
-
-    <!-- App Header -->
-    <header class="app-header">
-        <div class="header-brand" onclick="app.switchView('pos')">
-            <div class="header-icon">🛒</div>
-            <div>
-                <div class="header-title">TIKK</div>
-                <div class="header-sub" id="storeNameHeader">Minimarket El Progreso</div>
-            </div>
-        </div>
-
-        <div class="header-actions">
-            <button id="seniorToggleBtn" onclick="app.toggleSeniorMode()" class="btn-toggle-senior">
-                <span>👁️</span> <span id="seniorToggleLabel">Letra Grande</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- App Content Area -->
-    <main class="app-main">
-        <div class="container">
-
-            <!-- VIEW 1: POS (VENDER) -->
-            <div id="view-pos" class="view-panel active">
-                <div class="scanner-bar">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
-                        <div style="font-size:14px; font-weight:900; color:#A5B4FC; display:flex; align-items:center; gap:6px;">
-                            <span>📷</span> ESCÁNER DE CÓDIGO DE BARRAS EAN-13
-                        </div>
-                        <button onclick="app.startCameraScanner()" class="btn btn-primary" style="height:40px; padding:0 14px; font-size:12px;">
-                            🎥 Abrir Cámara
-                        </button>
-                    </div>
-
-                    <div style="display:flex; gap:8px;">
-                        <input type="text" id="barcodeInput" class="form-control" placeholder="Escanea con pistola USB o busca producto..." onkeyup="if(event.key==='Enter') app.scanProductByInput()">
-                        <button onclick="app.scanProductByInput()" class="btn btn-secondary" style="min-width:90px;">
-                            🔍 Buscar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="category-pills" id="posCategoryPills"></div>
-
-                <div class="pos-grid-layout">
-                    <div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                            <h3 style="font-size:18px; font-weight:900;">🛍️ Catálogo del Negocio</h3>
-                            <button onclick="app.openAddProductModal()" class="btn btn-secondary" style="height:34px; padding:0 10px; font-size:11px;">+ Agregar</button>
-                        </div>
-                        <div id="posProductsGrid" class="products-grid"></div>
-                    </div>
-
-                    <div class="card" style="position:sticky; top:80px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px;">
-                            <h3 style="font-size:18px; font-weight:900;">🛒 Carrito</h3>
-                            <button onclick="app.clearCart()" style="background:none; border:none; color:var(--rose); font-weight:800; cursor:pointer; font-size:12px;">Vaciar</button>
-                        </div>
-
-                        <div id="cartList" class="cart-list"></div>
-
-                        <div style="border-top:2px solid var(--border); padding-top:14px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                                <span style="font-size:15px; font-weight:700; color:var(--text-muted);">TOTAL:</span>
-                                <span id="cartTotal" style="font-size:30px; font-weight:900; color:var(--emerald);">$0</span>
-                            </div>
-
-                            <button onclick="app.openCheckoutModal()" class="btn btn-emerald" style="width:100%; height:62px; font-size:20px;">
-                                💳 COBRAR VENTA
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 2: INVENTORY -->
-            <div id="view-inventory" class="view-panel">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-                    <div>
-                        <h2 style="font-size:24px; font-weight:900;">📦 Control de Inventario</h2>
-                        <p style="color:var(--text-muted); font-size:13px;">Stock, costos, precios y márgenes comerciales.</p>
-                    </div>
-                    <div style="display:flex; gap:8px;">
-                        <button onclick="app.exportDatabaseCSV()" class="btn btn-secondary" style="font-size:12px; height:42px;">📥 Exportar Excel</button>
-                        <button onclick="app.openAddProductModal()" class="btn btn-primary" style="height:42px;">+ Nuevo Producto</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <input type="text" id="invSearchInput" class="form-control" placeholder="Buscar por código de barras o nombre..." oninput="app.filterInventory()" style="margin-bottom:14px;">
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%; border-collapse:collapse; min-width:650px; font-size:13px;">
-                            <thead>
-                                <tr style="background:rgba(99,102,241,0.15); color:#A5B4FC; text-align:left; text-transform:uppercase; font-size:11px;">
-                                    <th style="padding:12px;">Código</th>
-                                    <th style="padding:12px;">Producto</th>
-                                    <th style="padding:12px;">Categoría</th>
-                                    <th style="padding:12px;">Costo</th>
-                                    <th style="padding:12px;">Venta</th>
-                                    <th style="padding:12px;">Margen</th>
-                                    <th style="padding:12px;">Stock</th>
-                                    <th style="padding:12px;">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="inventoryTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 3: FIADOS -->
-            <div id="view-fiados" class="view-panel">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-                    <div>
-                        <h2 style="font-size:24px; font-weight:900;">📖 Cuaderno de Fiados</h2>
-                        <p style="color:var(--text-muted); font-size:13px;">Control de deudas de clientes y cobro por WhatsApp.</p>
-                    </div>
-                    <button onclick="app.openAddCustomerModal()" class="btn btn-primary" style="height:42px;">+ Agregar Cliente Fiado</button>
-                </div>
-
-                <div id="fiadosContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;"></div>
-            </div>
-
-            <!-- VIEW 4: SUPPLIERS -->
-            <div id="view-suppliers" class="view-panel">
-                <div style="margin-bottom:16px;">
-                    <h2 style="font-size:24px; font-weight:900;">🚚 Pedidos a Proveedores</h2>
-                    <p style="color:var(--text-muted); font-size:13px;">Productos con poco stock agrupados por distribuidor para enviar por WhatsApp.</p>
-                </div>
-
-                <div id="supplierCardsContainer"></div>
-            </div>
-
-            <!-- VIEW 5: DASHBOARD -->
-            <div id="view-dashboard" class="view-panel">
-                <div style="margin-bottom:16px;">
-                    <h2 style="font-size:24px; font-weight:900;">📊 Métricas de Ventas</h2>
-                    <p style="color:var(--text-muted); font-size:13px;">Desempeño diario, ganancias y productos más vendidos.</p>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-box">
-                        <div class="stat-icon">💵</div>
-                        <div>
-                            <div id="statTotalSales" class="stat-val">$0</div>
-                            <div class="stat-desc">Ventas Totales</div>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-icon">📈</div>
-                        <div>
-                            <div id="statNetProfit" class="stat-val" style="color:var(--emerald);">$0</div>
-                            <div class="stat-desc">Ganancia Neta</div>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-icon">🛍️</div>
-                        <div>
-                            <div id="statTotalOrders" class="stat-val">0</div>
-                            <div class="stat-desc">Ventas Realizadas</div>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-icon">📖</div>
-                        <div>
-                            <div id="statTotalDebt" class="stat-val" style="color:var(--amber);">$0</div>
-                            <div class="stat-desc">Total Fiados</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 style="font-size:18px; font-weight:900; margin-bottom:12px;">📜 Histórico Reciente de Ventas</h3>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%; border-collapse:collapse; font-size:13px;">
-                            <thead>
-                                <tr style="border-bottom:1px solid var(--border); color:var(--text-muted); font-size:11px; text-transform:uppercase;">
-                                    <th style="padding:8px; text-align:left;">Hora</th>
-                                    <th style="padding:8px; text-align:left;">Detalle</th>
-                                    <th style="padding:8px; text-align:left;">Método</th>
-                                    <th style="padding:8px; text-align:right;">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="salesHistoryTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <button onclick="app.switchView('pos')" id="nav-pos" class="nav-btn active">
-            <span class="nav-btn-icon">⚡</span>
-            <span>Vender</span>
-        </button>
-        <button onclick="app.switchView('inventory')" id="nav-inventory" class="nav-btn">
-            <span class="nav-btn-icon">📦</span>
-            <span>Inventario</span>
-        </button>
-        <button onclick="app.switchView('fiados')" id="nav-fiados" class="nav-btn">
-            <span class="nav-btn-icon">📖</span>
-            <span>Fiados</span>
-        </button>
-        <button onclick="app.switchView('suppliers')" id="nav-suppliers" class="nav-btn">
-            <span class="nav-btn-icon">🚚</span>
-            <span>Pedidos</span>
-            <span id="suppliersBadge" class="nav-badge">0</span>
-        </button>
-        <button onclick="app.switchView('dashboard')" id="nav-dashboard" class="nav-btn">
-            <span class="nav-btn-icon">📊</span>
-            <span>Métricas</span>
-        </button>
+    <!-- Header -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">🛒</div>
+            <span class="nav-logo-text">tikk</span>
+        </a>
+        <a href="/new" class="btn-cta-nav">▶ Abrir App Gratis</a>
     </nav>
 
-    <!-- MODAL: CAMERA SCANNER -->
-    <div id="cameraScannerModal" class="modal-overlay">
-        <div class="modal-box" style="text-align:center;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <h3 style="font-size:18px; font-weight:900;">🎥 Cámara Escáner</h3>
-                <button onclick="app.closeCameraScanner()" class="btn btn-secondary" style="height:32px; padding:0 10px; font-size:11px;">✖ Cerrar</button>
-            </div>
-            <div id="reader" style="width:100%; border-radius:16px; overflow:hidden; background:#000; min-height:240px;"></div>
-            <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">Apunta la cámara al código de barras EAN-13 del producto.</p>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-badge">🇨🇱 EL PUNTO DE VENTA N°1 PARA ALMACENES DE CHILE</div>
+        <h1>Tu Negocio en tu Celular.<br><span>POS, Inventario y Fiados.</span></h1>
+        <p class="hero-desc">Controla ventas presenciales con escáner EAN-13, administra el cuaderno de fiados, genera boletas digitales y envía pedidos a proveedores por WhatsApp. 100% Gratis.</p>
+
+        <div class="hero-actions">
+            <a href="/new" class="btn-hero-main">🚀 Empezar a Usar TIKK Gratis</a>
+            <a href="#funcionalidades" class="btn-hero-sec">Ver Funcionalidades</a>
         </div>
-    </div>
+    </section>
 
-    <!-- MODAL: CHECKOUT -->
-    <div id="checkoutModal" class="modal-overlay">
-        <div class="modal-box">
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:14px;">💳 Cobrar Venta</h2>
-
-            <div style="background:rgba(16,185,129,0.15); border:1px solid var(--emerald); padding:16px; border-radius:18px; text-align:center; margin-bottom:16px;">
-                <div style="font-size:12px; color:var(--text-muted); font-weight:800;">TOTAL A COBRAR</div>
-                <div id="modalCheckoutTotal" style="font-size:36px; font-weight:900; color:var(--emerald);">$0</div>
+    <!-- Preview -->
+    <div class="preview-box">
+        <h3 style="font-size:24px; font-weight:900; margin-bottom:16px;">📱 Todo en una sola pantalla ultra-rápida</h3>
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:15px;">Diseñado para que cualquier persona o adulto mayor pueda operar su minimarket sin complicaciones.</p>
+        
+        <div class="preview-screen">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
+                <div style="font-weight:900; font-size:16px; color:#A5B4FC;">⚡ PUNTO DE VENTA (POS) - MINIMARKET EL PROGRESO</div>
+                <div style="background:rgba(16,185,129,0.2); color:#34D399; font-weight:800; font-size:12px; padding:4px 10px; border-radius:99px;">● EN VIVO</div>
             </div>
 
-            <div style="margin-bottom:14px;">
-                <label class="form-label">Método de Pago</label>
-                <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:6px;">
-                    <button type="button" onclick="app.setPaymentMethod('Efectivo')" id="payEfectivo" class="btn btn-primary" style="height:44px; font-size:11px;">💵 Efectivo</button>
-                    <button type="button" onclick="app.setPaymentMethod('Débito')" id="payDebito" class="btn btn-secondary" style="height:44px; font-size:11px;">💳 Débito</button>
-                    <button type="button" onclick="app.setPaymentMethod('Transferencia')" id="payTransf" class="btn btn-secondary" style="height:44px; font-size:11px;">📱 Transfer</button>
-                    <button type="button" onclick="app.setPaymentMethod('Fiado')" id="payFiado" class="btn btn-secondary" style="height:44px; font-size:11px;">📖 Fiado</button>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                <div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:14px; border:1px solid var(--border);">
+                    <div style="font-size:32px;">🥤</div>
+                    <div style="font-weight:800; font-size:14px; margin-top:6px;">Coca-Cola 1.5L</div>
+                    <div style="color:var(--emerald); font-weight:900;">$2.000</div>
                 </div>
-            </div>
-
-            <div id="fiadoCustomerSelectGroup" style="margin-bottom:14px; display:none;">
-                <label class="form-label">Seleccionar Cliente Fiado</label>
-                <select id="fiadoCustomerSelect" class="form-control"></select>
-            </div>
-
-            <div id="cashCalcGroup" style="margin-bottom:16px;">
-                <label class="form-label">Paga Con (Efectivo)</label>
-                <input type="number" id="cashGivenInput" class="form-control" placeholder="Ej: 5000" oninput="app.calculateChange()">
-
-                <div class="cash-quick-btns">
-                    <button type="button" class="cash-btn" onclick="app.quickSetCash(1000)">$1.000</button>
-                    <button type="button" class="cash-btn" onclick="app.quickSetCash(2000)">$2.000</button>
-                    <button type="button" class="cash-btn" onclick="app.quickSetCash(5000)">$5.000</button>
-                    <button type="button" class="cash-btn" onclick="app.quickSetCash(10000)">$10.000</button>
-                    <button type="button" class="cash-btn" onclick="app.quickSetCash(20000)">$20.000</button>
+                <div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:14px; border:1px solid var(--border);">
+                    <div style="font-size:32px;">🍫</div>
+                    <div style="font-weight:800; font-size:14px; margin-top:6px;">Sahne Nuss 250g</div>
+                    <div style="color:var(--emerald); font-weight:900;">$3.500</div>
                 </div>
-
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding:12px; background:var(--bg-input); border-radius:14px;">
-                    <span style="font-weight:800; font-size:13px;">VUELTO:</span>
-                    <span id="changeAmount" style="font-size:22px; font-weight:900; color:var(--amber);">$0</span>
+                <div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:14px; border:1px solid var(--border);">
+                    <div style="font-size:32px;">🥛</div>
+                    <div style="font-weight:800; font-size:14px; margin-top:6px;">Leche Colun 1L</div>
+                    <div style="color:var(--emerald); font-weight:900;">$1.150</div>
                 </div>
-            </div>
-
-            <div style="display:flex; gap:8px;">
-                <button onclick="app.closeCheckoutModal()" class="btn btn-secondary" style="flex:1;">Cancelar</button>
-                <button onclick="app.confirmSale()" class="btn btn-emerald" style="flex:2;">✅ CONFIRMAR</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: ADD PRODUCT -->
-    <div id="addProductModal" class="modal-overlay">
-        <div class="modal-box">
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:14px;">📦 Agregar Producto</h2>
-            <form onsubmit="event.preventDefault(); app.saveNewProduct();">
-                <div style="margin-bottom:12px;">
-                    <label class="form-label">Código de Barras (EAN-13)</label>
-                    <div style="display:flex; gap:6px;">
-                        <input type="text" id="newProdCode" class="form-control" placeholder="Ej: 7801610000030" required onchange="app.lookupBarcodeInDB(this.value)">
-                        <button type="button" onclick="app.generateInternalBarcode()" class="btn btn-secondary" style="min-width:80px; font-size:10px;">✨ Generar</button>
-                    </div>
-                </div>
+    <!-- Features -->
+    <section class="section" id="funcionalidades">
+        <div class="section-tag">HERRAMIENTAS INCLUIDAS</div>
+        <h2 class="section-title">Todo lo que tu almacén necesita para crecer</h2>
 
-                <div style="margin-bottom:12px;">
-                    <label class="form-label">Nombre del Producto</label>
-                    <input type="text" id="newProdName" class="form-control" placeholder="Ej: Coca-Cola 1.5L Original" required>
-                </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📷</div>
+                <h3 class="feature-h3">Escáner EAN-13 y Pistola USB</h3>
+                <p class="feature-p">Escanea códigos de barras directamente con la cámara del celular o conectando tu pistola escáner USB.</p>
+            </div>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-                    <div>
-                        <label class="form-label">Precio Costo ($)</label>
-                        <input type="number" id="newProdCost" class="form-control" placeholder="1400" value="1400">
-                    </div>
-                    <div>
-                        <label class="form-label">Precio Venta ($)</label>
-                        <input type="number" id="newProdPrice" class="form-control" placeholder="2000" required>
-                    </div>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3 class="feature-h3">Base de Datos Pre-Cargada</h3>
+                <p class="feature-p">Incluye catálogo de productos populares de Chile (Coca-Cola, Sahne Nuss, Colun, Soprole, Kryzpo) con precios de costo y margen.</p>
+            </div>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-                    <div>
-                        <label class="form-label">Stock Inicial</label>
-                        <input type="number" id="newProdStock" class="form-control" placeholder="24" required value="24">
-                    </div>
-                    <div>
-                        <label class="form-label">Categoría</label>
-                        <select id="newProdCategory" class="form-control">
-                            <option value="Bebidas">Bebidas</option>
-                            <option value="Lácteos">Lácteos</option>
-                            <option value="Confites">Confites</option>
-                            <option value="Snacks">Snacks</option>
-                            <option value="Abarrotes">Abarrotes</option>
-                            <option value="Galletas">Galletas</option>
-                            <option value="Botillería">Botillería</option>
-                            <option value="Panadería">Panadería</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3 class="feature-h3">Cuaderno de Fiados Digital</h3>
+                <p class="feature-p">Lleva el control exacto de deudas de los vecinos con límite de crédito y recordatorios de cobro a 1 clic por WhatsApp.</p>
+            </div>
 
-                <div style="margin-bottom:18px;">
-                    <label class="form-label">Proveedor</label>
-                    <select id="newProdSupplier" class="form-control">
-                        <option value="Coca-Cola Andina">Coca-Cola Andina</option>
-                        <option value="CCU Chile">CCU Chile</option>
-                        <option value="Colun">Colun</option>
-                        <option value="Nestlé Chile">Nestlé Chile</option>
-                        <option value="Ideal / Bimbo">Ideal / Bimbo</option>
-                        <option value="Soprole">Soprole</option>
-                        <option value="Distribuidora Central">Distribuidora Central</option>
-                    </select>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3 class="feature-h3">Pedidos a Proveedores</h3>
+                <p class="feature-p">Agrupa los productos con stock bajo y genera solicitudes de reposición automáticas formateadas para WhatsApp.</p>
+            </div>
 
-                <div style="display:flex; gap:8px;">
-                    <button type="button" onclick="app.closeAddProductModal()" class="btn btn-secondary" style="flex:1;">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" style="flex:2;">Guardar Producto</button>
-                </div>
-            </form>
-        </div>
-    </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧾</div>
+                <h3 class="feature-h3">Boletas Digitales e Impresión</h3>
+                <p class="feature-p">Entrega comprobantes de compra digitales por WhatsApp o imprímelos al instante tras cada venta.</p>
+            </div>
 
-    <!-- MODAL: ADD CUSTOMER FIADO -->
-    <div id="addCustomerModal" class="modal-overlay">
-        <div class="modal-box">
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:14px;">📖 Nuevo Cliente Fiado</h2>
-            <form onsubmit="event.preventDefault(); app.saveNewCustomer();">
-                <div style="margin-bottom:12px;">
-                    <label class="form-label">Nombre del Cliente / Vecino</label>
-                    <input type="text" id="newCustName" class="form-control" placeholder="Ej: Don Pedro González" required>
-                </div>
-
-                <div style="margin-bottom:12px;">
-                    <label class="form-label">Teléfono WhatsApp</label>
-                    <div style="display:flex; gap:6px;">
-                        <div style="width:75px; background:var(--bg-input); border:1px solid var(--border); border-radius:14px; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--primary-light);">+56 9</div>
-                        <input type="tel" id="newCustPhone" class="form-control" placeholder="98765432" required>
-                    </div>
-                </div>
-
-                <div style="margin-bottom:18px;">
-                    <label class="form-label">Límite de Crédito ($)</label>
-                    <input type="number" id="newCustLimit" class="form-control" placeholder="50000" value="50000">
-                </div>
-
-                <div style="display:flex; gap:8px;">
-                    <button type="button" onclick="app.closeAddCustomerModal()" class="btn btn-secondary" style="flex:1;">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" style="flex:2;">Guardar Cliente</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL: DIGITAL RECEIPT TICKET -->
-    <div id="receiptModal" class="modal-overlay">
-        <div class="modal-box" style="text-align:center;">
-            <div style="font-size:36px; margin-bottom:6px;">🧾</div>
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:10px;">Comprobante de Venta</h2>
-            <div id="receiptBody" style="background:#fff; color:#000; font-family:monospace; padding:16px; border-radius:14px; text-align:left; margin-bottom:16px; font-size:12px;"></div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button onclick="window.print()" class="btn btn-secondary" style="flex:1;">🖨️ Imprimir</button>
-                <button onclick="app.sendReceiptWhatsApp()" class="btn btn-wa" style="flex:1.5;">💬 Enviar WhatsApp</button>
-                <button onclick="app.closeReceiptModal()" class="btn btn-primary" style="flex:1;">Cerrar</button>
+            <div class="feature-card">
+                <div class="feature-icon">👁️</div>
+                <h3 class="feature-h3">Modo Letra Grande (Seniors)</h3>
+                <p class="feature-p">Pensado para adultos mayores: botones táctiles gigantes (60px+) y tipografía amplificada para cero errores.</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- SCRIPT ENGINE -->
-    <script>
-        const BASE_CATALOG = [
-            { code: "7801610000030", name: "Coca-Cola Original 1.5L", cost: 1400, price: 2000, stock: 23, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🥤", supplierPhone: "56988881111" },
-            { code: "7801610000054", name: "Coca-Cola Zero 1.5L", cost: 1400, price: 2000, stock: 4, minStock: 6, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🥤", supplierPhone: "56988881111" },
-            { code: "7801610000078", name: "Fanta Naranja 1.5L", cost: 1200, price: 1800, stock: 3, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🍊", supplierPhone: "56988881111" },
-            { code: "7801610000092", name: "Sprite 1.5L", cost: 1200, price: 1800, stock: 12, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🍋", supplierPhone: "56988881111" },
-            { code: "7802800000018", name: "Leche Entera Colun 1L", cost: 850, price: 1150, stock: 7, minStock: 10, category: "Lácteos", supplier: "Colun", emoji: "🥛", supplierPhone: "56988882222" },
-            { code: "7802800000025", name: "Leche Semidescremada Colun 1L", cost: 850, price: 1150, stock: 2, minStock: 8, category: "Lácteos", supplier: "Colun", emoji: "🥛", supplierPhone: "56988882222" },
-            { code: "7801320000012", name: "Chocolate Sahne Nuss 250g", cost: 2400, price: 3500, stock: 10, minStock: 4, category: "Confites", supplier: "Nestlé Chile", emoji: "🍫", supplierPhone: "56988883333" },
-            { code: "7801320000043", name: "Chocolate Trencito Nestlé 150g", cost: 1500, price: 2200, stock: 15, minStock: 5, category: "Confites", supplier: "Nestlé Chile", emoji: "🍫", supplierPhone: "56988883333" },
-            { code: "7802200000032", name: "Papas Kryzpo Original 140g", cost: 950, price: 1400, stock: 15, minStock: 6, category: "Snacks", supplier: "CCU Chile", emoji: "🥔", supplierPhone: "56988884444" },
-            { code: "7802200000056", name: "Papas Kryzpo Queso 140g", cost: 950, price: 1400, stock: 1, minStock: 6, category: "Snacks", supplier: "CCU Chile", emoji: "🥔", supplierPhone: "56988884444" },
-            { code: "7801500000020", name: "Galletas Tritón Vainilla 126g", cost: 600, price: 900, stock: 18, minStock: 5, category: "Galletas", supplier: "Nestlé Chile", emoji: "🍪", supplierPhone: "56988883333" },
-            { code: "7802500000010", name: "Cerveza Cristal 350ml Can pack", cost: 700, price: 1000, stock: 24, minStock: 10, category: "Botillería", supplier: "CCU Chile", emoji: "🍺", supplierPhone: "56988884444" },
-            { code: "7801800000015", name: "Pan de Molde Ideal Blanco", cost: 1500, price: 2200, stock: 4, minStock: 8, category: "Abarrotes", supplier: "Ideal / Bimbo", emoji: "🍞", supplierPhone: "56988885555" }
-        ];
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 TIKK. Sistema de gestión para almacenes y minimarkets de Chile. Creado por <a href="https://dantagle.cl" target="_blank">Dan Tagle</a>.</p>
+    </footer>
 
-        const BASE_CUSTOMERS = [
-            { id: 1, name: "Don Pedro González", phone: "56998765432", debt: 12500, limit: 50000 },
-            { id: 2, name: "Doña María Tapia", phone: "56987654321", debt: 4500, limit: 30000 }
-        ];
-
-        function playBeepSound() {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = "sine";
-                osc.frequency.setValueAtTime(880, ctx.currentTime);
-                gain.gain.setValueAtTime(0.12, ctx.currentTime);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start();
-                osc.stop(ctx.currentTime + 0.12);
-            } catch(e){}
-        }
-
-        const app = {
-            store: { name: "Minimarket El Progreso", owner: "Juan Pérez", phone: "56912345678" },
-            products: [],
-            customers: [],
-            cart: [],
-            salesHistory: [],
-            currentCategoryFilter: "TODOS",
-            currentPaymentMethod: "Efectivo",
-            seniorMode: false,
-            html5QrCode: null,
-            lastCompletedSale: null,
-
-            init() {
-                const savedProds = localStorage.getItem("tikk_products_super");
-                const savedCusts = localStorage.getItem("tikk_customers_super");
-                const savedSales = localStorage.getItem("tikk_sales_super");
-
-                this.products = savedProds ? JSON.parse(savedProds) : JSON.parse(JSON.stringify(BASE_CATALOG));
-                this.customers = savedCusts ? JSON.parse(savedCusts) : JSON.parse(JSON.stringify(BASE_CUSTOMERS));
-                this.salesHistory = savedSales ? JSON.parse(savedSales) : [];
-
-                this.setupHardwareBarcodeScanner();
-                this.renderCategoryPills();
-                this.renderPOSProducts();
-                this.renderInventoryTable();
-                this.renderFiados();
-                this.renderDashboard();
-                this.renderSuppliers();
-                this.updateBadges();
-            },
-
-            setupHardwareBarcodeScanner() {
-                let buffer = "";
-                let timer = null;
-                document.addEventListener("keydown", (e) => {
-                    const tag = document.activeElement ? document.activeElement.tagName : "";
-                    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-
-                    if (e.key === "Enter") {
-                        if (buffer.length >= 3) {
-                            playBeepSound();
-                            this.addToCart(buffer);
-                            this.showToast("⚡ Escaneado: " + buffer);
-                        }
-                        buffer = "";
-                    } else if (e.key.length === 1) {
-                        buffer += e.key;
-                        clearTimeout(timer);
-                        timer = setTimeout(() => { buffer = ""; }, 120);
-                    }
-                });
-            },
-
-            switchView(viewId) {
-                document.querySelectorAll(".view-panel").forEach(el => el.classList.remove("active"));
-                document.querySelectorAll(".nav-btn").forEach(el => el.classList.remove("active"));
-
-                const targetView = document.getElementById("view-" + viewId);
-                const targetNav = document.getElementById("nav-" + viewId);
-
-                if (targetView) targetView.classList.add("active");
-                if (targetNav) targetNav.classList.add("active");
-
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            },
-
-            toggleSeniorMode() {
-                this.seniorMode = !this.seniorMode;
-                document.body.classList.toggle("senior-mode", this.seniorMode);
-                const btn = document.getElementById("seniorToggleBtn");
-                const lbl = document.getElementById("seniorToggleLabel");
-                if (this.seniorMode) {
-                    btn.classList.add("active");
-                    lbl.textContent = "Letra Normal";
-                    this.showToast("👁️ Modo Letra Grande Activado");
-                } else {
-                    btn.classList.remove("active");
-                    lbl.textContent = "Letra Grande";
-                    this.showToast("👁️ Modo Letra Normal");
-                }
-            },
-
-            saveProducts() {
-                localStorage.setItem("tikk_products_super", JSON.stringify(this.products));
-                this.updateBadges();
-            },
-
-            saveCustomers() {
-                localStorage.setItem("tikk_customers_super", JSON.stringify(this.customers));
-            },
-
-            saveSales() {
-                localStorage.setItem("tikk_sales_super", JSON.stringify(this.salesHistory));
-            },
-
-            startCameraScanner(onSuccess = null) {
-                document.getElementById("cameraScannerModal").classList.add("active");
-                if (this.html5QrCode) {
-                    try { this.html5QrCode.stop(); } catch(e){}
-                }
-
-                this.html5QrCode = new Html5Qrcode("reader");
-                const config = { fps: 10, qrbox: { width: 250, height: 150 } };
-
-                this.html5QrCode.start(
-                    { facingMode: "environment" },
-                    config,
-                    (decodedText) => {
-                        playBeepSound();
-                        this.closeCameraScanner();
-                        if (onSuccess) {
-                            onSuccess(decodedText);
-                        } else {
-                            this.addToCart(decodedText);
-                            this.showToast("📷 Código leído: " + decodedText);
-                        }
-                    },
-                    () => {}
-                ).catch(err => {
-                    console.error("Camera scanner error:", err);
-                    alert("No se pudo acceder a la cámara. Revisa los permisos de tu navegador.");
-                    this.closeCameraScanner();
-                });
-            },
-
-            closeCameraScanner() {
-                if (this.html5QrCode) {
-                    this.html5QrCode.stop().then(() => { this.html5QrCode.clear(); }).catch(e=>e);
-                }
-                document.getElementById("cameraScannerModal").classList.remove("active");
-            },
-
-            scanProductByInput() {
-                const input = document.getElementById("barcodeInput");
-                const term = input.value.trim().toLowerCase();
-                if (!term) return;
-
-                const found = this.products.find(p => p.code.toLowerCase() === term || p.name.toLowerCase().includes(term));
-
-                if (found) {
-                    this.addToCart(found.code);
-                    input.value = "";
-                    this.showToast("✅ " + found.name + " agregado");
-                } else {
-                    if (confirm("El producto '" + term + "' no existe. ¿Deseas crearlo ahora?")) {
-                        this.openAddProductModal(term);
-                    }
-                }
-            },
-
-            addToCart(code) {
-                const prod = this.products.find(p => p.code === code);
-                if (!prod) return this.scanProductByInput();
-
-                if (prod.stock <= 0) {
-                    alert("⚠️ ¡Atención! " + prod.name + " no tiene stock disponible.");
-                }
-
-                const existing = this.cart.find(item => item.code === code);
-                if (existing) {
-                    existing.qty += 1;
-                } else {
-                    this.cart.push({ ...prod, qty: 1 });
-                }
-
-                this.renderCart();
-            },
-
-            updateCartQty(code, delta) {
-                const item = this.cart.find(i => i.code === code);
-                if (!item) return;
-                item.qty += delta;
-                if (item.qty <= 0) {
-                    this.cart = this.cart.filter(i => i.code !== code);
-                }
-                this.renderCart();
-            },
-
-            clearCart() {
-                this.cart = [];
-                this.renderCart();
-            },
-
-            renderCart() {
-                const list = document.getElementById("cartList");
-                const totalEl = document.getElementById("cartTotal");
-
-                if (this.cart.length === 0) {
-                    list.innerHTML = '<div style="text-align:center; padding:30px 0; color:var(--text-muted); font-weight:700;">🛒 Carrito vacío</div>';
-                    totalEl.textContent = "$0";
-                    return;
-                }
-
-                let total = 0;
-                list.innerHTML = this.cart.map(item => {
-                    const subtotal = item.price * item.qty;
-                    total += subtotal;
-                    return `
-                        <div class="cart-item">
-                            <div class="cart-item-info">
-                                <div class="cart-item-emoji">${item.emoji}</div>
-                                <div>
-                                    <div class="cart-item-title">${item.name}</div>
-                                    <div class="cart-item-price">$${item.price.toLocaleString("es-CL")}</div>
-                                </div>
-                            </div>
-                            <div class="qty-controls">
-                                <button class="qty-btn" onclick="app.updateCartQty('${item.code}', -1)">-</button>
-                                <span style="font-weight:900; width:20px; text-align:center;">${item.qty}</span>
-                                <button class="qty-btn" onclick="app.updateCartQty('${item.code}', 1)">+</button>
-                            </div>
-                        </div>
-                    `;
-                }).join("");
-
-                totalEl.textContent = "$" + total.toLocaleString("es-CL");
-            },
-
-            renderCategoryPills() {
-                const categories = ["TODOS", ...new Set(this.products.map(p => p.category))];
-                const container = document.getElementById("posCategoryPills");
-                container.innerHTML = categories.map(cat => `
-                    <button onclick="app.filterPOSByCategory('${cat}')" class="cat-pill ${cat === this.currentCategoryFilter ? 'active' : ''}">
-                        ${cat}
-                    </button>
-                `).join("");
-            },
-
-            filterPOSByCategory(cat) {
-                this.currentCategoryFilter = cat;
-                this.renderCategoryPills();
-                this.renderPOSProducts();
-            },
-
-            renderPOSProducts() {
-                const grid = document.getElementById("posProductsGrid");
-                const filtered = this.currentCategoryFilter === "TODOS" 
-                    ? this.products 
-                    : this.products.filter(p => p.category === this.currentCategoryFilter);
-
-                grid.innerHTML = filtered.map(p => {
-                    let stockClass = "stock-ok";
-                    let stockText = p.stock + " un.";
-                    if (p.stock <= 0) { stockClass = "stock-zero"; stockText = "AGOTADO"; }
-                    else if (p.stock <= p.minStock) { stockClass = "stock-low"; stockText = "¡BAJO! (" + p.stock + ")"; }
-
-                    return `
-                        <div class="product-card" onclick="app.addToCart('${p.code}')">
-                            <div class="product-emoji">${p.emoji}</div>
-                            <div class="product-name">${p.name}</div>
-                            <div class="product-price">$${p.price.toLocaleString("es-CL")}</div>
-                            <div class="stock-badge ${stockClass}">${stockText}</div>
-                        </div>
-                    `;
-                }).join("");
-            },
-
-            openCheckoutModal() {
-                if (this.cart.length === 0) return alert("El carrito está vacío.");
-                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-                document.getElementById("modalCheckoutTotal").textContent = "$" + total.toLocaleString("es-CL");
-                document.getElementById("cashGivenInput").value = "";
-                document.getElementById("changeAmount").textContent = "$0";
-
-                const select = document.getElementById("fiadoCustomerSelect");
-                select.innerHTML = this.customers.map(c => `<option value="${c.id}">${c.name} (Deuda: $${c.debt.toLocaleString("es-CL")})</option>`).join("");
-
-                this.setPaymentMethod("Efectivo");
-                document.getElementById("checkoutModal").classList.add("active");
-            },
-
-            closeCheckoutModal() {
-                document.getElementById("checkoutModal").classList.remove("active");
-            },
-
-            setPaymentMethod(method) {
-                this.currentPaymentMethod = method;
-                ["payEfectivo", "payDebito", "payTransf", "payFiado"].forEach(id => {
-                    const btn = document.getElementById(id);
-                    if (btn) btn.className = "btn btn-secondary";
-                });
-
-                if (method === "Efectivo") document.getElementById("payEfectivo").className = "btn btn-primary";
-                if (method === "Débito") document.getElementById("payDebito").className = "btn btn-primary";
-                if (method === "Transferencia") document.getElementById("payTransf").className = "btn btn-primary";
-                if (method === "Fiado") document.getElementById("payFiado").className = "btn btn-primary";
-
-                document.getElementById("cashCalcGroup").style.display = method === "Efectivo" ? "block" : "none";
-                document.getElementById("fiadoCustomerSelectGroup").style.display = method === "Fiado" ? "block" : "none";
-            },
-
-            quickSetCash(amount) {
-                document.getElementById("cashGivenInput").value = amount;
-                this.calculateChange();
-            },
-
-            calculateChange() {
-                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-                const given = parseInt(document.getElementById("cashGivenInput").value) || 0;
-                const change = given - total;
-                document.getElementById("changeAmount").textContent = "$" + (change > 0 ? change : 0).toLocaleString("es-CL");
-            },
-
-            confirmSale() {
-                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-                const totalUnits = this.cart.reduce((sum, item) => sum + item.qty, 0);
-
-                let customerObj = null;
-                if (this.currentPaymentMethod === "Fiado") {
-                    const custId = parseInt(document.getElementById("fiadoCustomerSelect").value);
-                    customerObj = this.customers.find(c => c.id === custId);
-                    if (customerObj) {
-                        customerObj.debt += total;
-                        this.saveCustomers();
-                    }
-                }
-
-                this.cart.forEach(cartItem => {
-                    const prod = this.products.find(p => p.code === cartItem.code);
-                    if (prod) prod.stock = Math.max(0, prod.stock - cartItem.qty);
-                });
-
-                const saleRecord = {
-                    id: Date.now(),
-                    date: new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }),
-                    fullDate: new Date().toLocaleDateString("es-CL"),
-                    total,
-                    units: totalUnits,
-                    items: [...this.cart],
-                    payment: this.currentPaymentMethod,
-                    customer: customerObj ? customerObj.name : null
-                };
-
-                this.salesHistory.unshift(saleRecord);
-                this.lastCompletedSale = saleRecord;
-
-                this.saveProducts();
-                this.saveSales();
-                this.clearCart();
-                this.closeCheckoutModal();
-
-                this.renderPOSProducts();
-                this.renderInventoryTable();
-                this.renderFiados();
-                this.renderDashboard();
-                this.renderSuppliers();
-
-                this.showToast("🎉 ¡Venta completada!");
-                this.openReceiptModal(saleRecord);
-            },
-
-            openReceiptModal(sale) {
-                const body = document.getElementById("receiptBody");
-                body.innerHTML = `
-                    <div style="text-align:center; font-weight:bold; font-size:15px;">${this.store.name}</div>
-                    <div style="text-align:center; font-size:11px;">RUT: 76.543.210-9</div>
-                    <div style="border-bottom:1px dashed #000; margin:8px 0;"></div>
-                    <div>Fecha: ${sale.fullDate} ${sale.date}</div>
-                    <div>Venta #${sale.id.toString().slice(-6)} - Pago: ${sale.payment} ${sale.customer ? '('+sale.customer+')' : ''}</div>
-                    <div style="border-bottom:1px dashed #000; margin:8px 0;"></div>
-                    ${sale.items.map(i => `
-                        <div style="display:flex; justify-content:space-between;">
-                            <span>${i.qty}x ${i.name}</span>
-                            <span>$${(i.price * i.qty).toLocaleString("es-CL")}</span>
-                        </div>
-                    `).join("")}
-                    <div style="border-bottom:1px dashed #000; margin:8px 0;"></div>
-                    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:14px;">
-                        <span>TOTAL:</span>
-                        <span>$${sale.total.toLocaleString("es-CL")}</span>
-                    </div>
-                `;
-                document.getElementById("receiptModal").classList.add("active");
-            },
-
-            closeReceiptModal() {
-                document.getElementById("receiptModal").classList.remove("active");
-            },
-
-            sendReceiptWhatsApp() {
-                if (!this.lastCompletedSale) return;
-                const s = this.lastCompletedSale;
-                const itemsText = s.items.map(i => '• ' + i.qty + 'x ' + i.name + ' ($' + (i.price * i.qty).toLocaleString('es-CL') + ')').join('%0A');
-                const text = '🧾 *COMPROBANTE - ' + encodeURIComponent(this.store.name) + '*%0A%0AFecha: ' + s.fullDate + ' ' + s.date + '%0A%0A' + itemsText + '%0A%0A*TOTAL: $' + s.total.toLocaleString('es-CL') + '* (' + s.payment + ')';
-                window.open("https://wa.me/?text=" + text, "_blank");
-            },
-
-            renderInventoryTable() {
-                const tbody = document.getElementById("inventoryTableBody");
-                tbody.innerHTML = this.products.map(p => {
-                    const margin = p.cost ? Math.round(((p.price - p.cost) / p.price) * 100) : 30;
-                    return `
-                        <tr style="border-bottom:1px solid var(--border);">
-                            <td style="padding:10px; font-family:monospace;">${p.code}</td>
-                            <td style="padding:10px; font-weight:800;">${p.emoji} ${p.name}</td>
-                            <td style="padding:10px; color:var(--text-muted);">${p.category}</td>
-                            <td style="padding:10px; color:var(--text-muted);">$${(p.cost || 0).toLocaleString("es-CL")}</td>
-                            <td style="padding:10px; font-weight:900; color:var(--emerald);">$${p.price.toLocaleString("es-CL")}</td>
-                            <td style="padding:10px; font-weight:800; color:#34D399;">${margin}%</td>
-                            <td style="padding:10px;">
-                                <span class="stock-badge ${p.stock <= p.minStock ? "stock-low" : "stock-ok"}">
-                                    ${p.stock} un.
-                                </span>
-                            </td>
-                            <td style="padding:10px;">
-                                <button onclick="app.quickEditStock('${p.code}')" class="btn btn-secondary" style="height:30px; padding:0 8px; font-size:11px;">✏️ Stock</button>
-                            </td>
-                        </tr>
-                    `;
-                }).join("");
-            },
-
-            filterInventory() {
-                const query = document.getElementById("invSearchInput").value.toLowerCase();
-                const filtered = this.products.filter(p => p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
-                const tbody = document.getElementById("inventoryTableBody");
-                tbody.innerHTML = filtered.map(p => `
-                    <tr style="border-bottom:1px solid var(--border);">
-                        <td style="padding:10px; font-family:monospace;">${p.code}</td>
-                        <td style="padding:10px; font-weight:800;">${p.emoji} ${p.name}</td>
-                        <td style="padding:10px;">${p.category}</td>
-                        <td style="padding:10px;">$${(p.cost || 0).toLocaleString("es-CL")}</td>
-                        <td style="padding:10px; font-weight:900;">$${p.price.toLocaleString("es-CL")}</td>
-                        <td style="padding:10px; color:#34D399;">30%</td>
-                        <td style="padding:10px;">${p.stock} un.</td>
-                        <td style="padding:10px;">
-                            <button onclick="app.quickEditStock('${p.code}')" class="btn btn-secondary" style="height:30px; padding:0 8px; font-size:11px;">✏️ Stock</button>
-                        </td>
-                    </tr>
-                `).join("");
-            },
-
-            quickEditStock(code) {
-                const prod = this.products.find(p => p.code === code);
-                if (!prod) return;
-                const newStock = prompt("Actualizar stock para " + prod.name + ":", prod.stock);
-                if (newStock !== null && !isNaN(newStock)) {
-                    prod.stock = parseInt(newStock);
-                    this.saveProducts();
-                    this.renderPOSProducts();
-                    this.renderInventoryTable();
-                    this.renderDashboard();
-                    this.renderSuppliers();
-                    this.showToast("📦 Stock actualizado a " + prod.stock);
-                }
-            },
-
-            openAddProductModal(codeOpt = "") {
-                document.getElementById("newProdCode").value = codeOpt;
-                document.getElementById("newProdName").value = "";
-                document.getElementById("newProdPrice").value = "";
-                document.getElementById("newProdCost").value = "";
-                document.getElementById("newProdStock").value = "24";
-                if (codeOpt) this.lookupBarcodeInDB(codeOpt);
-                document.getElementById("addProductModal").classList.add("active");
-            },
-
-            closeAddProductModal() {
-                document.getElementById("addProductModal").classList.remove("active");
-            },
-
-            generateInternalBarcode() {
-                const randomCode = "200" + Math.floor(1000000009 + Math.random() * 9000000000);
-                document.getElementById("newProdCode").value = randomCode;
-                this.showToast("✨ EAN-13 Interno generado");
-            },
-
-            lookupBarcodeInDB(code) {
-                const match = BASE_CATALOG.find(b => b.code === code.trim());
-                if (match) {
-                    document.getElementById("newProdName").value = match.name;
-                    document.getElementById("newProdPrice").value = match.price;
-                    document.getElementById("newProdCost").value = match.cost;
-                    document.getElementById("newProdCategory").value = match.category;
-                    document.getElementById("newProdSupplier").value = match.supplier;
-                    this.showToast("🔍 Producto reconocido: " + match.name);
-                }
-            },
-
-            saveNewProduct() {
-                const code = document.getElementById("newProdCode").value.trim();
-                const name = document.getElementById("newProdName").value.trim();
-                const price = parseInt(document.getElementById("newProdPrice").value) || 1000;
-                const cost = parseInt(document.getElementById("newProdCost").value) || Math.round(price * 0.7);
-                const stock = parseInt(document.getElementById("newProdStock").value) || 10;
-                const category = document.getElementById("newProdCategory").value || "Abarrotes";
-                const supplier = document.getElementById("newProdSupplier").value || "Distribuidora Central";
-
-                const newP = {
-                    code, name, price, cost, stock, minStock: 5, category, supplier, emoji: "📦", supplierPhone: "56988889999"
-                };
-
-                this.products.push(newP);
-                this.saveProducts();
-                this.closeAddProductModal();
-
-                this.renderCategoryPills();
-                this.renderPOSProducts();
-                this.renderInventoryTable();
-                this.renderDashboard();
-                this.renderSuppliers();
-
-                this.showToast("✅ Producto guardado");
-            },
-
-            renderFiados() {
-                const container = document.getElementById("fiadosContainer");
-                container.innerHTML = this.customers.map(c => `
-                    <div class="card">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                            <div>
-                                <h3 style="font-size:16px; font-weight:900;">👤 ${c.name}</h3>
-                                <div style="font-size:12px; color:var(--text-muted);">+${c.phone}</div>
-                            </div>
-                            <span class="stock-badge ${c.debt > 0 ? "stock-low" : "stock-ok"}">
-                                ${c.debt > 0 ? "Deuda Pendiente" : "Al Día"}
-                            </span>
-                        </div>
-
-                        <div style="margin-bottom:14px;">
-                            <div style="font-size:11px; color:var(--text-muted);">SALDO DEUDOR:</div>
-                            <div style="font-size:24px; font-weight:900; color:var(--amber);">$${c.debt.toLocaleString("es-CL")}</div>
-                        </div>
-
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                            <button onclick="app.payCustomerDebt(${c.id})" class="btn btn-emerald" style="font-size:12px; height:38px;">💵 Abonar</button>
-                            <button onclick="app.sendDebtReminderWA(${c.id})" class="btn btn-wa" style="font-size:12px; height:38px;">💬 Recordatorio</button>
-                        </div>
-                    </div>
-                `).join("");
-            },
-
-            openAddCustomerModal() {
-                document.getElementById("newCustName").value = "";
-                document.getElementById("newCustPhone").value = "";
-                document.getElementById("addCustomerModal").classList.add("active");
-            },
-
-            closeAddCustomerModal() {
-                document.getElementById("addCustomerModal").classList.remove("active");
-            },
-
-            saveNewCustomer() {
-                const name = document.getElementById("newCustName").value.trim();
-                const phone = "569" + document.getElementById("newCustPhone").value.trim();
-                const limit = parseInt(document.getElementById("newCustLimit").value) || 50000;
-
-                this.customers.push({ id: Date.now(), name, phone, debt: 0, limit });
-                this.saveCustomers();
-                this.closeAddCustomerModal();
-                this.renderFiados();
-                this.showToast("👤 Cliente fiado creado");
-            },
-
-            payCustomerDebt(id) {
-                const cust = this.customers.find(c => c.id === id);
-                if (!cust || cust.debt <= 0) return alert("Este cliente no tiene deuda pendiente.");
-                const amount = prompt("Monto a abonar para " + cust.name + " (Deuda: $" + cust.debt.toLocaleString("es-CL") + "):", cust.debt);
-                if (amount !== null && !isNaN(amount)) {
-                    const payVal = parseInt(amount);
-                    cust.debt = Math.max(0, cust.debt - payVal);
-                    this.saveCustomers();
-                    this.renderFiados();
-                    this.renderDashboard();
-                    this.showToast("💵 Abonados $" + payVal.toLocaleString("es-CL"));
-                }
-            },
-
-            sendDebtReminderWA(id) {
-                const cust = this.customers.find(c => c.id === id);
-                if (!cust) return;
-                const msg = "Hola " + encodeURIComponent(cust.name) + "! Te saludamos de *" + encodeURIComponent(this.store.name) + "*. Te recordamos que mantienes un saldo pendiente de fiado de *$" + cust.debt.toLocaleString("es-CL") + "*. ¡Muchas gracias!";
-                window.open("https://wa.me/" + cust.phone + "?text=" + msg, "_blank");
-            },
-
-            renderDashboard() {
-                const totalSales = this.salesHistory.reduce((sum, s) => sum + s.total, 0) + 186500;
-                const totalNetProfit = Math.round(totalSales * 0.32);
-                const totalOrders = this.salesHistory.length + 14;
-                const totalDebt = this.customers.reduce((sum, c) => sum + c.debt, 0);
-
-                document.getElementById("statTotalSales").textContent = "$" + totalSales.toLocaleString("es-CL");
-                document.getElementById("statNetProfit").textContent = "$" + totalNetProfit.toLocaleString("es-CL");
-                document.getElementById("statTotalOrders").textContent = totalOrders;
-                document.getElementById("statTotalDebt").textContent = "$" + totalDebt.toLocaleString("es-CL");
-
-                const historyTbody = document.getElementById("salesHistoryTableBody");
-                historyTbody.innerHTML = this.salesHistory.slice(0, 10).map(s => `
-                    <tr style="border-bottom:1px solid var(--border);">
-                        <td style="padding:8px; color:var(--text-muted);">${s.date}</td>
-                        <td style="padding:8px; font-weight:800;">${s.items.length} prod. ${s.customer ? '('+s.customer+')' : ''}</td>
-                        <td style="padding:8px;"><span class="stock-badge stock-ok">${s.payment}</span></td>
-                        <td style="padding:8px; text-align:right; font-weight:900; color:var(--emerald);">$${s.total.toLocaleString("es-CL")}</td>
-                    </tr>
-                `).join("");
-            },
-
-            renderSuppliers() {
-                const lowStockProds = this.products.filter(p => p.stock <= p.minStock);
-                const suppliersMap = {};
-                lowStockProds.forEach(p => {
-                    if (!suppliersMap[p.supplier]) {
-                        suppliersMap[p.supplier] = { supplier: p.supplier, phone: p.supplierPhone || "56988889999", items: [] };
-                    }
-                    suppliersMap[p.supplier].items.push(p);
-                });
-
-                const container = document.getElementById("supplierCardsContainer");
-                const supplierKeys = Object.keys(suppliersMap);
-
-                if (supplierKeys.length === 0) {
-                    container.innerHTML = `
-                        <div class="card" style="text-align:center; padding:30px;">
-                            <span style="font-size:40px;">🎉</span>
-                            <h3 style="font-size:18px; font-weight:900; margin-top:8px;">¡Todo tu stock está al día!</h3>
-                            <p style="color:var(--text-muted); font-size:13px;">Cuando un producto se esté agotando, aparecerá aquí con un botón para hacer el pedido por WhatsApp.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                container.innerHTML = supplierKeys.map(key => {
-                    const sup = suppliersMap[key];
-                    const itemsText = sup.items.map(i => '• ' + i.name + ' (Stock actual: ' + i.stock + ') -> Pedir: 24 un.').join('%0A');
-                    const message = '🚚 *PEDIDO DE REPOSICIÓN - ' + encodeURIComponent(this.store.name) + '*%0A%0AHola distribuidor *' + encodeURIComponent(sup.supplier) + '*! Necesito realizar el siguiente pedido:%0A%0A' + itemsText + '%0A%0ADirección de despacho: Av. Providencia 1234%0AContacto: ' + encodeURIComponent(this.store.owner);
-
-                    return `
-                        <div class="card">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                                <div>
-                                    <h3 style="font-size:18px; font-weight:900;">🚚 Proveedor: ${sup.supplier}</h3>
-                                    <div style="font-size:12px; color:var(--text-muted);">+${sup.phone}</div>
-                                </div>
-                                <span class="stock-badge stock-zero">${sup.items.length} Críticos</span>
-                            </div>
-
-                            <div style="margin-bottom:14px;">
-                                ${sup.items.map(i => `
-                                    <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; padding:6px 0; border-bottom:1px dashed var(--border);">
-                                        <span>${i.emoji} ${i.name}</span>
-                                        <span style="color:var(--rose);">Quedan: ${i.stock} un.</span>
-                                    </div>
-                                `).join("")}
-                            </div>
-
-                            <a href="https://wa.me/${sup.phone}?text=${message}" target="_blank" class="btn btn-wa" style="width:100%;">
-                                💬 ENVIAR PEDIDO POR WHATSAPP
-                            </a>
-                        </div>
-                    `;
-                }).join("");
-            },
-
-            exportDatabaseCSV() {
-                let csv = "Codigo,Producto,Categoria,Costo,Precio,Stock,Proveedor\\n";
-                this.products.forEach(p => {
-                    csv += `"${p.code}","${p.name}","${p.category}",${p.cost || 0},${p.price},${p.stock},"${p.supplier}"\\n`;
-                });
-
-                const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.setAttribute("download", `tikk_inventario_${new Date().toISOString().slice(0,10)}.csv`);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                this.showToast("📥 Inventario exportado a CSV");
-            },
-
-            updateBadges() {
-                const lowStockCount = this.products.filter(p => p.stock <= p.minStock).length;
-                document.getElementById("suppliersBadge").textContent = lowStockCount;
-            },
-
-            showToast(msg) {
-                const toast = document.getElementById("toast");
-                toast.textContent = msg;
-                toast.style.display = "block";
-                setTimeout(() => { toast.style.display = "none"; }, 3000);
-            }
-        };
-
-        document.addEventListener("DOMContentLoaded", () => app.init());
-    </script>
 </body>
 </html>

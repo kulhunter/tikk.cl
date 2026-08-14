@@ -1277,9 +1277,9 @@
             },
 
             exportDatabaseCSV() {
-                let csv = "Codigo,Producto,Categoria,Costo,Precio,Stock,Proveedor\\n";
+                let csv = "Codigo,Producto,Categoria,Costo,Precio,Stock,Proveedor\n";
                 this.products.forEach(p => {
-                    csv += `"${p.code}","${p.name}","${p.category}",${p.cost || 0},${p.price},${p.stock},"${p.supplier}"\\n`;
+                    csv += `"${p.code}","${p.name}","${p.category}",${p.cost || 0},${p.price},${p.stock},"${p.supplier}"\n`;
                 });
 
                 const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -1305,7 +1305,12 @@
             }
         };
 
-        document.addEventListener("DOMContentLoaded", () => app.init());
+        document.addEventListener("DOMContentLoaded", () => {
+            app.init();
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW reg error:', err));
+            }
+        });
     </script>
 </body>
 </html>
