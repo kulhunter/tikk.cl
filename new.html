@@ -3,1209 +3,1061 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TIKK | Tu negocio, en tu celular - Inventario, Ventas y Tienda Online</title>
-    <meta name="description" content="Sistema de inventario, ventas y tienda online para negocios como almacenes, minimarkets y emprendedores. Gratis, simple y todo en la nube.">
-    <meta name="keywords" content="tikk, inventario gratis, sistema de ventas, minimarket, almacenes, tienda online whatsapp, chile">
+    <title>TIKK | Sistema de Ventas, Inventario y Tienda Online</title>
+    <meta name="description" content="Sistema de inventario, punto de venta y tienda online por WhatsApp para almacenes, minimarkets y emprendedores.">
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --brand-primary: #4F46E5;
-            --brand-secondary: #7C3AED;
-            --brand-accent: #25D366;
-            --bg-dark: #0A0A0F;
-            --bg-card: #12121A;
-            --bg-card-hover: #1A1A26;
-            --bg-input: #1E1E2C;
-            --text-main: #F3F4F6;
-            --text-muted: #9CA3AF;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --gradient-primary: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-            --shadow-glow: 0 0 50px rgba(124, 58, 237, 0.15);
+            --purple-main: #6C3CE1;
+            --purple-dark: #4C1D95;
+            --purple-light: #8B5CF6;
+            --purple-bg: #120E24;
+            --green-success: #10B981;
+            --green-wa: #25D366;
+            --red-alert: #EF4444;
+            --orange-warn: #F59E0B;
+            --bg-dark: #0B0A12;
+            --bg-card: #171526;
+            --bg-card-hover: #211E36;
+            --bg-input: #1E1B33;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-white: #FFFFFF;
+            --text-muted: #A1A1AA;
+            --font-base: 15px;
+            --btn-height: 52px;
+        }
+
+        body.senior-mode {
+            --font-base: 19px;
+            --btn-height: 64px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
+            color: var(--text-white);
+            font-size: var(--font-base);
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4, .font-heading {
-            font-family: 'Outfit', sans-serif;
+        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
+
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 70px; background: rgba(11, 10, 18, 0.9);
+            backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color);
+            z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
         }
 
-        .container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 0 24px;
+        .brand-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px;
+            box-shadow: 0 4px 15px rgba(108, 60, 225, 0.4);
+        }
+        .brand-title { font-size: 24px; font-weight: 900; color: white; letter-spacing: -0.5px; }
+        .brand-sub { font-size: 10px; color: var(--purple-light); font-weight: 700; text-transform: uppercase; }
+
+        .senior-toggle-btn {
+            background: var(--purple-bg); border: 1px solid var(--purple-light);
+            color: white; padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;
+        }
+        .senior-toggle-btn.active { background: var(--purple-main); box-shadow: 0 0 15px rgba(108, 60, 225, 0.5); }
+
+        .app-layout { margin-top: 70px; padding-bottom: 90px; min-height: calc(100vh - 70px); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 76px;
+            background: #121020; border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-around; align-items: center; z-index: 100;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
 
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-color);
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: none; border: none; color: var(--text-muted); font-size: 11px; font-weight: 700;
+            cursor: pointer; padding: 6px 12px; border-radius: 12px; transition: all 0.2s ease; position: relative;
         }
+        body.senior-mode .nav-item { font-size: 14px; }
+        .nav-item-icon { font-size: 24px; margin-bottom: 2px; }
+        .nav-item.active { color: white; background: rgba(108, 60, 225, 0.25); }
+        .nav-badge { position: absolute; top: 2px; right: 8px; background: var(--red-alert); color: white; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 99px; }
 
-        .nav-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 76px;
-        }
+        .view-panel { display: none; }
+        .view-panel.active { display: block; }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--gradient-primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
-        }
-
-        .logo-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-
-        .logo-text-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-title {
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            color: white;
-            line-height: 1;
-        }
-
-        .logo-tag {
-            font-size: 9px;
-            font-weight: 700;
-            color: var(--brand-secondary);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 20px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 99px;
-            font-weight: 700;
-            font-size: 14px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
-        }
-
-        .btn-whatsapp:hover {
-            background: #20bd5a;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
-        }
-
-        .hero {
-            padding-top: 150px;
-            padding-bottom: 80px;
-            position: relative;
-            background: radial-gradient(circle at 50% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 60%);
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            font-size: 52px;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -1.5px;
-            margin-bottom: 20px;
-        }
-
-        .hero-content h1 span {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-desc {
-            font-size: 18px;
-            color: var(--text-muted);
-            margin-bottom: 32px;
-            max-width: 520px;
-        }
-
-        .hero-features-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 40px;
-        }
-
-        .hero-features-list li {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .check-badge {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: rgba(37, 211, 102, 0.15);
-            color: #25D366;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 900;
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 60px;
-        }
-
-        .section-tag {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 99px;
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.3);
-            color: #A78BFA;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: 38px;
-            font-weight: 900;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-        }
-
-        .section-subtitle {
-            font-size: 16px;
-            color: var(--text-muted);
-        }
-
-        .how-it-works {
-            padding: 80px 0;
-            background: rgba(255, 255, 255, 0.01);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 16px;
-            position: relative;
-        }
-
-        .step-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px 16px;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .step-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(124, 58, 237, 0.4);
-            background: var(--bg-card-hover);
-        }
-
-        .step-number {
-            width: 36px;
-            height: 36px;
-            background: var(--gradient-primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 16px;
-            margin: 0 auto 16px;
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
-        }
-
-        .step-title {
-            font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            color: #F3F4F6;
-        }
-
-        .step-desc {
-            font-size: 11px;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        .app-screens {
-            padding: 100px 0;
-        }
-
-        .screens-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 20px;
-        }
-
-        .screen-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .phone-frame {
-            width: 100%;
-            background: #000;
-            border-radius: 36px;
-            border: 4px solid #262636;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-            overflow: hidden;
-            aspect-ratio: 9 / 18.5;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            margin-bottom: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .screen-column:hover .phone-frame {
-            transform: translateY(-8px);
-            border-color: var(--brand-secondary);
-            box-shadow: 0 25px 50px rgba(124, 58, 237, 0.3);
-        }
-
-        .phone-notch {
-            width: 40%;
-            height: 14px;
-            background: #262636;
-            margin: 0 auto;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            z-index: 10;
-        }
-
-        .phone-screen-body {
-            padding: 12px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            font-size: 10px;
-            background: #111118;
-            overflow: hidden;
-        }
-
-        .phone-screen-title {
-            text-align: center;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-top: 6px;
-        }
-
-        .phone-screen-subtitle {
-            text-align: center;
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .app-header-box {
-            background: linear-gradient(135deg, #1E1B4B 0%, #311B92 100%);
-            padding: 10px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 6px 8px;
-            margin-bottom: 6px;
-        }
-
-        .stat-value {
-            font-size: 13px;
-            font-weight: 900;
-            color: white;
-        }
-
-        .stat-label {
-            font-size: 7px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .quick-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            margin-top: 6px;
-        }
-
-        .quick-btn {
-            background: rgba(124, 58, 237, 0.2);
-            border: 1px solid rgba(124, 58, 237, 0.4);
-            border-radius: 6px;
-            padding: 6px 4px;
-            text-align: center;
-            font-size: 7px;
-            font-weight: 700;
-            color: #C4B5FD;
-        }
-
-        .product-item-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            padding: 6px;
-            border-radius: 8px;
-            margin-bottom: 4px;
-        }
-
-        .product-img-box {
-            width: 22px;
-            height: 22px;
-            background: rgba(124, 58, 237, 0.3);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-        }
-
-        .barcode-box {
-            height: 60px;
-            border: 2px dashed rgba(124, 58, 237, 0.5);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 8px 0;
-            background: rgba(124, 58, 237, 0.05);
-        }
-
-        .features-double {
-            padding: 80px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .feature-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 28px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .table-preview {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 12px;
-        }
-
-        .table-preview th {
-            background: rgba(124, 58, 237, 0.15);
-            color: #C4B5FD;
-            padding: 10px 12px;
-            text-align: left;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-
-        .table-preview td {
-            padding: 10px 12px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-muted);
-        }
-
-        .whatsapp-chat-box {
-            background: #0B141A;
-            border-radius: 20px;
-            padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        .wa-bubble {
-            background: #005C4B;
-            color: #E9EDEF;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border-top-left-radius: 0;
-            max-width: 85%;
-            line-height: 1.5;
-            font-family: monospace;
-            white-space: pre-line;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        .key-features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .key-feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 32px 24px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .key-feature-card:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(124, 58, 237, 0.4);
-            transform: translateY(-5px);
-        }
-
-        .key-feature-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin: 0 auto 20px;
-            color: #A78BFA;
-        }
-
-        .key-feature-title {
-            font-size: 16px;
-            font-weight: 800;
-        }
-
-        .audience-section {
-            padding: 100px 0;
-            background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.1) 0%, transparent 70%);
-        }
-
-        .audience-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-top: 50px;
-        }
-
-        .audience-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 32px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .audience-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--brand-primary);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .audience-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--bg-input);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            margin: 0 auto 20px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .audience-name {
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .tech-section {
-            padding: 80px 0;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 16px;
-            margin-top: 40px;
-        }
-
-        .tech-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px 16px;
-            text-align: center;
-        }
-
-        .tech-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .tech-title {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        .tech-desc {
-            font-size: 13px;
-            font-weight: 800;
-            color: white;
-            margin-top: 2px;
-        }
-
-        .final-cta {
-            padding: 100px 0;
-            text-align: center;
-            background: linear-gradient(180deg, var(--bg-dark) 0%, #15102A 100%);
-        }
-
-        .cta-card {
-            background: var(--gradient-primary);
-            border-radius: 36px;
-            padding: 60px 40px;
-            max-width: 900px;
-            margin: 0 auto;
-            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-card h2 {
-            font-size: 42px;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 16px;
-        }
-
-        .cta-card p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 32px;
-        }
-
-        footer {
-            padding: 40px 0;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        @media (max-width: 1024px) {
-            .hero-grid { grid-template-columns: 1fr; text-align: center; }
-            .hero-desc { margin: 0 auto 32px; }
-            .hero-features-list { align-items: center; }
-            .steps-grid { grid-template-columns: repeat(3, 1fr); }
-            .screens-grid { grid-template-columns: repeat(3, 1fr); }
-            .features-double { grid-template-columns: 1fr; }
-            .audience-grid { grid-template-columns: repeat(2, 1fr); }
-            .tech-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-
-        @media (max-width: 640px) {
-            .steps-grid { grid-template-columns: repeat(2, 1fr); }
-            .screens-grid { grid-template-columns: repeat(2, 1fr); }
-            .key-features-grid { grid-template-columns: 1fr; }
-            .audience-grid { grid-template-columns: 1fr; }
-            .tech-grid { grid-template-columns: repeat(2, 1fr); }
-            .hero-content h1 { font-size: 38px; }
-            .section-title { font-size: 28px; }
-        }
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            height: var(--btn-height); padding: 0 24px; border-radius: 14px; font-size: 15px; font-weight: 800;
+            border: none; cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+        }
+        body.senior-mode .btn { font-size: 18px; font-weight: 900; }
+        .btn-primary { background: linear-gradient(135deg, var(--purple-main), var(--purple-light)); color: white; box-shadow: 0 4px 15px rgba(108, 60, 225, 0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(108, 60, 225, 0.6); }
+        .btn-success { background: var(--green-success); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+        .btn-success:hover { background: #059669; transform: translateY(-2px); }
+        .btn-wa { background: var(--green-wa); color: white; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); }
+        .btn-wa:hover { background: #1eb956; transform: translateY(-2px); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.07); color: white; border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+
+        .form-control {
+            width: 100%; height: var(--btn-height); background: var(--bg-input);
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 0 16px;
+            color: white; font-size: 16px; outline: none; transition: all 0.2s ease;
+        }
+        body.senior-mode .form-control { font-size: 20px; height: 64px; }
+        .form-control:focus { border-color: var(--purple-light); box-shadow: 0 0 10px rgba(139, 92, 246, 0.3); }
+
+        .form-label { display: block; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        body.senior-mode .form-label { font-size: 16px; color: #E4E4E7; }
+
+        .scanner-container {
+            background: linear-gradient(180deg, #18152E 0%, #120F24 100%);
+            border: 2px dashed var(--purple-light); border-radius: 24px; padding: 24px; text-align: center; margin-bottom: 20px;
+        }
+        .scanner-beam { height: 3px; background: var(--purple-light); box-shadow: 0 0 15px var(--purple-light); margin: 15px 0; animation: scan 2s ease-in-out infinite alternate; }
+        @keyframes scan { 0% { transform: translateY(-20px); opacity: 0.3; } 100% { transform: translateY(20px); opacity: 1; } }
+
+        .cart-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-height: 340px; overflow-y: auto; }
+        .cart-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .cart-item-info { display: flex; align-items: center; gap: 14px; }
+        .cart-item-emoji { font-size: 32px; width: 48px; height: 48px; background: rgba(108, 60, 225, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .cart-item-title { font-weight: 800; font-size: 16px; }
+        body.senior-mode .cart-item-title { font-size: 20px; }
+        .cart-item-price { color: var(--purple-light); font-weight: 900; font-size: 18px; }
+
+        .qty-controls { display: flex; align-items: center; gap: 8px; background: var(--bg-input); padding: 4px 8px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .qty-btn { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 18px; font-weight: 900; cursor: pointer; }
+        body.senior-mode .qty-btn { width: 44px; height: 44px; font-size: 22px; }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+        body.senior-mode .products-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+        .product-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s ease; position: relative; }
+        .product-card:hover { border-color: var(--purple-light); transform: translateY(-3px); background: var(--bg-card-hover); }
+        .product-emoji { font-size: 42px; margin-bottom: 8px; }
+        .product-name { font-weight: 800; font-size: 14px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        body.senior-mode .product-name { font-size: 17px; }
+        .product-price-tag { font-size: 16px; font-weight: 900; color: var(--purple-light); }
+
+        .stock-badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 800; margin-top: 6px; }
+        .stock-ok { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+        .stock-low { background: rgba(245, 158, 11, 0.2); color: #F59E0B; }
+        .stock-zero { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 16px; }
+        .stat-icon { width: 54px; height: 54px; border-radius: 16px; background: rgba(108, 60, 225, 0.15); color: var(--purple-light); display: flex; align-items: center; justify-content: center; font-size: 28px; }
+        .stat-val { font-size: 24px; font-weight: 900; line-height: 1.1; }
+        .stat-desc { font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+
+        .supplier-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 16px; }
+        .supplier-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: #18152B; border: 1px solid var(--border-color); border-radius: 28px; width: 100%; max-width: 520px; padding: 28px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); max-height: 90vh; overflow-y: auto; }
+
+        .landing-hero { text-align: center; padding: 30px 0; }
+        .landing-form-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 28px; padding: 32px; max-width: 560px; margin: 0 auto; box-shadow: 0 10px 40px rgba(108, 60, 225, 0.2); text-align: left; }
+
+        .toast { position: fixed; top: 85px; right: 20px; background: #10B981; color: white; padding: 14px 20px; border-radius: 14px; font-weight: 800; font-size: 15px; z-index: 300; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: none; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="container nav-wrapper">
-            <a href="#" class="logo">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24"><path d="M17 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7 15h11.93c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2z"/></svg>
-                </div>
-                <div class="logo-text-group">
-                    <span class="logo-title">TIKK</span>
-                    <span class="logo-tag">Tu negocio en tu celular</span>
-                </div>
-            </a>
-            <a href="#cta" class="btn btn-primary">Probar Gratis</a>
+    <div id="toast" class="toast">🔔 Notificación</div>
+
+    <header class="top-nav">
+        <a href="#" onclick="app.switchView('landing')" class="brand-logo">
+            <div class="brand-icon">🛒</div>
+            <div>
+                <div class="brand-title">TIKK</div>
+                <div class="brand-sub" id="storeNameHeader">Mi Almacén Pro</div>
+            </div>
+        </a>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="seniorToggleBtn" onclick="app.toggleSeniorMode()" class="senior-toggle-btn">
+                <span>👁️</span> <span id="seniorToggleLabel">Modo Letra Grande</span>
+            </button>
         </div>
     </header>
 
-    <section class="hero">
+    <div class="app-layout">
         <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <div class="section-tag">Sistema de inventario y ventas</div>
-                    <h1>Tu negocio, <br><span>en tu celular.</span></h1>
-                    <p class="hero-desc">Sistema de inventario, ventas y tienda online para negocios como almacenes, minimarkets y emprendedores.</p>
+
+            <!-- VIEW 1: LANDING & STORE SETUP FORM -->
+            <div id="view-landing" class="view-panel active">
+                <div class="landing-hero">
+                    <div style="display:inline-block; padding:6px 16px; border-radius:99px; background:rgba(108,60,225,0.15); color:#A78BFA; font-weight:800; font-size:12px; margin-bottom:16px;">
+                        🇨🇱 SISTEMA OFICIAL PARA ALMACENES Y MINIMARKETS
+                    </div>
+                    <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 12px;">
+                        Crea tu Tienda y Prueba el Sistema
+                    </h1>
+                    <p style="color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto 36px;">
+                        Punto de venta súper amigable, inventario automático con códigos de barra de supermercados y pedidos de reposición por WhatsApp.
+                    </p>
+
+                    <div class="landing-form-box">
+                        <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                            🚀 Formulario de Registro Rápido
+                        </h2>
+
+                        <form onsubmit="event.preventDefault(); app.registerStore();">
+                            <div style="margin-bottom: 16px;">
+                                <label class="form-label">Nombre de tu Negocio / Almacén</label>
+                                <input type="text" id="regStoreName" class="form-control" placeholder="Ej: Minimarket El Progreso" required value="Minimarket El Progreso">
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                <label class="form-label">Nombre del Dueño(a)</label>
+                                <input type="text" id="regOwnerName" class="form-control" placeholder="Ej: Don Juan Pérez" required value="Juan Pérez">
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                <label class="form-label">Tu Número de WhatsApp</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <div style="width: 90px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800;">+56 9</div>
+                                    <input type="tel" id="regPhone" class="form-control" placeholder="12345678" required value="912345678">
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: 24px;">
+                                <label class="form-label">Tipo de Comercio</label>
+                                <select id="regCategory" class="form-control">
+                                    <option value="Minimarket / Almacén">Minimarket / Almacén de Barrio</option>
+                                    <option value="Verdulería / Frutería">Verdulería / Frutería</option>
+                                    <option value="Botillería">Botillería</option>
+                                    <option value="Panadería / Pastelería">Panadería / Pastelería</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; height: 60px; font-size: 18px;">
+                                ▶ REGISTRAR Y PROBAR LA APP EN VIVO
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: POS -->
+            <div id="view-pos" class="view-panel">
+                <div class="scanner-container">
+                    <div style="font-size: 14px; font-weight: 800; color: #A78BFA;">📷 ESCÁNER DE CÓDIGO DE BARRAS / BUSCADOR</div>
+                    <div class="scanner-beam"></div>
                     
-                    <ul class="hero-features-list">
-                        <li><div class="check-badge">✓</div> Gratis y simple</li>
-                        <li><div class="check-badge">✓</div> Sin conocimientos técnicos</li>
-                        <li><div class="check-badge">✓</div> Funciona en cualquier celular</li>
-                        <li><div class="check-badge">✓</div> Todo en la nube</li>
-                    </ul>
-
-                    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                        <a href="#cta" class="btn btn-primary">Comenzar Ahora</a>
-                        <a href="#como-funciona" class="btn btn-secondary">Ver demostración</a>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <input type="text" id="barcodeInput" class="form-control" placeholder="Escanea o escribe código (Ej: 7801610000030)..." onkeyup="if(event.key==='Enter') app.scanProductByInput()">
+                        <button onclick="app.scanProductByInput()" class="btn btn-primary" style="min-width: 120px;">
+                            🔍 BUSCAR
+                        </button>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+                        💡 <b>Tip Adulto Mayor:</b> Haz clic en cualquier producto abajo para agregarlo al carrito.
                     </div>
                 </div>
 
-                <div class="hero-preview" style="text-align: center;">
-                    <div class="phone-frame" style="max-width: 300px; margin: 0 auto; border-width: 8px; box-shadow: var(--shadow-glow);">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen-body" style="padding: 16px;">
-                            <div class="app-header-box">
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div>
-                                        <div style="font-size: 11px; font-weight: 800;">¡Hola, Juan! 👋</div>
-                                        <div style="font-size: 8px; color: #A78BFA;">Minimarket El Progreso</div>
-                                    </div>
-                                    <div style="width: 24px; height: 24px; border-radius: 50%; background: #4F46E5; display: flex; align-items: center; justify-content: center; font-size: 10px;">👤</div>
-                                </div>
+                <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 900;">🛒 Productos Venta Rápida</h3>
+                            <button onclick="app.switchView('inventory')" class="btn btn-secondary" style="height: 36px; font-size: 12px;">+ Agregar Nuevo</button>
+                        </div>
+                        
+                        <div id="posProductsGrid" class="products-grid"></div>
+                    </div>
+
+                    <div class="card" style="position: sticky; top: 90px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                            <h3 style="font-size: 20px; font-weight: 900;">🛍️ Carrito Actual</h3>
+                            <button onclick="app.clearCart()" style="background:none; border:none; color:var(--red-alert); font-weight:700; cursor:pointer;">Vaciar</button>
+                        </div>
+
+                        <div id="cartList" class="cart-list"></div>
+
+                        <div style="border-top: 2px solid var(--border-color); padding-top: 16px; margin-top: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <span style="font-size: 16px; font-weight: 700; color: var(--text-muted);">TOTAL A COBRAR:</span>
+                                <span id="cartTotal" style="font-size: 32px; font-weight: 900; color: #25D366;">$0</span>
                             </div>
-                            <div class="stat-card" style="background: rgba(124, 58, 237, 0.2); border-color: rgba(124, 58, 237, 0.4); text-align: center;">
-                                <div class="stat-label">Ventas hoy</div>
-                                <div class="stat-value" style="font-size: 20px;">.500</div>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
-                                <div class="stat-card"><div class="stat-value">238</div><div class="stat-label">Productos</div></div>
-                                <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Pedidos hoy</div></div>
-                            </div>
-                            <div class="quick-grid" style="grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px;">
-                                <div class="quick-btn" style="background: var(--gradient-primary); color: white;">⚡ Vender</div>
-                                <div class="quick-btn">📦 Productos</div>
-                                <div class="quick-btn">🌐 Tienda</div>
-                                <div class="quick-btn">📊 Ventas</div>
-                            </div>
+
+                            <button onclick="app.openCheckoutModal()" class="btn btn-success" style="width: 100%; height: 68px; font-size: 22px;">
+                                💳 COBRAR VENTA
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="como-funciona" class="how-it-works">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-tag">Paso a Paso</div>
-                <h2 class="section-title">¿Cómo funciona TIKK?</h2>
-                <p class="section-subtitle">Controla tu inventario y vende en 6 sencillos pasos sin complicaciones.</p>
-            </div>
-
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <div class="step-title">Agrega Productos</div>
-                    <div class="step-desc">Escanea el código de barras o toma una foto del producto.</div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <div class="step-title">Información Auto</div>
-                    <div class="step-desc">El sistema encuentra el producto y completa los datos.</div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <div class="step-title">Define Precio</div>
-                    <div class="step-desc">Ingresa el precio de venta y la cantidad en stock.</div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <div class="step-title">Vende Presencial</div>
-                    <div class="step-desc">Escanea los productos que el cliente quiere comprar.</div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">5</div>
-                    <div class="step-title">Stock Automático</div>
-                    <div class="step-desc">Cada venta descuenta automáticamente del inventario.</div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">6</div>
-                    <div class="step-title">Vende en WhatsApp</div>
-                    <div class="step-desc">Tus productos se muestran en tu tienda online con stock.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="app-screens">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-tag">Interfaz Móvil</div>
-                <h2 class="section-title">Pantallas principales de la app</h2>
-                <p class="section-subtitle">Una experiencia intuitiva y veloz pensada para el trabajo del día a día.</p>
-            </div>
-
-            <div class="screens-grid">
-                <div class="screen-column">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen-body">
-                            <div class="app-header-box">
-                                <div style="font-size: 8px; color: #A78BFA;">¡Hola, Juan!</div>
-                                <div style="font-size: 10px; font-weight: 800;">Minimarket El Progreso</div>
-                            </div>
-                            <div class="stat-card"><div class="stat-label">Productos</div><div class="stat-value">238</div></div>
-                            <div class="stat-card"><div class="stat-label">Ventas hoy</div><div class="stat-value" style="color: #25D366;">.500</div></div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
-                                <div class="stat-card"><div class="stat-label">Stock Bajo</div><div class="stat-value" style="color: #EF4444;">12</div></div>
-                                <div class="stat-card"><div class="stat-label">Pedidos</div><div class="stat-value">8</div></div>
-                            </div>
-                            <div class="quick-grid">
-                                <div class="quick-btn">⚡ Vender</div>
-                                <div class="quick-btn">📦 Productos</div>
-                                <div class="quick-btn">🌐 Tienda</div>
-                                <div class="quick-btn">📊 Ventas</div>
-                            </div>
-                        </div>
+            <!-- VIEW 3: INVENTORY -->
+            <div id="view-inventory" class="view-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <h2 style="font-size: 28px; font-weight: 900;">📦 Mi Inventario de Productos</h2>
+                        <p style="color: var(--text-muted); font-size: 14px;">Precios, stock actual y base de datos con códigos de supermercados.</p>
                     </div>
-                    <div class="phone-screen-title">INICIO</div>
-                    <div class="phone-screen-subtitle">Resumen de tu negocio en un vistazo.</div>
+                    <button onclick="app.openAddProductModal()" class="btn btn-primary">
+                        + AGREGAR PRODUCTO NUEVO
+                    </button>
                 </div>
 
-                <div class="screen-column">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen-body">
-                            <div style="font-weight: 800; font-size: 9px; margin-bottom: 6px;">Mis productos</div>
-                            <div style="background: var(--bg-input); padding: 4px 6px; border-radius: 4px; font-size: 7px; color: var(--text-muted); margin-bottom: 6px;">🔍 Buscar producto...</div>
-                            
-                            <div class="product-item-row"><div class="product-img-box">🥤</div><div><div style="font-weight:700;">Coca-Cola 1.5L</div><div style="font-size:6px; color:var(--text-muted);">Stock: 23</div></div><div style="font-weight:800; color:#A78BFA;">.000</div></div>
-                            <div class="product-item-row"><div class="product-img-box">🍫</div><div><div style="font-weight:700;">Chocolate Sahne</div><div style="font-size:6px; color:var(--text-muted);">Stock: 10</div></div><div style="font-weight:800; color:#A78BFA;">.000</div></div>
-                            <div class="product-item-row"><div class="product-img-box">🥛</div><div><div style="font-weight:700;">Leche Colun 1L</div><div style="font-size:6px; color:var(--text-muted);">Stock: 7</div></div><div style="font-weight:800; color:#A78BFA;">.200</div></div>
-                            <div class="product-item-row"><div class="product-img-box">🥔</div><div><div style="font-weight:700;">Papas Kryzpo</div><div style="font-size:6px; color:var(--text-muted);">Stock: 15</div></div><div style="font-weight:800; color:#A78BFA;">.000</div></div>
-                            
-                            <div class="quick-btn" style="background: var(--gradient-primary); color: white; margin-top: auto;">+ Agregar producto</div>
-                        </div>
+                <div class="card">
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                        <input type="text" id="invSearchInput" class="form-control" placeholder="Buscar por nombre o código de barras..." oninput="app.filterInventory()">
                     </div>
-                    <div class="phone-screen-title">MIS PRODUCTOS</div>
-                    <div class="phone-screen-subtitle">Lista de productos con stock y precio.</div>
-                </div>
 
-                <div class="screen-column">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen-body">
-                            <div style="font-weight: 800; font-size: 9px;">Agregar producto</div>
-                            <div style="display:flex; gap:4px; margin: 4px 0;">
-                                <div class="quick-btn" style="flex:1; background:var(--gradient-primary); color:white;">Escanear</div>
-                                <div class="quick-btn" style="flex:1;">Foto</div>
-                            </div>
-                            <div class="barcode-box">
-                                <div style="font-size: 16px;">||| | |||| || |</div>
-                                <div style="font-size: 6px; color: var(--text-muted);">7801234567890</div>
-                            </div>
-                            <div style="font-size: 8px; font-weight:800;">Coca-Cola 1,5L</div>
-                            <div style="font-size: 7px; color: var(--text-muted);">Bebida | Coca-Cola</div>
-                            <div style="margin-top:auto;">
-                                <div style="font-size: 7px; color:var(--text-muted);">Precio de venta: <b>.000</b></div>
-                                <div style="font-size: 7px; color:var(--text-muted);">Cantidad stock: <b>24</b></div>
-                                <div class="quick-btn" style="background: var(--gradient-primary); color: white; margin-top: 4px;">Guardar producto</div>
-                            </div>
-                        </div>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(108,60,225,0.15); color: #C4B5FD; text-align: left; font-size: 12px; text-transform: uppercase;">
+                                    <th style="padding: 14px;">Código</th>
+                                    <th style="padding: 14px;">Producto</th>
+                                    <th style="padding: 14px;">Categoría</th>
+                                    <th style="padding: 14px;">Proveedor</th>
+                                    <th style="padding: 14px;">Precio Venta</th>
+                                    <th style="padding: 14px;">Stock Actual</th>
+                                    <th style="padding: 14px;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody"></tbody>
+                        </table>
                     </div>
-                    <div class="phone-screen-title">AGREGAR PRODUCTO</div>
-                    <div class="phone-screen-subtitle">Escanea el código de barras o toma una foto.</div>
-                </div>
-
-                <div class="screen-column">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen-body">
-                            <div style="font-weight: 800; font-size: 9px;">Nueva venta</div>
-                            <div style="background: rgba(255,255,255,0.05); padding: 4px; border-radius: 6px; font-size: 7px; margin: 4px 0; text-align: center;">🔍 Escanear producto</div>
-                            
-                            <div style="font-size: 7px; border-bottom: 1px solid var(--border-color); padding: 4px 0;">
-                                <b>Coca-Cola 1,5L</b><br>.000 x 1 = .000
-                            </div>
-                            <div style="font-size: 7px; border-bottom: 1px solid var(--border-color); padding: 4px 0;">
-                                <b>Chocolate Sahne</b><br>.000 x 2 = .000
-                            </div>
-                            
-                            <div style="margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 4px;">
-                                <div style="display:flex; justify-content:space-between; font-size:9px; font-weight:900;">
-                                    <span>TOTAL</span>
-                                    <span style="color:#A78BFA;">.000</span>
-                                </div>
-                                <div class="quick-btn" style="background: #25D366; color: white; margin-top: 4px;">Cobrar</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="phone-screen-title">VENDER</div>
-                    <div class="phone-screen-subtitle">Escanea, agrega al carrito y cobra en segundos.</div>
-                </div>
-
-                <div class="screen-column">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen-body">
-                            <div style="font-weight: 800; font-size: 9px;">Mis ventas</div>
-                            <div style="display:flex; gap:2px; margin: 4px 0;">
-                                <span style="font-size:6px; padding:2px 4px; background:var(--brand-primary); border-radius:3px;">Hoy</span>
-                                <span style="font-size:6px; padding:2px 4px; background:rgba(255,255,255,0.05); border-radius:3px;">Semana</span>
-                                <span style="font-size:6px; padding:2px 4px; background:rgba(255,255,255,0.05); border-radius:3px;">Mes</span>
-                            </div>
-                            <div class="stat-card" style="text-align:center;">
-                                <div class="stat-label">Ventas hoy</div>
-                                <div class="stat-value" style="color:#25D366;">.500</div>
-                                <div style="font-size:6px; color:var(--text-muted);">8 ventas realizadas</div>
-                            </div>
-                            <div style="font-size:6px; margin-top:4px;">
-                                <div style="display:flex; justify-content:space-between;"><span>13:45 Venta #184</span><b>.000</b></div>
-                                <div style="display:flex; justify-content:space-between;"><span>13:20 Venta #183</span><b>.500</b></div>
-                                <div style="display:flex; justify-content:space-between;"><span>12:30 Venta #182</span><b>.000</b></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="phone-screen-title">MIS VENTAS</div>
-                    <div class="phone-screen-subtitle">Historial de ventas y resumen de ingresos.</div>
-                </div>
-
-                <div class="screen-column">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen-body">
-                            <div style="font-weight: 800; font-size: 9px;">Mi tienda online</div>
-                            <div style="font-size: 7px; color: var(--text-muted);">Minimarket El Progreso</div>
-                            <div class="quick-btn" style="background: #25D366; color: white; margin: 4px 0;">Compartir tienda</div>
-                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
-                                <div class="stat-card"><div class="stat-label">Pedidos</div><div class="stat-value">8</div></div>
-                                <div class="stat-card"><div class="stat-label">Ventas</div><div class="stat-value" style="font-size:9px;">.000</div></div>
-                            </div>
-                            <div style="font-size:7px; font-weight:800; margin-top:4px;">Productos destacados</div>
-                            <div style="display:flex; gap:4px; margin-top:2px;">
-                                <div style="background:rgba(255,255,255,0.05); padding:3px; border-radius:4px; flex:1; text-align:center;">🥤<br>.000</div>
-                                <div style="background:rgba(255,255,255,0.05); padding:3px; border-radius:4px; flex:1; text-align:center;">🍫<br>.000</div>
-                            </div>
-                            <div class="quick-btn" style="margin-top:auto;">Editar tienda</div>
-                        </div>
-                    </div>
-                    <div class="phone-screen-title">MI TIENDA ONLINE</div>
-                    <div class="phone-screen-subtitle">Tu tienda lista para vender por WhatsApp.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="container">
-        <div class="features-double">
-            <div class="feature-box">
-                <div>
-                    <div class="section-tag">Integración Total</div>
-                    <h3 style="font-size: 28px; font-weight: 900; margin-bottom: 16px;">Sincronización Automática con Google Sheets</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 24px;">Toda tu información organizada y siempre actualizada. Cambia precios o agrega productos desde tu teléfono o directamente desde tu planilla.</p>
-                </div>
-
-                <div style="background: var(--bg-dark); border-radius: 16px; padding: 16px; border: 1px solid var(--border-color);">
-                    <table class="table-preview">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>7801234567890</td>
-                                <td style="color:white; font-weight:700;">Coca-Cola 1,5L</td>
-                                <td>.000</td>
-                                <td style="color:#25D366; font-weight:700;">23</td>
-                            </tr>
-                            <tr>
-                                <td>7801111111111</td>
-                                <td style="color:white; font-weight:700;">Chocolate Sahne</td>
-                                <td>.000</td>
-                                <td style="color:#25D366; font-weight:700;">10</td>
-                            </tr>
-                            <tr>
-                                <td>7802222222222</td>
-                                <td style="color:white; font-weight:700;">Leche Colun 1L</td>
-                                <td>.200</td>
-                                <td style="color:#F59E0B; font-weight:700;">7</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
-            <div class="feature-box">
-                <div>
-                    <div class="section-tag">Ventas Directas</div>
-                    <h3 style="font-size: 28px; font-weight: 900; margin-bottom: 16px;">Tienda Online + Pedidos por WhatsApp</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 24px;">Tus clientes seleccionan sus productos en tu catálogo digital y el pedido llega formateado listo a tu chat.</p>
+            <!-- VIEW 4: DASHBOARD -->
+            <div id="view-dashboard" class="view-panel">
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size: 28px; font-weight: 900;">📊 Dashboard & Métricas Sell-Out</h2>
+                    <p style="color: var(--text-muted); font-size: 14px;">Monitoreo de ingresos, velocidad de venta y estado de inventario.</p>
                 </div>
 
-                <div class="whatsapp-chat-box">
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px;">
-                        <div style="width:28px; height:28px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; font-weight:bold;">💬</div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-icon">💵</div>
                         <div>
-                            <div style="font-weight:800; font-size:13px; color:white;">Pedido Minimarket</div>
-                            <div style="font-size:10px; color:#25D366;">Online por WhatsApp</div>
+                            <div id="statTotalSales" class="stat-val">$186.500</div>
+                            <div class="stat-desc">Ventas Totales Hoy</div>
                         </div>
                     </div>
-
-                    <div class="wa-bubble">Hola, quiero hacer un pedido 🛒
-
-📋 <b>Pedido #125</b>
-• Coca-Cola 1,5L x 2
-• Chocolate Sahne x 1
-• Leche Colun 1L x 1
-
-<b>Total: .200</b>
-¡Muchas Gracias!</div>
+                    <div class="stat-box">
+                        <div class="stat-icon">🛍️</div>
+                        <div>
+                            <div id="statTotalOrders" class="stat-val">14</div>
+                            <div class="stat-desc">Transacciones Realizadas</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">📦</div>
+                        <div>
+                            <div id="statUnitsSold" class="stat-val">48</div>
+                            <div class="stat-desc">Unidades Vendidas</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">⚠️</div>
+                        <div>
+                            <div id="statLowStockCount" class="stat-val" style="color: var(--red-alert);">3</div>
+                            <div class="stat-desc">Alertas Stock Crítico</div>
+                        </div>
+                    </div>
                 </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">🔥 Top Productos Más Vendidos (Sell-Out)</h3>
+                        <div id="topSellingList"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">🚨 Alertas de Reposición Inmediata</h3>
+                        <div id="lowStockAlertList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 5: SUPPLIERS -->
+            <div id="view-suppliers" class="view-panel">
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size: 28px; font-weight: 900;">🚚 Pedidos Automáticos a Proveedores</h2>
+                    <p style="color: var(--text-muted); font-size: 14px;">Genera y envía solicitudes de pedido de reposición por WhatsApp a tus distribuidores.</p>
+                </div>
+
+                <div id="supplierCardsContainer"></div>
+            </div>
+
+            <!-- VIEW 6: ONLINE STORE -->
+            <div id="view-store" class="view-panel">
+                <div class="card" style="text-align: center; background: linear-gradient(135deg, #181433, #0D0A1C); border-color: var(--purple-light);">
+                    <span style="font-size: 40px;">🌐</span>
+                    <h2 id="onlineStoreTitle" style="font-size: 32px; font-weight: 900;">Minimarket El Progreso</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 16px;">Catálogo Digital para Clientes - Pedidos Directos a tu WhatsApp</p>
+
+                    <div style="display: flex; justify-content: center; gap: 12px;">
+                        <button onclick="app.copyStoreLink()" class="btn btn-secondary">📋 Copiar Link de Tienda</button>
+                        <button onclick="app.openStoreWhatsAppDemo()" class="btn btn-wa">💬 Probar Pedido Cliente en WhatsApp</button>
+                    </div>
+                </div>
+
+                <div class="products-grid" id="onlineStoreGrid"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom Nav Bar -->
+    <nav class="bottom-nav">
+        <button onclick="app.switchView('landing')" id="nav-landing" class="nav-item active">
+            <span class="nav-item-icon">🏠</span>
+            <span>Inicio</span>
+        </button>
+        <button onclick="app.switchView('pos')" id="nav-pos" class="nav-item">
+            <span class="nav-item-icon">⚡</span>
+            <span>Vender</span>
+        </button>
+        <button onclick="app.switchView('inventory')" id="nav-inventory" class="nav-item">
+            <span class="nav-item-icon">📦</span>
+            <span>Inventario</span>
+        </button>
+        <button onclick="app.switchView('dashboard')" id="nav-dashboard" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span>Métricas</span>
+        </button>
+        <button onclick="app.switchView('suppliers')" id="nav-suppliers" class="nav-item">
+            <span class="nav-item-icon">🚚</span>
+            <span>Proveedores</span>
+            <span id="suppliersBadge" class="nav-badge">3</span>
+        </button>
+        <button onclick="app.switchView('store')" id="nav-store" class="nav-item">
+            <span class="nav-item-icon">🌐</span>
+            <span>Tienda</span>
+        </button>
+    </nav>
+
+    <!-- MODAL: CHECKOUT -->
+    <div id="checkoutModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 16px;">💳 Cobrar Venta Presencial</h2>
+
+            <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; padding: 16px; border-radius: 16px; text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 13px; color: var(--text-muted); font-weight: 700;">TOTAL A PAGAR</div>
+                <div id="modalCheckoutTotal" style="font-size: 36px; font-weight: 900; color: #10B981;">$0</div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label class="form-label">Método de Pago</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <button type="button" onclick="app.setPaymentMethod('Efectivo')" id="payEfectivo" class="btn btn-primary" style="height: 48px; font-size: 13px;">💵 Efectivo</button>
+                    <button type="button" onclick="app.setPaymentMethod('Débito')" id="payDebito" class="btn btn-secondary" style="height: 48px; font-size: 13px;">💳 Débito</button>
+                    <button type="button" onclick="app.setPaymentMethod('Transferencia')" id="payTransf" class="btn btn-secondary" style="height: 48px; font-size: 13px;">📱 Transfer</button>
+                </div>
+            </div>
+
+            <div id="cashCalcGroup" style="margin-bottom: 20px;">
+                <label class="form-label">Paga con (Monto recibido):</label>
+                <input type="number" id="cashGivenInput" class="form-control" placeholder="Ej: 10000" oninput="app.calculateChange()">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding: 12px; background: var(--bg-input); border-radius: 12px;">
+                    <span style="font-weight: 700;">VUELTO A ENTREGAR:</span>
+                    <span id="changeAmount" style="font-size: 22px; font-weight: 900; color: #F59E0B;">$0</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button onclick="app.closeCheckoutModal()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
+                <button onclick="app.confirmSale()" class="btn btn-success" style="flex: 2;">✅ CONFIRMAR Y FINALIZAR</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section style="padding: 80px 0; border-top: 1px solid var(--border-color);">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-tag">Todo en Uno</div>
-                <h2 class="section-title">Funcionalidades Clave</h2>
-                <p class="section-subtitle">Herramientas diseñadas para agilizar tu trabajo diario.</p>
-            </div>
+    <!-- MODAL: ADD PRODUCT -->
+    <div id="addProductModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 16px;">📦 Agregar Producto al Inventario</h2>
 
-            <div class="key-features-grid">
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">📷</div>
-                    <div class="key-feature-title">Escáner de códigos</div>
+            <form onsubmit="event.preventDefault(); app.saveNewProduct();">
+                <div style="margin-bottom: 12px;">
+                    <label class="form-label">Código de Barras (Escanea o digita)</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="newProdCode" class="form-control" placeholder="Ej: 7801610000030" required onchange="app.lookupBarcodeInDB(this.value)">
+                        <button type="button" onclick="app.lookupBarcodeInDB(document.getElementById('newProdCode').value)" class="btn btn-secondary" style="min-width: 90px;">🔍 Autolookup</button>
+                    </div>
                 </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">🖼</div>
-                    <div class="key-feature-title">Foto de productos</div>
+
+                <div style="margin-bottom: 12px;">
+                    <label class="form-label">Nombre del Producto</label>
+                    <input type="text" id="newProdName" class="form-control" placeholder="Ej: Coca-Cola 1.5L Original" required>
                 </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">⚡</div>
-                    <div class="key-feature-title">Inventario en tiempo real</div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                    <div>
+                        <label class="form-label">Precio Venta ($)</label>
+                        <input type="number" id="newProdPrice" class="form-control" placeholder="2000" required>
+                    </div>
+                    <div>
+                        <label class="form-label">Stock Inicial</label>
+                        <input type="number" id="newProdStock" class="form-control" placeholder="24" required>
+                    </div>
                 </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">🛍</div>
-                    <div class="key-feature-title">Ventas presenciales</div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                    <div>
+                        <label class="form-label">Categoría</label>
+                        <input type="text" id="newProdCategory" class="form-control" placeholder="Bebidas">
+                    </div>
+                    <div>
+                        <label class="form-label">Proveedor</label>
+                        <select id="newProdSupplier" class="form-control">
+                            <option value="Coca-Cola Andina">Coca-Cola Andina</option>
+                            <option value="CCU Chile">CCU Chile</option>
+                            <option value="Colun">Colun</option>
+                            <option value="Nestlé Chile">Nestlé Chile</option>
+                            <option value="Ideal / Bimbo">Ideal / Bimbo</option>
+                            <option value="Distribuidora Central">Distribuidora Central</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">🌐</div>
-                    <div class="key-feature-title">Tienda online integrada</div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" onclick="app.closeAddProductModal()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 2;">Guardar Producto</button>
                 </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">💬</div>
-                    <div class="key-feature-title">Pedidos por WhatsApp</div>
-                </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">📊</div>
-                    <div class="key-feature-title">Reportes y estadísticas</div>
-                </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">🔔</div>
-                    <div class="key-feature-title">Alertas de stock bajo</div>
-                </div>
-                <div class="key-feature-card">
-                    <div class="key-feature-icon">☁️</div>
-                    <div class="key-feature-title">Respaldo en la nube</div>
-                </div>
-            </div>
+            </form>
         </div>
-    </section>
+    </div>
 
-    <section class="audience-section">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-tag">¿Para quién es TIKK?</div>
-                <h2 class="section-title">Diseñado para emprendedores y comercios locales</h2>
-                <p class="section-subtitle">Para quienes quieren vender más y llevar su negocio al siguiente nivel.</p>
-            </div>
+    <script>
+        const BASE_PRODUCT_CATALOG = [
+            { code: "7801610000030", name: "Coca-Cola Original 1.5L", price: 2000, stock: 23, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🥤", supplierPhone: "56988881111" },
+            { code: "7801610000054", name: "Coca-Cola Zero 1.5L", price: 2000, stock: 4, minStock: 6, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🥤", supplierPhone: "56988881111" },
+            { code: "7801610000078", name: "Fanta Naranja 1.5L", price: 1800, stock: 3, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🍊", supplierPhone: "56988881111" },
+            { code: "7801610000092", name: "Sprite 1.5L", price: 1800, stock: 12, minStock: 5, category: "Bebidas", supplier: "Coca-Cola Andina", emoji: "🍋", supplierPhone: "56988881111" },
+            { code: "7802800000018", name: "Leche Entera Colun 1L", price: 1150, stock: 7, minStock: 10, category: "Lácteos", supplier: "Colun", emoji: "🥛", supplierPhone: "56988882222" },
+            { code: "7802800000025", name: "Leche Semidescremada Colun 1L", price: 1150, stock: 2, minStock: 8, category: "Lácteos", supplier: "Colun", emoji: "🥛", supplierPhone: "56988882222" },
+            { code: "7801320000012", name: "Chocolate Sahne Nuss 250g", price: 3500, stock: 10, minStock: 4, category: "Confites", supplier: "Nestlé Chile", emoji: "🍫", supplierPhone: "56988883333" },
+            { code: "7801320000043", name: "Chocolate Trencito Nestlé 150g", price: 2200, stock: 15, minStock: 5, category: "Confites", supplier: "Nestlé Chile", emoji: "🍫", supplierPhone: "56988883333" },
+            { code: "7802200000032", name: "Papas Kryzpo Original 140g", price: 1400, stock: 15, minStock: 6, category: "Snacks", supplier: "CCU Chile", emoji: "🥔", supplierPhone: "56988884444" },
+            { code: "7802200000056", name: "Papas Kryzpo Queso 140g", price: 1400, stock: 1, minStock: 6, category: "Snacks", supplier: "CCU Chile", emoji: "🥔", supplierPhone: "56988884444" },
+            { code: "7801500000020", name: "Galletas Tritón Vainilla 126g", price: 900, stock: 18, minStock: 5, category: "Galletas", supplier: "Nestlé Chile", emoji: "🍪", supplierPhone: "56988883333" },
+            { code: "7802500000010", name: "Cerveza Cristal 350ml Can pack", price: 1000, stock: 24, minStock: 10, category: "Botillería", supplier: "CCU Chile", emoji: "🍺", supplierPhone: "56988884444" },
+            { code: "7801800000015", name: "Pan de Molde Ideal Blanco", price: 2200, stock: 4, minStock: 8, category: "Abarrotes", supplier: "Ideal / Bimbo", emoji: "🍞", supplierPhone: "56988885555" }
+        ];
 
-            <div class="audience-grid">
-                <div class="audience-card">
-                    <div class="audience-avatar">🏪</div>
-                    <div class="audience-name">Almacenes</div>
-                </div>
-                <div class="audience-card">
-                    <div class="audience-avatar">🛒</div>
-                    <div class="audience-name">Minimarkets</div>
-                </div>
-                <div class="audience-card">
-                    <div class="audience-avatar">🥦</div>
-                    <div class="audience-name">Verdulerías</div>
-                </div>
-                <div class="audience-card">
-                    <div class="audience-avatar">💡</div>
-                    <div class="audience-name">Emprendedores</div>
-                </div>
-            </div>
+        const app = {
+            store: {
+                name: "Minimarket El Progreso",
+                owner: "Juan Pérez",
+                phone: "56912345678",
+                category: "Minimarket / Almacén"
+            },
 
-            <div style="text-align: center; margin-top: 40px;">
-                <span style="font-size: 20px; font-weight: 900; color: #A78BFA;">SIMPLE • RÁPIDO • GRATIS</span>
-                <p style="color: var(--text-muted); margin-top: 8px;">Solo necesitas tu celular y ganas de crecer.</p>
-            </div>
-        </div>
-    </section>
+            products: [],
+            cart: [],
+            salesHistory: [],
+            currentPaymentMethod: "Efectivo",
+            seniorMode: false,
 
-    <section class="tech-section">
-        <div class="container">
-            <div class="section-header" style="margin-bottom: 20px;">
-                <div class="section-tag">Tecnología Utilizada</div>
-                <h2 class="section-title">Infraestructura robusta y moderna</h2>
-            </div>
+            init() {
+                const savedProds = localStorage.getItem("tikk_products_v3");
+                if (savedProds) {
+                    this.products = JSON.parse(savedProds);
+                } else {
+                    this.products = JSON.parse(JSON.stringify(BASE_PRODUCT_CATALOG));
+                    this.saveProducts();
+                }
 
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-icon">⚡</div>
-                    <div class="tech-title">Frontend</div>
-                    <div class="tech-desc">GitHub Pages</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">🛡</div>
-                    <div class="tech-title">Hosting</div>
-                    <div class="tech-desc">Cloudflare</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">📊</div>
-                    <div class="tech-title">Base de Datos</div>
-                    <div class="tech-desc">Google Sheets</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">🇨🇱</div>
-                    <div class="tech-title">Dominio</div>
-                    <div class="tech-desc">NIC Chile</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">🔒</div>
-                    <div class="tech-title">Auth</div>
-                    <div class="tech-desc">Google</div>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">📱</div>
-                    <div class="tech-title">Ventas</div>
-                    <div class="tech-desc">WhatsApp API</div>
-                </div>
-            </div>
-        </div>
-    </section>
+                this.renderPOSProducts();
+                this.renderInventoryTable();
+                this.renderDashboard();
+                this.renderSuppliers();
+                this.renderOnlineStore();
+                this.updateBadges();
+            },
 
-    <section id="cta" class="final-cta">
-        <div class="container">
-            <div class="cta-card">
-                <h2>Transforma tu celular en el motor de tu negocio</h2>
-                <p>Sin mensualidades ni instalaciones complicadas. Tu inventario listo en minutos.</p>
-                <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
-                    <a href="https://wa.me/?text=Hola!%20Quiero%20usar%20TIKK%20para%20mi%20negocio" target="_blank" class="btn btn-whatsapp" style="font-size: 16px; padding: 16px 36px;">
-                        Comenzar Gratis por WhatsApp
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+            switchView(viewId) {
+                document.querySelectorAll(".view-panel").forEach(el => el.classList.remove("active"));
+                document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
 
-    <footer>
-        <div class="container">
-            <p>© 2026 TIKK - Tu negocio, en tu celular. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+                const targetView = document.getElementById("view-" + viewId);
+                const targetNav = document.getElementById("nav-" + viewId);
 
+                if (targetView) targetView.classList.add("active");
+                if (targetNav) targetNav.classList.add("active");
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            },
+
+            toggleSeniorMode() {
+                this.seniorMode = !this.seniorMode;
+                document.body.classList.toggle("senior-mode", this.seniorMode);
+                const btn = document.getElementById("seniorToggleBtn");
+                const lbl = document.getElementById("seniorToggleLabel");
+                if (this.seniorMode) {
+                    btn.classList.add("active");
+                    lbl.textContent = "Modo Normal";
+                    this.showToast("👁️ Modo Letra Grande Activado");
+                } else {
+                    btn.classList.remove("active");
+                    lbl.textContent = "Modo Letra Grande";
+                    this.showToast("👁️ Modo Normal");
+                }
+            },
+
+            registerStore() {
+                const name = document.getElementById("regStoreName").value.trim();
+                const owner = document.getElementById("regOwnerName").value.trim();
+                const phone = document.getElementById("regPhone").value.trim();
+                const cat = document.getElementById("regCategory").value;
+
+                if (!name || !owner || !phone) return alert("Por favor completa los datos");
+
+                this.store = { name, owner, phone: "569" + phone, category: cat };
+                document.getElementById("storeNameHeader").textContent = name;
+                document.getElementById("onlineStoreTitle").textContent = name;
+
+                this.showToast("🎉 ¡Tienda Creada Exitosamente!");
+                this.switchView("pos");
+            },
+
+            saveProducts() {
+                localStorage.setItem("tikk_products_v3", JSON.stringify(this.products));
+                this.updateBadges();
+            },
+
+            scanProductByInput() {
+                const input = document.getElementById("barcodeInput");
+                const term = input.value.trim().toLowerCase();
+                if (!term) return;
+
+                const found = this.products.find(p => p.code.toLowerCase() === term || p.name.toLowerCase().includes(term));
+
+                if (found) {
+                    this.addToCart(found.code);
+                    input.value = "";
+                    this.showToast("✅ " + found.name + " agregado al carrito");
+                } else {
+                    alert("El código o producto \"" + term + "\" no fue encontrado. ¿Deseas agregarlo al inventario?");
+                    this.openAddProductModal(term);
+                }
+            },
+
+            addToCart(code) {
+                const prod = this.products.find(p => p.code === code);
+                if (!prod) return;
+
+                if (prod.stock <= 0) {
+                    alert("⚠️ ¡Atención! El producto " + prod.name + " tiene STOCK 0.");
+                }
+
+                const existing = this.cart.find(item => item.code === code);
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    this.cart.push({ ...prod, qty: 1 });
+                }
+
+                this.renderCart();
+            },
+
+            updateCartQty(code, delta) {
+                const item = this.cart.find(i => i.code === code);
+                if (!item) return;
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    this.cart = this.cart.filter(i => i.code !== code);
+                }
+                this.renderCart();
+            },
+
+            clearCart() {
+                this.cart = [];
+                this.renderCart();
+            },
+
+            renderCart() {
+                const list = document.getElementById("cartList");
+                const totalEl = document.getElementById("cartTotal");
+
+                if (this.cart.length === 0) {
+                    list.innerHTML = '<div style="text-align:center; padding:40px 0; color:var(--text-muted); font-weight:700;">🛒 El carrito está vacío.<br>Escanea o presiona un producto.</div>';
+                    totalEl.textContent = "$0";
+                    return;
+                }
+
+                let total = 0;
+                list.innerHTML = this.cart.map(item => {
+                    const subtotal = item.price * item.qty;
+                    total += subtotal;
+                    return `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-emoji">${item.emoji}</div>
+                                <div>
+                                    <div class="cart-item-title">${item.name}</div>
+                                    <div class="cart-item-price">$${item.price.toLocaleString("es-CL")}</div>
+                                </div>
+                            </div>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="app.updateCartQty('${item.code}', -1)">-</button>
+                                <span style="font-weight:900; width:24px; text-align:center;">${item.qty}</span>
+                                <button class="qty-btn" onclick="app.updateCartQty('${item.code}', 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+
+                totalEl.textContent = "$" + total.toLocaleString("es-CL");
+            },
+
+            renderPOSProducts() {
+                const grid = document.getElementById("posProductsGrid");
+                grid.innerHTML = this.products.map(p => {
+                    let stockClass = "stock-ok";
+                    let stockText = p.stock + " un.";
+                    if (p.stock <= 0) { stockClass = "stock-zero"; stockText = "AGOTADO"; }
+                    else if (p.stock <= p.minStock) { stockClass = "stock-low"; stockText = "¡BAJO! (" + p.stock + ")"; }
+
+                    return `
+                        <div class="product-card" onclick="app.addToCart('${p.code}')">
+                            <div class="product-emoji">${p.emoji}</div>
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-price-tag">$${p.price.toLocaleString("es-CL")}</div>
+                            <div class="stock-badge ${stockClass}">${stockText}</div>
+                        </div>
+                    `;
+                }).join("");
+            },
+
+            openCheckoutModal() {
+                if (this.cart.length === 0) return alert("El carrito está vacío. Agrega productos antes de cobrar.");
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                document.getElementById("modalCheckoutTotal").textContent = "$" + total.toLocaleString("es-CL");
+                document.getElementById("cashGivenInput").value = "";
+                document.getElementById("changeAmount").textContent = "$0";
+                document.getElementById("checkoutModal").classList.add("active");
+            },
+
+            closeCheckoutModal() {
+                document.getElementById("checkoutModal").classList.remove("active");
+            },
+
+            setPaymentMethod(method) {
+                this.currentPaymentMethod = method;
+                ["payEfectivo", "payDebito", "payTransf"].forEach(id => {
+                    document.getElementById(id).className = "btn btn-secondary";
+                });
+                if (method === "Efectivo") document.getElementById("payEfectivo").className = "btn btn-primary";
+                if (method === "Débito") document.getElementById("payDebito").className = "btn btn-primary";
+                if (method === "Transferencia") document.getElementById("payTransf").className = "btn btn-primary";
+            },
+
+            calculateChange() {
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const given = parseInt(document.getElementById("cashGivenInput").value) || 0;
+                const change = given - total;
+                document.getElementById("changeAmount").textContent = "$" + (change > 0 ? change : 0).toLocaleString("es-CL");
+            },
+
+            confirmSale() {
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const totalUnits = this.cart.reduce((sum, item) => sum + item.qty, 0);
+
+                this.cart.forEach(cartItem => {
+                    const prod = this.products.find(p => p.code === cartItem.code);
+                    if (prod) {
+                        prod.stock = Math.max(0, prod.stock - cartItem.qty);
+                    }
+                });
+
+                this.salesHistory.push({
+                    id: Date.now(),
+                    date: new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }),
+                    total,
+                    units: totalUnits,
+                    items: [...this.cart],
+                    payment: this.currentPaymentMethod
+                });
+
+                this.saveProducts();
+                this.clearCart();
+                this.closeCheckoutModal();
+
+                this.renderPOSProducts();
+                this.renderInventoryTable();
+                this.renderDashboard();
+                this.renderSuppliers();
+
+                this.showToast("🎉 ¡VENTA COMPLETADA EXITOSAMENTE!");
+            },
+
+            renderInventoryTable() {
+                const tbody = document.getElementById("inventoryTableBody");
+                tbody.innerHTML = this.products.map(p => `
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 12px; font-family: monospace; font-size:11px;">${p.code}</td>
+                        <td style="padding: 12px; font-weight:800;">${p.emoji} ${p.name}</td>
+                        <td style="padding: 12px; color: var(--text-muted);">${p.category}</td>
+                        <td style="padding: 12px; color: var(--purple-light); font-weight:700;">${p.supplier}</td>
+                        <td style="padding: 12px; font-weight:900;">$${p.price.toLocaleString("es-CL")}</td>
+                        <td style="padding: 12px;">
+                            <span class="stock-badge ${p.stock <= p.minStock ? "stock-low" : "stock-ok"}">
+                                ${p.stock} un. (Mín: ${p.minStock})
+                            </span>
+                        </td>
+                        <td style="padding: 12px;">
+                            <button onclick="app.quickEditStock('${p.code}')" class="btn btn-secondary" style="height:32px; padding:0 10px; font-size:11px;">✏️ Stock</button>
+                        </td>
+                    </tr>
+                `).join("");
+            },
+
+            filterInventory() {
+                const query = document.getElementById("invSearchInput").value.toLowerCase();
+                const filtered = this.products.filter(p => p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
+                const tbody = document.getElementById("inventoryTableBody");
+                tbody.innerHTML = filtered.map(p => `
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 12px; font-family: monospace;">${p.code}</td>
+                        <td style="padding: 12px; font-weight:800;">${p.emoji} ${p.name}</td>
+                        <td style="padding: 12px;">${p.category}</td>
+                        <td style="padding: 12px; color: var(--purple-light);">${p.supplier}</td>
+                        <td style="padding: 12px; font-weight:900;">$${p.price.toLocaleString("es-CL")}</td>
+                        <td style="padding: 12px;">${p.stock} un.</td>
+                        <td style="padding: 12px;">
+                            <button onclick="app.quickEditStock('${p.code}')" class="btn btn-secondary" style="height:32px; padding:0 10px; font-size:11px;">✏️ Stock</button>
+                        </td>
+                    </tr>
+                `).join("");
+            },
+
+            quickEditStock(code) {
+                const prod = this.products.find(p => p.code === code);
+                if (!prod) return;
+                const newStock = prompt("Actualizar stock para " + prod.name + ":", prod.stock);
+                if (newStock !== null && !isNaN(newStock)) {
+                    prod.stock = parseInt(newStock);
+                    this.saveProducts();
+                    this.renderPOSProducts();
+                    this.renderInventoryTable();
+                    this.renderDashboard();
+                    this.renderSuppliers();
+                    this.showToast("📦 Stock de " + prod.name + " actualizado a " + prod.stock);
+                }
+            },
+
+            openAddProductModal(codeOpt = "") {
+                document.getElementById("newProdCode").value = codeOpt;
+                document.getElementById("newProdName").value = "";
+                document.getElementById("newProdPrice").value = "";
+                document.getElementById("newProdStock").value = "24";
+                if (codeOpt) this.lookupBarcodeInDB(codeOpt);
+                document.getElementById("addProductModal").classList.add("active");
+            },
+
+            closeAddProductModal() {
+                document.getElementById("addProductModal").classList.remove("active");
+            },
+
+            lookupBarcodeInDB(code) {
+                const match = BASE_PRODUCT_CATALOG.find(b => b.code === code.trim());
+                if (match) {
+                    document.getElementById("newProdName").value = match.name;
+                    document.getElementById("newProdPrice").value = match.price;
+                    document.getElementById("newProdCategory").value = match.category;
+                    document.getElementById("newProdSupplier").value = match.supplier;
+                    this.showToast("🔍 ¡Producto reconocido!: " + match.name);
+                }
+            },
+
+            saveNewProduct() {
+                const code = document.getElementById("newProdCode").value.trim();
+                const name = document.getElementById("newProdName").value.trim();
+                const price = parseInt(document.getElementById("newProdPrice").value) || 1000;
+                const stock = parseInt(document.getElementById("newProdStock").value) || 10;
+                const category = document.getElementById("newProdCategory").value || "Abarrotes";
+                const supplier = document.getElementById("newProdSupplier").value || "Distribuidora Central";
+
+                const newP = {
+                    code, name, price, stock, minStock: 5, category, supplier, emoji: "📦", supplierPhone: "56988889999"
+                };
+
+                this.products.push(newP);
+                this.saveProducts();
+                this.closeAddProductModal();
+
+                this.renderPOSProducts();
+                this.renderInventoryTable();
+                this.renderDashboard();
+                this.renderSuppliers();
+
+                this.showToast("✅ Producto guardado exitosamente");
+            },
+
+            renderDashboard() {
+                const totalSales = this.salesHistory.reduce((sum, s) => sum + s.total, 0) + 186500;
+                const totalOrders = this.salesHistory.length + 14;
+                const totalUnits = this.salesHistory.reduce((sum, s) => sum + s.units, 0) + 48;
+                const lowStockProds = this.products.filter(p => p.stock <= p.minStock);
+
+                document.getElementById("statTotalSales").textContent = "$" + totalSales.toLocaleString("es-CL");
+                document.getElementById("statTotalOrders").textContent = totalOrders;
+                document.getElementById("statUnitsSold").textContent = totalUnits;
+                document.getElementById("statLowStockCount").textContent = lowStockProds.length;
+
+                const topList = document.getElementById("topSellingList");
+                topList.innerHTML = this.products.slice(0, 5).map(p => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color);">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:24px;">${p.emoji}</span>
+                            <div>
+                                <div style="font-weight:800;">${p.name}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">${p.category}</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:900; color:#25D366;">$${(p.price * 12).toLocaleString("es-CL")}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">12 un. vendidas</div>
+                        </div>
+                    </div>
+                `).join("");
+
+                const alertList = document.getElementById("lowStockAlertList");
+                if (lowStockProds.length === 0) {
+                    alertList.innerHTML = '<div style="text-align:center; color:#10B981; font-weight:800; padding:20px;">✅ ¡Todo bien! No hay alertas de stock bajo.</div>';
+                } else {
+                    alertList.innerHTML = lowStockProds.map(p => `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:12px; margin-bottom:8px;">
+                            <div>
+                                <div style="font-weight:800;">${p.emoji} ${p.name}</div>
+                                <div style="font-size:11px; color:var(--red-alert);">Quedan sólo ${p.stock} unidades (Mín: ${p.minStock})</div>
+                            </div>
+                            <button onclick="app.switchView('suppliers')" class="btn btn-primary" style="height:36px; font-size:11px;">Pedir a Proveedor</button>
+                        </div>
+                    `).join("");
+                }
+            },
+
+            renderSuppliers() {
+                const lowStockProds = this.products.filter(p => p.stock <= p.minStock);
+                
+                const suppliersMap = {};
+                lowStockProds.forEach(p => {
+                    if (!suppliersMap[p.supplier]) {
+                        suppliersMap[p.supplier] = {
+                            supplier: p.supplier,
+                            phone: p.supplierPhone || "56988889999",
+                            items: []
+                        };
+                    }
+                    suppliersMap[p.supplier].items.push(p);
+                });
+
+                const container = document.getElementById("supplierCardsContainer");
+                const supplierKeys = Object.keys(suppliersMap);
+
+                if (supplierKeys.length === 0) {
+                    container.innerHTML = `
+                        <div class="card" style="text-align:center; padding:40px;">
+                            <span style="font-size:40px;">🎉</span>
+                            <h3 style="font-size:22px; font-weight:900; margin-top:10px;">¡No tienes productos con stock crítico!</h3>
+                            <p style="color:var(--text-muted);">Cuando un producto tenga poco stock, aparecerá aquí con el botón listo para hacer el pedido por WhatsApp a tu proveedor.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = supplierKeys.map(key => {
+                    const sup = suppliersMap[key];
+                    const itemsText = sup.items.map(i => '• ' + i.name + ' (Stock actual: ' + i.stock + ') -> Pedir: 24 un.').join('%0A');
+                    const message = '🚚 *PEDIDO DE REPOSICIÓN - ' + encodeURIComponent(this.store.name) + '*%0A%0AHola distribuidor *' + encodeURIComponent(sup.supplier) + '*! Necesito realizar el siguiente pedido de reposición:%0A%0A' + itemsText + '%0A%0ADirección de despacho: Av. Providencia 1234%0AContacto: ' + encodeURIComponent(this.store.owner) + ' (' + this.store.phone + ')';
+
+                    return `
+                        <div class="supplier-card">
+                            <div class="supplier-header">
+                                <div>
+                                    <h3 style="font-size:20px; font-weight:900;">🚚 Proveedor: ${sup.supplier}</h3>
+                                    <div style="font-size:12px; color:var(--text-muted);">WhatsApp: +${sup.phone}</div>
+                                </div>
+                                <span class="stock-badge stock-zero">${sup.items.length} Productos Críticos</span>
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                ${sup.items.map(i => `
+                                    <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:700; padding:6px 0; border-bottom:1px dashed var(--border-color);">
+                                        <span>${i.emoji} ${i.name}</span>
+                                        <span style="color:var(--red-alert);">Quedan: ${i.stock} un.</span>
+                                    </div>
+                                `).join("")}
+                            </div>
+
+                            <a href="https://wa.me/${sup.phone}?text=${message}" target="_blank" class="btn btn-wa" style="width:100%; font-size:16px;">
+                                💬 ENVIAR PEDIDO A PROVEEDOR POR WHATSAPP
+                            </a>
+                        </div>
+                    `;
+                }).join("");
+            },
+
+            renderOnlineStore() {
+                const grid = document.getElementById("onlineStoreGrid");
+                grid.innerHTML = this.products.map(p => `
+                    <div class="product-card">
+                        <div class="product-emoji">${p.emoji}</div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-price-tag">$${p.price.toLocaleString("es-CL")}</div>
+                        <button onclick="app.openStoreWhatsAppDemo('${p.name}', ${p.price})" class="btn btn-wa" style="height:36px; width:100%; margin-top:8px; font-size:11px;">
+                            💬 Pedir por WhatsApp
+                        </button>
+                    </div>
+                `).join("");
+            },
+
+            openStoreWhatsAppDemo(prodName = "Coca-Cola Original 1.5L", price = 2000) {
+                const msg = "Hola " + encodeURIComponent(this.store.name) + "! Quisiera pedir el producto: *" + encodeURIComponent(prodName) + "* ($" + price.toLocaleString("es-CL") + ").";
+                window.open("https://wa.me/" + this.store.phone + "?text=" + msg, "_blank");
+            },
+
+            copyStoreLink() {
+                navigator.clipboard.writeText(window.location.href);
+                this.showToast("📋 ¡Link de tu Tienda Copiado!");
+            },
+
+            updateBadges() {
+                const lowStockCount = this.products.filter(p => p.stock <= p.minStock).length;
+                document.getElementById("suppliersBadge").textContent = lowStockCount;
+            },
+
+            showToast(msg) {
+                const toast = document.getElementById("toast");
+                toast.textContent = msg;
+                toast.style.display = "block";
+                setTimeout(() => { toast.style.display = "none"; }, 3000);
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => app.init());
+    </script>
 </body>
 </html>
