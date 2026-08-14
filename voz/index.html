@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TIKK Voz | Asistente de Inventario por Voz</title>
+    <meta name="description" content="Consulta inventario y stock por voz sin mirar la pantalla. Ideal para baja visión y manos libres.">
+    <meta name="theme-color" content="#0F172A">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/icon-192.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #0F172A;
+            --bg-card: #1E293B;
+            --indigo: #6366F1;
+            --emerald: #10B981;
+            --border: #334155;
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { height: 100%; background: var(--bg-body); color: var(--text-main); font-size: 18px; }
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+
+        .voice-header {
+            position: fixed; top: 0; left: 0; right: 0; height: 74px;
+            background: #1E293B; border-bottom: 2px solid var(--indigo); z-index: 100;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+        }
+        .btn-back-landing { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; padding: 8px 16px; border-radius: 99px; font-size: 14px; font-weight: 800; text-decoration: none; }
+
+        .voice-main { margin-top: 74px; padding: 24px; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        .mic-btn-huge {
+            width: 140px; height: 140px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--indigo), #4338CA);
+            border: 4px solid #818CF8; color: white; font-size: 54px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 30px auto; cursor: pointer; box-shadow: 0 10px 40px rgba(99, 102, 241, 0.5);
+            transition: all 0.25s; position: relative;
+        }
+        .mic-btn-huge.listening { animation: pulseMic 1.2s infinite; background: linear-gradient(135deg, var(--emerald), #059669); border-color: #34D399; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.6); }
+
+        @keyframes pulseMic { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+
+        .voice-response-box { background: var(--bg-card); border: 2px solid var(--border); border-radius: 24px; padding: 24px; margin-top: 24px; text-align: left; }
+        .voice-response-title { font-size: 14px; color: var(--indigo); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .voice-response-text { font-size: 24px; font-weight: 900; color: #FFF; line-height: 1.4; }
+
+        .chip-queries { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
+        .chip-btn { background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: white; font-size: 14px; font-weight: 800; padding: 10px 18px; border-radius: 99px; cursor: pointer; }
+        .chip-btn:hover { background: var(--indigo); }
+    </style>
+</head>
+<body>
+
+    <header class="voice-header">
+        <div style="font-size:22px; font-weight:900;">🎙️ TIKK Voz (Asistente)</div>
+        <a href="/" class="btn-back-landing">⬅ Volver a Inicio</a>
+    </header>
+
+    <main class="voice-main">
+        <h1 style="font-size:28px; font-weight:900;">Asistente Manos Libres</h1>
+        <p style="color:var(--text-muted); font-size:16px; margin-top:6px;">Toca el micrófono grande y pregunta sobre tu inventario</p>
+
+        <button id="micBtn" onclick="voiceEngine.toggleListen()" class="mic-btn-huge">
+            🎙️
+        </button>
+
+        <div id="statusLabel" style="font-size:16px; font-weight:800; color:var(--text-muted);">Toca para hablar</div>
+
+        <div class="chip-queries">
+            <button onclick="voiceEngine.processQuery('Queda Coca Cola')" class="chip-btn">¿Queda Coca-Cola?</button>
+            <button onclick="voiceEngine.processQuery('Precio chocolate Sahne Nuss')" class="chip-btn">¿Precio Sahne Nuss?</button>
+            <button onclick="voiceEngine.processQuery('Stock leche Colun')" class="chip-btn">¿Stock Leche Colun?</button>
+        </div>
+
+        <div class="voice-response-box">
+            <div class="voice-response-title">🔊 Respuesta del Asistente</div>
+            <div id="responseText" class="voice-response-text">Presiona el micrófono y haz tu consulta.</div>
+        </div>
+    </main>
+
+    <script>
+        const INVENTORY_DB = [
+            { name: "Coca-Cola 1.5L", price: 2000, stock: 23 },
+            { name: "Chocolate Sahne Nuss 250g", price: 3500, stock: 10 },
+            { name: "Leche Colun 1L", price: 1150, stock: 7 },
+            { name: "Papas Kryzpo 140g", price: 1400, stock: 15 }
+        ];
+
+        const voiceEngine = {
+            listening: false,
+            recognition: null,
+
+            init() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (SpeechRecognition) {
+                    this.recognition = new SpeechRecognition();
+                    this.recognition.lang = 'es-CL';
+                    this.recognition.onstart = () => {
+                        this.listening = true;
+                        document.getElementById("micBtn").classList.add("listening");
+                        document.getElementById("statusLabel").textContent = "Escuchando... Habla ahora";
+                    };
+                    this.recognition.onend = () => {
+                        this.listening = false;
+                        document.getElementById("micBtn").classList.remove("listening");
+                        document.getElementById("statusLabel").textContent = "Toca para hablar";
+                    };
+                    this.recognition.onresult = (e) => {
+                        const transcript = e.results[0][0].transcript;
+                        this.processQuery(transcript);
+                    };
+                }
+            },
+
+            toggleListen() {
+                if (!this.recognition) {
+                    alert("Tu navegador no soporta entrada de voz por micrófono. Puedes usar los botones de consulta.");
+                    return;
+                }
+                if (this.listening) {
+                    this.recognition.stop();
+                } else {
+                    this.recognition.start();
+                }
+            },
+
+            processQuery(query) {
+                const term = query.toLowerCase();
+                let reply = "No encontré ese producto en tu inventario.";
+
+                const match = INVENTORY_DB.find(item => term.includes(item.name.toLowerCase().split(" ")[0]));
+                if (match) {
+                    reply = "Sí, queda " + match.name + ". Tienes " + match.stock + " unidades en stock y su precio de venta es de " + match.price.toLocaleString("es-CL") + " pesos.";
+                }
+
+                document.getElementById("responseText").textContent = reply;
+                this.speak(reply);
+            },
+
+            speak(text) {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const msg = new SpeechSynthesisUtterance(text);
+                    msg.lang = 'es-CL';
+                    window.speechSynthesis.speak(msg);
+                }
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => voiceEngine.init());
+    </script>
+</body>
+</html>

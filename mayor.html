@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TIKK Mayor | Modo Letra Grande para Almacenes</title>
+    <meta name="description" content="Versión ultrasimple con botones gigantes y texto grande para dueños de almacén senior.">
+    <meta name="theme-color" content="#0F172A">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/icon-192.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #0B0F17;
+            --bg-card: #182030;
+            --emerald: #10B981;
+            --amber: #F59E0B;
+            --rose: #F43F5E;
+            --border: #334155;
+            --text-main: #FFFFFF;
+            --text-muted: #CBD5E1;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { height: 100%; background: var(--bg-body); color: var(--text-main); font-size: 19px; line-height: 1.5; }
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+
+        .senior-header {
+            position: fixed; top: 0; left: 0; right: 0; height: 74px;
+            background: #182030; border-bottom: 2px solid var(--emerald); z-index: 100;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+        }
+        .senior-title { font-size: 22px; font-weight: 900; color: #FFF; display: flex; align-items: center; gap: 8px; }
+        
+        .btn-back-landing { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; padding: 8px 16px; border-radius: 99px; font-size: 14px; font-weight: 800; text-decoration: none; }
+
+        .senior-main { margin-top: 74px; padding: 16px; padding-bottom: 90px; }
+
+        .senior-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 24px; padding: 24px; margin-bottom: 20px; }
+
+        .btn-giant {
+            width: 100%; height: 68px; border-radius: 20px; font-size: 20px; font-weight: 900;
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.15s; margin-bottom: 14px;
+        }
+        .btn-giant:active { transform: scale(0.97); }
+
+        .btn-giant-emerald { background: var(--emerald); color: white; }
+        .btn-giant-amber { background: var(--amber); color: #000; }
+        .btn-giant-blue { background: #4F46E5; color: white; }
+        .btn-giant-sec { background: rgba(255,255,255,0.1); color: white; border: 2px solid var(--border); }
+
+        .prod-senior-item { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 18px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .prod-senior-name { font-size: 20px; font-weight: 900; }
+        .prod-senior-price { font-size: 22px; font-weight: 900; color: #34D399; }
+
+        .toast-senior { position: fixed; top: 84px; left: 16px; right: 16px; background: var(--emerald); color: white; padding: 16px; border-radius: 18px; font-size: 18px; font-weight: 900; text-align: center; z-index: 300; display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="seniorToast" class="toast-senior">🔔 Notificación</div>
+
+    <header class="senior-header">
+        <div class="senior-title">👵 TIKK Senior (Modo Fácil)</div>
+        <a href="/" class="btn-back-landing">⬅ Volver a Inicio</a>
+    </header>
+
+    <main class="senior-main">
+        <div style="text-align:center; margin-bottom:20px;">
+            <h1 style="font-size:26px; font-weight:900;">Minimarket El Progreso</h1>
+            <p style="color:var(--text-muted); font-size:16px;">Pantalla de Cobro Rápido en Letra Grande</p>
+        </div>
+
+        <div class="senior-card">
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+                ⚡ Acciones Principales
+            </h2>
+
+            <button onclick="seniorApp.speak('Iniciando cobro presencial')" class="btn-giant btn-giant-emerald">
+                <span>🛒</span> VENDER / COBRAR AHORA
+            </button>
+
+            <button onclick="seniorApp.speak('Abriendo cuaderno de fiados')" class="btn-giant btn-giant-amber">
+                <span>📖</span> VER CUADERNO DE FIADOS
+            </button>
+
+            <button onclick="seniorApp.speak('Revisando inventario de productos')" class="btn-giant btn-giant-blue">
+                <span>📦</span> VER STOCK DE PRODUCTOS
+            </button>
+        </div>
+
+        <div class="senior-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <h2 style="font-size:22px; font-weight:900;">🛍️ Productos Frecuentes</h2>
+                <button onclick="seniorApp.speakAllProducts()" class="btn-giant-sec" style="height:44px; padding:0 14px; font-size:14px; border-radius:99px;">🔊 Leer Todo</button>
+            </div>
+
+            <div class="prod-senior-item" onclick="seniorApp.speak('Coca-Cola 1.5L. Precio 2 mil pesos. Stock 23 unidades.')">
+                <div>
+                    <div class="prod-senior-name">🥤 Coca-Cola 1.5L</div>
+                    <div style="font-size:15px; color:var(--text-muted);">Stock: 23 unidades</div>
+                </div>
+                <div class="prod-senior-price">$2.000</div>
+            </div>
+
+            <div class="prod-senior-item" onclick="seniorApp.speak('Sahne Nuss 250g. Precio 3 mil quinientos pesos. Stock 10 unidades.')">
+                <div>
+                    <div class="prod-senior-name">🍫 Sahne Nuss 250g</div>
+                    <div style="font-size:15px; color:var(--text-muted);">Stock: 10 unidades</div>
+                </div>
+                <div class="prod-senior-price">$3.500</div>
+            </div>
+
+            <div class="prod-senior-item" onclick="seniorApp.speak('Leche Colun 1L. Precio mil ciento cincuenta pesos. Stock 7 unidades.')">
+                <div>
+                    <div class="prod-senior-name">🥛 Leche Colun 1L</div>
+                    <div style="font-size:15px; color:var(--text-muted);">Stock: 7 unidades</div>
+                </div>
+                <div class="prod-senior-price">$1.150</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const seniorApp = {
+            speak(text) {
+                this.showToast("🔊 " + text);
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const msg = new SpeechSynthesisUtterance(text);
+                    msg.lang = 'es-CL';
+                    msg.rate = 0.9;
+                    window.speechSynthesis.speak(msg);
+                }
+            },
+
+            speakAllProducts() {
+                this.speak("Productos: Coca-Cola 1.5L a 2 mil pesos. Sahne Nuss a 3 mil quinientos pesos. Leche Colun a mil ciento cincuenta pesos.");
+            },
+
+            showToast(msg) {
+                const toast = document.getElementById("seniorToast");
+                toast.textContent = msg;
+                toast.style.display = "block";
+                setTimeout(() => { toast.style.display = "none"; }, 3000);
+            }
+        };
+    </script>
+</body>
+</html>
