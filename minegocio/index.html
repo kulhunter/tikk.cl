@@ -1,126 +1,203 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Minimarket El Progreso | Catálogo Digital TIKK</title>
-    <meta name="description" content="Haz tu pedido online directamente al WhatsApp de Minimarket El Progreso.">
-    <meta name="theme-color" content="#0F172A">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" href="/icon-192.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>Minimarket El Progreso — Catálogo y Pedidos por WhatsApp (TIKK)</title>
+<meta name="description" content="Catálogo online de Minimarket El Progreso. Agrega productos y haz tu pedido directo al WhatsApp del negocio.">
+<meta name="theme-color" content="#080C14">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#080C14;--surface:#0F1520;--raised:#182038;
+  --green:#00E27A;--wa:#25D366;--amber:#FFB800;
+  --white:#F2F4F7;--muted:#6B7A99;--muted2:#96A3BB;
+  --border:rgba(255,255,255,.07);
+  --mono:'IBM Plex Mono',monospace;--display:'Syne',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:90px}
+h1,h2,h3{font-family:var(--display)}
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+/* STORE HEADER */
+.store-header{
+  background:linear-gradient(180deg,var(--raised),var(--surface));
+  padding:32px 20px 24px;text-align:center;border-bottom:1px solid var(--border);
+}
+.store-avatar{
+  width:72px;height:72px;border-radius:20px;
+  background:linear-gradient(135deg,var(--green),#059669);
+  display:flex;align-items:center;justify-content:center;font-size:36px;
+  margin:0 auto 14px;box-shadow:0 8px 24px rgba(0,226,122,.3);
+}
+.store-name{font-size:28px;font-weight:900;margin-bottom:4px}
+.store-sub{font-size:13px;color:var(--muted2)}
+.store-badge{
+  display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+  font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);
+  background:rgba(0,226,122,.1);border:1px solid rgba(0,226,122,.2);
+  padding:4px 12px;border-radius:99px;
+}
 
-    <style>
-        :root {
-            --bg-body: #0F172A;
-            --bg-card: #1E293B;
-            --emerald: #10B981;
-            --wa-green: #25D366;
-            --border: #334155;
-            --text-main: #FFFFFF;
-            --text-muted: #94A3B8;
-        }
+/* SEARCH */
+.search-bar{padding:14px 16px;border-bottom:1px solid var(--border)}
+.search-input{
+  width:100%;height:48px;background:var(--raised);border:1px solid var(--border);
+  border-radius:12px;padding:0 16px;color:var(--white);font-size:15px;outline:none;
+}
+.search-input:focus{border-color:rgba(0,226,122,.35)}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg-body); color: var(--text-main); font-size: 15px; padding-bottom: 90px; }
-        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+/* CAT TABS */
+.cat-tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 16px;scrollbar-width:none;border-bottom:1px solid var(--border)}
+.cat-tabs::-webkit-scrollbar{display:none}
+.ct{flex-shrink:0;padding:7px 16px;border-radius:99px;font-size:12px;font-weight:700;background:var(--surface);border:1px solid var(--border);color:var(--muted2);cursor:pointer;transition:all .15s}
+.ct.active{background:rgba(0,226,122,.12);border-color:rgba(0,226,122,.3);color:var(--green)}
 
-        .store-header { background: linear-gradient(135deg, #1E293B, #0F172A); padding: 24px 16px; text-align: center; border-bottom: 1px solid var(--border); }
-        .store-avatar { width: 64px; height: 64px; background: var(--emerald); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px; }
+/* PRODUCTS */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px 16px}
+@media(max-width:360px){.products-grid{grid-template-columns:repeat(2,1fr)}}
 
-        .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+.prod-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:18px;
+  padding:14px 10px;text-align:center;transition:all .18s;
+}
+.prod-card:hover{border-color:rgba(0,226,122,.35)}
+.pc-emoji{font-size:38px;margin-bottom:6px}
+.pc-name{font-size:13px;font-weight:700;line-height:1.3;height:36px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:6px}
+.pc-price{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green);margin-bottom:8px}
+.btn-add{
+  width:100%;height:36px;background:rgba(0,226,122,.12);border:1px solid rgba(0,226,122,.25);
+  color:var(--green);font-weight:800;font-size:12px;border-radius:8px;cursor:pointer;
+  transition:all .15s;
+}
+.btn-add:hover{background:var(--green);color:#000}
 
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
-        .prod-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 14px; text-align: center; }
-        .prod-emoji { font-size: 38px; margin-bottom: 6px; }
-        .prod-title { font-weight: 800; font-size: 14px; height: 38px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .prod-price { color: var(--emerald); font-weight: 900; font-size: 16px; margin: 6px 0; }
-
-        .btn-add { background: var(--emerald); color: white; border: none; padding: 8px; border-radius: 10px; font-weight: 800; width: 100%; cursor: pointer; }
-
-        .sticky-cart-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 74px; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(16px); border-top: 1px solid var(--border); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
-        .btn-order-wa { background: var(--wa-green); color: white; border: none; padding: 14px 24px; border-radius: 99px; font-size: 16px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    </style>
+/* STICKY CART */
+.cart-bar{
+  position:fixed;bottom:0;left:0;right:0;height:78px;
+  background:rgba(15,21,32,.96);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);display:flex;align-items:center;
+  justify-content:space-between;padding:0 16px;z-index:100;
+  box-shadow:0 -8px 30px rgba(0,0,0,.5);
+}
+.cart-summary{display:flex;flex-direction:column}
+.cart-label{font-size:10px;font-weight:700;color:var(--muted);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.cart-total{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green)}
+.btn-order{
+  background:var(--wa);color:#000;font-weight:900;font-size:15px;
+  height:50px;padding:0 20px;border-radius:14px;border:none;cursor:pointer;
+  display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(37,211,102,.35);
+  transition:all .18s;
+}
+.btn-order:hover{background:#20bc58}
+.btn-order:active{transform:scale(.97)}
+</style>
 </head>
 <body>
 
-    <header class="store-header">
-        <div class="store-avatar">🏪</div>
-        <h1 style="font-size:26px; font-weight:900;">Minimarket El Progreso</h1>
-        <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">📍 Av. Providencia 1234 · Pedidos directos por WhatsApp</p>
-    </header>
+<!-- STORE HEADER -->
+<header class="store-header">
+  <div class="store-avatar">🏪</div>
+  <h1 class="store-name">Minimarket El Progreso</h1>
+  <p class="store-sub">📍 Av. Providencia 1234 · Horario: 08:00 – 22:00</p>
+  <div class="store-badge">● Pedidos por WhatsApp — Despacho a domicilio disponible</div>
+</header>
 
-    <main class="container">
-        <div style="font-size:18px; font-weight:900;">🛍️ Catálogo de Productos</div>
+<!-- SEARCH -->
+<div class="search-bar">
+  <input id="searchInput" type="text" class="search-input" placeholder="Buscar producto…" oninput="store.renderProducts()">
+</div>
 
-        <div class="products-grid">
-            <div class="prod-card">
-                <div class="prod-emoji">🥤</div>
-                <div class="prod-title">Coca-Cola Original 1.5L</div>
-                <div class="prod-price">$2.000</div>
-                <button onclick="storeApp.addToCart('Coca-Cola 1.5L', 2000)" class="btn-add">+ Agregar</button>
-            </div>
-            <div class="prod-card">
-                <div class="prod-emoji">🍫</div>
-                <div class="prod-title">Chocolate Sahne Nuss 250g</div>
-                <div class="prod-price">$3.500</div>
-                <button onclick="storeApp.addToCart('Sahne Nuss 250g', 3500)" class="btn-add">+ Agregar</button>
-            </div>
-            <div class="prod-card">
-                <div class="prod-emoji">🥛</div>
-                <div class="prod-title">Leche Entera Colun 1L</div>
-                <div class="prod-price">$1.150</div>
-                <button onclick="storeApp.addToCart('Leche Colun 1L', 1150)" class="btn-add">+ Agregar</button>
-            </div>
-            <div class="prod-card">
-                <div class="prod-emoji">🥔</div>
-                <div class="prod-title">Papas Kryzpo 140g</div>
-                <div class="prod-price">$1.400</div>
-                <button onclick="storeApp.addToCart('Papas Kryzpo 140g', 1400)" class="btn-add">+ Agregar</button>
-            </div>
-        </div>
-    </main>
+<!-- CATEGORY TABS -->
+<div id="catTabs" class="cat-tabs"></div>
 
-    <div class="sticky-cart-bar">
-        <div>
-            <div style="font-size:12px; color:var(--text-muted);">TOTAL CARRITO</div>
-            <div id="storeCartTotal" style="font-size:24px; font-weight:900; color:var(--emerald);">$0</div>
-        </div>
-        <button onclick="storeApp.sendWhatsAppOrder()" class="btn-order-wa">
-            💬 Pedir por WhatsApp (<span id="cartCount">0</span>)
-        </button>
-    </div>
+<!-- PRODUCTS -->
+<div id="productsGrid" class="products-grid"></div>
 
-    <script>
-        const storeApp = {
-            cart: [],
+<!-- CART BAR -->
+<div class="cart-bar">
+  <div class="cart-summary">
+    <div class="cart-label">Total carrito</div>
+    <div id="cartTotal" class="cart-total">$0</div>
+  </div>
+  <button id="orderBtn" class="btn-order" onclick="store.sendOrder()">
+    💬 Hacer Pedido (<span id="cartCount">0</span>)
+  </button>
+</div>
 
-            addToCart(name, price) {
-                const found = this.cart.find(i => i.name === name);
-                if (found) { found.qty += 1; }
-                else { this.cart.push({ name, price, qty: 1 }); }
-                this.render();
-            },
+<script>
+const STORE={name:"Minimarket El Progreso",phone:"56912345678"};
 
-            render() {
-                const total = this.cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-                const count = this.cart.reduce((sum, i) => sum + i.qty, 0);
-                document.getElementById("storeCartTotal").textContent = "$" + total.toLocaleString("es-CL");
-                document.getElementById("cartCount").textContent = count;
-            },
+const CATALOG=[
+  {name:"Coca-Cola Original 1.5L",emoji:"🥤",price:2000,cat:"Bebidas"},
+  {name:"Coca-Cola Zero 1.5L",emoji:"🥤",price:2000,cat:"Bebidas"},
+  {name:"Fanta Naranja 1.5L",emoji:"🍊",price:1800,cat:"Bebidas"},
+  {name:"Sprite 1.5L",emoji:"🍋",price:1800,cat:"Bebidas"},
+  {name:"Leche Entera Colun 1L",emoji:"🥛",price:1150,cat:"Lácteos"},
+  {name:"Chocolate Sahne Nuss 250g",emoji:"🍫",price:3500,cat:"Confites"},
+  {name:"Galletas Tritón 126g",emoji:"🍪",price:900,cat:"Galletas"},
+  {name:"Papas Kryzpo Original 140g",emoji:"🥔",price:1400,cat:"Snacks"},
+  {name:"Pan de Molde Ideal Blanco",emoji:"🍞",price:2200,cat:"Panadería"},
+  {name:"Cerveza Cristal 350ml",emoji:"🍺",price:1000,cat:"Botillería"}
+];
 
-            sendWhatsAppOrder() {
-                if (this.cart.length === 0) return alert("Tu carrito está vacío. Agrega productos.");
-                const itemsText = this.cart.map(i => '• ' + i.qty + 'x ' + i.name + ' ($' + (i.price * i.qty).toLocaleString('es-CL') + ')').join('%0A');
-                const total = this.cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-                const msg = "Hola *Minimarket El Progreso*! Quiero hacer el siguiente pedido:%0A%0A" + itemsText + "%0A%0A*TOTAL: $" + total.toLocaleString("es-CL") + "*";
-                window.open("https://wa.me/56912345678?text=" + msg, "_blank");
-            }
-        };
-    </script>
+const store={
+  cart:[],
+  catFilter:"TODOS",
+
+  init(){
+    const cats=["TODOS",...new Set(CATALOG.map(p=>p.cat))];
+    document.getElementById("catTabs").innerHTML=cats.map(c=>`
+      <button class="ct${c===this.catFilter?" active":""}" onclick="store.filterCat('${c}')">${c}</button>`).join("");
+    this.renderProducts();
+  },
+
+  filterCat(c){
+    this.catFilter=c;
+    document.querySelectorAll(".ct").forEach(el=>{
+      el.classList.toggle("active",el.textContent===c);
+    });
+    this.renderProducts();
+  },
+
+  renderProducts(){
+    const q=(document.getElementById("searchInput").value||"").toLowerCase();
+    let prods=this.catFilter==="TODOS"?CATALOG:CATALOG.filter(p=>p.cat===this.catFilter);
+    if(q)prods=prods.filter(p=>p.name.toLowerCase().includes(q));
+    document.getElementById("productsGrid").innerHTML=prods.map(p=>`
+      <div class="prod-card">
+        <div class="pc-emoji">${p.emoji}</div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-price">$${p.price.toLocaleString("es-CL")}</div>
+        <button onclick="store.addToCart('${p.name}',${p.price})" class="btn-add">+ Agregar</button>
+      </div>`).join("");
+  },
+
+  addToCart(name,price){
+    const ex=this.cart.find(i=>i.name===name);
+    if(ex)ex.qty++;else this.cart.push({name,price,qty:1});
+    this.renderCart();
+  },
+
+  renderCart(){
+    const total=this.cart.reduce((s,i)=>s+(i.price*i.qty),0);
+    const count=this.cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById("cartTotal").textContent="$"+total.toLocaleString("es-CL");
+    document.getElementById("cartCount").textContent=count;
+  },
+
+  sendOrder(){
+    if(!this.cart.length){alert("Tu carrito está vacío. Agrega productos primero.");return;}
+    const total=this.cart.reduce((s,i)=>s+(i.price*i.qty),0);
+    const items=this.cart.map(i=>`• ${i.qty}x ${i.name} — $${(i.price*i.qty).toLocaleString("es-CL")}`).join("\n");
+    const msg=`🛒 *PEDIDO — ${STORE.name}*\n\n${items}\n\n*TOTAL: $${total.toLocaleString("es-CL")}*\n\n_Enviado desde tikk.cl/minegocio_`;
+    window.open("https://wa.me/"+STORE.phone+"?text="+encodeURIComponent(msg),"_blank");
+  }
+};
+
+document.addEventListener("DOMContentLoaded",()=>store.init());
+</script>
 </body>
 </html>

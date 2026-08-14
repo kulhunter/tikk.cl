@@ -1,163 +1,255 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TIKK Voz | Asistente de Inventario por Voz</title>
-    <meta name="description" content="Consulta inventario y stock por voz sin mirar la pantalla. Ideal para baja visión y manos libres.">
-    <meta name="theme-color" content="#0F172A">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" href="/icon-192.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>TIKK Voz — Asistente de Inventario Manos Libres</title>
+<meta name="description" content="Pregunta por voz el stock y precio de cualquier producto de tu almacén. Para personas con baja visión o manos ocupadas.">
+<meta name="theme-color" content="#080C14">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Syne:wght@700;900&family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#080C14;--surface:#0F1520;--raised:#182038;
+  --indigo:#818CF8;--indigo-dim:rgba(129,140,248,.12);--indigo-glow:rgba(99,102,241,.4);
+  --green:#00E27A;--amber:#FFB800;--red:#FF3B5C;
+  --white:#F2F4F7;--muted:#6B7A99;--muted2:#96A3BB;
+  --mono:'IBM Plex Mono',monospace;--display:'Syne',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display)}
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+.app-bar{
+  position:sticky;top:0;height:60px;background:rgba(8,12,20,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;
+  justify-content:space-between;padding:0 16px;z-index:50;
+}
+.bar-logo{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green);background:rgba(0,226,122,.1);border:1px solid rgba(0,226,122,.25);padding:4px 10px;border-radius:6px}
+.bar-back{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:7px 14px;border-radius:99px;font-size:12px;font-weight:800;text-decoration:none}
 
-    <style>
-        :root {
-            --bg-body: #0F172A;
-            --bg-card: #1E293B;
-            --indigo: #6366F1;
-            --emerald: #10B981;
-            --border: #334155;
-            --text-main: #FFFFFF;
-            --text-muted: #94A3B8;
-        }
+.voice-layout{
+  min-height:calc(100vh - 60px);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:32px 20px;text-align:center;
+}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
-        html, body { height: 100%; background: var(--bg-body); color: var(--text-main); font-size: 18px; }
-        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+/* ── MIC BUTTON ── */
+.mic-wrap{position:relative;margin-bottom:32px}
+.mic-rings{position:absolute;inset:-30px;border-radius:50%;pointer-events:none}
+.mic-ring{
+  position:absolute;inset:0;border-radius:50%;border:2px solid rgba(129,140,248,.3);
+  animation:ringOut 2.5s ease-in-out infinite;
+}
+.mic-ring:nth-child(2){animation-delay:.5s}
+.mic-ring:nth-child(3){animation-delay:1s}
+@keyframes ringOut{0%{transform:scale(.9);opacity:.6}100%{transform:scale(1.6);opacity:0}}
 
-        .voice-header {
-            position: fixed; top: 0; left: 0; right: 0; height: 74px;
-            background: #1E293B; border-bottom: 2px solid var(--indigo); z-index: 100;
-            display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-        }
-        .btn-back-landing { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; padding: 8px 16px; border-radius: 99px; font-size: 14px; font-weight: 800; text-decoration: none; }
+.mic-btn{
+  width:140px;height:140px;border-radius:50%;border:3px solid var(--indigo);
+  background:linear-gradient(135deg,#4338CA,#6366F1);color:var(--white);
+  font-size:56px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 0 40px var(--indigo-glow),0 10px 30px rgba(0,0,0,.6);
+  transition:all .2s;position:relative;z-index:1;
+}
+.mic-btn:hover{transform:scale(1.06)}
+.mic-btn:active{transform:scale(.97)}
+.mic-btn.listening{
+  background:linear-gradient(135deg,#059669,#10B981);border-color:#34D399;
+  box-shadow:0 0 50px rgba(16,185,129,.5),0 10px 30px rgba(0,0,0,.6);
+  animation:micPulse 1s ease-in-out infinite;
+}
+@keyframes micPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
-        .voice-main { margin-top: 74px; padding: 24px; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; }
+.status-text{font-family:var(--mono);font-size:14px;color:var(--muted);margin-bottom:24px;min-height:20px}
 
-        .mic-btn-huge {
-            width: 140px; height: 140px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--indigo), #4338CA);
-            border: 4px solid #818CF8; color: white; font-size: 54px;
-            display: flex; align-items: center; justify-content: center;
-            margin: 30px auto; cursor: pointer; box-shadow: 0 10px 40px rgba(99, 102, 241, 0.5);
-            transition: all 0.25s; position: relative;
-        }
-        .mic-btn-huge.listening { animation: pulseMic 1.2s infinite; background: linear-gradient(135deg, var(--emerald), #059669); border-color: #34D399; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.6); }
+/* ── RESPONSE BOX ── */
+.response-box{
+  background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:24px;
+  padding:24px;width:100%;max-width:560px;text-align:left;margin-bottom:24px;
+}
+.response-label{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.response-label::before{content:'>';color:var(--green)}
+.response-text{font-family:var(--display);font-size:26px;font-weight:700;line-height:1.3;color:var(--white);min-height:36px}
 
-        @keyframes pulseMic { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+/* ── CHIP SHORTCUTS ── */
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;max-width:560px}
+.chip{
+  background:var(--indigo-dim);border:1px solid rgba(129,140,248,.25);color:var(--indigo);
+  font-size:13px;font-weight:700;padding:9px 18px;border-radius:99px;cursor:pointer;
+  transition:all .15s;
+}
+.chip:hover{background:rgba(129,140,248,.22);border-color:rgba(129,140,248,.5)}
 
-        .voice-response-box { background: var(--bg-card); border: 2px solid var(--border); border-radius: 24px; padding: 24px; margin-top: 24px; text-align: left; }
-        .voice-response-title { font-size: 14px; color: var(--indigo); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .voice-response-text { font-size: 24px; font-weight: 900; color: #FFF; line-height: 1.4; }
-
-        .chip-queries { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
-        .chip-btn { background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: white; font-size: 14px; font-weight: 800; padding: 10px 18px; border-radius: 99px; cursor: pointer; }
-        .chip-btn:hover { background: var(--indigo); }
-    </style>
+/* ── TRANSCRIPT ── */
+.transcript-box{
+  background:var(--raised);border:1px solid rgba(255,255,255,.06);border-radius:16px;
+  padding:14px 18px;width:100%;max-width:560px;text-align:left;
+}
+.transcript-label{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px}
+.transcript-text{font-size:16px;color:var(--muted2);font-style:italic;min-height:22px}
+</style>
 </head>
 <body>
 
-    <header class="voice-header">
-        <div style="font-size:22px; font-weight:900;">🎙️ TIKK Voz (Asistente)</div>
-        <a href="/" class="btn-back-landing">⬅ Volver a Inicio</a>
-    </header>
+<header class="app-bar">
+  <span class="bar-logo">tikk</span>
+  <div style="font-size:14px;font-weight:900">🎙 Asistente de Voz</div>
+  <a href="/" class="bar-back">⬅ Inicio</a>
+</header>
 
-    <main class="voice-main">
-        <h1 style="font-size:28px; font-weight:900;">Asistente Manos Libres</h1>
-        <p style="color:var(--text-muted); font-size:16px; margin-top:6px;">Toca el micrófono grande y pregunta sobre tu inventario</p>
+<main class="voice-layout">
 
-        <button id="micBtn" onclick="voiceEngine.toggleListen()" class="mic-btn-huge">
-            🎙️
-        </button>
+  <h1 style="font-size:32px;font-weight:900;margin-bottom:8px">Pregunta por voz</h1>
+  <p style="color:var(--muted2);font-size:16px;margin-bottom:36px;max-width:440px;line-height:1.5">
+    Di <strong style="color:var(--white)">"¿Queda Coca-Cola?"</strong> o <strong style="color:var(--white)">"¿Cuánto cuesta la leche?"</strong> y el asistente responde hablando.
+  </p>
 
-        <div id="statusLabel" style="font-size:16px; font-weight:800; color:var(--text-muted);">Toca para hablar</div>
+  <div class="mic-wrap">
+    <div class="mic-rings">
+      <div class="mic-ring"></div>
+      <div class="mic-ring"></div>
+      <div class="mic-ring"></div>
+    </div>
+    <button id="micBtn" class="mic-btn" onclick="voiceApp.toggleListen()" aria-label="Toca para hablar">🎙</button>
+  </div>
 
-        <div class="chip-queries">
-            <button onclick="voiceEngine.processQuery('Queda Coca Cola')" class="chip-btn">¿Queda Coca-Cola?</button>
-            <button onclick="voiceEngine.processQuery('Precio chocolate Sahne Nuss')" class="chip-btn">¿Precio Sahne Nuss?</button>
-            <button onclick="voiceEngine.processQuery('Stock leche Colun')" class="chip-btn">¿Stock Leche Colun?</button>
-        </div>
+  <div id="statusText" class="status-text">Toca el micrófono o elige una pregunta de abajo</div>
 
-        <div class="voice-response-box">
-            <div class="voice-response-title">🔊 Respuesta del Asistente</div>
-            <div id="responseText" class="voice-response-text">Presiona el micrófono y haz tu consulta.</div>
-        </div>
-    </main>
+  <div class="response-box">
+    <div class="response-label">Respuesta del asistente</div>
+    <div id="responseText" class="response-text">Esperando tu consulta…</div>
+  </div>
 
-    <script>
-        const INVENTORY_DB = [
-            { name: "Coca-Cola 1.5L", price: 2000, stock: 23 },
-            { name: "Chocolate Sahne Nuss 250g", price: 3500, stock: 10 },
-            { name: "Leche Colun 1L", price: 1150, stock: 7 },
-            { name: "Papas Kryzpo 140g", price: 1400, stock: 15 }
-        ];
+  <div class="chips">
+    <button class="chip" onclick="voiceApp.query('queda coca cola')">¿Queda Coca-Cola?</button>
+    <button class="chip" onclick="voiceApp.query('cuanto cuesta la leche')">¿Cuánto cuesta la leche?</button>
+    <button class="chip" onclick="voiceApp.query('sahne nuss')">Sahne Nuss</button>
+    <button class="chip" onclick="voiceApp.query('stock de pan')">¿Stock de pan?</button>
+    <button class="chip" onclick="voiceApp.query('queda kryzpo')">¿Queda Kryzpo?</button>
+    <button class="chip" onclick="voiceApp.query('precio cerveza')">¿Precio cerveza?</button>
+  </div>
 
-        const voiceEngine = {
-            listening: false,
-            recognition: null,
+  <div class="transcript-box">
+    <div class="transcript-label">// Lo que escuché:</div>
+    <div id="transcriptText" class="transcript-text">—</div>
+  </div>
 
-            init() {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (SpeechRecognition) {
-                    this.recognition = new SpeechRecognition();
-                    this.recognition.lang = 'es-CL';
-                    this.recognition.onstart = () => {
-                        this.listening = true;
-                        document.getElementById("micBtn").classList.add("listening");
-                        document.getElementById("statusLabel").textContent = "Escuchando... Habla ahora";
-                    };
-                    this.recognition.onend = () => {
-                        this.listening = false;
-                        document.getElementById("micBtn").classList.remove("listening");
-                        document.getElementById("statusLabel").textContent = "Toca para hablar";
-                    };
-                    this.recognition.onresult = (e) => {
-                        const transcript = e.results[0][0].transcript;
-                        this.processQuery(transcript);
-                    };
-                }
-            },
+</main>
 
-            toggleListen() {
-                if (!this.recognition) {
-                    alert("Tu navegador no soporta entrada de voz por micrófono. Puedes usar los botones de consulta.");
-                    return;
-                }
-                if (this.listening) {
-                    this.recognition.stop();
-                } else {
-                    this.recognition.start();
-                }
-            },
+<script>
+const INVENTORY=[
+  {name:"Coca-Cola Original 1.5L",keywords:["coca","cola","cocacola"],price:2000,stock:23},
+  {name:"Coca-Cola Zero 1.5L",keywords:["zero","cola zero"],price:2000,stock:4},
+  {name:"Fanta Naranja 1.5L",keywords:["fanta","naranja"],price:1800,stock:3},
+  {name:"Leche Entera Colun 1L",keywords:["leche","colun","lechera"],price:1150,stock:7},
+  {name:"Chocolate Sahne Nuss",keywords:["sahne","nuss","chocolate","sahne nuss"],price:3500,stock:10},
+  {name:"Papas Kryzpo Original",keywords:["kryzpo","papas","chips"],price:1400,stock:15},
+  {name:"Pan de Molde Ideal",keywords:["pan","molde","ideal","marraqueta"],price:2200,stock:4},
+  {name:"Cerveza Cristal",keywords:["cerveza","cristal","birra"],price:1000,stock:24},
+  {name:"Sprite 1.5L",keywords:["sprite"],price:1800,stock:12},
+  {name:"Galletas Tritón Vainilla",keywords:["galletas","triton","vainilla"],price:900,stock:18}
+];
 
-            processQuery(query) {
-                const term = query.toLowerCase();
-                let reply = "No encontré ese producto en tu inventario.";
+const voiceApp={
+  listening:false,
+  recognition:null,
 
-                const match = INVENTORY_DB.find(item => term.includes(item.name.toLowerCase().split(" ")[0]));
-                if (match) {
-                    reply = "Sí, queda " + match.name + ". Tienes " + match.stock + " unidades en stock y su precio de venta es de " + match.price.toLocaleString("es-CL") + " pesos.";
-                }
+  init(){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(SR){
+      this.recognition=new SR();
+      this.recognition.lang="es-CL";
+      this.recognition.continuous=false;
+      this.recognition.interimResults=false;
+      this.recognition.onstart=()=>this.onStart();
+      this.recognition.onend=()=>this.onEnd();
+      this.recognition.onerror=(e)=>this.onError(e);
+      this.recognition.onresult=(e)=>{
+        const txt=e.results[0][0].transcript;
+        document.getElementById("transcriptText").textContent=txt;
+        this.query(txt);
+      };
+    }else{
+      document.getElementById("statusText").textContent="⚠ Tu navegador no soporta micrófono. Usa los botones de abajo.";
+    }
+  },
 
-                document.getElementById("responseText").textContent = reply;
-                this.speak(reply);
-            },
+  toggleListen(){
+    if(!this.recognition){this.query("no tengo voz");return;}
+    if(this.listening){this.recognition.stop();}
+    else{this.recognition.start();}
+  },
 
-            speak(text) {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const msg = new SpeechSynthesisUtterance(text);
-                    msg.lang = 'es-CL';
-                    window.speechSynthesis.speak(msg);
-                }
-            }
-        };
+  onStart(){
+    this.listening=true;
+    document.getElementById("micBtn").classList.add("listening");
+    document.getElementById("micBtn").textContent="🛑";
+    document.getElementById("statusText").textContent="Escuchando… habla ahora";
+  },
 
-        document.addEventListener("DOMContentLoaded", () => voiceEngine.init());
-    </script>
+  onEnd(){
+    this.listening=false;
+    document.getElementById("micBtn").classList.remove("listening");
+    document.getElementById("micBtn").textContent="🎙";
+    document.getElementById("statusText").textContent="Toca el micrófono para preguntar de nuevo";
+  },
+
+  onError(e){
+    this.onEnd();
+    const msgs={network:"Sin conexión a internet",not-allowed:"Permiso de micrófono denegado. Actívalo en tu navegador.",aborted:"Escucha cancelada"};
+    this.respond(msgs[e.error]||"Error al escuchar. Intenta de nuevo.");
+  },
+
+  query(txt){
+    const q=txt.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+    document.getElementById("transcriptText").textContent=txt;
+
+    /* ── Buscar en inventario por keywords ── */
+    let match=null;
+    for(const item of INVENTORY){
+      if(item.keywords.some(kw=>q.includes(kw.normalize("NFD").replace(/[\u0300-\u036f]/g,"")))){
+        match=item;break;
+      }
+    }
+
+    let response="";
+    if(match){
+      if(match.stock<=0){
+        response=match.name+" está agotado. No queda stock. Necesitas pedir al proveedor.";
+      }else if(match.stock<=5){
+        response=match.name+": quedan solo "+match.stock+" unidades. Precio de venta: "+match.price.toLocaleString("es-CL")+" pesos. El stock está bajo, considera reponer pronto.";
+      }else{
+        response=match.name+": hay "+match.stock+" unidades disponibles. El precio de venta es "+match.price.toLocaleString("es-CL")+" pesos.";
+      }
+    }else if(q.includes("precio")||q.includes("cuanto")&&!match){
+      response="No encontré ese producto en tu inventario. Asegúrate de haberlo cargado en la app POS de TIKK.";
+    }else{
+      response="No entendí tu consulta. Intenta preguntar por ejemplo: ¿queda Coca-Cola?, o ¿cuánto cuesta la leche?";
+    }
+
+    this.respond(response);
+  },
+
+  respond(text){
+    document.getElementById("responseText").textContent=text;
+    this.speak(text);
+  },
+
+  speak(text){
+    if("speechSynthesis"in window){
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(text);
+      u.lang="es-CL";u.rate=0.9;u.pitch=1;
+      speechSynthesis.speak(u);
+    }
+  }
+};
+
+document.addEventListener("DOMContentLoaded",()=>{
+  voiceApp.init();
+  if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
+});
+</script>
 </body>
 </html>

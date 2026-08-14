@@ -1,156 +1,224 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TIKK Mayor | Modo Letra Grande para Almacenes</title>
-    <meta name="description" content="Versión ultrasimple con botones gigantes y texto grande para dueños de almacén senior.">
-    <meta name="theme-color" content="#0F172A">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" href="/icon-192.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>TIKK Mayor — Modo Fácil para Adultos Mayores</title>
+<meta name="description" content="Versión de TIKK con letra grande, botones enormes y voz, para dueños de almacén mayores de 60 años.">
+<meta name="theme-color" content="#0A0F1E">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0F1E;--surface:#1A2440;--raised:#253058;
+  --green:#00E27A;--amber:#FFB800;--red:#FF3B5C;--blue:#4D9FFF;
+  --white:#FFFFFF;--muted:#A0AABF;--border:rgba(255,255,255,.12);
+  --font-base:20px;--btn-h:74px;--r:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--ink);color:var(--white);font-size:var(--font-base);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+.app-bar{
+  position:sticky;top:0;height:68px;background:var(--surface);border-bottom:2px solid var(--green);
+  display:flex;align-items:center;justify-content:space-between;padding:0 18px;z-index:50;
+}
+.bar-logo{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--green);background:rgba(0,226,122,.12);border:1px solid rgba(0,226,122,.3);padding:5px 12px;border-radius:8px}
+.bar-back{background:rgba(255,255,255,.1);border:1px solid var(--border);color:var(--white);padding:10px 18px;border-radius:99px;font-size:16px;font-weight:800;text-decoration:none;display:flex;align-items:center;gap:6px}
 
-    <style>
-        :root {
-            --bg-body: #0B0F17;
-            --bg-card: #182030;
-            --emerald: #10B981;
-            --amber: #F59E0B;
-            --rose: #F43F5E;
-            --border: #334155;
-            --text-main: #FFFFFF;
-            --text-muted: #CBD5E1;
-        }
+.main{padding:18px;max-width:700px;margin:0 auto;padding-bottom:20px}
+.section-label{font-size:14px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--green)}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
-        html, body { height: 100%; background: var(--bg-body); color: var(--text-main); font-size: 19px; line-height: 1.5; }
-        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+.btn-big{
+  width:100%;height:var(--btn-h);border-radius:var(--r);border:none;cursor:pointer;
+  font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-bottom:14px;transition:transform .12s;box-shadow:0 6px 20px rgba(0,0,0,.4);
+  -webkit-user-select:none;
+}
+.btn-big:active{transform:scale(.97)}
+.btn-green{background:var(--green);color:#000}
+.btn-amber{background:var(--amber);color:#000}
+.btn-blue{background:var(--blue);color:#000}
+.btn-surface{background:var(--surface);color:var(--white);border:2px solid var(--border)}
 
-        .senior-header {
-            position: fixed; top: 0; left: 0; right: 0; height: 74px;
-            background: #182030; border-bottom: 2px solid var(--emerald); z-index: 100;
-            display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-        }
-        .senior-title { font-size: 22px; font-weight: 900; color: #FFF; display: flex; align-items: center; gap: 8px; }
-        
-        .btn-back-landing { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: white; padding: 8px 16px; border-radius: 99px; font-size: 14px; font-weight: 800; text-decoration: none; }
+.product-row{
+  background:var(--surface);border:2px solid var(--border);border-radius:var(--r);
+  padding:18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:border-color .15s;
+}
+.product-row:hover{border-color:rgba(0,226,122,.4)}
+.product-row:active{transform:scale(.99)}
+.pr-left{display:flex;align-items:center;gap:14px}
+.pr-emoji{font-size:40px}
+.pr-name{font-size:22px;font-weight:900}
+.pr-stock{font-size:16px;color:var(--muted);margin-top:2px}
+.pr-price{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:var(--green)}
 
-        .senior-main { margin-top: 74px; padding: 16px; padding-bottom: 90px; }
+.card{background:var(--surface);border:2px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:16px}
 
-        .senior-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 24px; padding: 24px; margin-bottom: 20px; }
-
-        .btn-giant {
-            width: 100%; height: 68px; border-radius: 20px; font-size: 20px; font-weight: 900;
-            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.15s; margin-bottom: 14px;
-        }
-        .btn-giant:active { transform: scale(0.97); }
-
-        .btn-giant-emerald { background: var(--emerald); color: white; }
-        .btn-giant-amber { background: var(--amber); color: #000; }
-        .btn-giant-blue { background: #4F46E5; color: white; }
-        .btn-giant-sec { background: rgba(255,255,255,0.1); color: white; border: 2px solid var(--border); }
-
-        .prod-senior-item { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 18px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-        .prod-senior-name { font-size: 20px; font-weight: 900; }
-        .prod-senior-price { font-size: 22px; font-weight: 900; color: #34D399; }
-
-        .toast-senior { position: fixed; top: 84px; left: 16px; right: 16px; background: var(--emerald); color: white; padding: 16px; border-radius: 18px; font-size: 18px; font-weight: 900; text-align: center; z-index: 300; display: none; }
-    </style>
+.toast{position:fixed;top:80px;left:18px;right:18px;background:var(--surface);border:2px solid var(--green);color:var(--white);padding:18px;border-radius:var(--r);font-size:20px;font-weight:900;text-align:center;z-index:200;display:none;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+</style>
 </head>
 <body>
 
-    <div id="seniorToast" class="toast-senior">🔔 Notificación</div>
+<div id="toast" class="toast"></div>
 
-    <header class="senior-header">
-        <div class="senior-title">👵 TIKK Senior (Modo Fácil)</div>
-        <a href="/" class="btn-back-landing">⬅ Volver a Inicio</a>
-    </header>
+<header class="app-bar">
+  <span class="bar-logo">tikk</span>
+  <div style="font-size:17px;font-weight:900;color:var(--white)">👵 Modo Fácil</div>
+  <a href="/" class="bar-back">⬅ Inicio</a>
+</header>
 
-    <main class="senior-main">
-        <div style="text-align:center; margin-bottom:20px;">
-            <h1 style="font-size:26px; font-weight:900;">Minimarket El Progreso</h1>
-            <p style="color:var(--text-muted); font-size:16px;">Pantalla de Cobro Rápido en Letra Grande</p>
+<main class="main">
+
+  <!-- PANTALLA: INICIO -->
+  <div id="screen-home">
+    <div style="text-align:center;padding:24px 0 28px">
+      <div style="font-size:52px;margin-bottom:8px">🏪</div>
+      <div style="font-size:26px;font-weight:900">Minimarket El Progreso</div>
+      <div style="font-size:17px;color:var(--muted);margin-top:4px">¿Qué quiere hacer hoy?</div>
+    </div>
+
+    <div class="section-label">Acciones principales</div>
+
+    <button class="btn-big btn-green" onclick="seniorApp.goScreen('vender')">
+      <span>🛒</span> VER PRECIOS / COBRAR
+    </button>
+    <button class="btn-big btn-amber" onclick="seniorApp.goScreen('fiados')">
+      <span>📖</span> CUADERNO DE FIADOS
+    </button>
+    <button class="btn-big btn-blue" onclick="seniorApp.goScreen('stock')">
+      <span>📦</span> VER MI STOCK
+    </button>
+    <button class="btn-big btn-surface" onclick="window.location='/voz'">
+      <span>🎙</span> PREGUNTAR CON LA VOZ
+    </button>
+  </div>
+
+  <!-- PANTALLA: PRODUCTOS -->
+  <div id="screen-vender" style="display:none">
+    <button onclick="seniorApp.goScreen('home')" class="btn-big btn-surface" style="height:54px;font-size:17px;margin-bottom:20px">← Volver al inicio</button>
+    <div class="section-label">Productos y precios</div>
+
+    <div id="seniorProdList"></div>
+
+    <button onclick="seniorApp.speakAll()" class="btn-big btn-surface" style="height:54px;font-size:17px">🔊 Leer todos los productos en voz alta</button>
+  </div>
+
+  <!-- PANTALLA: FIADOS -->
+  <div id="screen-fiados" style="display:none">
+    <button onclick="seniorApp.goScreen('home')" class="btn-big btn-surface" style="height:54px;font-size:17px;margin-bottom:20px">← Volver al inicio</button>
+    <div class="section-label">Fiados pendientes</div>
+    <div id="seniorFiadosList"></div>
+  </div>
+
+  <!-- PANTALLA: STOCK -->
+  <div id="screen-stock" style="display:none">
+    <button onclick="seniorApp.goScreen('home')" class="btn-big btn-surface" style="height:54px;font-size:17px;margin-bottom:20px">← Volver al inicio</button>
+    <div class="section-label">Stock de productos</div>
+    <div id="seniorStockList"></div>
+  </div>
+
+</main>
+
+<script>
+const PRODUCTS=[
+  {name:"Coca-Cola 1.5L",price:2000,stock:23,emoji:"🥤"},
+  {name:"Leche Colun 1L",price:1150,stock:7,emoji:"🥛"},
+  {name:"Sahne Nuss 250g",price:3500,stock:10,emoji:"🍫"},
+  {name:"Papas Kryzpo 140g",price:1400,stock:15,emoji:"🥔"},
+  {name:"Pan de Molde Ideal",price:2200,stock:4,emoji:"🍞"},
+  {name:"Cerveza Cristal",price:1000,stock:24,emoji:"🍺"}
+];
+const CUSTOMERS=[
+  {name:"Don Pedro González",phone:"56998765432",debt:12500},
+  {name:"Doña María Tapia",phone:"56987654321",debt:4500}
+];
+
+const seniorApp={
+  currentScreen:"home",
+
+  goScreen(s){
+    document.querySelectorAll("[id^=screen-]").forEach(el=>el.style.display="none");
+    document.getElementById("screen-"+s).style.display="block";
+    this.currentScreen=s;
+    if(s==="vender")this.renderProducts();
+    if(s==="fiados")this.renderFiados();
+    if(s==="stock")this.renderStock();
+    window.scrollTo({top:0,behavior:"smooth"});
+  },
+
+  renderProducts(){
+    document.getElementById("seniorProdList").innerHTML=PRODUCTS.map(p=>`
+      <div class="product-row" onclick="seniorApp.speak('${p.name}. Precio: ${p.price.toLocaleString("es-CL")} pesos.')">
+        <div class="pr-left">
+          <div class="pr-emoji">${p.emoji}</div>
+          <div>
+            <div class="pr-name">${p.name}</div>
+            <div class="pr-stock">Toca para escuchar el precio</div>
+          </div>
         </div>
+        <div class="pr-price">$${p.price.toLocaleString("es-CL")}</div>
+      </div>`).join("");
+  },
 
-        <div class="senior-card">
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:8px;">
-                ⚡ Acciones Principales
-            </h2>
+  renderFiados(){
+    document.getElementById("seniorFiadosList").innerHTML=CUSTOMERS.map(c=>`
+      <div class="card">
+        <div style="font-size:24px;font-weight:900;margin-bottom:6px">👤 ${c.name}</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:700;color:var(--amber);margin-bottom:14px">$${c.debt.toLocaleString("es-CL")}</div>
+        <button onclick="seniorApp.remindWA('${c.phone}','${c.name}',${c.debt})" style="width:100%;height:60px;background:#25D366;color:#000;border:none;border-radius:var(--r);font-size:19px;font-weight:900;cursor:pointer">
+          💬 Avisar por WhatsApp
+        </button>
+      </div>`).join("");
+  },
 
-            <button onclick="seniorApp.speak('Iniciando cobro presencial')" class="btn-giant btn-giant-emerald">
-                <span>🛒</span> VENDER / COBRAR AHORA
-            </button>
-
-            <button onclick="seniorApp.speak('Abriendo cuaderno de fiados')" class="btn-giant btn-giant-amber">
-                <span>📖</span> VER CUADERNO DE FIADOS
-            </button>
-
-            <button onclick="seniorApp.speak('Revisando inventario de productos')" class="btn-giant btn-giant-blue">
-                <span>📦</span> VER STOCK DE PRODUCTOS
-            </button>
+  renderStock(){
+    document.getElementById("seniorStockList").innerHTML=PRODUCTS.map(p=>{
+      const low=p.stock<=5;
+      return`<div class="product-row">
+        <div class="pr-left">
+          <div class="pr-emoji">${p.emoji}</div>
+          <div>
+            <div class="pr-name">${p.name}</div>
+            <div style="font-size:17px;margin-top:2px;color:${low?"var(--amber)":"var(--muted)"}">${low?"⚠ Poco stock:":""} ${p.stock} unidades</div>
+          </div>
         </div>
+        <div style="font-size:28px">${low?"⚠":"✅"}</div>
+      </div>`;
+    }).join("");
+  },
 
-        <div class="senior-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <h2 style="font-size:22px; font-weight:900;">🛍️ Productos Frecuentes</h2>
-                <button onclick="seniorApp.speakAllProducts()" class="btn-giant-sec" style="height:44px; padding:0 14px; font-size:14px; border-radius:99px;">🔊 Leer Todo</button>
-            </div>
+  speakAll(){
+    const txt=PRODUCTS.map(p=>`${p.name}: ${p.price.toLocaleString("es-CL")} pesos`).join(". ");
+    this.speak("Productos disponibles: "+txt);
+  },
 
-            <div class="prod-senior-item" onclick="seniorApp.speak('Coca-Cola 1.5L. Precio 2 mil pesos. Stock 23 unidades.')">
-                <div>
-                    <div class="prod-senior-name">🥤 Coca-Cola 1.5L</div>
-                    <div style="font-size:15px; color:var(--text-muted);">Stock: 23 unidades</div>
-                </div>
-                <div class="prod-senior-price">$2.000</div>
-            </div>
+  speak(txt){
+    this.showToast("🔊 "+txt.substring(0,60)+"...");
+    if("speechSynthesis"in window){
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(txt);
+      u.lang="es-CL";u.rate=0.85;
+      speechSynthesis.speak(u);
+    }
+  },
 
-            <div class="prod-senior-item" onclick="seniorApp.speak('Sahne Nuss 250g. Precio 3 mil quinientos pesos. Stock 10 unidades.')">
-                <div>
-                    <div class="prod-senior-name">🍫 Sahne Nuss 250g</div>
-                    <div style="font-size:15px; color:var(--text-muted);">Stock: 10 unidades</div>
-                </div>
-                <div class="prod-senior-price">$3.500</div>
-            </div>
+  remindWA(phone,name,debt){
+    const msg="Hola *"+name+"*, te recuerda *Minimarket El Progreso* que tienes un saldo de fiado de *$"+debt.toLocaleString("es-CL")+"*. ¡Gracias!";
+    window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(msg),"_blank");
+  },
 
-            <div class="prod-senior-item" onclick="seniorApp.speak('Leche Colun 1L. Precio mil ciento cincuenta pesos. Stock 7 unidades.')">
-                <div>
-                    <div class="prod-senior-name">🥛 Leche Colun 1L</div>
-                    <div style="font-size:15px; color:var(--text-muted);">Stock: 7 unidades</div>
-                </div>
-                <div class="prod-senior-price">$1.150</div>
-            </div>
-        </div>
-    </main>
+  showToast(msg){
+    const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";
+    clearTimeout(this._t);this._t=setTimeout(()=>{t.style.display="none"},3500);
+  }
+};
 
-    <script>
-        const seniorApp = {
-            speak(text) {
-                this.showToast("🔊 " + text);
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const msg = new SpeechSynthesisUtterance(text);
-                    msg.lang = 'es-CL';
-                    msg.rate = 0.9;
-                    window.speechSynthesis.speak(msg);
-                }
-            },
-
-            speakAllProducts() {
-                this.speak("Productos: Coca-Cola 1.5L a 2 mil pesos. Sahne Nuss a 3 mil quinientos pesos. Leche Colun a mil ciento cincuenta pesos.");
-            },
-
-            showToast(msg) {
-                const toast = document.getElementById("seniorToast");
-                toast.textContent = msg;
-                toast.style.display = "block";
-                setTimeout(() => { toast.style.display = "none"; }, 3000);
-            }
-        };
-    </script>
+document.addEventListener("DOMContentLoaded",()=>{
+  if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
+});
+</script>
 </body>
 </html>

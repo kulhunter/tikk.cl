@@ -1,312 +1,511 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
-    <title>TIKK | El Sistema Operativo Simple y Potente para Almacenes y PyMEs</title>
-    <meta name="description" content="Punto de venta POS, inventario EAN-13, cuaderno de fiados, reposición a proveedores y tienda online para almacenes de barrio. La alternativa libre de comisiones a Shopify.">
-    <meta name="theme-color" content="#0B0F17">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" href="/icon-192.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>TIKK — El Software de Negocio Simple para Chile</title>
+<meta name="description" content="POS, inventario con escáner EAN-13, fiados y tienda WhatsApp para almacenes y minimarkets. Sin mensualidades, sin comisiones, sin complicaciones.">
+<meta name="theme-color" content="#080C14">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon-192.png">
+<meta property="og:title" content="TIKK — Software Simple para tu Almacén">
+<meta property="og:description" content="Cobra, controla stock, maneja fiados y recibe pedidos por WhatsApp. Gratis.">
+<meta property="og:image" content="https://tikk.cl/icon-512.png">
+<meta property="og:url" content="https://tikk.cl">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"TIKK","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"CLP"}}</script>
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="TIKK | Tu Negocio en tu Celular">
-    <meta property="og:description" content="La alternativa libre de comisiones y mensualidades a Shopify para almacenes de barrio. POS, inventario EAN-13, fiados y tienda por WhatsApp.">
-    <meta property="og:image" content="https://tikk.cl/icon-512.png">
-    <meta property="og:url" content="https://tikk.cl">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   TIKK DESIGN SYSTEM — NOT AI GENERIC
+   Fuente de identidad: Monoespaciada + Syne condensed
+   Paleta: Negro casi puro · Verde terminal · Amarillo advertencia
+═══════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#080C14;
+  --surface:#0F1520;
+  --raised:#182038;
+  --border:rgba(255,255,255,.08);
+  --border-lit:rgba(255,255,255,.18);
 
-    <!-- Schema.org Microdata -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "TIKK",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web, iOS, Android",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CLP" },
-      "description": "Sistema completo de ventas POS, inventario EAN-13 y fiados para almacenes y minimarkets."
-    }
-    </script>
+  --green:#00E27A;     /* terminal green — acción principal */
+  --green-dim:#00A855;
+  --amber:#FFB800;     /* advertencia / stock bajo */
+  --red:#FF3B5C;       /* peligro / eliminar */
+  --blue:#4D9FFF;      /* info / whatsapp alt */
+  --white:#F2F4F7;
+  --muted:#6B7A99;
+  --muted2:#96A3BB;
 
-    <style>
-        :root {
-            --bg-dark: #0B0F17;
-            --bg-card: #141A26;
-            --bg-card-hover: #1C2436;
-            --primary: #4F46E5;
-            --primary-light: #818CF8;
-            --emerald: #10B981;
-            --emerald-glow: rgba(16, 185, 129, 0.35);
-            --amber: #F59E0B;
-            --rose: #F43F5E;
-            --border: rgba(255, 255, 255, 0.08);
-            --text-white: #F8FAFC;
-            --text-muted: #94A3B8;
-        }
+  --mono:'IBM Plex Mono',monospace;
+  --display:'Syne',sans-serif;
+  --body:'Inter',system-ui,sans-serif;
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-dark); color: var(--text-white); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-        h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+  --r-sm:8px;--r-md:14px;--r-lg:22px;--r-xl:32px;
+}
 
-        /* HEADER NAV */
-        nav {
-            position: fixed; top: 0; left: 0; right: 0; height: 72px;
-            background: rgba(11, 15, 23, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); z-index: 100;
-            display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
-        }
-        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
-        .nav-logo-box { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), var(--emerald)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4); }
-        .nav-logo-text { font-size: 26px; font-weight: 900; letter-spacing: -0.8px; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.02em}
+code,kbd,.mono{font-family:var(--mono)}
 
-        .nav-links { display: flex; align-items: center; gap: 12px; }
-        .nav-link-btn { padding: 10px 18px; border-radius: 99px; font-size: 13px; font-weight: 800; text-decoration: none; transition: all 0.2s; }
-        .btn-app-main { background: linear-gradient(135deg, var(--emerald), #059669); color: white; box-shadow: 0 4px 16px var(--emerald-glow); }
-        .btn-app-main:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(16, 185, 129, 0.5); }
-        .btn-app-sec { background: rgba(255,255,255,0.08); color: white; border: 1px solid var(--border); }
-        .btn-app-sec:hover { background: rgba(255,255,255,0.15); border-color: var(--primary-light); }
+::selection{background:var(--green);color:#000}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--raised);border-radius:2px}
 
-        /* HERO STORYTELLING */
-        .hero-story { padding: 140px 24px 80px; max-width: 1000px; margin: 0 auto; text-align: center; }
-        .story-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 99px; padding: 8px 22px; font-size: 13px; font-weight: 800; color: #34D399; margin-bottom: 28px; }
-        
-        .hero-title { font-size: clamp(38px, 7.5vw, 74px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; }
-        .hero-title span { color: var(--emerald); }
-        .hero-lead { font-size: clamp(17px, 2.8vw, 22px); color: var(--text-muted); max-width: 720px; margin: 0 auto 40px; line-height: 1.6; }
+/* ── GRAIN TEXTURE OVERLAY ── */
+body::before{
+  content:'';pointer-events:none;position:fixed;inset:0;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  opacity:.4;mix-blend-mode:overlay;
+}
 
-        .hero-cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 50px; }
-        .cta-btn-xl { padding: 20px 40px; border-radius: 99px; font-size: 18px; font-weight: 900; text-decoration: none; transition: all 0.25s; }
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;height:60px;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+  background:rgba(8,12,20,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white)}
+.nav-badge{
+  font-family:var(--mono);font-size:19px;font-weight:700;color:var(--green);
+  background:rgba(0,226,122,.12);border:1px solid rgba(0,226,122,.3);
+  padding:4px 12px;border-radius:var(--r-sm);letter-spacing:.04em;
+}
+.nav-tagline{font-size:12px;color:var(--muted);font-weight:600;display:none}
+@media(min-width:640px){.nav-tagline{display:block}}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-pill{
+  text-decoration:none;font-size:12px;font-weight:700;padding:7px 14px;
+  border-radius:var(--r-sm);transition:all .18s;white-space:nowrap;
+}
+.nav-pill-ghost{color:var(--muted2);border:1px solid var(--border)}
+.nav-pill-ghost:hover{color:var(--white);border-color:var(--border-lit)}
+.nav-pill-cta{background:var(--green);color:#000}
+.nav-pill-cta:hover{background:#00ff88;box-shadow:0 4px 20px rgba(0,226,122,.4)}
 
-        /* 3D CARD MOCKUP PREVIEW */
-        .hero-mockup-wrapper {
-            perspective: 1000px; margin: 0 auto 60px; max-width: 900px;
-        }
-        .hero-mockup-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 32px; padding: 28px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); transform: rotateX(4deg) rotateY(-2deg); transition: transform 0.5s ease;
-        }
-        .hero-mockup-card:hover { transform: rotateX(0deg) rotateY(0deg) translateY(-8px); }
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:100px 24px 60px;
+  position:relative;overflow:hidden;
+}
+.hero-bg-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black,transparent);
+}
+.hero-glow{
+  position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:400px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,226,122,.12),transparent 70%);
+  pointer-events:none;
+}
 
-        /* NARRATIVE SECTIONS */
-        .narrative-section { padding: 80px 24px; max-width: 1150px; margin: 0 auto; border-top: 1px solid var(--border); }
-        .act-tag { font-size: 12px; font-weight: 900; color: var(--emerald); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
-        .act-title { font-size: clamp(28px, 4.5vw, 48px); font-weight: 900; letter-spacing: -1.2px; margin-bottom: 20px; }
-        .act-body { font-size: 17px; color: var(--text-muted); max-width: 680px; margin-bottom: 40px; }
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  color:var(--green);letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(0,226,122,.08);border:1px solid rgba(0,226,122,.2);
+  padding:6px 16px;border-radius:var(--r-sm);margin-bottom:28px;
+}
+.hero-eyebrow::before{content:'> '}
 
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .info-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; transition: all 0.3s ease; }
-        .info-card:hover { background: var(--bg-card-hover); border-color: var(--primary-light); transform: translateY(-4px); }
-        .info-icon { font-size: 40px; margin-bottom: 16px; width: 64px; height: 64px; background: rgba(79, 70, 229, 0.15); border-radius: 18px; display: flex; align-items: center; justify-content: center; }
-        .info-h3 { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
-        .info-p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+.hero h1{
+  font-family:var(--display);font-size:clamp(40px,8vw,84px);
+  font-weight:900;line-height:1.05;letter-spacing:-.03em;
+  margin-bottom:22px;max-width:900px;
+}
+.hero h1 em{font-style:normal;color:var(--green)}
 
-        /* VIABILITY & COSTS TABLE */
-        .viability-box { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 28px; padding: 36px; margin-top: 40px; }
-        .costs-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-        .costs-table th { background: rgba(255,255,255,0.05); padding: 12px 16px; text-align: left; font-weight: 800; color: var(--emerald); border-bottom: 1px solid var(--border); }
-        .costs-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+.hero-sub{
+  font-size:clamp(16px,2.5vw,20px);color:var(--muted2);
+  max-width:640px;margin:0 auto 40px;line-height:1.65;
+}
 
-        /* FOOTER */
-        footer { border-top: 1px solid var(--border); padding: 48px 24px; text-align: center; color: var(--text-muted); font-size: 14px; }
-        footer a { color: var(--emerald); text-decoration: none; font-weight: 700; }
-    </style>
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+.btn-hero-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green);color:#000;font-weight:800;font-size:16px;
+  padding:15px 28px;border-radius:var(--r-md);text-decoration:none;
+  box-shadow:0 8px 30px rgba(0,226,122,.35);transition:all .2s;
+}
+.btn-hero-primary:hover{background:#00ff88;transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,226,122,.5)}
+.btn-hero-sec{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--surface);color:var(--white);font-weight:700;font-size:15px;
+  padding:15px 24px;border-radius:var(--r-md);text-decoration:none;
+  border:1px solid var(--border);transition:all .2s;
+}
+.btn-hero-sec:hover{border-color:var(--border-lit);background:var(--raised)}
+
+/* ── APP PREVIEW TERMINAL ── */
+.terminal-preview{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
+  overflow:hidden;max-width:860px;width:100%;margin:0 auto;
+  box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);
+}
+.terminal-header{
+  background:var(--raised);padding:12px 20px;display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.t-dot{width:12px;height:12px;border-radius:50%}
+.t-title{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:6px;flex:1;text-align:center}
+.terminal-body{padding:20px}
+.pos-demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:520px){.pos-demo-grid{grid-template-columns:repeat(2,1fr)}}
+.pos-demo-item{
+  background:var(--raised);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:14px;cursor:default;transition:border-color .2s;
+}
+.pos-demo-item:hover{border-color:var(--green)}
+.pdi-emoji{font-size:32px;margin-bottom:6px}
+.pdi-name{font-size:12px;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:4px}
+.pdi-price{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--green)}
+.pdi-stock{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* ── STORY SECTIONS ── */
+.story{padding:80px 24px;max-width:1120px;margin:0 auto}
+.story-divider{border:none;border-top:1px solid var(--border);margin:0}
+.act{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.act::before{content:'';display:inline-block;width:24px;height:1px;background:var(--green)}
+.story h2{font-size:clamp(30px,5vw,52px);font-weight:900;line-height:1.1;margin-bottom:18px}
+.story-body{font-size:17px;color:var(--muted2);max-width:680px;line-height:1.7;margin-bottom:36px}
+.story-2col{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+@media(max-width:700px){.story-2col{grid-template-columns:1fr}}
+
+/* ── FEATURE BLOCKS (not generic cards) ── */
+.feature-list{display:flex;flex-direction:column;gap:24px}
+.feature-item{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:20px;background:var(--surface);border-radius:var(--r-md);
+  border:1px solid var(--border);transition:border-color .2s;
+}
+.feature-item:hover{border-color:var(--border-lit)}
+.fi-icon{
+  font-size:22px;width:44px;height:44px;border-radius:var(--r-sm);
+  background:var(--raised);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.fi-title{font-size:15px;font-weight:800;margin-bottom:4px}
+.fi-desc{font-size:13px;color:var(--muted2);line-height:1.5}
+
+/* ── VERSION CARDS ── */
+.versions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:40px}
+.version-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:28px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.version-card::after{
+  content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(255,255,255,.02));
+  pointer-events:none;
+}
+.version-card:hover{transform:translateY(-4px);border-color:var(--border-lit);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.vc-badge{
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;
+  padding:4px 10px;border-radius:4px;display:inline-block;width:fit-content;
+}
+.vc-title{font-size:22px;font-weight:900}
+.vc-desc{font-size:13px;color:var(--muted2);line-height:1.5;flex:1}
+.vc-cta{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted2);margin-top:8px}
+.version-card:hover .vc-cta{color:var(--white)}
+
+/* ── COSTS TABLE ── */
+.costs-section{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
+  overflow:hidden;margin-top:40px;
+}
+.costs-head{background:var(--raised);padding:18px 24px;border-bottom:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+thead tr{background:rgba(0,226,122,.06)}
+th,td{padding:12px 20px;text-align:left;font-size:13px;border-bottom:1px solid var(--border)}
+th{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);letter-spacing:.1em;text-transform:uppercase}
+td{color:var(--muted2)}
+td:first-child{color:var(--white);font-weight:600}
+td:last-child{font-family:var(--mono);color:var(--green);font-size:12px}
+tr:last-child td{border-bottom:none}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);padding:40px 24px;text-align:center;
+  font-size:13px;color:var(--muted);
+}
+footer a{color:var(--green);text-decoration:none;font-weight:700}
+
+/* ── SCROLL REVEAL (CSS-only) ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+</style>
 </head>
 <body>
 
-    <!-- NAV BAR -->
-    <nav>
-        <a href="#" class="nav-brand">
-            <div class="nav-logo-box">🛒</div>
-            <span class="nav-logo-text">tikk</span>
-        </a>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <span class="nav-badge">tikk</span>
+    <span class="nav-tagline">software para almacenes</span>
+  </a>
+  <div class="nav-links">
+    <a href="/mayor" class="nav-pill nav-pill-ghost">👵 Mayor</a>
+    <a href="/voz" class="nav-pill nav-pill-ghost">🎙 Voz</a>
+    <a href="/minegocio" class="nav-pill nav-pill-ghost">🏪 Mi Tienda</a>
+    <a href="/new" class="nav-pill nav-pill-cta">▶ Abrir App</a>
+  </div>
+</nav>
 
-        <div class="nav-links">
-            <a href="/mayor" class="nav-link-btn btn-app-sec">👁️ Modo Mayor</a>
-            <a href="/voz" class="nav-link-btn btn-app-sec">🎙️ Modo Voz</a>
-            <a href="/new" class="nav-link-btn btn-app-main">▶ Abrir POS App</a>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-eyebrow">Software para almacenes de barrio · Chile y Latam</div>
+
+  <h1>Tu almacén ya mueve dinero.<br><em>Ahora muévelo mejor.</em></h1>
+  <p class="hero-sub">
+    TIKK es un sistema de ventas POS, inventario con escáner de código de barras, cuaderno de fiados y tienda por WhatsApp. Sin mensualidades, sin comisiones, sin necesidad de computador.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="/new" class="btn-hero-primary">▶ Probar el POS Gratis</a>
+    <a href="/mayor" class="btn-hero-sec">👵 Modo Adulto Mayor</a>
+    <a href="/voz" class="btn-hero-sec">🎙 Asistente de Voz</a>
+  </div>
+
+  <div class="terminal-preview reveal">
+    <div class="terminal-header">
+      <div class="t-dot" style="background:#FF5F57"></div>
+      <div class="t-dot" style="background:#FEBC2E"></div>
+      <div class="t-dot" style="background:#28C840"></div>
+      <div class="t-title">tikk://minimarket-el-progreso · POS v1.0</div>
+    </div>
+    <div class="terminal-body">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--green);margin-bottom:12px">
+        &gt; Sistema activo · 13 productos · 2 fiados · Stock OK
+      </div>
+      <div class="pos-demo-grid">
+        <div class="pos-demo-item">
+          <div class="pdi-emoji">🥤</div>
+          <div class="pdi-name">Coca-Cola 1.5L</div>
+          <div class="pdi-price">$2.000</div>
+          <div class="pdi-stock">23 en stock</div>
         </div>
-    </nav>
-
-    <!-- ACT 1 & HERO STORYTELLING -->
-    <header class="hero-story">
-        <div class="story-badge">🇨🇱 EL SISTEMA DE GESTIÓN SIMPLE PARA ALMACENES DE CHILE</div>
-        <h1 class="hero-title">Los almacenes de barrio mueven el país.<br><span>Merecen software simple.</span></h1>
-        <p class="hero-lead">Shopify y los POS tradicionales cobran dólares al mes, exigen tarjetas y complican la vida. TIKK convierte cualquier celular en un punto de venta rápido con escáner EAN-13, fiados y tienda por WhatsApp.</p>
-
-        <div class="hero-cta-group">
-            <a href="/new" class="cta-btn-xl btn-app-main">🚀 Probar POS General (v1)</a>
-            <a href="/mayor" class="cta-btn-xl btn-app-sec">👵 Probar Modo Adulto Mayor</a>
-            <a href="/voz" class="cta-btn-xl btn-app-sec">🎙️ Probar Asistente de Voz</a>
+        <div class="pos-demo-item">
+          <div class="pdi-emoji">🍫</div>
+          <div class="pdi-name">Sahne Nuss 250g</div>
+          <div class="pdi-price">$3.500</div>
+          <div class="pdi-stock">10 en stock</div>
         </div>
-
-        <div class="hero-mockup-wrapper">
-            <div class="hero-mockup-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:20px;">
-                    <div style="font-weight:900; font-size:16px; color:#A5B4FC; display:flex; align-items:center; gap:8px;">
-                        <span>⚡</span> PUNTO DE VENTA (POS) - MINIMARKET EL PROGRESO
-                    </div>
-                    <span style="background:rgba(16,185,129,0.2); color:#34D399; font-weight:800; font-size:12px; padding:4px 12px; border-radius:99px;">● EN VIVO</span>
-                </div>
-
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; text-align:left;">
-                    <div style="background:rgba(255,255,255,0.04); padding:16px; border-radius:18px; border:1px solid var(--border);">
-                        <div style="font-size:36px;">🥤</div>
-                        <div style="font-weight:800; font-size:15px; margin-top:8px;">Coca-Cola 1.5L</div>
-                        <div style="color:var(--emerald); font-weight:900; font-size:17px;">$2.000</div>
-                    </div>
-                    <div style="background:rgba(255,255,255,0.04); padding:16px; border-radius:18px; border:1px solid var(--border);">
-                        <div style="font-size:36px;">🍫</div>
-                        <div style="font-weight:800; font-size:15px; margin-top:8px;">Sahne Nuss 250g</div>
-                        <div style="color:var(--emerald); font-weight:900; font-size:17px;">$3.500</div>
-                    </div>
-                    <div style="background:rgba(255,255,255,0.04); padding:16px; border-radius:18px; border:1px solid var(--border);">
-                        <div style="font-size:36px;">🥛</div>
-                        <div style="font-weight:800; font-size:15px; margin-top:8px;">Leche Colun 1L</div>
-                        <div style="color:var(--emerald); font-weight:900; font-size:17px;">$1.150</div>
-                    </div>
-                </div>
-            </div>
+        <div class="pos-demo-item">
+          <div class="pdi-emoji">🥛</div>
+          <div class="pdi-name">Leche Colun 1L</div>
+          <div class="pdi-price">$1.150</div>
+          <div class="pdi-stock" style="color:var(--amber)">⚠ 7 en stock</div>
         </div>
-    </header>
-
-    <!-- ACT 2: LA TENSIÓN -->
-    <section class="narrative-section">
-        <div class="act-tag">ACTO I · EL PROBLEMA Y LA TENSIÓN</div>
-        <h2 class="act-title">Por qué los almacenes no usan sistemas tradicionales</h2>
-        <p class="act-body">La mayoría de los programas de ventas están diseñados para grandes empresas. Tienen pantallas sobrecargadas, cobran suscripciones mensuales elevadas y exigen capacitaciones complejas.</p>
-
-        <div class="cards-grid">
-            <div class="info-card">
-                <div class="info-icon">💸</div>
-                <h3 class="info-h3">Costos Fijos Elevados</h3>
-                <p class="info-p">Servicios que cobran desde $30 USD mensuales más comisiones por transacción ahogan el margen de un negocio de barrio.</p>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">😵</div>
-                <h3 class="info-h3">Interfaces Complejas</h3>
-                <p class="info-p">Menús interminables que confunden a los dueños de almacén y ralentizan la atención al cliente en hora punta.</p>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">🔒</div>
-                <h3 class="info-h3">Cierres de Plataforma</h3>
-                <p class="info-p">Si dejas de pagar, pierdes el acceso a tus datos de stock y a tu historial de clientes fiados.</p>
-            </div>
+        <div class="pos-demo-item">
+          <div class="pdi-emoji">🍞</div>
+          <div class="pdi-name">Pan Ideal Blanco</div>
+          <div class="pdi-price">$2.200</div>
+          <div class="pdi-stock" style="color:var(--red)">✖ 4 quedan</div>
         </div>
-    </section>
-
-    <!-- ACT 3: LA SOLUCIÓN TIKK -->
-    <section class="narrative-section">
-        <div class="act-tag">ACTO II · LA SOLUCIÓN Y LA PROMESA</div>
-        <h2 class="act-title">TIKK: Creado para la realidad del negocio local</h2>
-        <p class="act-body">Una suite de herramientas adaptadas a cada tipo de usuario: desde la app completa hasta interfaces gigantes para adultos mayores y comandos de voz para personas con baja visión.</p>
-
-        <div class="cards-grid">
-            <div class="info-card">
-                <div class="info-icon">⚡</div>
-                <h3 class="info-h3">Punto de Venta POS Rápido</h3>
-                <p class="info-p">Escanea códigos de barras EAN-13 con la cámara o con pistolas USB. Cobra en efectivo con vuelto automático, tarjeta o fiado.</p>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">📖</div>
-                <h3 class="info-h3">Cuaderno de Fiados</h3>
-                <p class="info-p">Registra las cuentas corrientes de los vecinos y envía un resumen de cobro a su WhatsApp con un solo toque.</p>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">🚚</div>
-                <h3 class="info-h3">Reposición a Proveedores</h3>
-                <p class="info-p">Detecta automáticamente el stock bajo y genera un mensaje listo para pedir a Coca-Cola, Colun, CCU o Soprole.</p>
-            </div>
+        <div class="pos-demo-item">
+          <div class="pdi-emoji">🥔</div>
+          <div class="pdi-name">Kryzpo Original 140g</div>
+          <div class="pdi-price">$1.400</div>
+          <div class="pdi-stock">15 en stock</div>
         </div>
-    </section>
-
-    <!-- ACT 4: INCLUSIÓN UNIVERSAL -->
-    <section class="narrative-section">
-        <div class="act-tag">ACTO III · ACCESIBILIDAD Y TECNOLOGÍA INCLUSIVA</div>
-        <h2 class="act-title">Una interfaz pensada para todas las personas</h2>
-        <p class="act-body">No dejamos a nadie fuera. TIKK ofrece versiones dedicadas según la necesidad del comerciante.</p>
-
-        <div class="cards-grid">
-            <div class="info-card" style="border-color:var(--emerald);">
-                <div class="info-icon" style="background:rgba(16,185,129,0.15);">👵</div>
-                <h3 class="info-h3">TIKK Adulto Mayor (/mayor)</h3>
-                <p class="info-p">Botones gigantes de 60px+, fuentes de 18px+, lenguaje ultrasimple y soporte de lectura por voz para operar sin esfuerzo.</p>
-                <a href="/mayor" style="display:inline-block; margin-top:14px; color:var(--emerald); font-weight:800; text-decoration:none;">Probar Versión Senior →</a>
-            </div>
-
-            <div class="info-card" style="border-color:var(--primary-light);">
-                <div class="info-icon" style="background:rgba(79,70,229,0.15);">🎙️</div>
-                <h3 class="info-h3">TIKK Asistente de Voz (/voz)</h3>
-                <p class="info-p">Asistente por voz integrado (Web Speech API). Pregunta "¿Queda Coca-Cola?" y escucha el stock y precio al instante.</p>
-                <a href="/voz" style="display:inline-block; margin-top:14px; color:var(--primary-light); font-weight:800; text-decoration:none;">Probar Asistente de Voz →</a>
-            </div>
-
-            <div class="info-card" style="border-color:var(--amber);">
-                <div class="info-icon" style="background:rgba(245,158,11,0.15);">🏪</div>
-                <h3 class="info-h3">Mi Negocio Digital (/minegocio)</h3>
-                <p class="info-p">Catálogo público donde tus clientes navegan productos y envían su pedido directo a tu WhatsApp.</p>
-                <a href="/minegocio" style="display:inline-block; margin-top:14px; color:var(--amber); font-weight:800; text-decoration:none;">Ver Tienda de Muestra →</a>
-            </div>
+        <div class="pos-demo-item" style="border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px">
+          <div style="font-size:22px">+</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700">Agregar producto</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- ACT 5: ANÁLISIS DE COSTOS Y VIABILIDAD -->
-    <section class="narrative-section">
-        <div class="act-tag">VIABILIDAD Y COSTOS OPERATIVOS</div>
-        <h2 class="act-title">Informe Interno de Costos e Infraestructura</h2>
-        <p class="act-body">Transparencia total sobre la sostenibilidad del proyecto a largo plazo.</p>
+<hr class="story-divider">
 
-        <div class="viability-box">
-            <h3 style="font-size:22px; font-weight:900; color:var(--emerald);">📊 Estructura de Costos de Operación</h3>
-            <table class="costs-table">
-                <thead>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Proveedor / Servicio</th>
-                        <th>Costo Estimado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Dominio (.cl)</td>
-                        <td>NIC Chile</td>
-                        <td>$11.990 CLP / año</td>
-                    </tr>
-                    <tr>
-                        <td>Hosting y CDN Global</td>
-                        <td>GitHub Pages / Cloudflare Pages</td>
-                        <td>$0 CLP (Tier Gratuito)</td>
-                    </tr>
-                    <tr>
-                        <td>Base de Datos y Auth Multi-Tenant</td>
-                        <td>Supabase / Firebase Auth & Firestore</td>
-                        <td>$0 CLP (Hasta 50k usuarios activos/mes)</td>
-                    </tr>
-                    <tr>
-                        <td>Motor de Reconocimiento de Voz</td>
-                        <td>Web Speech API (Nativo de Navegador)</td>
-                        <td>$0 CLP (Nativo en Chrome/Edge/Safari)</td>
-                    </tr>
-                    <tr>
-                        <td>Mantenimiento y Desarrollo (Dan Tagle)</td>
-                        <td>Dantagle.cl</td>
-                        <td>1 UF / hora de desarrollo</td>
-                    </tr>
-                </tbody>
-            </table>
+<!-- ACT 1: EL PROBLEMA -->
+<section class="story reveal">
+  <div class="act">Acto I · El Problema</div>
+  <div class="story-2col">
+    <div>
+      <h2>Los programas de ventas están hechos para oficinas, no para almacenes.</h2>
+      <p class="story-body">
+        Shopify cuesta desde $30 USD al mes y está en inglés. Los sistemas POS tradicionales te cobran por módulo, por usuario y por actualización. Y si un día dejas de pagar, perdiste tus datos.<br><br>
+        El dueño de un almacén de barrio no necesita todo eso. Necesita cobrar rápido, saber qué le queda en stock y avisar al proveedor antes de que se le acabe la leche.
+      </p>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="fi-icon">💸</div>
+        <div>
+          <div class="fi-title">Mensualidades que no caben en el margen</div>
+          <div class="fi-desc">Las plataformas grandes cobran entre $15.000 y $80.000 CLP al mes. Un almacén de barrio promedio genera $200.000 en ventas mensuales. La matemática no cierra.</div>
         </div>
-    </section>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">🔒</div>
+        <div>
+          <div class="fi-title">Tus datos como rehenes</div>
+          <div class="fi-desc">Si no renuevas la suscripción, pierdes el acceso. No al software, a tu historial de clientes, fiados y ventas. Datos que tardaste años en acumular.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">😤</div>
+        <div>
+          <div class="fi-title">Sistemas que necesitan un contador para usarse</div>
+          <div class="fi-desc">Menús de 12 niveles, módulos de facturación, reportes que nadie entiende. El dueño que tiene 60 años y siempre usó un cuaderno no va a usar eso.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2026 TIKK. La alternativa abierta y accesible a Shopify para pequeños negocios de Chile y el mundo. Creado por <a href="https://dantagle.cl" target="_blank">Dan Tagle</a>.</p>
-    </footer>
+<hr class="story-divider">
 
+<!-- ACT 2: LA SOLUCIÓN -->
+<section class="story reveal">
+  <div class="act">Acto II · La Solución</div>
+  <h2>TIKK hace en 3 toques lo que los otros hacen en 30 clics.</h2>
+  <p class="story-body">Un solo sistema, desde el celular, sin instalar nada, sin tarjeta de crédito y sin que te llame un vendedor.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
+      <div class="fi-icon">📷</div>
+      <div>
+        <div class="fi-title">Escáner EAN-13 en la cámara</div>
+        <div class="fi-desc">Escanea el código de barras de cualquier producto chileno sin hardware adicional. Funciona con la cámara del celular.</div>
+      </div>
+    </div>
+    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
+      <div class="fi-icon">📖</div>
+      <div>
+        <div class="fi-title">Cuaderno de fiados digital</div>
+        <div class="fi-desc">Registra deudas de vecinos. Cobra con un mensaje a su WhatsApp. Sin llamadas incómodas.</div>
+      </div>
+    </div>
+    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
+      <div class="fi-icon">🚚</div>
+      <div>
+        <div class="fi-title">Pedido al proveedor en un botón</div>
+        <div class="fi-desc">TIKK detecta qué se está agotando y genera el pedido a Coca-Cola, Colun o CCU para enviar por WhatsApp.</div>
+      </div>
+    </div>
+    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
+      <div class="fi-icon">🏪</div>
+      <div>
+        <div class="fi-title">Tienda online en 2 minutos</div>
+        <div class="fi-desc">Un enlace que puedes compartir en Instagram o WhatsApp. Tus clientes hacen el pedido y te llega directo al celular.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="story-divider">
+
+<!-- ACT 3: INCLUSIÓN -->
+<section class="story reveal">
+  <div class="act">Acto III · Para Todas las Personas</div>
+  <h2>Un negocio digital para todos, no solo para los que saben de tecnología.</h2>
+  <p class="story-body">TIKK tiene tres modos distintos según quién lo use. La misma información, pero adaptada a cada realidad.</p>
+
+  <div class="versions-grid">
+    <a href="/new" class="version-card">
+      <div class="vc-badge" style="background:rgba(0,226,122,.15);color:var(--green)">v1 · Versión General</div>
+      <div class="vc-title">POS Completo</div>
+      <div class="vc-desc">Para comerciantes que ya usan el celular. Inventario completo, fiados, métricas, exportación CSV y escáner EAN-13 de cámara y pistola.</div>
+      <div class="vc-cta">Abrir App →</div>
+    </a>
+    <a href="/mayor" class="version-card">
+      <div class="vc-badge" style="background:rgba(255,184,0,.12);color:var(--amber)">Accesible</div>
+      <div class="vc-title">Modo Adulto Mayor</div>
+      <div class="vc-desc">Botones de 70px, texto de 20px, una sola acción por pantalla, lenguaje simple y lectura de precios en voz alta. Cero confusiones.</div>
+      <div class="vc-cta">Probar →</div>
+    </a>
+    <a href="/voz" class="version-card">
+      <div class="vc-badge" style="background:rgba(77,159,255,.12);color:var(--blue)">Manos Libres</div>
+      <div class="vc-title">Asistente de Voz</div>
+      <div class="vc-desc">Pregunta en español: "¿Queda Coca-Cola?". El asistente responde hablando. Diseñado para personas con baja visión o manos ocupadas.</div>
+      <div class="vc-cta">Probar →</div>
+    </a>
+    <a href="/minegocio" class="version-card">
+      <div class="vc-badge" style="background:rgba(255,59,92,.12);color:var(--red)">Tienda Pública</div>
+      <div class="vc-title">Mi Negocio Digital</div>
+      <div class="vc-desc">Catálogo online donde tus clientes ven productos y hacen el pedido. El mensaje llega directo a tu WhatsApp, listo para despachar.</div>
+      <div class="vc-cta">Ver muestra →</div>
+    </a>
+  </div>
+</section>
+
+<hr class="story-divider">
+
+<!-- ACT 4: COSTOS Y VIABILIDAD -->
+<section class="story reveal">
+  <div class="act">Costos e Infraestructura · Transparencia Total</div>
+  <h2>¿Cuánto cuesta operar TIKK?</h2>
+  <p class="story-body">
+    TIKK es gratis para los comerciantes porque funciona sobre infraestructura con tier gratuito generoso. Acá el desglose real, sin letra chica.
+  </p>
+
+  <div class="costs-section">
+    <div class="costs-head">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--green);font-weight:700">$ tikk infra --show-costs</div>
+    </div>
+    <table>
+      <thead><tr><th>Concepto</th><th>Proveedor</th><th>Límite Gratuito</th><th>Costo Actual</th></tr></thead>
+      <tbody>
+        <tr><td>Dominio tikk.cl</td><td>NIC Chile</td><td>—</td><td>$11.990 CLP/año</td></tr>
+        <tr><td>Hosting estático</td><td>GitHub Pages + Cloudflare CDN</td><td>Sin límite</td><td>$0</td></tr>
+        <tr><td>Base de datos + Auth</td><td>Supabase</td><td>500 MB · 50K users/mes</td><td>$0 → $25 USD/mes al escalar</td></tr>
+        <tr><td>Reconocimiento de voz</td><td>Web Speech API (nativo)</td><td>Sin límite</td><td>$0</td></tr>
+        <tr><td>Almacenamiento de archivos</td><td>Supabase Storage</td><td>1 GB</td><td>$0 → $0.021 USD/GB</td></tr>
+        <tr><td>Desarrollo (Dan Tagle)</td><td>dantagle.cl</td><td>—</td><td>1 UF/hora (~$37.000 CLP/hora)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-top:20px;line-height:1.6">
+    ⚠ <strong style="color:var(--white)">Limitaciones honestas:</strong> GitHub Pages no ejecuta backend. Los datos hoy viven en localStorage del usuario (solo en su dispositivo). La arquitectura multi-usuario real requiere Supabase con Row Level Security, que está preparada pero no activada aún en esta versión v1.
+  </p>
+</section>
+
+<hr class="story-divider">
+
+<!-- CTA FINAL -->
+<section class="story reveal" style="text-align:center;padding-bottom:100px">
+  <div class="act">La Acción</div>
+  <h2 style="max-width:600px;margin:0 auto 20px">Empieza a usar TIKK ahora.<br>Sin formulario de registro.</h2>
+  <p class="story-body" style="margin:0 auto 36px">Abre la app, escanea un producto y realiza tu primera venta en menos de 2 minutos.</p>
+  <a href="/new" class="btn-hero-primary" style="font-size:18px;padding:18px 36px">▶ Abrir TIKK Gratis</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 TIKK · Software libre para comerciantes de Chile y Latam · Creado por <a href="https://dantagle.cl" target="_blank" rel="noopener">Dan Tagle</a></p>
+  <p style="margin-top:8px;font-family:var(--mono);font-size:11px">v1.0.0 · <a href="https://github.com/kulhunter/tikk.cl">GitHub</a> · tikk.cl</p>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(
+  entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') }),
+  {threshold: 0.12}
+);
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Register service worker
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+}
+</script>
 </body>
 </html>
