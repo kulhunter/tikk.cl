@@ -20,11 +20,15 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:var(--display)}
+button,.mic-btn,.chip,.bar-back{touch-action:manipulation}
 
 .app-bar{
-  position:sticky;top:0;height:60px;background:rgba(8,12,20,.92);backdrop-filter:blur(14px);
+  position:sticky;top:0;
+  height:calc(60px + env(safe-area-inset-top,0px));
+  padding-top:env(safe-area-inset-top,0px);
+  background:rgba(8,12,20,.92);backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;
-  justify-content:space-between;padding:0 16px;z-index:50;
+  justify-content:space-between;padding-left:16px;padding-right:16px;z-index:50;
 }
 .bar-logo{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green);background:rgba(0,226,122,.1);border:1px solid rgba(0,226,122,.25);padding:4px 10px;border-radius:6px}
 .bar-back{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:7px 14px;border-radius:99px;font-size:12px;font-weight:800;text-decoration:none}

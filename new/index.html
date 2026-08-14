@@ -37,6 +37,7 @@ body.senior{--btn-h:66px;font-size:18px}
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--body);-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--ink);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3,h4{font-family:var(--display)}
+button,.btn,.bnav-btn,.cat-pill,.prod-card,.pay-btn,.qc-btn{touch-action:manipulation}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:4px}
@@ -44,10 +45,13 @@ h1,h2,h3,h4{font-family:var(--display)}
 
 /* ── TOP APP BAR ── */
 .app-bar{
-  position:fixed;top:0;left:0;right:0;height:58px;z-index:100;
-  background:rgba(8,12,20,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  position:fixed;top:0;left:0;right:0;
+  height:calc(58px + env(safe-area-inset-top,0px));
+  padding-top:env(safe-area-inset-top,0px);
+  z-index:100;
+  background:rgba(8,12,20,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;
+  display:flex;align-items:center;justify-content:space-between;padding-left:14px;padding-right:14px;gap:8px;
 }
 .app-logo{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--green);
   background:var(--green-dim);border:1px solid rgba(0,226,122,.25);padding:4px 10px;border-radius:6px}
@@ -62,7 +66,12 @@ h1,h2,h3,h4{font-family:var(--display)}
 .bar-btn.active{background:var(--green-dim);border-color:rgba(0,226,122,.3);color:var(--green)}
 
 /* ── MAIN CONTENT ── */
-.app-main{margin-top:58px;padding:12px;padding-bottom:84px;min-height:calc(100vh - 58px);max-width:1280px;margin-left:auto;margin-right:auto}
+.app-main{
+  margin-top:calc(58px + env(safe-area-inset-top,0px));
+  padding:12px;
+  padding-bottom:calc(86px + env(safe-area-inset-bottom,0px));
+  min-height:calc(100vh - 58px);max-width:1280px;margin-left:auto;margin-right:auto
+}
 @media(min-width:1000px){.app-main{padding:16px}}
 
 /* ── VIEW SYSTEM ── */
@@ -72,7 +81,10 @@ h1,h2,h3,h4{font-family:var(--display)}
 
 /* ── BOTTOM NAV ── */
 .bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;height:72px;z-index:100;
+  position:fixed;bottom:0;left:0;right:0;
+  height:calc(68px + env(safe-area-inset-bottom,0px));
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  z-index:100;
   background:rgba(15,21,32,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-top:1px solid var(--border);
   display:flex;justify-content:space-around;align-items:stretch;
@@ -118,7 +130,7 @@ body.senior .btn{font-size:17px}
 .form-label{display:block;font-size:11px;font-weight:700;color:var(--muted2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em}
 .form-input{
   width:100%;height:var(--btn-h);background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r-md);padding:0 14px;color:var(--white);font-size:15px;outline:none;
+  border-radius:var(--r-md);padding:0 14px;color:var(--white);font-size:16px;outline:none;
   transition:border-color .15s;font-family:var(--body);
 }
 body.senior .form-input{font-size:18px}

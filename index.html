@@ -52,6 +52,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--body);background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.02em}
 code,kbd,.mono{font-family:var(--mono)}
+button,.nav-pill,.btn-hero-primary,.btn-hero-sec{touch-action:manipulation}
 
 ::selection{background:var(--green);color:#000}
 ::-webkit-scrollbar{width:4px}
@@ -66,8 +67,11 @@ body::before{
 
 /* ── NAV ── */
 nav{
-  position:fixed;top:0;left:0;right:0;height:60px;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+  position:fixed;top:0;left:0;right:0;
+  height:calc(60px + env(safe-area-inset-top,0px));
+  padding-top:env(safe-area-inset-top,0px);
+  z-index:200;
+  display:flex;align-items:center;justify-content:space-between;padding-left:16px;padding-right:16px;
   background:rgba(8,12,20,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
 }
