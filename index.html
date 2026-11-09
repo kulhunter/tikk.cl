@@ -1,515 +1,731 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<title>TIKK — El Software de Negocio Simple para Chile</title>
-<meta name="description" content="POS, inventario con escáner EAN-13, fiados y tienda WhatsApp para almacenes y minimarkets. Sin mensualidades, sin comisiones, sin complicaciones.">
-<meta name="theme-color" content="#080C14">
-<link rel="manifest" href="/manifest.json">
-<link rel="icon" href="/icon-192.png">
-<meta property="og:title" content="TIKK — Software Simple para tu Almacén">
-<meta property="og:description" content="Cobra, controla stock, maneja fiados y recibe pedidos por WhatsApp. Gratis.">
-<meta property="og:image" content="https://tikk.cl/icon-512.png">
-<meta property="og:url" content="https://tikk.cl">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"TIKK","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"CLP"}}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TIKK Gourmet — Tablas de Picoteo & Sweet Boxes en Santiago</title>
+  <meta name="description" content="Tablas de aperitivo gourmet para tus tardes de terraza y cajas dulces Candy Box para niños. Entregas frescas este fin de semana en tu barrio.">
+  <meta name="theme-color" content="#12100e">
+  <link rel="icon" href="/icon-192.png">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TIKK Gourmet — Tablas de Picoteo & Sweet Boxes">
+  <meta property="og:description" content="Listas para servir. El mejor picoteo para tus viernes, sábados y eventos familiares. Pide la tuya por WhatsApp.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:url" content="https://tikk.cl">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
 
-<style>
-/* ═══════════════════════════════════════════════════════════════
-   TIKK DESIGN SYSTEM — NOT AI GENERIC
-   Fuente de identidad: Monoespaciada + Syne condensed
-   Paleta: Negro casi puro · Verde terminal · Amarillo advertencia
-═══════════════════════════════════════════════════════════════ */
-:root{
-  --ink:#080C14;
-  --surface:#0F1520;
-  --raised:#182038;
-  --border:rgba(255,255,255,.08);
-  --border-lit:rgba(255,255,255,.18);
+  <style>
+    :root {
+      --bg: #0d0c0a;
+      --card-bg: #171513;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --gold: #d4a373;
+      --gold-light: #faedcd;
+      --accent: #e07a5f;
+      --accent-hover: #c9654b;
+      --green: #25d366;
+      --text-main: #f4f1de;
+      --text-muted: #a8a29e;
+      --badge-bg: rgba(212, 163, 115, 0.15);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
 
-  --green:#00E27A;     /* terminal green — acción principal */
-  --green-dim:#00A855;
-  --amber:#FFB800;     /* advertencia / stock bajo */
-  --red:#FF3B5C;       /* peligro / eliminar */
-  --blue:#4D9FFF;      /* info / whatsapp alt */
-  --white:#F2F4F7;
-  --muted:#6B7A99;
-  --muted2:#96A3BB;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-  --mono:'IBM Plex Mono',monospace;
-  --display:'Syne',sans-serif;
-  --body:'Inter',system-ui,sans-serif;
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding-bottom: 120px;
+      overflow-x: hidden;
+    }
 
-  --r-sm:8px;--r-md:14px;--r-lg:22px;--r-xl:32px;
-}
+    /* Header & Hero */
+    header {
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(13, 12, 10, 0.9);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
 
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.02em}
-code,kbd,.mono{font-family:var(--mono)}
-button,.nav-pill,.btn-hero-primary,.btn-hero-sec{touch-action:manipulation}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-::selection{background:var(--green);color:#000}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:var(--raised);border-radius:2px}
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #d4a373, #e07a5f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #12100e;
+      font-size: 1.1rem;
+    }
 
-/* ── GRAIN TEXTURE OVERLAY ── */
-body::before{
-  content:'';pointer-events:none;position:fixed;inset:0;z-index:9999;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
-  opacity:.4;mix-blend-mode:overlay;
-}
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;
-  height:calc(60px + env(safe-area-inset-top,0px));
-  padding-top:env(safe-area-inset-top,0px);
-  z-index:200;
-  display:flex;align-items:center;justify-content:space-between;padding-left:16px;padding-right:16px;
-  background:rgba(8,12,20,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-}
-.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white)}
-.nav-badge{
-  font-family:var(--mono);font-size:19px;font-weight:700;color:var(--green);
-  background:rgba(0,226,122,.12);border:1px solid rgba(0,226,122,.3);
-  padding:4px 12px;border-radius:var(--r-sm);letter-spacing:.04em;
-}
-.nav-tagline{font-size:12px;color:var(--muted);font-weight:600;display:none}
-@media(min-width:640px){.nav-tagline{display:block}}
-.nav-links{display:flex;align-items:center;gap:8px}
-.nav-pill{
-  text-decoration:none;font-size:12px;font-weight:700;padding:7px 14px;
-  border-radius:var(--r-sm);transition:all .18s;white-space:nowrap;
-}
-.nav-pill-ghost{color:var(--muted2);border:1px solid var(--border)}
-.nav-pill-ghost:hover{color:var(--white);border-color:var(--border-lit)}
-.nav-pill-cta{background:var(--green);color:#000}
-.nav-pill-cta:hover{background:#00ff88;box-shadow:0 4px 20px rgba(0,226,122,.4)}
+    .badge-status {
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(37, 211, 102, 0.15);
+      color: #25d366;
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-/* ── HERO ── */
-.hero{
-  min-height:100vh;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;text-align:center;padding:100px 24px 60px;
-  position:relative;overflow:hidden;
-}
-.hero-bg-grid{
-  position:absolute;inset:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:40px 40px;
-  mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black,transparent);
-}
-.hero-glow{
-  position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);
-  width:600px;height:400px;border-radius:50%;
-  background:radial-gradient(ellipse,rgba(0,226,122,.12),transparent 70%);
-  pointer-events:none;
-}
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: #25d366;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
 
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--mono);font-size:11px;font-weight:700;
-  color:var(--green);letter-spacing:.12em;text-transform:uppercase;
-  background:rgba(0,226,122,.08);border:1px solid rgba(0,226,122,.2);
-  padding:6px 16px;border-radius:var(--r-sm);margin-bottom:28px;
-}
-.hero-eyebrow::before{content:'> '}
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 0.4; transform: scale(0.9); }
+    }
 
-.hero h1{
-  font-family:var(--display);font-size:clamp(40px,8vw,84px);
-  font-weight:900;line-height:1.05;letter-spacing:-.03em;
-  margin-bottom:22px;max-width:900px;
-}
-.hero h1 em{font-style:normal;color:var(--green)}
+    .hero {
+      padding: 36px 20px 24px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-.hero-sub{
-  font-size:clamp(16px,2.5vw,20px);color:var(--muted2);
-  max-width:640px;margin:0 auto 40px;line-height:1.65;
-}
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      background: var(--badge-bg);
+      border: 1px solid rgba(212, 163, 115, 0.3);
+      padding: 5px 14px;
+      border-radius: 30px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
 
-.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
-.btn-hero-primary{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--green);color:#000;font-weight:800;font-size:16px;
-  padding:15px 28px;border-radius:var(--r-md);text-decoration:none;
-  box-shadow:0 8px 30px rgba(0,226,122,.35);transition:all .2s;
-}
-.btn-hero-primary:hover{background:#00ff88;transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,226,122,.5)}
-.btn-hero-sec{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--surface);color:var(--white);font-weight:700;font-size:15px;
-  padding:15px 24px;border-radius:var(--r-md);text-decoration:none;
-  border:1px solid var(--border);transition:all .2s;
-}
-.btn-hero-sec:hover{border-color:var(--border-lit);background:var(--raised)}
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      line-height: 1.18;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #fff;
+    }
 
-/* ── APP PREVIEW TERMINAL ── */
-.terminal-preview{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
-  overflow:hidden;max-width:860px;width:100%;margin:0 auto;
-  box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);
-}
-.terminal-header{
-  background:var(--raised);padding:12px 20px;display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid var(--border);
-}
-.t-dot{width:12px;height:12px;border-radius:50%}
-.t-title{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:6px;flex:1;text-align:center}
-.terminal-body{padding:20px}
-.pos-demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media(max-width:520px){.pos-demo-grid{grid-template-columns:repeat(2,1fr)}}
-.pos-demo-item{
-  background:var(--raised);border:1px solid var(--border);border-radius:var(--r-md);
-  padding:14px;cursor:default;transition:border-color .2s;
-}
-.pos-demo-item:hover{border-color:var(--green)}
-.pdi-emoji{font-size:32px;margin-bottom:6px}
-.pdi-name{font-size:12px;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:4px}
-.pdi-price{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--green)}
-.pdi-stock{font-size:10px;color:var(--muted);margin-top:2px}
+    .hero h1 span {
+      background: linear-gradient(135deg, #faedcd 20%, #d4a373 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-/* ── STORY SECTIONS ── */
-.story{padding:80px 24px;max-width:1120px;margin:0 auto}
-.story-divider{border:none;border-top:1px solid var(--border);margin:0}
-.act{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);
-  letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px}
-.act::before{content:'';display:inline-block;width:24px;height:1px;background:var(--green)}
-.story h2{font-size:clamp(30px,5vw,52px);font-weight:900;line-height:1.1;margin-bottom:18px}
-.story-body{font-size:17px;color:var(--muted2);max-width:680px;line-height:1.7;margin-bottom:36px}
-.story-2col{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-@media(max-width:700px){.story-2col{grid-template-columns:1fr}}
+    .hero p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
 
-/* ── FEATURE BLOCKS (not generic cards) ── */
-.feature-list{display:flex;flex-direction:column;gap:24px}
-.feature-item{
-  display:flex;align-items:flex-start;gap:16px;
-  padding:20px;background:var(--surface);border-radius:var(--r-md);
-  border:1px solid var(--border);transition:border-color .2s;
-}
-.feature-item:hover{border-color:var(--border-lit)}
-.fi-icon{
-  font-size:22px;width:44px;height:44px;border-radius:var(--r-sm);
-  background:var(--raised);display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.fi-title{font-size:15px;font-weight:800;margin-bottom:4px}
-.fi-desc{font-size:13px;color:var(--muted2);line-height:1.5}
+    /* Container */
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
 
-/* ── VERSION CARDS ── */
-.versions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:40px}
-.version-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:28px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;
-  transition:all .25s;position:relative;overflow:hidden;
-}
-.version-card::after{
-  content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(255,255,255,.02));
-  pointer-events:none;
-}
-.version-card:hover{transform:translateY(-4px);border-color:var(--border-lit);box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.vc-badge{
-  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;
-  padding:4px 10px;border-radius:4px;display:inline-block;width:fit-content;
-}
-.vc-title{font-size:22px;font-weight:900}
-.vc-desc{font-size:13px;color:var(--muted2);line-height:1.5;flex:1}
-.vc-cta{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted2);margin-top:8px}
-.version-card:hover .vc-cta{color:var(--white)}
+    /* Product Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
 
-/* ── COSTS TABLE ── */
-.costs-section{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
-  overflow:hidden;margin-top:40px;
-}
-.costs-head{background:var(--raised);padding:18px 24px;border-bottom:1px solid var(--border)}
-table{width:100%;border-collapse:collapse}
-thead tr{background:rgba(0,226,122,.06)}
-th,td{padding:12px 20px;text-align:left;font-size:13px;border-bottom:1px solid var(--border)}
-th{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);letter-spacing:.1em;text-transform:uppercase}
-td{color:var(--muted2)}
-td:first-child{color:var(--white);font-weight:600}
-td:last-child{font-family:var(--mono);color:var(--green);font-size:12px}
-tr:last-child td{border-bottom:none}
+    .card:hover {
+      border-color: rgba(212, 163, 115, 0.35);
+    }
 
-/* ── FOOTER ── */
-footer{
-  border-top:1px solid var(--border);padding:40px 24px;text-align:center;
-  font-size:13px;color:var(--muted);
-}
-footer a{color:var(--green);text-decoration:none;font-weight:700}
+    .card.featured {
+      border: 1.5px solid var(--gold);
+      background: linear-gradient(180deg, #1f1c18 0%, #151311 100%);
+    }
 
-/* ── SCROLL REVEAL (CSS-only) ── */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:none}
-</style>
+    .ribbon {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: linear-gradient(135deg, #e07a5f, #c9654b);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 4px 12px rgba(224, 122, 95, 0.4);
+      z-index: 10;
+    }
+
+    .card-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .card-img {
+      transform: scale(1.03);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .card-price {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--gold-light);
+    }
+
+    .card-price-old {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      margin-right: 6px;
+      font-weight: 500;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .ingredients-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .ingredient-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #d1cfc7;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    /* Stepper Controls */
+    .card-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--card-border);
+      padding-top: 14px;
+    }
+
+    .portions-badge {
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-step {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: none;
+      background: #25221e;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-step:active {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .step-val {
+      font-size: 1rem;
+      font-weight: 700;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* Checkout & Sticky Bar */
+    .sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(18, 16, 14, 0.95);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--card-border);
+      padding: 14px 20px;
+      z-index: 100;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .sticky-bar-inner {
+      max-width: 650px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .total-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .total-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .total-amount {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: var(--font-sans);
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: #0d0c0a;
+      font-family: var(--font-sans);
+      font-size: 0.98rem;
+      font-weight: 800;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+      transition: transform 0.15s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-whatsapp:hover {
+      background: #20ba59;
+    }
+
+    .btn-whatsapp:active {
+      transform: scale(0.97);
+    }
+
+    .btn-whatsapp svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    /* Info Steps Section */
+    .steps-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    .steps-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(212, 163, 115, 0.15);
+      color: var(--gold);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+    }
+
+    /* Form drawer for details */
+    .order-details-box {
+      background: #1b1916;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #100f0d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-family: inherit;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--gold);
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-brand">
-    <span class="nav-badge">tikk</span>
-    <span class="nav-tagline">software para almacenes</span>
-  </a>
-  <div class="nav-links">
-    <a href="/mayor" class="nav-pill nav-pill-ghost">👵 Mayor</a>
-    <a href="/voz" class="nav-pill nav-pill-ghost">🎙 Voz</a>
-    <a href="/minegocio" class="nav-pill nav-pill-ghost">🏪 Mi Tienda</a>
-    <a href="/new" class="nav-pill nav-pill-cta">▶ Abrir App</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg-grid"></div>
-  <div class="hero-glow"></div>
-
-  <div class="hero-eyebrow">Software para almacenes de barrio · Chile y Latam</div>
-
-  <h1>Tu almacén ya mueve dinero.<br><em>Ahora muévelo mejor.</em></h1>
-  <p class="hero-sub">
-    TIKK es un sistema de ventas POS, inventario con escáner de código de barras, cuaderno de fiados y tienda por WhatsApp. Sin mensualidades, sin comisiones, sin necesidad de computador.
-  </p>
-
-  <div class="hero-ctas">
-    <a href="/new" class="btn-hero-primary">▶ Probar el POS Gratis</a>
-    <a href="/mayor" class="btn-hero-sec">👵 Modo Adulto Mayor</a>
-    <a href="/voz" class="btn-hero-sec">🎙 Asistente de Voz</a>
-  </div>
-
-  <div class="terminal-preview reveal">
-    <div class="terminal-header">
-      <div class="t-dot" style="background:#FF5F57"></div>
-      <div class="t-dot" style="background:#FEBC2E"></div>
-      <div class="t-dot" style="background:#28C840"></div>
-      <div class="t-title">tikk://minimarket-el-progreso · POS v1.0</div>
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">T</div>
+      <div class="brand-name">TIKK Gourmet</div>
     </div>
-    <div class="terminal-body">
-      <div style="font-family:var(--mono);font-size:10px;color:var(--green);margin-bottom:12px">
-        &gt; Sistema activo · 13 productos · 2 fiados · Stock OK
+    <div class="badge-status">
+      <span class="status-dot"></span>
+      Pedidos Abiertos
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-tag">Aperitivos & Picoteo de Fin de Semana</div>
+    <h1>El Picoteo Listo,<br><span>Tú Solo Destapa el Vino</span></h1>
+    <p>Tablas gourmet con ingredientes frescos y Candy Boxes para que los niños disfruten a su ritmo. Entregas en tu barrio este fin de semana.</p>
+  </section>
+
+  <!-- Main Catalog -->
+  <main class="container">
+
+    <!-- COMBO FAMILIAR (ESTRELLA) -->
+    <div class="card featured">
+      <div class="ribbon">Más Vendido — Ahorras $3.000</div>
+      <div class="card-img-wrapper">
+        <img class="card-img" src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80" alt="Combo Familiar Gourmet">
       </div>
-      <div class="pos-demo-grid">
-        <div class="pos-demo-item">
-          <div class="pdi-emoji">🥤</div>
-          <div class="pdi-name">Coca-Cola 1.5L</div>
-          <div class="pdi-price">$2.000</div>
-          <div class="pdi-stock">23 en stock</div>
+      <div class="card-body">
+        <div class="card-title-row">
+          <div class="card-title">Combo Familiar Completo</div>
+          <div class="card-price">
+            <span class="card-price-old">$32.980</span>$29.990
+          </div>
         </div>
-        <div class="pos-demo-item">
-          <div class="pdi-emoji">🍫</div>
-          <div class="pdi-name">Sahne Nuss 250g</div>
-          <div class="pdi-price">$3.500</div>
-          <div class="pdi-stock">10 en stock</div>
+        <p class="card-desc">La solución definitiva para tu fin de semana: incluye 1 Tabla de Picoteo Adultos + 1 Candy Box Niños. Nadie se queda afuera.</p>
+        
+        <div class="ingredients-pill-list">
+          <span class="ingredient-pill">1 Tabla Gourmet (3-4 pers)</span>
+          <span class="ingredient-pill">1 Candy Box Infantil</span>
+          <span class="ingredient-pill">Ahorro $3.000</span>
+          <span class="ingredient-pill">Caja Kraft Regalo</span>
         </div>
-        <div class="pos-demo-item">
-          <div class="pdi-emoji">🥛</div>
-          <div class="pdi-name">Leche Colun 1L</div>
-          <div class="pdi-price">$1.150</div>
-          <div class="pdi-stock" style="color:var(--amber)">⚠ 7 en stock</div>
-        </div>
-        <div class="pos-demo-item">
-          <div class="pdi-emoji">🍞</div>
-          <div class="pdi-name">Pan Ideal Blanco</div>
-          <div class="pdi-price">$2.200</div>
-          <div class="pdi-stock" style="color:var(--red)">✖ 4 quedan</div>
-        </div>
-        <div class="pos-demo-item">
-          <div class="pdi-emoji">🥔</div>
-          <div class="pdi-name">Kryzpo Original 140g</div>
-          <div class="pdi-price">$1.400</div>
-          <div class="pdi-stock">15 en stock</div>
-        </div>
-        <div class="pos-demo-item" style="border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px">
-          <div style="font-size:22px">+</div>
-          <div style="font-size:11px;color:var(--muted);font-weight:700">Agregar producto</div>
+
+        <div class="card-action-row">
+          <span class="portions-badge">Ideal para toda la casa</span>
+          <div class="stepper">
+            <button class="btn-step" onclick="updateQty('combo', -1)">-</button>
+            <span class="step-val" id="qty-combo">0</span>
+            <button class="btn-step" onclick="updateQty('combo', 1)">+</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<hr class="story-divider">
+    <!-- TABLA ADULTOS -->
+    <div class="card">
+      <div class="card-img-wrapper">
+        <img class="card-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Tabla Picoteo Sunset">
+      </div>
+      <div class="card-body">
+        <div class="card-title-row">
+          <div class="card-title">Tabla Sunset Aperitivo</div>
+          <div class="card-price">$22.990</div>
+        </div>
+        <p class="card-desc">Armada con salame doblado en flor, queso gouda en cubitos, queso crema especiado, frutillas dulces de temporada, frutos secos tostados, aceitunas y tostaditas crujientes.</p>
+        
+        <div class="ingredients-pill-list">
+          <span class="ingredient-pill">Salame & Jamón</span>
+          <span class="ingredient-pill">Mix Quesos</span>
+          <span class="ingredient-pill">Frutillas Dulces</span>
+          <span class="ingredient-pill">Frutos Secos</span>
+          <span class="ingredient-pill">Dip Untable</span>
+          <span class="ingredient-pill">Crackers</span>
+        </div>
 
-<!-- ACT 1: EL PROBLEMA -->
-<section class="story reveal">
-  <div class="act">Acto I · El Problema</div>
-  <div class="story-2col">
-    <div>
-      <h2>Los programas de ventas están hechos para oficinas, no para almacenes.</h2>
-      <p class="story-body">
-        Shopify cuesta desde $30 USD al mes y está en inglés. Los sistemas POS tradicionales te cobran por módulo, por usuario y por actualización. Y si un día dejas de pagar, perdiste tus datos.<br><br>
-        El dueño de un almacén de barrio no necesita todo eso. Necesita cobrar rápido, saber qué le queda en stock y avisar al proveedor antes de que se le acabe la leche.
-      </p>
-    </div>
-    <div class="feature-list">
-      <div class="feature-item">
-        <div class="fi-icon">💸</div>
-        <div>
-          <div class="fi-title">Mensualidades que no caben en el margen</div>
-          <div class="fi-desc">Las plataformas grandes cobran entre $15.000 y $80.000 CLP al mes. Un almacén de barrio promedio genera $200.000 en ventas mensuales. La matemática no cierra.</div>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="fi-icon">🔒</div>
-        <div>
-          <div class="fi-title">Tus datos como rehenes</div>
-          <div class="fi-desc">Si no renuevas la suscripción, pierdes el acceso. No al software, a tu historial de clientes, fiados y ventas. Datos que tardaste años en acumular.</div>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="fi-icon">😤</div>
-        <div>
-          <div class="fi-title">Sistemas que necesitan un contador para usarse</div>
-          <div class="fi-desc">Menús de 12 niveles, módulos de facturación, reportes que nadie entiende. El dueño que tiene 60 años y siempre usó un cuaderno no va a usar eso.</div>
+        <div class="card-action-row">
+          <span class="portions-badge">Para 3 a 4 personas</span>
+          <div class="stepper">
+            <button class="btn-step" onclick="updateQty('adultos', -1)">-</button>
+            <span class="step-val" id="qty-adultos">0</span>
+            <button class="btn-step" onclick="updateQty('adultos', 1)">+</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<hr class="story-divider">
+    <!-- CAJA NIÑOS -->
+    <div class="card">
+      <div class="card-img-wrapper">
+        <img class="card-img" src="https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=800&q=80" alt="Caja Dulce Niños Candy Box">
+      </div>
+      <div class="card-body">
+        <div class="card-title-row">
+          <div class="card-title">Candy Box Niños</div>
+          <div class="card-price">$9.990</div>
+        </div>
+        <p class="card-desc">La fiesta en una caja: gomitas dulces, malvaviscos esponjosos, galletitas con chispas de chocolate, pretzels bañados y moneditas de chocolate. Presentada en caja con visor.</p>
+        
+        <div class="ingredients-pill-list">
+          <span class="ingredient-pill">Gomitas frutales</span>
+          <span class="ingredient-pill">Malvaviscos</span>
+          <span class="ingredient-pill">Galletas con Chispas</span>
+          <span class="ingredient-pill">Pretzels</span>
+          <span class="ingredient-pill">Chocolates</span>
+        </div>
 
-<!-- ACT 2: LA SOLUCIÓN -->
-<section class="story reveal">
-  <div class="act">Acto II · La Solución</div>
-  <h2>TIKK hace en 3 toques lo que los otros hacen en 30 clics.</h2>
-  <p class="story-body">Un solo sistema, desde el celular, sin instalar nada, sin tarjeta de crédito y sin que te llame un vendedor.</p>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
-      <div class="fi-icon">📷</div>
-      <div>
-        <div class="fi-title">Escáner EAN-13 en la cámara</div>
-        <div class="fi-desc">Escanea el código de barras de cualquier producto chileno sin hardware adicional. Funciona con la cámara del celular.</div>
+        <div class="card-action-row">
+          <span class="portions-badge">Para 2 a 3 niños</span>
+          <div class="stepper">
+            <button class="btn-step" onclick="updateQty('ninos', -1)">-</button>
+            <span class="step-val" id="qty-ninos">0</span>
+            <button class="btn-step" onclick="updateQty('ninos', 1)">+</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
-      <div class="fi-icon">📖</div>
-      <div>
-        <div class="fi-title">Cuaderno de fiados digital</div>
-        <div class="fi-desc">Registra deudas de vecinos. Cobra con un mensaje a su WhatsApp. Sin llamadas incómodas.</div>
+
+    <!-- DATOS DE COORDINACIÓN RÁPIDA -->
+    <div class="order-details-box">
+      <div class="form-group">
+        <label for="delivery-day">¿Cuándo quieres recibir tu pedido?</label>
+        <select id="delivery-day" class="form-control">
+          <option value="Viernes por la tarde (18:00 a 21:00)">Viernes por la tarde (18:00 a 21:00)</option>
+          <option value="Sábado aperitivo (12:00 a 14:00)">Sábado aperitivo (12:00 a 14:00)</option>
+          <option value="Sábado tarde (18:00 a 21:00)">Sábado tarde (18:00 a 21:00)</option>
+          <option value="Reserva Navidad (24 de Diciembre)">Reserva Navidad (24 de Diciembre)</option>
+          <option value="Otro día / Evento especial">Otro día / Evento especial</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="customer-address">Sector o dirección (para despacho o retiro):</label>
+        <input type="text" id="customer-address" class="form-control" placeholder="Ej: Pasaje Los Aromos / Edificio 4, depto 302">
       </div>
     </div>
-    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
-      <div class="fi-icon">🚚</div>
-      <div>
-        <div class="fi-title">Pedido al proveedor en un botón</div>
-        <div class="fi-desc">TIKK detecta qué se está agotando y genera el pedido a Coca-Cola, Colun o CCU para enviar por WhatsApp.</div>
+
+    <!-- INFO COMO FUNCIONA -->
+    <div class="steps-card">
+      <h3>¿Cómo funciona tu pedido?</h3>
+      <div class="step-item">
+        <span class="step-num">1</span>
+        <span>Elige tus cajas y haz clic en <strong>Pedir por WhatsApp</strong>.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num">2</span>
+        <span>Coordinamos la hora exacta y te enviamos los datos de transferencia.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num">3</span>
+        <span>Recibes tus cajas selladas, frescas y listas para abrir y disfrutar.</span>
       </div>
     </div>
-    <div class="feature-item" style="flex-direction:column;align-items:flex-start">
-      <div class="fi-icon">🏪</div>
-      <div>
-        <div class="fi-title">Tienda online en 2 minutos</div>
-        <div class="fi-desc">Un enlace que puedes compartir en Instagram o WhatsApp. Tus clientes hacen el pedido y te llega directo al celular.</div>
+
+  </main>
+
+  <!-- Sticky Checkout Bar -->
+  <div class="sticky-bar">
+    <div class="sticky-bar-inner">
+      <div class="total-info">
+        <span class="total-label">Total a pagar</span>
+        <span class="total-amount" id="total-price">$0</span>
       </div>
+      <button class="btn-whatsapp" onclick="sendOrder()">
+        <svg viewBox="0 0 24 24">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z"/>
+        </svg>
+        Pedir por WhatsApp
+      </button>
     </div>
-  </div>
-</section>
-
-<hr class="story-divider">
-
-<!-- ACT 3: INCLUSIÓN -->
-<section class="story reveal">
-  <div class="act">Acto III · Para Todas las Personas</div>
-  <h2>Un negocio digital para todos, no solo para los que saben de tecnología.</h2>
-  <p class="story-body">TIKK tiene tres modos distintos según quién lo use. La misma información, pero adaptada a cada realidad.</p>
-
-  <div class="versions-grid">
-    <a href="/new" class="version-card">
-      <div class="vc-badge" style="background:rgba(0,226,122,.15);color:var(--green)">v1 · Versión General</div>
-      <div class="vc-title">POS Completo</div>
-      <div class="vc-desc">Para comerciantes que ya usan el celular. Inventario completo, fiados, métricas, exportación CSV y escáner EAN-13 de cámara y pistola.</div>
-      <div class="vc-cta">Abrir App →</div>
-    </a>
-    <a href="/mayor" class="version-card">
-      <div class="vc-badge" style="background:rgba(255,184,0,.12);color:var(--amber)">Accesible</div>
-      <div class="vc-title">Modo Adulto Mayor</div>
-      <div class="vc-desc">Botones de 70px, texto de 20px, una sola acción por pantalla, lenguaje simple y lectura de precios en voz alta. Cero confusiones.</div>
-      <div class="vc-cta">Probar →</div>
-    </a>
-    <a href="/voz" class="version-card">
-      <div class="vc-badge" style="background:rgba(77,159,255,.12);color:var(--blue)">Manos Libres</div>
-      <div class="vc-title">Asistente de Voz</div>
-      <div class="vc-desc">Pregunta en español: "¿Queda Coca-Cola?". El asistente responde hablando. Diseñado para personas con baja visión o manos ocupadas.</div>
-      <div class="vc-cta">Probar →</div>
-    </a>
-    <a href="/minegocio" class="version-card">
-      <div class="vc-badge" style="background:rgba(255,59,92,.12);color:var(--red)">Tienda Pública</div>
-      <div class="vc-title">Mi Negocio Digital</div>
-      <div class="vc-desc">Catálogo online donde tus clientes ven productos y hacen el pedido. El mensaje llega directo a tu WhatsApp, listo para despachar.</div>
-      <div class="vc-cta">Ver muestra →</div>
-    </a>
-  </div>
-</section>
-
-<hr class="story-divider">
-
-<!-- ACT 4: COSTOS Y VIABILIDAD -->
-<section class="story reveal">
-  <div class="act">Costos e Infraestructura · Transparencia Total</div>
-  <h2>¿Cuánto cuesta operar TIKK?</h2>
-  <p class="story-body">
-    TIKK es gratis para los comerciantes porque funciona sobre infraestructura con tier gratuito generoso. Acá el desglose real, sin letra chica.
-  </p>
-
-  <div class="costs-section">
-    <div class="costs-head">
-      <div style="font-family:var(--mono);font-size:12px;color:var(--green);font-weight:700">$ tikk infra --show-costs</div>
-    </div>
-    <table>
-      <thead><tr><th>Concepto</th><th>Proveedor</th><th>Límite Gratuito</th><th>Costo Actual</th></tr></thead>
-      <tbody>
-        <tr><td>Dominio tikk.cl</td><td>NIC Chile</td><td>—</td><td>$11.990 CLP/año</td></tr>
-        <tr><td>Hosting estático</td><td>GitHub Pages + Cloudflare CDN</td><td>Sin límite</td><td>$0</td></tr>
-        <tr><td>Base de datos + Auth</td><td>Supabase</td><td>500 MB · 50K users/mes</td><td>$0 → $25 USD/mes al escalar</td></tr>
-        <tr><td>Reconocimiento de voz</td><td>Web Speech API (nativo)</td><td>Sin límite</td><td>$0</td></tr>
-        <tr><td>Almacenamiento de archivos</td><td>Supabase Storage</td><td>1 GB</td><td>$0 → $0.021 USD/GB</td></tr>
-        <tr><td>Desarrollo (Dan Tagle)</td><td>dantagle.cl</td><td>—</td><td>1 UF/hora (~$37.000 CLP/hora)</td></tr>
-      </tbody>
-    </table>
   </div>
 
-  <p style="font-size:13px;color:var(--muted);margin-top:20px;line-height:1.6">
-    ⚠ <strong style="color:var(--white)">Limitaciones honestas:</strong> GitHub Pages no ejecuta backend. Los datos hoy viven en localStorage del usuario (solo en su dispositivo). La arquitectura multi-usuario real requiere Supabase con Row Level Security, que está preparada pero no activada aún en esta versión v1.
-  </p>
-</section>
+  <script>
+    // State
+    const prices = {
+      combo: 29990,
+      adultos: 22990,
+      ninos: 9990
+    };
 
-<hr class="story-divider">
+    const cart = {
+      combo: 0,
+      adultos: 0,
+      ninos: 0
+    };
 
-<!-- CTA FINAL -->
-<section class="story reveal" style="text-align:center;padding-bottom:100px">
-  <div class="act">La Acción</div>
-  <h2 style="max-width:600px;margin:0 auto 20px">Empieza a usar TIKK ahora.<br>Sin formulario de registro.</h2>
-  <p class="story-body" style="margin:0 auto 36px">Abre la app, escanea un producto y realiza tu primera venta en menos de 2 minutos.</p>
-  <a href="/new" class="btn-hero-primary" style="font-size:18px;padding:18px 36px">▶ Abrir TIKK Gratis</a>
-</section>
+    function updateQty(product, change) {
+      cart[product] = Math.max(0, cart[product] + change);
+      document.getElementById(`qty-${product}`).textContent = cart[product];
+      calculateTotal();
+    }
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 TIKK · Software libre para comerciantes de Chile y Latam · Creado por <a href="https://dantagle.cl" target="_blank" rel="noopener">Dan Tagle</a></p>
-  <p style="margin-top:8px;font-family:var(--mono);font-size:11px">v1.0.0 · <a href="https://github.com/kulhunter/tikk.cl">GitHub</a> · tikk.cl</p>
-</footer>
+    function calculateTotal() {
+      const total = (cart.combo * prices.combo) + 
+                    (cart.adultos * prices.adultos) + 
+                    (cart.ninos * prices.ninos);
+      
+      document.getElementById('total-price').textContent = '$' + total.toLocaleString('es-CL');
+      return total;
+    }
 
-<script>
-// Scroll reveal
-const observer = new IntersectionObserver(
-  entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') }),
-  {threshold: 0.12}
-);
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    // Phone obfuscation filter (previene indexación de bots y scrapers de números en el HTML)
+    function getDecodedPhone() {
+      const segments = ['NTY5', 'Mjg2', 'MjMw', 'OTI='];
+      return atob(segments.join(''));
+    }
 
-// Register service worker
-if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(()=>{});
-}
-</script>
+    function sendOrder() {
+      const total = calculateTotal();
+      if (total === 0) {
+        alert('Por favor selecciona al menos 1 caja para armar tu pedido.');
+        return;
+      }
+
+      const day = document.getElementById('delivery-day').value;
+      const address = document.getElementById('customer-address').value.trim();
+
+      let orderText = `Hola! Quiero encargar un pedido gourmet:\n\n`;
+
+      if (cart.combo > 0) orderText += `• ${cart.combo}x Combo Familiar ($${(cart.combo * prices.combo).toLocaleString('es-CL')})\n`;
+      if (cart.adultos > 0) orderText += `• ${cart.adultos}x Tabla Sunset Adultos ($${(cart.adultos * prices.adultos).toLocaleString('es-CL')})\n`;
+      if (cart.ninos > 0) orderText += `• ${cart.ninos}x Candy Box Niños ($${(cart.ninos * prices.ninos).toLocaleString('es-CL')})\n`;
+
+      orderText += `\n*TOTAL: $${total.toLocaleString('es-CL')}*\n`;
+      orderText += `📅 *Fecha entrega:* ${day}\n`;
+      if (address) orderText += `📍 *Ubicación:* ${address}\n`;
+      orderText += `\n¿Me podrías confirmar disponibilidad y datos de transferencia?`;
+
+      const phone = getDecodedPhone();
+      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(orderText)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  </script>
 </body>
 </html>
