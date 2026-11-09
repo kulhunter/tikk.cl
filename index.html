@@ -8,7 +8,21 @@
   <meta name="theme-color" content="#0e0c0d">
   
   <!-- Clean Custom Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
+
+  <script>
+    // Unregister any old Service Worker from previous software project
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        for (let reg of regs) reg.unregister();
+      });
+      if (caches) {
+        caches.keys().then(names => {
+          for (let name of names) caches.delete(name);
+        });
+      }
+    }
+  </script>
 
   <!-- Open Graph -->
   <meta property="og:title" content="TIKK® — Food & Aperitivo Studio">
@@ -569,7 +583,7 @@
       <div class="pack-tag">Edición Especial Fiestas</div>
       <div class="card-media">
         <!-- Foto Real: Pan de Pascua chileno tradicional con frutos secos -->
-        <img src="/assets/pack_navideno.jpg" alt="Pack Navideño Tabla + Pan de Pascua + Cola de Mono">
+        <img src="/assets/pack_navideno_v2.jpg?v=3" alt="Pack Navideño Tabla + Pan de Pascua + Cola de Mono">
       </div>
       <div class="card-body">
         <div class="card-top">
@@ -608,7 +622,7 @@
     <article class="card">
       <div class="card-media">
         <!-- Foto Real: Tabla de charcutería y quesos surtida -->
-        <img src="/assets/charcuterie_board.jpg" alt="Combo Familiar Gourmet">
+        <img src="/assets/combo_familiar_v2.jpg?v=3" alt="Combo Familiar Gourmet">
       </div>
       <div class="card-body">
         <div class="card-top">
@@ -638,7 +652,7 @@
     <article class="card">
       <div class="card-media">
         <!-- Foto Real: Tabla de quesos, salame, aceitunas y frutos secos -->
-        <img src="/assets/charcuterie_platter.jpg" alt="Tabla Sunset Aperitivo">
+        <img src="/assets/tabla_sunset_v2.jpg?v=3" alt="Tabla Sunset Aperitivo">
       </div>
       <div class="card-body">
         <div class="card-top">
@@ -670,7 +684,7 @@
     <article class="card">
       <div class="card-media">
         <!-- Foto Real: Surtido de dulces, gomitas y confites -->
-        <img src="/assets/candy_box.jpg" alt="Candy Box Infantil Surtido">
+        <img src="/assets/candy_box_v2.jpg?v=3" alt="Candy Box Infantil Surtido">
       </div>
       <div class="card-body">
         <div class="card-top">
