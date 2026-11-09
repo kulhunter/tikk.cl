@@ -3,37 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>TIKK Gourmet — Tablas de Picoteo & Sweet Boxes en Santiago</title>
-  <meta name="description" content="Tablas de aperitivo gourmet para tus tardes de terraza y cajas dulces Candy Box para niños. Entregas frescas este fin de semana en tu barrio.">
-  <meta name="theme-color" content="#12100e">
+  <title>TIKK — Tablas de Picoteo, Pan de Pascua & Cola de Mono en Santiago</title>
+  <meta name="description" content="Tablas de aperitivo gourmet, combos navideños con Pan de Pascua artesanal y Cola de Mono casera (opción sin lactosa). Entregas en Santiago.">
+  <meta name="theme-color" content="#FAF8F5">
   <link rel="icon" href="/icon-192.png">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="TIKK Gourmet — Tablas de Picoteo & Sweet Boxes">
-  <meta property="og:description" content="Listas para servir. El mejor picoteo para tus viernes, sábados y eventos familiares. Pide la tuya por WhatsApp.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:title" content="TIKK — Tablas de Picoteo & Packs Navideños">
+  <meta property="og:description" content="Aperitivos gourmet, Candy Box para niños, Pan de Pascua y Cola de Mono casera con opción sin lactosa.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=1200&q=85">
   <meta property="og:url" content="https://tikk.cl">
 
-  <!-- Google Fonts -->
+  <!-- Typography: Editorial / Boutique Feel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0d0c0a;
-      --card-bg: #171513;
-      --card-border: rgba(255, 255, 255, 0.08);
-      --gold: #d4a373;
-      --gold-light: #faedcd;
-      --accent: #e07a5f;
-      --accent-hover: #c9654b;
-      --green: #25d366;
-      --text-main: #f4f1de;
-      --text-muted: #a8a29e;
-      --badge-bg: rgba(212, 163, 115, 0.15);
-      --font-display: 'Playfair Display', Georgia, serif;
+      --bg: #FBF9F5;
+      --surface: #FFFFFF;
+      --card-border: #ECE6DD;
+      --ink: #1C1917;
+      --ink-soft: #44403C;
+      --ink-muted: #78716C;
+      --accent-festive: #8C2F1B; /* Vinotinto rústico gourmet */
+      --accent-gold: #B47836;
+      --accent-gold-bg: #FDF6EE;
+      --green-wa: #1EBE5D;
+      --green-wa-dark: #159C4B;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --font-serif: 'Cinzel', serif;
       --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --shadow-card: 0 10px 30px rgba(28, 25, 23, 0.06);
     }
 
     * {
@@ -45,62 +49,60 @@
 
     body {
       background-color: var(--bg);
-      color: var(--text-main);
+      color: var(--ink);
       font-family: var(--font-sans);
       line-height: 1.5;
       padding-bottom: 120px;
-      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Header & Hero */
+    /* Top notice */
+    .top-announcement {
+      background: var(--ink);
+      color: #FAF8F5;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 8px 16px;
+      font-weight: 600;
+    }
+
+    /* Header */
     header {
-      padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--card-border);
-      background: rgba(13, 12, 10, 0.9);
+      background: rgba(251, 249, 245, 0.94);
       backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
       position: sticky;
       top: 0;
       z-index: 50;
+      padding: 14px 20px;
     }
 
-    .brand {
+    .header-inner {
+      max-width: 640px;
+      margin: 0 auto;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
     }
 
-    .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #d4a373, #e07a5f);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      color: #12100e;
-      font-size: 1.1rem;
-    }
-
-    .brand-name {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #fff;
+      letter-spacing: 0.12em;
+      color: var(--ink);
     }
 
-    .badge-status {
+    .status-badge {
       font-size: 0.72rem;
       font-weight: 600;
-      background: rgba(37, 211, 102, 0.15);
-      color: #25d366;
-      border: 1px solid rgba(37, 211, 102, 0.3);
+      color: #15803D;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
       padding: 4px 10px;
-      border-radius: 20px;
+      border-radius: 999px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -109,622 +111,805 @@
     .status-dot {
       width: 6px;
       height: 6px;
-      background: #25d366;
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      background: #10B981;
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.4; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.1); }
-      100% { opacity: 0.4; transform: scale(0.9); }
-    }
-
+    /* Hero */
     .hero {
-      padding: 36px 20px 24px;
-      text-align: center;
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
+      padding: 34px 20px 24px;
+      text-align: center;
     }
 
-    .hero-tag {
-      display: inline-block;
+    .hero-eyebrow {
       font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gold);
-      background: var(--badge-bg);
-      border: 1px solid rgba(212, 163, 115, 0.3);
-      padding: 5px 14px;
-      border-radius: 30px;
-      margin-bottom: 16px;
       font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
     }
 
     .hero h1 {
-      font-family: var(--font-display);
-      font-size: 2.2rem;
-      line-height: 1.18;
-      font-weight: 700;
+      font-family: var(--font-serif);
+      font-size: 2.1rem;
+      line-height: 1.25;
+      color: var(--ink);
+      font-weight: 600;
+      letter-spacing: -0.01em;
       margin-bottom: 14px;
-      color: #fff;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, #faedcd 20%, #d4a373 80%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     .hero p {
-      color: var(--text-muted);
+      color: var(--ink-soft);
       font-size: 0.95rem;
-      line-height: 1.55;
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto;
     }
 
     /* Container */
     .container {
-      max-width: 650px;
+      max-width: 640px;
       margin: 0 auto;
       padding: 0 16px;
     }
 
+    .section-eyebrow {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin: 28px 0 14px 4px;
+    }
+
     /* Product Cards */
-    .card {
-      background: var(--card-bg);
+    .product-card {
+      background: var(--surface);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
+      border-radius: var(--radius-lg);
       overflow: hidden;
-      margin-bottom: 20px;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-card);
       position: relative;
     }
 
-    .card:hover {
-      border-color: rgba(212, 163, 115, 0.35);
+    .product-card.featured-festive {
+      border: 2px solid var(--accent-festive);
+      background: #FFFAF8;
     }
 
-    .card.featured {
-      border: 1.5px solid var(--gold);
-      background: linear-gradient(180deg, #1f1c18 0%, #151311 100%);
-    }
-
-    .ribbon {
+    .badge-festive {
       position: absolute;
       top: 14px;
-      right: 14px;
-      background: linear-gradient(135deg, #e07a5f, #c9654b);
-      color: #fff;
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 30px;
+      left: 14px;
+      background: var(--accent-festive);
+      color: #FFF;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      box-shadow: 0 4px 12px rgba(224, 122, 95, 0.4);
-      z-index: 10;
+      padding: 5px 12px;
+      border-radius: 999px;
+      z-index: 5;
     }
 
-    .card-img-wrapper {
-      position: relative;
+    .badge-highlight {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--ink);
+      color: #FFF;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      z-index: 5;
+    }
+
+    .card-photo-box {
       width: 100%;
-      height: 200px;
+      height: 220px;
+      position: relative;
+      background: #F0EAE1;
       overflow: hidden;
     }
 
-    .card-img {
+    .card-photo {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      display: block;
     }
 
-    .card:hover .card-img {
-      transform: scale(1.03);
+    .card-content {
+      padding: 22px 20px 20px;
     }
 
-    .card-body {
-      padding: 20px;
-    }
-
-    .card-title-row {
+    .card-header-row {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: flex-start;
       margin-bottom: 8px;
     }
 
     .card-title {
-      font-family: var(--font-display);
+      font-family: var(--font-serif);
       font-size: 1.3rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .card-price-group {
+      text-align: right;
+    }
+
+    .card-old-price {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      text-decoration: line-through;
+      margin-right: 4px;
     }
 
     .card-price {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--gold-light);
-    }
-
-    .card-price-old {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-decoration: line-through;
-      margin-right: 6px;
-      font-weight: 500;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent-festive);
     }
 
     .card-desc {
       font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-      line-height: 1.5;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      margin-bottom: 16px;
     }
 
-    .ingredients-pill-list {
+    .item-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-bottom: 18px;
     }
 
-    .ingredient-pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #d1cfc7;
+    .tag-chip {
+      background: #F5F1EB;
+      color: var(--ink-soft);
       font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 8px;
+      padding: 4px 9px;
+      border-radius: var(--radius-sm);
       font-weight: 500;
     }
 
-    /* Stepper Controls */
-    .card-action-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid var(--card-border);
-      padding-top: 14px;
+    /* Option Box (Sin Lactosa) */
+    .option-box {
+      background: #FAF7F2;
+      border: 1px dashed #DCCFBF;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
     }
 
-    .portions-badge {
-      font-size: 0.78rem;
-      color: var(--gold);
-      font-weight: 600;
+    .checkbox-label {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-festive);
+      cursor: pointer;
+    }
+
+    .option-extra {
+      font-size: 0.76rem;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-left: auto;
+    }
+
+    /* Counter Bar */
+    .counter-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--card-border);
+      padding-top: 16px;
+    }
+
+    .yield-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-gold);
     }
 
     .stepper {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 4px 8px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #F7F5F0;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 3px;
     }
 
     .btn-step {
       width: 32px;
       height: 32px;
-      border-radius: 8px;
-      border: none;
-      background: #25221e;
-      color: #fff;
-      font-size: 1.2rem;
+      background: #FFFFFF;
+      border: 1px solid #E2DCD3;
+      border-radius: 7px;
+      color: var(--ink);
+      font-size: 1.1rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      user-select: none;
       transition: background 0.15s ease;
     }
 
     .btn-step:active {
-      background: var(--gold);
-      color: #000;
+      background: var(--ink);
+      color: #FFF;
     }
 
-    .step-val {
-      font-size: 1rem;
-      font-weight: 700;
-      min-width: 20px;
+    .step-count {
+      min-width: 34px;
       text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
     }
 
-    /* Checkout & Sticky Bar */
-    .sticky-bar {
+    /* Professional Scheduling Section */
+    .schedule-panel {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 24px;
+    }
+
+    .panel-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-field {
+      width: 100%;
+      background: #FAF8F5;
+      border: 1px solid #E5DFD7;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-gold);
+      background: #FFFFFF;
+    }
+
+    /* Time Slot Grid */
+    .time-slot-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 18px;
+    }
+
+    .time-slot-btn {
+      background: #FAF8F5;
+      border: 1px solid #E5DFD7;
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.15s ease;
+    }
+
+    .time-slot-btn.selected {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-color: var(--ink);
+    }
+
+    .slot-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .slot-sub {
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .time-slot-btn.selected .slot-sub {
+      color: #D6D3D1;
+    }
+
+    /* Guarantee */
+    .guarantee-box {
+      border: 1px dashed #D6CEC4;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .guarantee-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .guarantee-text h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .guarantee-text p {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    /* Sticky Bottom Checkout */
+    .checkout-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(18, 16, 14, 0.95);
-      backdrop-filter: blur(16px);
+      background: #FFFFFF;
       border-top: 1px solid var(--card-border);
       padding: 14px 20px;
       z-index: 100;
-      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.08);
     }
 
-    .sticky-bar-inner {
-      max-width: 650px;
+    .checkout-inner {
+      max-width: 640px;
       margin: 0 auto;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 16px;
     }
 
-    .total-info {
+    .sum-block {
       display: flex;
       flex-direction: column;
     }
 
-    .total-label {
+    .sum-caption {
       font-size: 0.72rem;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--text-muted);
+      color: var(--ink-muted);
     }
 
-    .total-amount {
-      font-size: 1.4rem;
+    .sum-val {
+      font-size: 1.45rem;
       font-weight: 800;
-      color: #fff;
-      font-family: var(--font-sans);
+      color: var(--ink);
+      line-height: 1.1;
     }
 
-    .btn-whatsapp {
-      background: #25d366;
-      color: #0d0c0a;
+    .btn-checkout {
+      background: var(--green-wa);
+      color: #FFFFFF;
       font-family: var(--font-sans);
       font-size: 0.98rem;
-      font-weight: 800;
+      font-weight: 700;
       border: none;
-      border-radius: 14px;
-      padding: 14px 24px;
+      border-radius: 12px;
+      padding: 14px 22px;
       display: flex;
       align-items: center;
       gap: 10px;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
-      transition: transform 0.15s ease, background 0.2s ease;
+      box-shadow: 0 4px 14px rgba(30, 190, 93, 0.3);
+      transition: background 0.15s ease, transform 0.1s ease;
       white-space: nowrap;
     }
 
-    .btn-whatsapp:hover {
-      background: #20ba59;
+    .btn-checkout:hover {
+      background: var(--green-wa-dark);
     }
 
-    .btn-whatsapp:active {
-      transform: scale(0.97);
+    .btn-checkout:active {
+      transform: scale(0.98);
     }
 
-    .btn-whatsapp svg {
+    .btn-checkout svg {
       width: 22px;
       height: 22px;
       fill: currentColor;
-    }
-
-    /* Info Steps Section */
-    .steps-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px dashed rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      padding: 20px;
-      margin-top: 30px;
-    }
-
-    .steps-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--gold);
-    }
-
-    .step-item {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 10px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .step-num {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(212, 163, 115, 0.15);
-      color: var(--gold);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 0.75rem;
-    }
-
-    /* Form drawer for details */
-    .order-details-box {
-      background: #1b1916;
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
-
-    .form-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .form-control {
-      width: 100%;
-      background: #100f0d;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: #fff;
-      font-family: inherit;
-      padding: 10px 14px;
-      font-size: 0.88rem;
-      outline: none;
-    }
-
-    .form-control:focus {
-      border-color: var(--gold);
-    }
-
-    select.form-control {
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
+  <!-- Announcement Bar -->
+  <div class="top-announcement">
+    Tablas de Picoteo & Especial Navideño • Entregas Frescas este Fin de Semana
+  </div>
+
   <!-- Header -->
   <header>
-    <div class="brand">
-      <div class="brand-logo">T</div>
-      <div class="brand-name">TIKK Gourmet</div>
-    </div>
-    <div class="badge-status">
-      <span class="status-dot"></span>
-      Pedidos Abiertos
+    <div class="header-inner">
+      <div class="brand-title">TIKK</div>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Agenda Abierta
+      </div>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-tag">Aperitivos & Picoteo de Fin de Semana</div>
-    <h1>El Picoteo Listo,<br><span>Tú Solo Destapa el Vino</span></h1>
-    <p>Tablas gourmet con ingredientes frescos y Candy Boxes para que los niños disfruten a su ritmo. Entregas en tu barrio este fin de semana.</p>
+    <div class="hero-eyebrow">Aperitivos Listos para Servir</div>
+    <h1>El Picoteo Perfecto para tu Fin de Semana</h1>
+    <p>Quesos laminados, salame doblado en flor, frutillas frescas, Pan de Pascua artesanal y Cola de Mono casera. Sin cocinar, sin ensuciar y con despacho a tu puerta.</p>
   </section>
 
-  <!-- Main Catalog -->
+  <!-- Main Container -->
   <main class="container">
 
-    <!-- COMBO FAMILIAR (ESTRELLA) -->
-    <div class="card featured">
-      <div class="ribbon">Más Vendido — Ahorras $3.000</div>
-      <div class="card-img-wrapper">
-        <img class="card-img" src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80" alt="Combo Familiar Gourmet">
+    <div class="section-eyebrow">Edición Especial Navideña</div>
+
+    <!-- 1. PACK NAVIDEÑO COMPLETO (TABLA + PAN DE PASCUA + COLA DE MONO) -->
+    <article class="product-card featured-festive">
+      <div class="badge-festive">Especial Festivo — Pack Completo</div>
+      <div class="card-photo-box">
+        <img class="card-photo" src="https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=900&q=85" alt="Pack Navideño Tabla Pan de Pascua Cola de Mono">
       </div>
-      <div class="card-body">
-        <div class="card-title-row">
-          <div class="card-title">Combo Familiar Completo</div>
-          <div class="card-price">
-            <span class="card-price-old">$32.980</span>$29.990
+      <div class="card-content">
+        <div class="card-header-row">
+          <h2 class="card-title">Pack Navideño Gourmet</h2>
+          <div class="card-price-group">
+            <span class="card-old-price">$38.990</span>
+            <span class="card-price" id="pack-nav-price">$34.990</span>
           </div>
         </div>
-        <p class="card-desc">La solución definitiva para tu fin de semana: incluye 1 Tabla de Picoteo Adultos + 1 Candy Box Niños. Nadie se queda afuera.</p>
+        <p class="card-desc">La experiencia festiva definitiva: 1 Tabla Sunset de Picoteo + 1 Pan de Pascua artesanal (frutos secos) + 1 Botella de Cola de Mono casera (1 Litro).</p>
         
-        <div class="ingredients-pill-list">
-          <span class="ingredient-pill">1 Tabla Gourmet (3-4 pers)</span>
-          <span class="ingredient-pill">1 Candy Box Infantil</span>
-          <span class="ingredient-pill">Ahorro $3.000</span>
-          <span class="ingredient-pill">Caja Kraft Regalo</span>
+        <div class="item-tags">
+          <span class="tag-chip">1 Tabla Sunset (3-4 pers)</span>
+          <span class="tag-chip">1 Pan de Pascua Artesanal</span>
+          <span class="tag-chip">1L Cola de Mono Casera</span>
+          <span class="tag-chip">Caja de Regalo</span>
         </div>
 
-        <div class="card-action-row">
-          <span class="portions-badge">Ideal para toda la casa</span>
+        <!-- Custom option: Sin Lactosa -->
+        <div class="option-box">
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-sin-lactosa" onchange="toggleSinLactosa()">
+            <span>Preparar Cola de Mono con <strong>Leche Sin Lactosa</strong></span>
+            <span class="option-extra">+ $1.000</span>
+          </label>
+        </div>
+
+        <div class="counter-row">
+          <span class="yield-text">Todo listo para celebrar</span>
           <div class="stepper">
-            <button class="btn-step" onclick="updateQty('combo', -1)">-</button>
-            <span class="step-val" id="qty-combo">0</span>
-            <button class="btn-step" onclick="updateQty('combo', 1)">+</button>
+            <button class="btn-step" onclick="adjustCount('navidad', -1)" aria-label="Disminuir">-</button>
+            <span class="step-count" id="count-navidad">0</span>
+            <button class="btn-step" onclick="adjustCount('navidad', 1)" aria-label="Aumentar">+</button>
           </div>
         </div>
       </div>
-    </div>
+    </article>
 
-    <!-- TABLA ADULTOS -->
-    <div class="card">
-      <div class="card-img-wrapper">
-        <img class="card-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Tabla Picoteo Sunset">
+    <div class="section-eyebrow">Aperitivos & Candy Boxes</div>
+
+    <!-- 2. COMBO FAMILIAR (HIGHLIGHT) -->
+    <article class="product-card">
+      <div class="badge-highlight">Ahorras $3.000 — Más Vendido</div>
+      <div class="card-photo-box">
+        <img class="card-photo" src="https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?auto=format&fit=crop&w=900&q=85" alt="Combo Familiar Gourmet TIKK">
       </div>
-      <div class="card-body">
-        <div class="card-title-row">
-          <div class="card-title">Tabla Sunset Aperitivo</div>
-          <div class="card-price">$22.990</div>
+      <div class="card-content">
+        <div class="card-header-row">
+          <h2 class="card-title">Combo Familiar (Adultos + Niños)</h2>
+          <div class="card-price-group">
+            <span class="card-old-price">$32.980</span>
+            <span class="card-price">$29.990</span>
+          </div>
         </div>
-        <p class="card-desc">Armada con salame doblado en flor, queso gouda en cubitos, queso crema especiado, frutillas dulces de temporada, frutos secos tostados, aceitunas y tostaditas crujientes.</p>
+        <p class="card-desc">El set completo para tu reunión: incluye 1 Tabla de Picoteo Sunset para adultos más 1 Candy Box infantil para los niños en caja kraft de presentación.</p>
         
-        <div class="ingredients-pill-list">
-          <span class="ingredient-pill">Salame & Jamón</span>
-          <span class="ingredient-pill">Mix Quesos</span>
-          <span class="ingredient-pill">Frutillas Dulces</span>
-          <span class="ingredient-pill">Frutos Secos</span>
-          <span class="ingredient-pill">Dip Untable</span>
-          <span class="ingredient-pill">Crackers</span>
+        <div class="item-tags">
+          <span class="tag-chip">1 Tabla Aperitivo (3-4 pers)</span>
+          <span class="tag-chip">1 Candy Box Niños</span>
+          <span class="tag-chip">Ahorro inmediato</span>
         </div>
 
-        <div class="card-action-row">
-          <span class="portions-badge">Para 3 a 4 personas</span>
+        <div class="counter-row">
+          <span class="yield-text">Set completo familiar</span>
           <div class="stepper">
-            <button class="btn-step" onclick="updateQty('adultos', -1)">-</button>
-            <span class="step-val" id="qty-adultos">0</span>
-            <button class="btn-step" onclick="updateQty('adultos', 1)">+</button>
+            <button class="btn-step" onclick="adjustCount('combo', -1)" aria-label="Disminuir">-</button>
+            <span class="step-count" id="count-combo">0</span>
+            <button class="btn-step" onclick="adjustCount('combo', 1)" aria-label="Aumentar">+</button>
           </div>
         </div>
       </div>
-    </div>
+    </article>
 
-    <!-- CAJA NIÑOS -->
-    <div class="card">
-      <div class="card-img-wrapper">
-        <img class="card-img" src="https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=800&q=80" alt="Caja Dulce Niños Candy Box">
+    <!-- 3. TABLA APERITIVO ADULTOS -->
+    <article class="product-card">
+      <div class="card-photo-box">
+        <img class="card-photo" src="https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=900&q=85" alt="Tabla de Aperitivo Sunset Adultos">
       </div>
-      <div class="card-body">
-        <div class="card-title-row">
-          <div class="card-title">Candy Box Niños</div>
-          <div class="card-price">$9.990</div>
+      <div class="card-content">
+        <div class="card-header-row">
+          <h2 class="card-title">Tabla Sunset Aperitivo</h2>
+          <div class="card-price-group">
+            <span class="card-price">$22.990</span>
+          </div>
         </div>
-        <p class="card-desc">La fiesta en una caja: gomitas dulces, malvaviscos esponjosos, galletitas con chispas de chocolate, pretzels bañados y moneditas de chocolate. Presentada en caja con visor.</p>
+        <p class="card-desc">Salame dispuesto en flor, cubos de queso madurado, queso crema especiado para untar, frutillas frescas de temporada, frutos secos tostados y tostaditas crocantes.</p>
         
-        <div class="ingredients-pill-list">
-          <span class="ingredient-pill">Gomitas frutales</span>
-          <span class="ingredient-pill">Malvaviscos</span>
-          <span class="ingredient-pill">Galletas con Chispas</span>
-          <span class="ingredient-pill">Pretzels</span>
-          <span class="ingredient-pill">Chocolates</span>
+        <div class="item-tags">
+          <span class="tag-chip">Salame & Jamón</span>
+          <span class="tag-chip">Quesos Seleccionados</span>
+          <span class="tag-chip">Frutillas Dulces</span>
+          <span class="tag-chip">Dip Untable</span>
+          <span class="tag-chip">Crackers</span>
         </div>
 
-        <div class="card-action-row">
-          <span class="portions-badge">Para 2 a 3 niños</span>
+        <div class="counter-row">
+          <span class="yield-text">Para 3 a 4 personas</span>
           <div class="stepper">
-            <button class="btn-step" onclick="updateQty('ninos', -1)">-</button>
-            <span class="step-val" id="qty-ninos">0</span>
-            <button class="btn-step" onclick="updateQty('ninos', 1)">+</button>
+            <button class="btn-step" onclick="adjustCount('adultos', -1)" aria-label="Disminuir">-</button>
+            <span class="step-count" id="count-adultos">0</span>
+            <button class="btn-step" onclick="adjustCount('adultos', 1)" aria-label="Aumentar">+</button>
           </div>
         </div>
       </div>
-    </div>
+    </article>
 
-    <!-- DATOS DE COORDINACIÓN RÁPIDA -->
-    <div class="order-details-box">
-      <div class="form-group">
-        <label for="delivery-day">¿Cuándo quieres recibir tu pedido?</label>
-        <select id="delivery-day" class="form-control">
-          <option value="Viernes por la tarde (18:00 a 21:00)">Viernes por la tarde (18:00 a 21:00)</option>
-          <option value="Sábado aperitivo (12:00 a 14:00)">Sábado aperitivo (12:00 a 14:00)</option>
-          <option value="Sábado tarde (18:00 a 21:00)">Sábado tarde (18:00 a 21:00)</option>
-          <option value="Reserva Navidad (24 de Diciembre)">Reserva Navidad (24 de Diciembre)</option>
-          <option value="Otro día / Evento especial">Otro día / Evento especial</option>
-        </select>
+    <!-- 4. CANDY BOX NIÑOS -->
+    <article class="product-card">
+      <div class="card-photo-box">
+        <img class="card-photo" src="https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=900&q=85" alt="Candy Box Niños Dulces">
       </div>
-      <div class="form-group">
-        <label for="customer-address">Sector o dirección (para despacho o retiro):</label>
-        <input type="text" id="customer-address" class="form-control" placeholder="Ej: Pasaje Los Aromos / Edificio 4, depto 302">
-      </div>
-    </div>
+      <div class="card-content">
+        <div class="card-header-row">
+          <h2 class="card-title">Candy Box Infantil</h2>
+          <div class="card-price-group">
+            <span class="card-price">$9.990</span>
+          </div>
+        </div>
+        <p class="card-desc">Caja dulcera con visor transparente: surtido de gomitas frutales, malvaviscos esponjosos, galletas con chispas de chocolate, pretzels bañados y confites.</p>
+        
+        <div class="item-tags">
+          <span class="tag-chip">Gomitas frutales</span>
+          <span class="tag-chip">Marshmallows</span>
+          <span class="tag-chip">Galletas con chispas</span>
+          <span class="tag-chip">Chocolates</span>
+        </div>
 
-    <!-- INFO COMO FUNCIONA -->
-    <div class="steps-card">
-      <h3>¿Cómo funciona tu pedido?</h3>
-      <div class="step-item">
-        <span class="step-num">1</span>
-        <span>Elige tus cajas y haz clic en <strong>Pedir por WhatsApp</strong>.</span>
+        <div class="counter-row">
+          <span class="yield-text">Para 2 a 3 niños</span>
+          <div class="stepper">
+            <button class="btn-step" onclick="adjustCount('ninos', -1)" aria-label="Disminuir">-</button>
+            <span class="step-count" id="count-ninos">0</span>
+            <button class="btn-step" onclick="adjustCount('ninos', 1)" aria-label="Aumentar">+</button>
+          </div>
+        </div>
       </div>
-      <div class="step-item">
-        <span class="step-num">2</span>
-        <span>Coordinamos la hora exacta y te enviamos los datos de transferencia.</span>
+    </article>
+
+    <!-- SCHEDULE PANEL -->
+    <div class="section-eyebrow">Coordinación de Entrega</div>
+
+    <section class="schedule-panel">
+      <h3 class="panel-title">
+        <span>📅</span> Selecciona cuándo quieres tu pedido
+      </h3>
+
+      <div style="margin-bottom: 16px;">
+        <label for="order-date" class="form-label">Fecha de entrega:</label>
+        <input type="date" id="order-date" class="input-field">
       </div>
-      <div class="step-item">
-        <span class="step-num">3</span>
-        <span>Recibes tus cajas selladas, frescas y listas para abrir y disfrutar.</span>
+
+      <div>
+        <label class="form-label">Horario preferido de entrega:</label>
+        <div class="time-slot-grid">
+          <div class="time-slot-btn" onclick="selectSlot('Mañana (10:00 a 12:30)', this)">
+            <span class="slot-label">Mañana</span>
+            <span class="slot-sub">10:00 – 12:30</span>
+          </div>
+          <div class="time-slot-btn" onclick="selectSlot('Almuerzo (12:30 a 15:30)', this)">
+            <span class="slot-label">Almuerzo</span>
+            <span class="slot-sub">12:30 – 15:30</span>
+          </div>
+          <div class="time-slot-btn selected" onclick="selectSlot('Tarde / Aperitivo (18:00 a 21:00)', this)">
+            <span class="slot-label">Tarde</span>
+            <span class="slot-sub">18:00 – 21:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="order-address" class="form-label">Dirección o sector (despacho o retiro):</label>
+        <input type="text" id="order-address" class="input-field" placeholder="Ej: Pasaje Los Aromos 123 / Edificio Mirador depto 402">
+      </div>
+    </section>
+
+    <!-- TRUST / INFO -->
+    <div class="guarantee-box">
+      <div class="guarantee-icon">🌿</div>
+      <div class="guarantee-text">
+        <h4>Frescura garantizada</h4>
+        <p>Armamos y refrigeramos cada tabla y botella el mismo día de la entrega para que los quesos, frutas y cola de mono lleguen en su punto óptimo.</p>
       </div>
     </div>
 
   </main>
 
-  <!-- Sticky Checkout Bar -->
-  <div class="sticky-bar">
-    <div class="sticky-bar-inner">
-      <div class="total-info">
-        <span class="total-label">Total a pagar</span>
-        <span class="total-amount" id="total-price">$0</span>
+  <!-- Sticky Bottom Checkout -->
+  <footer class="checkout-bar">
+    <div class="checkout-inner">
+      <div class="sum-block">
+        <span class="sum-caption">Total pedido</span>
+        <span class="sum-val" id="total-val">$0</span>
       </div>
-      <button class="btn-whatsapp" onclick="sendOrder()">
+      <button class="btn-checkout" onclick="proceedWhatsApp()">
         <svg viewBox="0 0 24 24">
           <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z"/>
         </svg>
-        Pedir por WhatsApp
+        Confirmar por WhatsApp
       </button>
     </div>
-  </div>
+  </footer>
 
   <script>
-    // State
-    const prices = {
+    const priceTable = {
+      navidad: 34990,
       combo: 29990,
       adultos: 22990,
       ninos: 9990
     };
 
     const cart = {
+      navidad: 0,
       combo: 0,
       adultos: 0,
       ninos: 0
     };
 
-    function updateQty(product, change) {
-      cart[product] = Math.max(0, cart[product] + change);
-      document.getElementById(`qty-${product}`).textContent = cart[product];
-      calculateTotal();
+    let sinLactosaSelected = false;
+    let selectedTimeSlot = 'Tarde / Aperitivo (18:00 a 21:00)';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      
+      const datePicker = document.getElementById('order-date');
+      datePicker.min = `${yyyy}-${mm}-${dd}`;
+      datePicker.value = `${yyyy}-${mm}-${dd}`;
+    });
+
+    function toggleSinLactosa() {
+      sinLactosaSelected = document.getElementById('opt-sin-lactosa').checked;
+      const unitPrice = 34990 + (sinLactosaSelected ? 1000 : 0);
+      document.getElementById('pack-nav-price').textContent = '$' + unitPrice.toLocaleString('es-CL');
+      recalcTotal();
     }
 
-    function calculateTotal() {
-      const total = (cart.combo * prices.combo) + 
-                    (cart.adultos * prices.adultos) + 
-                    (cart.ninos * prices.ninos);
-      
-      document.getElementById('total-price').textContent = '$' + total.toLocaleString('es-CL');
+    function selectSlot(slot, element) {
+      selectedTimeSlot = slot;
+      document.querySelectorAll('.time-slot-btn').forEach(btn => btn.classList.remove('selected'));
+      element.classList.add('selected');
+    }
+
+    function adjustCount(product, delta) {
+      cart[product] = Math.max(0, cart[product] + delta);
+      document.getElementById(`count-${product}`).textContent = cart[product];
+      recalcTotal();
+    }
+
+    function recalcTotal() {
+      const navPrice = priceTable.navidad + (sinLactosaSelected ? 1000 : 0);
+      const total = (cart.navidad * navPrice) +
+                    (cart.combo * priceTable.combo) +
+                    (cart.adultos * priceTable.adultos) +
+                    (cart.ninos * priceTable.ninos);
+
+      document.getElementById('total-val').textContent = '$' + total.toLocaleString('es-CL');
       return total;
     }
 
-    // Phone obfuscation filter (previene indexación de bots y scrapers de números en el HTML)
-    function getDecodedPhone() {
-      const segments = ['NTY5', 'Mjg2', 'MjMw', 'OTI='];
-      return atob(segments.join(''));
+    // Phone obfuscation against web crawlers
+    function getSafeContact() {
+      const chunks = ['NTY5', 'Mjg2', 'MjMw', 'OTI='];
+      return atob(chunks.join(''));
     }
 
-    function sendOrder() {
-      const total = calculateTotal();
+    function proceedWhatsApp() {
+      const total = recalcTotal();
       if (total === 0) {
-        alert('Por favor selecciona al menos 1 caja para armar tu pedido.');
+        alert('Por favor agrega al menos 1 producto a tu pedido.');
         return;
       }
 
-      const day = document.getElementById('delivery-day').value;
-      const address = document.getElementById('customer-address').value.trim();
+      const dateVal = document.getElementById('order-date').value;
+      const address = document.getElementById('order-address').value.trim();
 
-      let orderText = `Hola! Quiero encargar un pedido gourmet:\n\n`;
+      let formattedDate = dateVal;
+      if (dateVal) {
+        const [y, m, d] = dateVal.split('-');
+        formattedDate = `${d}/${m}/${y}`;
+      }
 
-      if (cart.combo > 0) orderText += `• ${cart.combo}x Combo Familiar ($${(cart.combo * prices.combo).toLocaleString('es-CL')})\n`;
-      if (cart.adultos > 0) orderText += `• ${cart.adultos}x Tabla Sunset Adultos ($${(cart.adultos * prices.adultos).toLocaleString('es-CL')})\n`;
-      if (cart.ninos > 0) orderText += `• ${cart.ninos}x Candy Box Niños ($${(cart.ninos * prices.ninos).toLocaleString('es-CL')})\n`;
+      let msg = `Hola! Quiero encargar un pedido gourmet en TIKK:\n\n`;
 
-      orderText += `\n*TOTAL: $${total.toLocaleString('es-CL')}*\n`;
-      orderText += `📅 *Fecha entrega:* ${day}\n`;
-      if (address) orderText += `📍 *Ubicación:* ${address}\n`;
-      orderText += `\n¿Me podrías confirmar disponibilidad y datos de transferencia?`;
+      if (cart.navidad > 0) {
+        const navUnit = priceTable.navidad + (sinLactosaSelected ? 1000 : 0);
+        msg += `• ${cart.navidad}x Pack Navideño Gourmet (Tabla + Pan de Pascua + 1L Cola de Mono)\n`;
+        if (sinLactosaSelected) {
+          msg += `  ↪ *Opción:* Cola de Mono con Leche SIN LACTOSA (+ $1.000)\n`;
+        }
+        msg += `  Subtotal: $${(cart.navidad * navUnit).toLocaleString('es-CL')}\n`;
+      }
+      if (cart.combo > 0) msg += `• ${cart.combo}x Combo Familiar ($${(cart.combo * priceTable.combo).toLocaleString('es-CL')})\n`;
+      if (cart.adultos > 0) msg += `• ${cart.adultos}x Tabla Sunset Aperitivo ($${(cart.adultos * priceTable.adultos).toLocaleString('es-CL')})\n`;
+      if (cart.ninos > 0) msg += `• ${cart.ninos}x Candy Box Infantil ($${(cart.ninos * priceTable.ninos).toLocaleString('es-CL')})\n`;
 
-      const phone = getDecodedPhone();
-      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(orderText)}`;
-      window.open(whatsappUrl, '_blank');
+      msg += `\n*TOTAL: $${total.toLocaleString('es-CL')}*\n`;
+      msg += `📅 *Fecha:* ${formattedDate}\n`;
+      msg += `⏰ *Horario:* ${selectedTimeSlot}\n`;
+      if (address) msg += `📍 *Dirección/Sector:* ${address}\n`;
+      msg += `\n¿Me confirmas disponibilidad para coordinar el pago?`;
+
+      const phone = getSafeContact();
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
     }
   </script>
 </body>
