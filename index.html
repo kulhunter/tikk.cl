@@ -4,43 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>TIKK® — Food & Aperitivo Studio</title>
-  <meta name="description" content="Tablas de aperitivo, packs navideños y candy boxes de alta rotación en Santiago. Listas para servir.">
+  <meta name="description" content="Tablas de aperitivo gourmet, combos familiares, pan de pascua y cola de mono casera en Santiago.">
   <meta name="theme-color" content="#0e0c0d">
   
-  <!-- Modern Clean Favicon (Reemplaza el viejo icono de software) -->
+  <!-- Clean Custom Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="alternate icon" href="/icon-192.png">
 
   <!-- Open Graph -->
   <meta property="og:title" content="TIKK® — Food & Aperitivo Studio">
-  <meta property="og:description" content="Aperitivos seleccionados, Pan de Pascua y Cola de Mono casera. Entregas programadas en Santiago.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?auto=format&fit=crop&w=1200&q=85">
+  <meta property="og:description" content="Tablas de picoteo, Pan de Pascua tradicional y Cola de Mono casera con opción sin lactosa.">
+  <meta property="og:image" content="https://tikk.cl/assets/charcuterie_platter.jpg">
   <meta property="og:url" content="https://tikk.cl">
 
-  <!-- Fonts: Inter Tight & Syne (High-End Agency Typography like Emblematica) -->
+  <!-- Inter Tight (Emblematica agency style typography) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
 
   <style>
-    /* ─────────────────────────────────────────────────────────────
-       DESIGN SYSTEM INSPIRADO EN EMBLEMATICA.AGENCY
-       - Swiss-style typography (Inter Tight)
-       - Strict minimal palette: Off-black (#0e0c0d), Stark White (#fbfbfb), Acid Lime (#d5ff69)
-       - Heavy borders, high contrast, non-generic cards, bold editorial feel
-       - Zero AI-slop gradients
-    ────────────────────────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════
+       TIKK® DESIGN SYSTEM — BRANDING STUDIO INSPIRED
+       Influencia: Emblematica.agency (Barcelona)
+       - Minimalismo editorial con contraste severo
+       - Fondos negros mates (#0e0c0d) y superficies carbón (#151314)
+       - Acento Acid Lime (#d5ff69)
+       - Tipografía Swiss con tracking negativo y pesos ultra pesados
+       - Cero gradientes difusos de IA, fotografía culinaria real
+    ═══════════════════════════════════════════════════════════════ */
     :root {
       --bg: #0e0c0d;
-      --surface: #151314;
-      --surface-card: #191718;
-      --border: #2a2729;
-      --border-lit: #3d393b;
+      --surface: #141213;
+      --card-bg: #181617;
+      --border: #292628;
+      --border-lit: #423e40;
       --text: #fbfbfb;
-      --text-muted: #8e8a8c;
-      --text-sub: #b5b0b2;
-      --acid: #d5ff69;       /* Accent como Emblematica */
-      --acid-glow: rgba(213, 255, 105, 0.2);
+      --text-muted: #8c8789;
+      --text-sub: #b8b2b5;
+      --acid: #d5ff69;
       --font: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
@@ -60,7 +60,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Top Ticker Bar */
+    /* Top Bar */
     .top-bar {
       border-bottom: 1px solid var(--border);
       padding: 10px 20px;
@@ -89,7 +89,7 @@
       box-shadow: 0 0 8px var(--acid);
     }
 
-    /* Header Nav */
+    /* Header */
     header {
       padding: 24px 20px;
       border-bottom: 1px solid var(--border);
@@ -106,35 +106,30 @@
       letter-spacing: -0.04em;
       text-transform: uppercase;
       color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
-    .brand-mark {
+    .brand-dot {
       color: var(--acid);
     }
 
-    .brand-edition {
+    .brand-tag {
       font-size: 0.7rem;
       border: 1px solid var(--border-lit);
       padding: 4px 10px;
-      border-radius: 999px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-sub);
     }
 
-    /* Hero Section */
+    /* Hero */
     .hero {
       max-width: 720px;
       margin: 0 auto;
-      padding: 40px 20px 32px;
+      padding: 40px 20px 30px;
     }
 
-    .hero-label {
-      display: inline-block;
+    .hero-eyebrow {
       font-size: 0.75rem;
       font-weight: 800;
       text-transform: uppercase;
@@ -155,9 +150,8 @@
     .hero p {
       font-size: 1.05rem;
       color: var(--text-sub);
-      line-height: 1.5;
+      line-height: 1.55;
       max-width: 540px;
-      font-weight: 400;
     }
 
     /* Container */
@@ -189,19 +183,13 @@
       color: var(--text-muted);
     }
 
-    /* Grid of Items */
+    /* Cards */
     .card {
-      background: var(--surface-card);
+      background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 0px; /* Editorial square cuts */
       margin-bottom: 24px;
       overflow: hidden;
-      transition: border-color 0.2s ease;
       position: relative;
-    }
-
-    .card:hover {
-      border-color: var(--border-lit);
     }
 
     .card.primary-pack {
@@ -225,21 +213,17 @@
     .card-media {
       width: 100%;
       height: 250px;
-      position: relative;
-      background: #1e1b1d;
+      background: #201d1f;
       overflow: hidden;
+      position: relative;
     }
 
     .card-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(15%) contrast(105%);
-      transition: transform 0.4s ease;
-    }
-
-    .card:hover .card-media img {
-      transform: scale(1.02);
+      display: block;
+      filter: contrast(105%) brightness(95%);
     }
 
     .card-body {
@@ -265,7 +249,6 @@
       font-size: 1.45rem;
       font-weight: 900;
       letter-spacing: -0.03em;
-      color: var(--text);
       white-space: nowrap;
     }
 
@@ -297,7 +280,7 @@
       padding: 4px 8px;
     }
 
-    /* Option Box (Sin lactosa) */
+    /* Option Box */
     .option-bar {
       border: 1px solid var(--border);
       background: #111011;
@@ -330,7 +313,7 @@
       font-weight: 800;
     }
 
-    /* Controls Row */
+    /* Controls */
     .card-action {
       display: flex;
       justify-content: space-between;
@@ -366,11 +349,6 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.15s ease;
-    }
-
-    .step-btn:hover {
-      background: #252224;
     }
 
     .step-btn:active {
@@ -385,10 +363,10 @@
       font-size: 1rem;
     }
 
-    /* Logistics Block */
+    /* Dispatch & Logistics */
     .dispatch-box {
       border: 1px solid var(--border);
-      background: var(--surface-card);
+      background: var(--card-bg);
       padding: 24px 20px;
       margin-bottom: 30px;
     }
@@ -432,14 +410,12 @@
       padding: 12px 14px;
       outline: none;
       border-radius: 0;
-      transition: border-color 0.2s ease;
     }
 
     .agency-input:focus {
       border-color: var(--acid);
     }
 
-    /* Slots */
     .slot-selector {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -482,7 +458,7 @@
       font-weight: 600;
     }
 
-    /* Sticky Bottom Checkout (Minimalist & Solid) */
+    /* Sticky Bottom Checkout */
     .checkout-footer {
       position: fixed;
       bottom: 0;
@@ -537,7 +513,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      transition: background 0.15s ease, transform 0.1s ease;
       white-space: nowrap;
     }
 
@@ -558,27 +533,27 @@
 </head>
 <body>
 
-  <!-- Top Notice -->
+  <!-- Top Status -->
   <div class="top-bar">
-    <span>Edición Diciembre / Fin de Semana</span>
+    <span>Edición Fiestas & Fin de Semana</span>
     <span class="status-live"><span class="live-dot"></span> Agenda Abierta</span>
   </div>
 
   <!-- Header -->
   <header>
     <div class="brand">
-      TIKK<span class="brand-mark">.</span>
+      TIKK<span class="brand-dot">.</span>
     </div>
-    <div class="brand-edition">
+    <div class="brand-tag">
       Santiago · CLP
     </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-label">Aperitivo Studio & Seasonal Boxes</div>
-    <h1>Tablas, Pan de Pascua & Cola de Mono.</h1>
-    <p>Ensambladas con salame en flor, quesos seleccionados y frutillas de temporada. Destapa, sirve y disfruta sin cocinar.</p>
+    <div class="hero-eyebrow">Aperitivo Studio & Seasonal Boxes</div>
+    <h1>Tablas de Picoteo & Especial Festivo.</h1>
+    <p>Charcutería seleccionada, quesos y frutas frescas. Añade Pan de Pascua y Cola de Mono casera a tu pedido. Listo para servir sin cocinar.</p>
   </section>
 
   <!-- Container -->
@@ -589,11 +564,12 @@
       <div class="section-note">Valores en Pesos Chilenos</div>
     </div>
 
-    <!-- 1. PACK NAVIDEÑO COMPLETO ($39.990) -->
+    <!-- 1. PACK NAVIDEÑO GOURMET ($39.990) -->
     <article class="card primary-pack">
       <div class="pack-tag">Edición Especial Fiestas</div>
       <div class="card-media">
-        <img src="https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=900&q=85" alt="Pack Navideño Tabla + Pan de Pascua + Cola de Mono">
+        <!-- Foto Real: Pan de Pascua chileno tradicional con frutos secos -->
+        <img src="/assets/pack_navideno.jpg" alt="Pack Navideño Tabla + Pan de Pascua + Cola de Mono">
       </div>
       <div class="card-body">
         <div class="card-top">
@@ -631,7 +607,8 @@
     <!-- 2. COMBO FAMILIAR ($29.990) -->
     <article class="card">
       <div class="card-media">
-        <img src="https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?auto=format&fit=crop&w=900&q=85" alt="Combo Familiar">
+        <!-- Foto Real: Tabla de charcutería y quesos surtida -->
+        <img src="/assets/charcuterie_board.jpg" alt="Combo Familiar Gourmet">
       </div>
       <div class="card-body">
         <div class="card-top">
@@ -660,14 +637,15 @@
     <!-- 3. TABLA SUNSET ADULTOS ($22.990) -->
     <article class="card">
       <div class="card-media">
-        <img src="https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=900&q=85" alt="Tabla Sunset Aperitivo">
+        <!-- Foto Real: Tabla de quesos, salame, aceitunas y frutos secos -->
+        <img src="/assets/charcuterie_platter.jpg" alt="Tabla Sunset Aperitivo">
       </div>
       <div class="card-body">
         <div class="card-top">
           <h2 class="card-title">Tabla Sunset Aperitivo</h2>
           <div class="card-price">$22.990</div>
         </div>
-        <p class="card-desc">Salame doblado en flor, quesos seleccionados en cubos, dip de queso crema especiado, frutillas frescas, nueces y tostaditas crujientes listas para servir.</p>
+        <p class="card-desc">Salame dispuesto en flor, quesos seleccionados en cubos, dip de queso crema especiado, frutillas frescas, nueces y tostaditas crujientes listas para servir.</p>
         
         <div class="tag-row">
           <span class="spec-tag">Salame en flor</span>
@@ -691,7 +669,8 @@
     <!-- 4. CANDY BOX NIÑOS ($9.990) -->
     <article class="card">
       <div class="card-media">
-        <img src="https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=900&q=85" alt="Candy Box Infantil">
+        <!-- Foto Real: Surtido de dulces, gomitas y confites -->
+        <img src="/assets/candy_box.jpg" alt="Candy Box Infantil Surtido">
       </div>
       <div class="card-body">
         <div class="card-top">
@@ -718,7 +697,7 @@
       </div>
     </article>
 
-    <!-- Logistics Block -->
+    <!-- Logistics -->
     <div class="section-header">
       <div class="section-title">02 / Logística & Entrega</div>
       <div class="section-note">Coordinación directa</div>
@@ -776,7 +755,7 @@
 
   <script>
     const priceTable = {
-      navidad: 39990, // Restaurado y ajustado al valor real premium
+      navidad: 39990,
       combo: 29990,
       adultos: 22990,
       ninos: 9990
@@ -833,7 +812,7 @@
       return total;
     }
 
-    // Phone obfuscation filter
+    // Phone obfuscation
     function getSafeContact() {
       const chunks = ['NTY5', 'Mjg2', 'MjMw', 'OTI='];
       return atob(chunks.join(''));
