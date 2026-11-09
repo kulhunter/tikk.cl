@@ -543,6 +543,47 @@
       height: 20px;
       fill: currentColor;
     }
+
+    /* Endorsement footer */
+    .endorsement-bar {
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .endorsement-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    .endorsement-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acid);
+      flex-shrink: 0;
+    }
+
+    .endorsement-link {
+      color: var(--text);
+      font-weight: 800;
+      text-decoration: none;
+      border-bottom: 1px solid var(--acid);
+      transition: color 0.15s ease, border-color 0.15s ease;
+      letter-spacing: 0.04em;
+    }
+
+    .endorsement-link:hover {
+      color: var(--acid);
+    }
   </style>
 </head>
 <body>
@@ -748,6 +789,14 @@
         <input type="text" id="order-address" class="agency-input" placeholder="Ej: Pasaje Los Aromos 123 / Edificio Mirador, depto 402">
       </div>
     </section>
+
+    <!-- Respaldo Mesa Secreta -->
+    <div class="endorsement-bar">
+      <div class="endorsement-content">
+        <span class="endorsement-dot"></span>
+        <span class="endorsement-text">Una producción gastronómica con el respaldo y estándar de <a href="https://mesasecreta.cl" target="_blank" rel="noopener" class="endorsement-link">mesasecreta.cl</a></span>
+      </div>
+    </div>
 
   </main>
 
